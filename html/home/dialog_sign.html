@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <style>
+    	html,body{
+    		width:100%;
+    		text-align: center;
+    		background: url(../../image/icon_bg_dialog.png)
+    	}
+    	#dialog{
+    		background: #15B5E9;
+    		height:3rem;
+    		width:5rem;
+    		position:absolute;
+    		border-radius: 0.25rem;
+    		font-size:0.28rem;
+    		text-align: center;
+    		background:#FFF;
+    	}
+    	#dialog #top{
+    		height:2.09rem;
+    		border-radius: 0.25rem;
+    		
+    	}
+    	#dialog #top img{
+    		float: left;
+    		height:1.08rem;
+    		width:1.23rem;
+    		margin-left:0.45rem;
+    		margin-top:0.55rem;
+    	}
+    	#dialog #top > div{
+    		float: left;
+    		margin-left:0.1rem;
+    		margin-top:0.55rem;
+    		text-align: left;
+    		color:#666666;
+    	}
+    	#dialog #top div.double{
+    		margin-top:0.1rem;
+    	}
+    	#dialog #top div span{
+    		color:#FF8345;
+    	}
+    	#dialog #divider{
+    		height: 1px;
+    		background:#CCCCCC;
+    	}
+    	#dialog #bottom{
+    		height:0.89rem;
+    		border-radius: 0.25rem;
+    		line-height: 0.89rem;
+    		text-align: center;
+    		font-size:0.32rem;
+    		color:#2c2c2c;
+    	}
+    	#dialog #bottom a{
+    		letter-spacing: 0.1rem;
+    		width:100%;
+    		height:100%;
+    	}
+    	#dialog #bottom a.active{
+    		background:rgba(0,0,0,0.2) !important;
+    	}
+    </style>
+</head>
+<body>
+	<div id="dialog">
+		<div id="top">
+			<img src="../../image/icon_sign_ok.png" alt="" />
+			<div>
+				<div >恭喜您，今日签到成功</div>
+				<div  class="double"  >您已经连续签到&nbsp;<span id="signCount">15</span>&nbsp;天</div>
+			</div>
+		</div>
+		<div id="divider"></div>
+		<div id="bottom">
+			<a tapmode="active" onclick="closeFrame();" >确定</a>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	imready = function(){
+		$api.dom("body").style.height=api.winHeight+"px";
+		var style = $api.byId('dialog').style;
+		var offset = $api.offset($api.byId('dialog'))
+		style.left=(api.winWidth-offset.w)/2+"px";
+		style.top=(api.winHeight-offset.h)/2+"px";
+		var userid = api.getPrefs({sync:true,key:"userid"})
+		var signCount=api.pageParam.signCount
+      	$api.byId("signCount").innerHTML=signCount;
+		
+	};
+	function closeFrame(){
+		api.closeFrame({
+        });
+	}
+</script>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+    	html,body{
+    		font-size:0.26rem;
+    		height:100%;
+    		background:#F6F6F6;
+    	}
+    	.item{
+    		height:2.21rem;
+    		width:100%;
+    		padding: 0 0.23rem;
+    		position: relative;
+    		background:#FFF;
+    		margin-bottom:0.26rem;
+    	}
+    	.item .checkbox{
+    		margin-top:0.9rem;
+    		float: left;
+    	}
+    	.item .imgbg {
+    		float: left;
+    		height:1.58rem;
+    		width:1.58rem;
+    		margin-top:0.32rem;
+    		margin-left:0.37rem;
+    		background: #D9D9D9;
+    		text-align: center;
+    	}
+    	.item .imgbg img{
+    		width:1.46rem;
+    		height:1.06rem;
+    		margin-top: 0.24rem;
+    	}
+    	.item .content{
+    		float:left;
+    		margin-top:0.43rem;
+    		margin-left:0.31rem;
+    		width:4.3rem;
+    	}
+    	.item .content h2{
+    		font-size:0.3rem;
+    		margin-top:0.08rem;
+    		color:#333333;
+    	}
+    	.item .content .summary{
+    		font-size:0.28rem;
+    		color:#666666;
+    	}
+    	.item .content .btm{
+    		font-size:0.26rem;
+    		margin-top:0.18rem;
+    		color:#666666;
+    	}
+    	.item .content .btm .imp{
+    		color:#FF8344;
+    	}
+    	.item .content .counttool{
+    		position:absolute;
+    		top:1.45rem;
+    		right:0.23rem;
+    		background:#F6F6F6;
+    		border: 0.01rem solid #AAAAAA;
+    	}
+    	.item .content .count{
+    		width:0.56rem;
+    		height:0.4rem;
+    		margin:0;
+    		padding:0;
+    		border: none;
+    		background:#F6F6F6;
+    		border-radius: 0;
+    		border-left: 0.01rem solid #AAAAAA;
+    		border-right: 0.01rem solid #AAAAAA;
+    		text-align: center;
+    		color:#FF8344;
+    		font-size:0.28rem;
+    	}
+    	.item .content .minus,.item .content .plus{
+    		width:0.36rem;
+    		height:0.36rem;
+    		margin:0;
+    		padding:0;
+    		text-align: center;
+    	}
+    </style>
+</head>
+<body>
+	<div id="main">
+		<div id="cart_content">
+			<div class="item">
+				<input type="checkbox" class="checkbox" checked />
+				<div class="imgbg">
+					<img src="../../image/eg_pic_small.png" alt="" />
+				</div>
+				<div class="content">
+					<h2>八段位围棋练习</h2>
+					<div class="summary">红色,八册</div>
+					<div class="btm">
+						价格: <span class="imp">100</span>￥
+						<div class="counttool">
+							<span class="minus" onclick="minus();" href="">－</span>
+							<input readonly="readonly" class="count" type="text" value="1" />
+							<span class="plus" onclick="plus();" href="">＋</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/x-dot-template" id="cart_template">
+		{{ for(var i=0;i<it.length;i++){ }}
+		<div class="item">
+			<input type="checkbox" class="checkbox" />
+			<div class="imgbg">
+				<img src="{{=$api.imageUrl+it[i].teachingMaterialsGoodsDetail.selectSalesDetail.goodimage}}"/>
+			</div>
+			<div class="content">
+				<h2 class="ellipsis-1">{{=it[i].teachingMaterialsGoodsDetail.materialsGoodsName}}</h2>
+				<div class="summary">{{=it[i].teachingMaterialsGoodsDetail.selectSalesDetail.good_spec}}</div>
+				<div class="btm">
+					价格: <span class="imp">{{=it[i].teachingMaterialsGoodsDetail.selectSalesDetail.goodsSalesPrice}}￥</span>
+					<div class="counttool">
+						<span class="minus" onclick="minus(this,'{{=it[i].teachingMaterialsGoodsDetail.buyCount}}','{{=i}}');" href="">－</span>
+						<input readonly="readonly" class="count" type="text" value="{{=it[i].teachingMaterialsGoodsDetail.buyCount}}" />
+						<span class="plus" onclick="plus(this,'{{=it[i].teachingMaterialsGoodsDetail.buyCount}}','{{=i}}');" href="">＋</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{ } }}
+		</script>
+	</div>
+</div>  
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript">
+	var db;	
+	imready = function(){
+		//alert("\e645")
+		db = api.require('db');
+		getShoppingCartByNet();
+	};
+	
+	function getShoppingCartByNet(){
+		var body={};
+		body.method="getUserCarts";
+		body.request = {
+			"userId":2
+        };
+       	ajaxRequest(body, function(ret, err) {
+			if(ret){
+				if(ret.responseCode==0){
+					window.list=ret.responseBody
+					fillData()
+				}else{
+					alert(ret.responseMsg)
+				}
+			}else{
+				//TODO 测试用.真实接口,把下边代码放到if块即可
+				alert(JSON.stringify(err))
+			}
+		});
+//		ajaxRequest(body,function(ret,err){
+//			if(ret){
+//				alert(JSON.stringify(ret))
+//			}else{
+//				//TODO 测试用.真实接口,把下边代码放到if块即可
+//				err={"responseBody":[{"teachingMaterialsGoodsDetail":{"materialsGoodsCategory":"","materialsGoodsDescription":"好好","materialsGoodsImages":["/goods/0eb36cbd1a4433766f9ab2b592cda1c0.png","/goods/7789eafc3fdb8898d32f3cd619ad96c2.png"],"materialsGoodsIntro":"322223322323323232","materialsGoodsLogistics":"4","materialsGoodsModelDetail":{"materialsModelName":"颜色","teachingMaterialsModels":[{"goodsModelName":"白色","goodsModelPreview":"/goods/12a1b1ab6d7a5888fe08e21fd2e87b87.png","goodsModelRandom":null,"goodsModelRemark":"","id":20,"materialsGoodsId":2},{"goodsModelName":"黑色","goodsModelPreview":"/goods/b576be57681cfb70068224b777222e45.png","goodsModelRandom":null,"goodsModelRemark":"","id":21,"materialsGoodsId":2}]},"materialsGoodsName":"test2","materialsGoodsOrganization":0,"materialsGoodsPackage":false,"materialsGoodsSalesDetails":[{"goodsSalesBarcode":"1221","goodsSalesCode":1000000002000,"goodsSalesCount":0,"goodsSalesModelId":20,"goodsSalesPrice":11,"goodsSalesQuantity":3344,"goodsSalesStandardId":20,"isChecked":false},{"goodsSalesBarcode":"1212","goodsSalesCode":1000000002001,"goodsSalesCount":0,"goodsSalesModelId":20,"goodsSalesPrice":2332,"goodsSalesQuantity":4343,"goodsSalesStandardId":21,"isChecked":false},{"goodsSalesBarcode":"1221","goodsSalesCode":1000000002002,"goodsSalesCount":0,"goodsSalesModelId":21,"goodsSalesPrice":1212,"goodsSalesQuantity":3443,"goodsSalesStandardId":20,"isChecked":false},{"goodsSalesBarcode":"1212","goodsSalesCode":1000000002003,"goodsSalesCount":0,"goodsSalesModelId":21,"goodsSalesPrice":1212,"goodsSalesQuantity":3443,"goodsSalesStandardId":21,"isChecked":true}],"materialsGoodsService":"1","materialsGoodsStandardDetail":{"materialsStandardName":"尺寸","teachingMaterialsStandards":[{"goodsStandardName":"12","goodsStandardRandom":null,"id":20,"materialsGoodsId":2},{"goodsStandardName":"14","goodsStandardRandom":null,"id":21,"materialsGoodsId":2}]},"materialsGoodsUnit":"个"},"userCarts":{"goodsId":1000000002003,"goodsNum":1,"id":1,"list":[],"userId":1}},{"teachingMaterialsGoodsDetail":{"materialsGoodsCategory":"","materialsGoodsDescription":"好好","materialsGoodsImages":["/goods/0eb36cbd1a4433766f9ab2b592cda1c0.png","/goods/7789eafc3fdb8898d32f3cd619ad96c2.png"],"materialsGoodsIntro":"322223322323323232","materialsGoodsLogistics":"4","materialsGoodsModelDetail":{"materialsModelName":"颜色","teachingMaterialsModels":[{"goodsModelName":"白色","goodsModelPreview":"/goods/12a1b1ab6d7a5888fe08e21fd2e87b87.png","goodsModelRandom":null,"goodsModelRemark":"","id":20,"materialsGoodsId":2},{"goodsModelName":"黑色","goodsModelPreview":"/goods/b576be57681cfb70068224b777222e45.png","goodsModelRandom":null,"goodsModelRemark":"","id":21,"materialsGoodsId":2}]},"materialsGoodsName":"test2","materialsGoodsOrganization":0,"materialsGoodsPackage":false,"materialsGoodsSalesDetails":[{"goodsSalesBarcode":"1221","goodsSalesCode":1000000002000,"goodsSalesCount":0,"goodsSalesModelId":20,"goodsSalesPrice":11,"goodsSalesQuantity":3344,"goodsSalesStandardId":20,"isChecked":false},{"goodsSalesBarcode":"1212","goodsSalesCode":1000000002001,"goodsSalesCount":0,"goodsSalesModelId":20,"goodsSalesPrice":2332,"goodsSalesQuantity":4343,"goodsSalesStandardId":21,"isChecked":false},{"goodsSalesBarcode":"1221","goodsSalesCode":1000000002002,"goodsSalesCount":0,"goodsSalesModelId":21,"goodsSalesPrice":1212,"goodsSalesQuantity":3443,"goodsSalesStandardId":20,"isChecked":false},{"goodsSalesBarcode":"1212","goodsSalesCode":1000000002003,"goodsSalesCount":0,"goodsSalesModelId":21,"goodsSalesPrice":1212,"goodsSalesQuantity":3443,"goodsSalesStandardId":21,"isChecked":true}],"materialsGoodsService":"1","materialsGoodsStandardDetail":{"materialsStandardName":"尺寸","teachingMaterialsStandards":[{"goodsStandardName":"12","goodsStandardRandom":null,"id":20,"materialsGoodsId":2},{"goodsStandardName":"14","goodsStandardRandom":null,"id":21,"materialsGoodsId":2}]},"materialsGoodsUnit":"个"},"userCarts":{"goodsId":1000000002003,"goodsNum":1,"id":1,"list":[],"userId":1}},{"teachingMaterialsGoodsDetail":{"materialsGoodsCategory":"","materialsGoodsDescription":"好好","materialsGoodsImages":["/goods/0eb36cbd1a4433766f9ab2b592cda1c0.png","/goods/7789eafc3fdb8898d32f3cd619ad96c2.png"],"materialsGoodsIntro":"322223322323323232","materialsGoodsLogistics":"4","materialsGoodsModelDetail":{"materialsModelName":"颜色","teachingMaterialsModels":[{"goodsModelName":"白色","goodsModelPreview":"/goods/12a1b1ab6d7a5888fe08e21fd2e87b87.png","goodsModelRandom":null,"goodsModelRemark":"","id":20,"materialsGoodsId":2},{"goodsModelName":"黑色","goodsModelPreview":"/goods/b576be57681cfb70068224b777222e45.png","goodsModelRandom":null,"goodsModelRemark":"","id":21,"materialsGoodsId":2}]},"materialsGoodsName":"test2","materialsGoodsOrganization":0,"materialsGoodsPackage":false,"materialsGoodsSalesDetails":[{"goodsSalesBarcode":"1221","goodsSalesCode":1000000002000,"goodsSalesCount":0,"goodsSalesModelId":20,"goodsSalesPrice":11,"goodsSalesQuantity":3344,"goodsSalesStandardId":20,"isChecked":false},{"goodsSalesBarcode":"1212","goodsSalesCode":1000000002001,"goodsSalesCount":0,"goodsSalesModelId":20,"goodsSalesPrice":2332,"goodsSalesQuantity":4343,"goodsSalesStandardId":21,"isChecked":false},{"goodsSalesBarcode":"1221","goodsSalesCode":1000000002002,"goodsSalesCount":0,"goodsSalesModelId":21,"goodsSalesPrice":1212,"goodsSalesQuantity":3443,"goodsSalesStandardId":20,"isChecked":false},{"goodsSalesBarcode":"1212","goodsSalesCode":1000000002003,"goodsSalesCount":0,"goodsSalesModelId":21,"goodsSalesPrice":1212,"goodsSalesQuantity":3443,"goodsSalesStandardId":21,"isChecked":true}],"materialsGoodsService":"1","materialsGoodsStandardDetail":{"materialsStandardName":"尺寸","teachingMaterialsStandards":[{"goodsStandardName":"12","goodsStandardRandom":null,"id":20,"materialsGoodsId":2},{"goodsStandardName":"14","goodsStandardRandom":null,"id":21,"materialsGoodsId":2}]},"materialsGoodsUnit":"个"},"userCarts":{"goodsId":1000000002003,"goodsNum":1,"id":1,"list":[],"userId":1}}],"responseCode":0,"responseMsg":"成功","traceId":null};
+//				if(err.responseCode==0){
+//					window.list=err.responseBody
+//					fillData()
+//				}else{
+//					alert(err.responseMsg)
+//				}
+//				//alert(JSON.stringify(err))
+//			}
+//		})
+	}
+	
+	function fillData(){
+		for(var i=0;i<window.list.length;i++){
+			var item = window.list[i];
+			var detail = item.teachingMaterialsGoodsDetail;
+			var goods = detail.materialsGoodsSalesDetails;
+			var modelId =0;
+			var standardId =0;
+			for(var j=0;j<goods.length;j++){
+				if(goods[j].isChecked){
+					detail.selectSalesDetail=goods[j]
+					modelId = goods[j].goodsSalesModelId;
+					standardId = goods[j].goodsSalesStandardId;
+				}
+			}
+			for(var j=0;j<detail.materialsGoodsModelDetail.teachingMaterialsModels.length;j++){
+				var model = detail.materialsGoodsModelDetail.teachingMaterialsModels[j]
+				if(modelId == model.id){
+					detail.selectSalesDetail.goodimage=model.goodsModelPreview
+					detail.selectSalesDetail.good_spec=model.goodsModelName
+				}
+			}
+			for(var j=0;j<detail.materialsGoodsStandardDetail.teachingMaterialsStandards.length;j++){
+				var standard = detail.materialsGoodsStandardDetail.teachingMaterialsStandards[j]
+				if(standardId == standard.id){
+					detail.selectSalesDetail.good_spec+="   "
+					detail.selectSalesDetail.good_spec+=standard.goodsStandardName
+				}
+			}
+			detail.buyCount=item.userCarts.goodsNum;
+			detail.goodCode=item.userCarts.goodsId;
+		}
+		var checkList=[];
+		for(var i=0;i<list.length;i++){
+			checkList.push(false)
+		}
+		window.checkList = checkList;
+		notifyDatasetChanged();
+		checkNativeDB();
+	}
+	
+	function checkNativeDB(){
+		var result = db.selectSqlSync({
+            name:'sinogostudent',
+            sql:'select * from shopping_cart'
+        });
+		var list = result.data;
+		if(list.length==window.list.length){
+			return;
+		}
+		db.executeSqlSync({
+            name:'sinogostudent',
+            sql:'delete from shopping_cart'
+        });
+		for(var i=0;i<window.list.length;i++){
+			var item = window.list[i].teachingMaterialsGoodsDetail;
+			var detaiItem = item.selectSalesDetail;
+			var good_name = item.materialsGoodsName;
+			var good_id = item.goodCode;
+			var good_spec=detaiItem.good_spec;
+			var good_price=detaiItem.goodsSalesPrice;
+			var good_count = item.buyCount;
+			db.executeSqlSync({
+	            name:'sinogostudent',
+	            sql:"insert into shopping_cart (good_name,good_id,good_spec,good_price,good_count) values ('"+good_name+"','"+good_id+"','"+good_spec+"','"+good_price+"','"+good_count+"')"
+	        });
+		}
+		api.execScript({
+			name:"shoppingcart",
+	        script: 'updateHeader();'
+        });
+	}
+	
+	/*
+	 * 刷新界面.重组内容盒子.并且重新计算checkbox条目
+	 */
+	function notifyDatasetChanged(){
+//		var result = db.selectSqlSync({
+//	        name:'sinogostudent',
+//	        sql:'select * from shopping_cart'
+//      });
+//      window.list = result.data;
+		getInnerByDot("cart_content","cart_template",window.list)
+		handleCheckboxes();
+	}
+	
+	/*
+	 * 获取页面上所有checkbox并且赋予点击事件
+	 */
+	function handleCheckboxes(){
+		window.cbs = $api.domAll(".checkbox");
+		for(var i=0;i<cbs.length;i++){
+			cbs[i].checked=checkList[i]
+			cbs[i].index=i;
+			cbs[i].onclick=function(){
+				checkAll();
+			}
+		}
+		checkAll();
+	}
+	
+	/*
+	 * 检查所有checkbox内容,计算是否全选,选择的总价,和组织选中状态列表
+	 */
+	function checkAll(){
+		window.selectList =selectList= []
+		for(var i=0,n=1,sum=0;i<window.cbs.length;i++){
+			window.cbs[i].checked&&(n++&&(sum+=parseFloat(window.list[i].teachingMaterialsGoodsDetail.selectSalesDetail.goodsSalesPrice)*parseFloat(window.list[i].teachingMaterialsGoodsDetail.buyCount)));
+			checkList[i]=window.cbs[i].checked?true:false;
+			window.cbs[i].checked&&selectList.push(window.list[i])
+		}
+		var allcheck = n==(window.cbs.length+1);
+		api.execScript({
+			name:'shoppingcart',
+	        script: "changeChecked("+allcheck+","+sum+");"
+        });
+	}
+	
+	function goOrder(){
+		var pageParam={
+			list:window.selectList
+		}
+		openWin("orderconfirm","",pageParam)
+		//还需要了解后续是不是真正提交了订单.如果已经提交,则删除这些选中的数据,并把购物车数据重新上传.
+		//如果没有提交,则不需要改变.
+		
+	}
+	
+	/*
+	 * 删除选中的购物车条目
+	 */
+	function deleteCart(){
+		var delList = [];
+		for(var i=0;i<window.cbs.length;i++){
+			window.cbs[i].checked&&delList.push(i);
+		}
+		delList = delList.reverse()
+		alert(delList)
+		for(var i=0;i<delList.length;i++){
+			var index = delList[i];
+			//TODO 掉接口啊....
+			var good_id =window.list[index].goodCode;
+			delFromCart(good_id);
+			
+			
+			checkList.splice(index,1)
+			window.list.splice(index,1)
+			
+		}
+		notifyDatasetChanged();
+		api.execScript({
+			name:"shoppingcart",
+	        script: 'updateHeader();'
+        });
+	}
+	
+	function delFromCart(id){
+		var r = db.executeSqlSync({
+	        name:'sinogostudent',
+	        sql:"delete from shopping_cart where good_id = '"+id+"'"
+        });
+	}
+	
+	/*
+	 * 全选.
+	 */
+	function selectAll(checked){
+		var cbs = window.cbs;
+		for(var i=0;i<cbs.length;i++){
+			cbs[i].checked=checked;
+		}
+		checkAll();
+	}
+	
+	/*
+	 * 减少count.减少后重组list,都涉及到是否实时上传数据
+	 */
+	function minus(m,count,index){
+        if(count==1)
+        	api.toast({
+		        msg:'不能再减少了呢',
+		        location:'middle'
+       		})
+       	else
+       		count--
+        //var input = m.parentNode.childNodes[1];
+      	//$api.val(input, count);
+      	var goodid=window.list[index].good_id;
+      	
+  	 	db.executeSqlSync({
+           name:'sinogostudent',
+           sql:"update shopping_cart set good_count='"+count+"' where good_id = '"+goodid+"'"
+       });
+		notifyDatasetChanged();
+	}
+	/*
+	 * 增加count,增加后重组list,都涉及到是否实时上传数据
+	 */
+	function plus(p,count,index){
+		count++;
+		var goodid=window.list[index].good_id;
+  		
+	 	db.executeSqlSync({
+	       name:'sinogostudent',
+	       sql:"update shopping_cart set good_count='"+count+"' where good_id = '"+goodid+"'"
+	   });
+		notifyDatasetChanged();
+	}
+
+</script>
+</html>

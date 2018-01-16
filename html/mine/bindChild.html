@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../../css/api.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+	<style>
+		#wrap {
+			background: #f4f4f4;
+		}
+
+		#header {
+			background: #ff8344;
+			text-align: center;
+			width: 100%;
+			position: relative;
+			height: 0.98rem;
+		}
+
+		#header a:nth-child(1) {
+			display: inline-block;
+			width: 0.98rem;
+			height: 0.98rem;
+			font-size: .28rem;
+			color: #fff;
+			position: absolute;
+			left: 0.28rem;
+			top: .35rem;
+		}
+
+		#header a:nth-child(3) {
+			display: inline-block;
+			width: 0.98rem;
+			height: 0.98rem;
+			font-size: .28rem;
+			color: #cecece;
+			position: absolute;
+			right: 0.28rem;
+			top: .35rem;
+		}
+
+		#header h1 {
+			font-size: 0.36rem;
+			height: 0.98rem;
+			line-height: 0.98rem;
+			margin: 0 auto;
+			color: #fff;
+			font-weight: normal;
+		}
+
+		#header span {
+			position: absolute;
+			top: .265rem;
+			left: .28rem;
+			height: .5rem;
+			width: .5rem;
+		}
+
+		#header span img {
+			height: .45rem;
+			width: .25rem;
+		}
+
+		#main .searchChild {
+			height: .8rem;
+			line-height: .8rem;
+			background: #fff;
+			margin-top: .32rem;
+			position: relative;
+		}
+
+		#main .searchChild span {
+			position: absolute;
+			height: .8rem;
+			top: 0;
+		}
+
+		#main .searchChild span img {
+			width: .46rem;
+			height: .45rem;
+			margin: .175rem .28rem .175rem .28rem;
+		}
+
+		#main .searchChild input {
+			height: .6rem;
+			margin: .1rem 0 0 1.02rem;
+			line-height: .6rem;
+			font-size: .28rem;
+			width: 6.48rem;
+			outline: none;
+			background: #fff;
+			font-size: .28rem;
+			color: #999;
+		}
+
+		section {
+			margin-top: .42rem;
+		}
+
+		section .tips p {
+			float: left;
+			font-size: .28rem;
+			color: #f40;
+			margin-left: .28rem;
+		}
+
+		section .tips ol {
+			float: left;
+			width: 80%;
+			margin-left: .1rem;
+			list-style-type: none;
+			counter-reset: sectioncounter;
+		}
+
+		section ol li {
+			word-break: break-all;
+			font-size: .26rem;
+			color: #666;
+		}
+
+		section ol li:before {
+			content: counter(sectioncounter) "、";
+			counter-increment: sectioncounter;
+		}
+
+	section	 button {
+		 	/*position: fixed;
+			bottom: 2.06rem;*/
+			width: 90%;
+			border-radius: .1rem;
+			height: .8rem;
+			background: #cecece;
+			margin-left: 5%;
+			font-size: .34rem;
+			text-align: center;
+			line-height: .8rem;
+			color: #fff;
+			margin-top: 5rem;
+			outline: none;
+
+		}
+
+		.button_tap {
+			background: #eee;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<div id="header">
+			<!-- <a onclick="api.closeWin()">取消</a> -->
+			<span onclick="api.closeWin()"><img src="../../image/back.png" alt=""></span>
+
+			<h1>关联学生账号</h1>
+			<!-- <a onclick="submitMessage()">下一步</a> -->
+		</div>
+		<div id="main" class="flex-con">
+			<div class="searchChild">
+				<span><img src="../../image/icon_phone.png" alt=""></span>
+				<input type="number" oninput="OnInput (event)" name="points" min="11" max="13" placeholder="请输入学生注册的手机号" />
+			</div>
+			<section>
+				<div class="tips">
+					<p>提示：</p>
+					<ol>
+						<li><span>此手机号是"名校云"学生端登录账号。</span></li>
+						<li>如果手机号码未在学生端注册，关联后，即为学生端登录账号。</li>
+						<li><span>家长、学生注册手机号码可以是一个。</span></li>
+					</ol>
+				</div>
+				<button tapmode="button_tap" type="button" onclick="submitMessage()" name="button">关联账号</button>
+			</section>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/User.js"></script>
+<script type="text/javascript">
+	var canSubmit = false; //是否能下一步搜索
+	var studentCount; //学生账号
+
+	imready = function() {
+      if(api.pageParam.tag=="fristLogin"){
+				$api.css($api.dom('#header	 span '), 'display:none');
+
+			}
+			api.addEventListener({
+				name: 'keyback'
+			}, function(ret, err) {
+				if(api.pageParam.tag=="fristLogin"){
+
+				}else{
+					api.closeWin();
+				}
+			});
+			api.addEventListener({
+				name: 'swiperight'
+			}, function(ret, err) {
+				if(api.pageParam.tag=="fristLogin"){
+
+				}else{
+					api.closeWin();
+				}
+				console.log("向右滑动")
+			});
+	};
+
+	function OnInput(event) {
+		var value = $api.val($api.dom("input"));
+		if (value != "") {
+			canSubmit = true;
+			$api.css($api.dom('section	 button '), 'background: #ff8344;');
+			studentCount = value;
+
+		} else {
+			canSubmit = false;
+			$api.css($api.dom('section	 button '), 'background: #cecece;');
+		}
+
+
+	}
+	submitMessage = function() {
+		if(!isMobile($api.trimAll(studentCount))){
+        api.toast({
+            msg: '请输入正确的手机号',
+            duration: 2000,
+            location: 'bottom'
+        });
+				return;
+		};
+		var tag;
+		if(api.pageParam.tag=="fristLogin"){//tag是否第一次登入绑定孩子
+			tag=true
+		}else{
+			tag=false
+		}
+		if (canSubmit) {
+			api.openWin({
+				name: 'studentlist_win',
+				url: 'studentlist_win.html',
+				pageParam: {
+					'studentCount': studentCount,
+					'tag':tag
+				}
+			});
+		}
+	}
+</script>
+
+</html>

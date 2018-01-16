@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+		<style>
+			body {
+			}
+			header{
+				width: 100%;
+				height: 0.88rem;
+				top: 0px;
+				position: fixed;
+				background: #F48344; 
+			}
+			#search {
+				float:left;
+				height:0.5rem;
+				width:6.15rem;
+				margin-left:0.23rem;
+				margin-top:0.19rem;
+				border-radius: 0.05rem;
+				background: url(../../image/icon_search.png) no-repeat 0.1rem center #FFF;
+				background-size:0.26rem 0.26rem;
+			}
+			#search input{
+				float:left;
+				height:0.5rem;
+				font-size:0.24rem;
+				width:5.83rem;
+				margin-left:0.42rem; border:none;
+    			outline:medium;
+    			color:#777777;
+			}
+			header a{
+				font-size:0.3rem;
+				color:#FFF;
+				float:right;
+				height:0.88rem;
+				line-height:0.88rem;
+				padding-right:0.23rem;
+				padding-left:0.23rem;
+			}
+			header a.active{
+				background:rgba(0,0,0,0.3) !important;
+			}
+			input[type="search"]{-webkit-appearance:none;} 
+			input::-webkit-search-cancel-button {display: none;}
+		</style>
+	</head>
+	<body>
+		<header id="header">
+			<div id="search">
+				<input id="input1" type="search" placeholder="发现好课" />
+			</div>
+			<!--<span onclick="closeWin();" >取消</span>-->
+			<a tapmode="active" onclick="api.closeWin()">取消</a>
+		</header>
+	</body>
+	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/common.js"></script>
+	<script type="text/javascript" src="../../script/doT.js"></script>
+	<script type="text/javascript" src="../../script/zepto.js"></script>
+	<script type="text/javascript">
+		var placeholder="发现好课"
+		imready = function() {
+			window.onkeydown=function(event){
+				if (event.keyCode == 13) {
+					search();
+				}
+			}
+			window.searchTab = "search_con_discover"
+			window.searchDir = "../discover/"
+			if(api.pageParam.from=="index"){
+				window.searchTab = "search_con"
+				window.searchDir = ""
+				placeholder="发现好新闻"
+			}else
+			if(api.pageParam.from=="classroom"){
+				window.searchTab = "search_con_classroom"
+				window.searchDir = ""
+				placeholder="发现教辅"
+			}
+//			if(api.pageParam.tab=='discover'){
+//				searchTab="search_con_discover";
+//			}
+			$api.attr($api.byId("input1"), "placeholder", placeholder);
+			api.openFrame({
+	            name: searchTab,
+	            url: searchDir+searchTab+".html",
+	          	pageParam:{
+					studentId:api.pageParam.studentId,
+					classId:api.pageParam.classId,
+					organizationId:api.pageParam.organizationId
+	          	},
+	            rect: {
+		            x:0,
+		            y:$api.offset($api.dom("header")).h,
+		            w:api.winWidth,
+		            h:api.winHeight-$api.offset($api.dom("header")).h
+	            }
+            });
+            var input = $api.byId("input1");
+        
+           	setTimeout("onFocus();",2000)
+//         	input.onblur=function(){
+//         		api.execScript({
+//     				frameName:window.searchTab,
+//              	script: "handleGuide("+false+")"
+//          	});
+//         	}
+           	input.focus();
+           	
+		};
+		
+		function onFocus(input){
+			$api.byId("input1").onfocus=function(){
+	       		api.execScript({
+	   				frameName:window.searchTab,
+	            	script: 'handleGuide('+true+')'
+	        	});
+	       	}
+		}
+		
+		function setInput(str){
+			$api.val($api.byId("input1"), str);
+		}
+		
+		function search(){
+			var keyword = $api.byId("input1").value;
+			if(!keyword)
+				return;
+			$api.byId("input1").blur();
+			api.execScript({
+				frameName:window.searchTab,
+	            script: "searchByKey('"+keyword+"');"
+            });			
+		}
+		
+	</script>
+</html>

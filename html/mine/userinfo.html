@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+		<style>
+			body {
+			}
+			.flex-wrap {
+				background: #F0EFF3;
+			}
+			header {
+				padding-right: 0.23rem;
+				padding-left: 0.23rem;
+				background: #FF8345;
+				height: 0.88rem;
+				line-height: 0.88rem;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox;
+				/* 混合版本语法: IE 10 */
+			}
+			.babyleft {
+				width: 0%;
+				display: block;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				text-align: left;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			.babycenter {
+				text-align: center;
+				color: #ffffff;
+				font-size: 0.34rem;
+				display: block;
+				-webkit-flex: 5; /* Chrome */
+				-ms-flex: 5; /* IE 10 */
+				flex: 5; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 5; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 5; /* OLD - Firefox 19- */
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			.babyright {
+				color: #FFFFFF;
+				width: 0%;
+				font-size: 0.3rem;
+				display: block;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				text-align: right;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			.babyleft img {
+				display: inline-block;
+				width: 0.24rem;
+				height: 0.45rem;
+				margin: 0 auto;
+				margin-top: 0.215rem;
+			}
+			.mbox {
+				border-bottom: 0.01rem #efefef solid;
+				line-height: 0.88rem;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox;
+				/* 混合版本语法: IE 10 */
+				height: 0.88rem;
+				background: #FFFFFF;
+				border-bottom: 0.01rem #efefef solid;
+			}
+			.left {
+				font-size: 0.3rem;
+				display: block;
+				text-align: right;
+				margin-left: 0.28rem;
+				line-height: 0.88rem;
+				font-size: 0.3rem;
+				display: block;
+			}
+			.center {
+				text-align: center;
+				color: #ffffff;
+				font-size: 0.34rem;
+				display: block;
+				-webkit-flex: 5; /* Chrome */
+				-ms-flex: 5; /* IE 10 */
+				flex: 5; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 5; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 5; /* OLD - Firefox 19- */
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				margin-right: 0.23rem;
+				font-size: 0.28rem;
+				line-height: 0.88rem;
+				color: #666666;
+				display: block;
+				text-align: right;
+			}
+			.right {
+				font-size: 0.3rem;
+				display: block;
+				text-align: center;
+				margin-right: 0.23rem;
+				line-height: 0.88rem;
+				font-size: 0.3rem;
+				display: block;
+			}
+			.o1 {
+				height: 1.82rem;
+			}
+			.l1 {
+				margin-bottom: 0.78rem;
+				line-height: 1.82rem;
+			}
+			.headpic {
+				display: inline-block;
+				width: 0.94rem;
+				height: 0.94rem;
+				margin: 0 auto;
+				margin-top: 0.44rem;
+				border-radius: 0.94rem;
+				background: url(../../image/mine/hardicon.png);
+				background-size: cover;
+			}
+			.right img {
+				width: 0.14rem;
+				height: 0.26rem;
+				margin: 0 auto;
+				margin-top: 0.31rem;
+			}
+			.main .mbox .one img {
+				margin-top: 0.78rem;
+			}
+			.o1 img {
+				margin-top: 0.78rem;
+			}
+			body #wrap #main .o1 .headpic {
+			}
+			#line {
+				width: 100%;
+				position: relative;
+			}
+			#line:after {
+				border-bottom: 1px solid #d9d9d9;
+				content: "";
+				display: block;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				-webkit-transform-origin: 0 0;
+				-webkit-transform: scaleY(0.5);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap" class="flex-wrap flex-vertical">
+			<header class="title">
+				<div class="babyleft">
+					<img src="../../image/back.png" onclick="api.closeWin({});"  />
+				</div>
+				<div class="babycenter">
+					学生信息
+				</div>
+				<div class="babyright" onclick="saveUserInfo()">
+					完成
+				</div>
+			</header>
+			<div id="main" class="flex-center">
+				<div class="mbox o1" tapmode= "touch"  >
+					<div class="left l1">
+						头像
+					</div>
+					<div class="center ">
+						<div class="headpic"></div>
+					</div>
+					<div class="right one">
+						<img src="../../image/mine/todo.png">
+					</div>
+				</div>
+				<div id="line"></div>
+				<div class="mbox" tapmode= "touch"  >
+					<div class="left">
+						姓名
+					</div>
+					<div class="center name "></div>
+					<div class="right icon">
+						<img src="../../image/mine/todo.png">
+					</div>
+				</div>
+				<div id="line"></div>
+				<div class="mbox" tapmode= "touch"  >
+					<div class="left">
+						性别
+					</div>
+					<div class="center sex"></div>
+					<div class="right">
+						<img src="../../image/mine/todo.png">
+					</div>
+				</div>
+				<div id="line"></div>
+				<div class="mbox" tapmode= "touch"  >
+					<div class="left">
+						生日
+					</div>
+					<div class="center birthday"></div>
+					<div class="right">
+						<img src="../../image/mine/todo.png">
+					</div>
+				</div>
+				<div id="line"></div>
+				<div class="mbox" tapmode= "touch" >
+					<div class="left">
+						学校
+					</div>
+					<div class="center school"></div>
+					<div class="right">
+						<img src="../../image/mine/todo.png">
+					</div>
+				</div>
+				<div id="line"></div>
+				<div class="mbox" tapmode= "touch"  >
+					<div class="left">
+						兴趣爱好
+					</div>
+					<div class="center hobby"></div>
+					<div class="right">
+						<img src="../../image/mine/todo.png">
+					</div>
+				</div>
+				<div id="line"></div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/User.js"></script>
+	<script type="text/javascript" src="../../script/common.js"></script>
+	<script type="text/javascript">
+		var picadd;
+		//图片地址
+		var i = 0;
+
+		function saveUserInfo(){
+		var user = getUser();
+			var imageUrl = $api.imageUrl
+			picadd = user.headpic;
+			console.log("头像地址" + picadd + "用户名" + user.name + "性别" + user.sex + "生日" + user.birthday + "学校" + user.school + "爱好" + user.hobby);
+			if(picadd == null||picadd == ""){
+				picadd=api.fsDir + '/default/'+'hardicon.png'
+			}
+			var date = {};
+				date.values = {
+					"uploadType" : 2
+				}
+				date.files = {
+					"multipartFile" : picadd
+				}
+                var splits = imageUrl.split(":");
+				var imageUpdate = splits[0]+":"+splits[1] + ':8086/user/image/upload';
+				api.showProgress();
+				console.log("上传图片请求数据" + JSON.stringify(date));
+				api.ajax({
+					url : imageUpdate,
+					method : 'post',
+					data : date
+				}, function(ret, err) {
+					console.log(JSON.stringify(ret) + '上传图片返回值-----' + JSON.stringify(err));
+					api.hideProgress();
+					console.log(JSON.stringify(err.body));
+					if(err.body.substring(0, 9) == '/student/'){
+							picadd =  err.body;
+							next();
+					}else{
+					  alert("服务器地址失败。")
+					}
+				});
+
+		}
+
+		function next() {
+			var data = {};
+			var sex;
+			if (user.sex == "男") {
+				sex = 0;
+			}else if (user.sex == "女") {
+				sex = 1;
+			}
+			data.method = 'insertStudent';
+			data.request = {
+				"userId" : api.getPrefs({sync : true,key : 'userid'}),
+				"studentName" : user.name,
+				"studentType" : "1",
+				"studentImage" : picadd,
+				"studentGender" : sex,
+				"studentBirthDay" : user.birthday,
+				"studentHobby" : user.hobbyid
+			}, api.showProgress();
+			console.log("用户信息insertStudent请求数据：" + JSON.stringify(data));
+			ajaxRequest(data, function(ret, err) {
+				api.hideProgress();
+				if(ret){
+				  console.log("用户信息insertStudent成功返回数据：" + JSON.stringify(ret));
+				  $api.clearStorage();
+				  if(api.pageParam.from=='classroom'){
+				  api.closeToWin({
+						name : "childSelect"
+					});
+				  }else if(api.pageParam.from=='courseconfirm'){
+				  api.closeToWin({
+						name : "signupConfirm"
+					});
+				  }else{
+				   api.closeToWin({
+						name : "root"
+					});
+				  }
+			 		  api.sendEvent({
+					    name: 'updateInfo',
+					    extra: {
+					        key1: '添加宝贝',
+					    }
+					});
+
+				}else{
+				  console.log("用户信息addStudent失败返回数据：" + JSON.stringify(err));
+
+
+				}
+			})
+
+			formateCacheUser();
+		}
+
+		imready = function() {
+			lode();
+		};
+		//刷新页面数据
+		function lode() {
+			var user = getUser();
+			picadd = user.headpic;
+			console.log(JSON.stringify(user));
+			$api.css($api.dom(".headpic"), "background:url(" + user.headpic + "); background-size:100%;");
+			$api.text($api.dom(".name"), user.name);
+			$api.text($api.dom(".sex"), user.sex);
+			$api.text($api.dom(".birthday"), user.birthday);
+			$api.text($api.dom(".school"), user.school);
+			user.hobby != -1 ? $api.text($api.dom(".hobby"), user.hobby) : $api.text($api.dom(".hobby"), "");
+		}
+	</script>
+</html>

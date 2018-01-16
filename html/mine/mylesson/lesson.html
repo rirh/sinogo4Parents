@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+		<style>
+			#main {
+				background: #f6f6f6;
+			}
+			body {
+				background: #FFFFFF;
+			}
+			.lessbox {
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				background: #FFFFFF;
+				position: relative;
+			}
+			.lessbox:after {
+				border-bottom: 1px solid #d9d9d9;
+				content: "";
+				display: block;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				-webkit-transform-origin: 0 0;
+				-webkit-transform: scaleY(0.5);
+			}
+			.lleft {
+				width: 2.58rem;
+				height: 1.58rem;
+				display: block;
+				margin-left: 0.23rem;
+				margin-top: 0.28rem;
+				margin-right: 0.26rem;
+				background: url(../../../image/mine/mylesson.png);
+				background-size: cover;
+			}
+			.lleft img {
+				width: 2.58rem;
+				height: 1.58rem;
+			}
+			.lright {
+				display: block;
+				margin-top: 0.23rem;
+				margin-bottom: 0.23rem;
+			}
+			p, i {
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				word-break: keep-all;
+			}
+			i {
+				font-style: normal;
+			}
+			.p1 {
+				font-size: 0.28rem;
+				color: #333333;
+			}
+			.p2 {
+				font-size: 0.24rem;
+				color: #666666;
+			}
+			.p3 {
+				font-size: 0.24rem;
+				color: #666666;
+			}
+			.p4 {
+				font-size: 0.24rem;
+				color: #666666;
+			}
+			.p4 i {
+				color: #FF8344;
+			}
+			.tips {
+				height: 0.8rem;
+				line-height: 0.8rem;
+				color: #fd7776;
+				font-size: 0.26rem;
+				margin-left: 0.23rem;
+				border-bottom: #CCCCCC solid 0.01rem;
+			}
+			.tips2 {
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				height: 0.8rem;
+				line-height: 0.8rem;
+				color: #76ce54;
+				font-size: 0.26rem;
+				padding-left: 0.23rem;
+				background: #f6f6f6;
+			}
+			.loadingbox {
+				position: relative;
+			}
+			.loadingbox:after {
+				border-top: 1px solid #d9d9d9;
+				content: "";
+				display: block;
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				-webkit-transform-origin: 0 0;
+				-webkit-transform: scaleY(0.5);
+			}
+			.finishbox {
+				position: relative;
+			}
+			.finishbox:after {
+				border-top: 1px solid #d9d9d9;
+				content: "";
+				display: block;
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				-webkit-transform-origin: 0 0;
+				-webkit-transform: scaleY(0.5);
+			}
+			.touch {
+				background: #f6f6f6;
+			}
+			.start-ing {
+				color: #FD7776;
+			}
+			.start-st {
+				color: #FF8344;
+			}
+			.start-ed {
+				color: #76ce54;
+			}
+			#black {
+				color: #666666;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap" class="flex-wrap flex-vertical">
+			<div id='main'>
+				<div class="doingbox" ></div>
+				<div class="tips">
+					等待开课中
+				</div>
+				<div class="loadingbox" ></div>
+				<div class="tips2">
+					已完成
+				</div>
+				<div class="finishbox" ></div>
+			</div>
+		</div>
+	</body>
+	<script type="template" id="dotTmpl">
+		{{for(var i = 0 ; i<it.length;i++){}}
+		<div class="lessbox" onclick="item('{{=i}}','{{=it[i].courseName}}','{{=it[i].classId}}','{{=it[i].courseId}}','{{=it[i].institutionId}}','{{=it[i].tag}}')" tapmode="touch">
+		<img class="lleft" src="{{=it[i].img?it[i].img:'../../../image/mine/mylesson.png'}}" />
+		<div class="lright">
+		<h3 class="p1" >{{=it[i].courseName}}</h3>
+		<p class="p2">老师：<i>{{=it[i].classTeacher}}</i></p>
+		<p class="p3">地点：<i>{{=it[i].institutionAddress}}</i></p>
+		<p class="p3">状态：<i>{{=it[i].status}}</i></p>
+		<p class="p3">班级：<i>{{=it[i].className}}</i></p>
+		</div>
+		</div>
+		{{  } }}
+	</script>
+	<script type="text/javascript" src="../../../script/api.js"></script>
+	<script type="text/javascript" src="../../../script/doT.js"></script>
+	<script type="text/javascript" src="../../../script/common.js"></script>
+	<script type="text/javascript">
+		var responseBody;
+		var lessid = [];
+		var ajson = [];
+		//正在上课的班级
+		var bjson = [];
+		//等待开课的
+		var cjson = [];
+		//课程结束的
+		var studentId;
+		function item(i, courseName, classId, courseId, institutionId, tag) {
+			var id = [];
+			id.push(lessid[i]);
+			if (id != null) {
+				//传递给课程详情的参数 id学生id,classId,courseId,institutionId
+				api.openWin({
+					name : 'mcourseDatailsContent',
+					url : 'mcourseDatailsContent.html',
+					pageParam : {
+						id : studentId,
+						courseName : courseName,
+						classId : classId,
+						courseId : courseId,
+						institutionId : institutionId,
+						tag : tag
+					}
+				});
+			}
+		}
+
+		function listen() {
+			api.addEventListener({
+				name : 'lesson'
+			}, function(ret, err) {
+				console.log('lesson' + JSON.stringify(ret.value.key1));
+				studentId = ret.value.key1;
+				getHotCities(JSON.stringify(ret.value.key1));
+			});
+		}
+
+		apiready = function() {
+			studentId = api.pageParam.id;
+			getHotCities(studentId);
+			listen()
+		};
+		function httptodo(ret) {
+			responseBody = "";
+			responseBody = ret.responseBody;
+			if (responseBody != null) {
+				ajson = [];
+				//正在上课的班级
+				bjson = [];
+				//等待开课的
+				cjson = [];
+				//课程结束的
+				for (var a = 0; a < responseBody.length; a++) {
+					var list = {}
+					list.img = $api.imageUrl + responseBody[a].courseImage;
+					list.startDate = JSON.stringify(responseBody[a].startDate).substring(1, 11);
+					list.courseName = responseBody[a].courseName;
+					list.classTeacher = responseBody[a].classTeacher;
+					list.institutionName = responseBody[a].institutionName;
+					list.institutionAddress = responseBody[a].institutionAddress;
+					list.classId = responseBody[a].classId;
+					list.courseId = responseBody[a].courseId;
+					list.institutionId = responseBody[a].institutionId;
+					list.className = responseBody[a].className;
+					console.log()
+					if (responseBody[a].isStart && responseBody[a].isEnd) {
+						list.tag = -1;
+						list.status = "已完成"
+						cjson.push(list);
+					} else if ((responseBody[a].isStart) && !(responseBody[a].isEnd)) {
+						list.tag = 0;
+						list.status = "已开始"
+						if (responseBody[a].classType == 1) {
+							list.tag = -1;
+						}
+						ajson.push(list);
+					} else if (!(responseBody[a].isStart) && !(responseBody[a].isEnd)) {
+						list.tag = 0;
+						list.status = "等待开课中"
+						if (responseBody[a].classType == 1) {
+							list.tag = -1;
+						}
+						bjson.push(list);
+					}
+				}
+				console.log(JSON.stringify(ajson.length) + "---" + JSON.stringify(bjson.length) + "==" + JSON.stringify(cjson.length));
+				var tmpl = doT.template($api.text($api.dom('#dotTmpl')));
+				//				ajson.length > 0 ? $api.html($api.dom(".doingbox"), tmpl(ajson)) : $api.css($api.dom(".doingbox"), "display:none");
+				//				bjson.length > 0 ? $api.html($api.dom(".loadingbox"), tmpl(bjson)) : $api.css($api.dom(".tips"), "display:none");
+				//				cjson.length > 0 ? $api.html($api.dom(".finishbox"), tmpl(cjson)) : $api.css($api.dom(".tips2"), "display:none");
+				$api.html($api.dom(".doingbox"), tmpl(ajson));
+				$api.html($api.dom(".loadingbox"), tmpl(bjson));
+				$api.html($api.dom(".finishbox"), tmpl(cjson));
+				if (bjson.length == 0) {
+					$api.css($api.dom(".tips"), "display:none");
+				}
+				if (cjson.length == 0) {
+					$api.css($api.dom(".tips2"), "display:none");
+				}
+			}
+		}
+
+		function getHotCities(i) {
+			var data = {};
+			data.method = 'studentCourse';
+			data.request = {
+				"studentId" : i
+			}, api.showProgress();
+			console.log("我的课程studentCourse请求数据" + JSON.stringify(data));
+			ajaxRequest(data, function(ret, err) {
+				api.hideProgress();
+				if (ret) {
+					console.log("我的课程studentCourse成功返回数据" + JSON.stringify(ret));
+					if (ret.responseCode == 0) {
+						if (ret.responseBody.length > 0) {
+							api.sendEvent({
+	                            name:'noInfoClose'
+                            });
+							httptodo(ret);
+						} else {
+							api.sendEvent({
+	                            name:'nocourse',
+	                            extra:{}
+                            });
+						}
+					}
+				} else {
+					console.log("我的课程studentCourse失败返回数据" + JSON.stringify(err));
+				}
+			})
+		}
+	</script>
+</html>

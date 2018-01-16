@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+    	html,body{
+    		background: #F6F6F6;
+    	}
+		.item{
+    		height:2.21rem;
+    		background:#FFF;
+    		position: relative;
+    	}
+    	.item:before{
+    		border-bottom: 1px solid #CCCCCC;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+    	.item img{
+    		width:2.58rem;
+    		height:1.58rem;
+    		margin-left:0.23rem;
+    		margin-top:0.3rem;
+    		float:left;
+    	}
+    	.item .item-content{
+    		margin-top:0.4rem;
+    		width:4rem;
+    		float:left;
+    		margin-left:0.35rem;
+    	}
+    	.item .item-content h2{
+    		color:#333333;
+    		font-size:0.28rem;
+    	}
+    	.item .item-content div{
+    		color:#666666;
+    		font-size:0.24rem;
+    	}
+    	.item .item-content .spec{
+    		margin-top:0.2rem;
+    	}
+    	.item .item-content .price{
+    		margin-top:0.1rem;
+    	}
+    	.item .item-content .imp{
+    		color:#FF8344;
+    	}
+    	.item .item-content .count{
+    		float:right
+    	}
+    	.select{
+    		margin-top:0.39rem;
+    		height:1.39rem;
+    		line-height:1.39rem;
+    		background:#FFF;
+    		position:relative;
+    	}
+    	.select:before{
+    		border-top: 1px solid #d9d9d9;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		top:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+    	.select:after{
+    		border-bottom: 1px solid #d9d9d9;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+    	.select .child{
+    		width:0.96rem;
+    		height:0.96rem;
+    		line-height:0.96rem;
+    		text-align: center;
+    		font-size:0.24rem;
+    		color:#FFF;
+    		background:#d9d9d9;
+    		border-radius: 0.48rem;
+    		margin-left: 0.24rem;
+    		float:left;
+    		margin-top:0.22rem;
+    	}
+    	.select .child.current{
+    		background:#FD7776;
+    	}
+    	.select .add {
+		  float: right;
+		  margin-top: 0.23rem;
+		  margin-right: 0.23rem;
+		  width: 0.94rem;
+		  height: 0.94rem;
+		  background: url(../../image/icon_child_add.png) no-repeat;
+		  background-size: 100% 100%;
+		}
+    	.select span{
+    		float:right;
+    		margin-right:0.23rem;
+    		color:#666666;
+    		font-size:0.26rem;
+    	}
+    	.teachbooks{
+    		margin-top:0.39rem;
+    		background:#f0f0f0;
+    		position: relative;
+    	}
+    	.teachbooks:before{
+    		border-top: 1px solid #d9d9d9;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		top:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+    	.teachbooks:after{
+    		border-bottom: 1px solid #d9d9d9;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+    	.teachbooks .book-title{
+    		height:0.79rem;
+    		line-height:0.79rem;
+    		color:#999999;
+    		font-size:0.26rem;
+    		position:relative;
+    	}
+    	.teachbooks .book-title .checkbox-img{
+    		width:0.36rem;height:0.36rem;
+    		margin-left: 0.2rem;
+    	}
+    	.teachbooks .book-title:after{
+    		border-bottom: 1px solid #d9d9d9;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+    	.teachbooks .book-title span{
+    		margin-left:0.13rem;
+    	}
+    	.teachbooks .book-content{
+    		height:2.69rem;
+    	}
+    	.teachbooks .book-content .book-detail{
+    		height:1.91rem;
+    		margin-left: 0.23rem;
+    		position: relative;
+    	}
+    	.teachbooks .book-content .book-detail:after{
+    		border-bottom: 1px solid #d9d9d9;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+    	.teachbooks .book-content .book-detail .book-pic{
+    		width:1.42rem;
+    		height:1.14rem;
+    		float:left;
+    		margin-top: 0.38rem;
+    		text-align: center;
+    		background:#fff;
+    	}
+    	.teachbooks .book-content .book-detail img{
+    		width:1.27rem;
+    		height:0.71rem;
+    		margin-top:0.22rem;
+    	}
+    	.teachbooks .book-content .book-detail .book-info{
+    		float:left;
+    		margin-left:0.39rem;
+    		line-height:1;
+    		color:#999;
+    		font-size:0.26rem;
+    	}
+    	.teachbooks .book-content .book-detail .bookname{
+    		margin-top:0.38rem;
+    	}
+    	.teachbooks .book-content .book-detail .bookinfo{
+    		margin-top:0.18rem;
+    		font-size:0.24rem;
+    	}
+    	.teachbooks .book-count{
+    		color:#999;
+    		height:0.79rem;
+    		padding-left:0.23rem;
+    		font-size:0.28rem;
+    		position: relative;
+    	}
+    	.teachbooks .book-count .ssss{
+    		height:0.79rem;
+    		line-height:0.79rem;
+    		float: left;
+    	}
+    	.teachbooks .book-count .counttool{
+    		float:right;
+    		margin-right:0.23rem;
+    		margin-top:0.2rem;
+    		color:#999999;
+    	}
+    	.teachbooks .book-count .count{
+    		width:0.4rem;
+    		height:0.38rem;
+    		background:#f0f0f0;
+    		margin:0;
+    		padding:0;
+    		border: none;
+    		border-radius: 0;
+    		text-align: center;
+    		color:#999999;
+    		font-size:0.28rem;
+    	}
+    	.teachbooks .book-count .minus,.teachbooks .book-count .plus{
+    		border:1px solid #aaaaaa;
+    		height:0.36rem;
+    		line-height:0.36rem;
+    		width:0.36rem;
+    		text-align: center;
+    	}
+    	.option{
+    		position:relative;
+    		margin-top:0.4rem;
+    		background:#FFF;
+    	}
+    	.option:before{
+    		border-top: 1px solid #CCCCCC;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		top:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+    	.option:after{
+    		border-bottom: 1px solid #CCCCCC;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+    	.option > div{
+    		height:0.88rem;
+    		line-height:0.88rem;
+    		margin-left:0.23rem;
+    		position:relative;
+    	}
+    	.option > div:after{
+    		border-bottom: 1px solid #CCCCCC;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+    	.option .integration{
+    		border-bottom:none;
+    	}
+    	.option .itemleft{
+    		height:0.88rem;
+    		line-height: 0.88rem;
+    		color:#333333;
+    		font-size:0.28rem;
+    	}
+    	.option .itemright{
+    		color:#aaaaaa;
+    		font-size:0.26rem;
+    		float:right;
+    		height:0.88rem;
+    		line-height: 0.88rem;
+    		margin-right:0.23rem;
+    	}
+    	.option .arrow{
+    		background:url(../../image/icon_arrow_right.png) no-repeat right center;
+    		background-size: 0.16rem 0.28rem;
+    		padding-right: 0.26rem;
+    	}
+    	.forcheck{
+    		width:0.4rem;
+    		height:0.88rem;
+    		line-height: 0.88rem;
+    		background:url(../../image/icon_unchecked.png) no-repeat left center;
+    		background-size:0.36rem 0.36rem;
+    		margin-left: 0.23rem;
+    	}
+    	.check-right{
+    		padding-left: 0.2rem;
+    		color:#333;
+    		font-size:0.26rem;
+    	}
+    </style>
+</head>
+<body>
+	<div id="main">
+		<script type="text/x-dot-template" id="item_template">
+			<img src="{{=$api.imageUrl+it.courseImg}}" onerror="onImgError(this);" alt="" />
+			<div class="item-content">
+				<h2 class="ellipsis-2">{{=it.courseName}}</h2>
+				<div class="spec ellipsis-1">{{=it.teachingInstitutionName}}</div>
+				<div class="price">价格: <span class="imp">{{=it.coursePrice}}</span>￥</div>
+			</div>
+		</script>
+		<div id="item" class="item">
+		</div>
+		<div class="select">
+			<script type="text/x-dot-template" id="select_template">
+			{{ for(var i=0;i<it.length;i++){ }}
+			<div class="child ellipsis-1" onclick="select(this)" studentid="{{=it[i].id}}" classid="{{=it[i].classId}}" >{{=it[i].studentName}}</div>
+			{{ } }}
+			</script>
+			<div id="select" >
+			</div>
+        	<div class="add"></div>
+		</div>
+		<div class="teachbooks">
+			<div class="book-title">
+				<img checked='false' onclick="selectBooks(this)" src="../../image/icon_unchecked.png" alt="" class="checkbox-img" />
+				<span>配套教材</span>
+			</div>
+			<div class="book-content">
+				<script type="text/x-dot-template" id="book_detail_template">
+					<div class="book-pic">
+						<img src="{{=$api.imageUrl+it.goodsModelPreview}}" alt="" />
+					</div>
+					<div class="book-info">
+						<div class="bookname" >{{=it.materialsGoodsName}}</div>
+						<div class="bookinfo" >型号:{{=((it.spec1&&it.spec1!='undefined')?it.spec1:'')}} {{=((it.spec2&&it.spec2!='undefined')?it.spec2:'')}}</div>
+						<div class="bookinfo" >价格:￥{{=it.goodsSalesPrice}}</div>
+					</div>
+				</script>
+				<div class="book-detail" id="book_detail">
+				</div>
+				<div class='book-count'>
+					<div class="ssss">购买数量</div>
+					<div class="counttool">
+						<span class="minus" onclick="minus()" >－</span>
+						<input readonly="readonly" class="count" type="text" value="1" />
+						<span class="plus" onclick="plus()"  >＋</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="option">
+			<div class="invoice" style="display: none">
+				<span class="itemleft">发票信息</span>
+				<span class="itemright arrow">无需</span>
+			</div>
+			<div class="integration" style="display: none" onclick="selectBalance()" >
+				<span class="forcheck" checked="false">&nbsp;</span>
+				<span class="check-right">现金余额：<span class="imp">￥1</span>，可用<span class="imp">￥0.5</span></span>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript">
+	var teachBooks;
+	var bookTitle;
+	var bookPic;
+	var bookname;
+	var bookinfo;
+	var bookcount;
+	var ssss;
+	
+	var isSupportedBook=false;
+	
+	var checkbox ;
+	var balanceChecked =false;
+	
+	imready = function(){
+		var courseInfo = api.pageParam.courseInfo;
+		console.log("courseInfo")
+		window.courseInfo=courseInfo;
+		window.state=false;
+		window.checked=false;
+		initView();
+		window.sum = 0;
+		window.price = courseInfo.coursePrice
+		window.balance=0;
+		window.usebalance=0;
+		getInnerByDot("item","item_template",courseInfo)
+		requestSupportedBooks();
+		requestStudentInfo();
+		$api.dom(".add").onclick=function(){
+			//TODO 添加学生.
+			api.openWin({
+				name : 'addname',
+				url : '../mine/addname.html',
+				pageParam:{
+					from:'courseconfirm'
+				}
+			});
+		}
+		api.addEventListener({
+	        name:'updateInfo'
+        },function(ret,err){
+        	requestStudentInfo();
+        });
+        api.addEventListener({
+	        name:'passwordSeted'//设置密码成功后,直接生单
+        },function(ret,err){
+        	checkRequestIp(function(requestIp){
+				createOrder(requestIp);
+			})
+        });
+        checkbox = $api.dom(".forcheck")
+        requestWallet();
+	};
+	
+	function requestWallet(){
+		window.balance=0;
+		api.showProgress();
+		var body={
+			method:'userWallet',
+			request:{
+				"userId" : api.getPrefs({sync:true,key:"userid"})
+			}
+		}
+		ajaxRequest(body,function(ret,err){
+			api.hideProgress();
+			////balanceType 2是中期币     1为rmb
+			if(ret){
+				console.log(JSON.stringify(ret))
+				if(ret.responseCode==0){
+					for(var i=0;i<ret.responseBody.length;i++){
+						var item = ret.responseBody[i]
+						if(item.balanceType==1){
+							window.balance=item.balance
+						}
+					}
+				}else{
+					
+				}
+			}else{
+				
+			}
+			checkBalance()
+		})
+	}
+
+	function checkBalance(){
+		console.log("checkBalance")
+		if(window.balance==0){
+			$api.dom(".integration").style.display="none"
+		}else{
+			$api.dom(".integration").style.display="block"
+			var imps = $api.domAll(".check-right .imp");
+			for(var i=0;i<imps.length;i++){
+				imps[i].innerHTML="￥"+window.balance
+			}
+		}
+	}
+	
+	function selectBalance(){
+		//openSelect("balance")
+		//openSelect("balance")
+		if(balanceChecked){
+			checkbox.style.background="url(../../image/icon_unchecked.png) no-repeat left center"
+			checkbox.style.backgroundSize="0.36rem 0.36rem"
+		}else{
+			checkbox.style.background="url(../../image/icon_checked.png) no-repeat left center"
+			checkbox.style.backgroundSize="0.36rem 0.36rem"
+		}
+		balanceChecked=!balanceChecked
+		updateSum();
+		
+	}
+	
+	function openSelect(type){
+		api.openFrame({
+	        name: 'selectDialog_invoice',
+	        url: '../selectDialog.html',
+	        pageParam:{type:type},
+	        animation:{
+			    type:"push",                //动画类型（详见动画类型常量）
+			    subType:"from_bottom",       //动画子类型（详见动画子类型常量）
+			    duration:300                //动画过渡时间，默认300毫秒
+			},
+	        rect: {
+		        x:0,
+		        y:0,
+		        w:api.winWidth,
+		        h:api.winHeight
+	        }
+        });
+	}
+	
+	function requestSupportedBooks(){
+		api.showProgress();
+		var body={
+			method:"searchCm",
+			request:{
+				courseId:courseInfo.courseId
+			}
+		}
+		ajaxRequest(body,function(ret,err){
+			console.log(JSON.stringify(ret))
+			api.hideProgress();
+			if(ret){
+				if(ret.responseCode==0){
+					if(ret.responseBody.length==0){
+						teachBooks.style.display="none"
+					}else{
+						window.good_code = ret.responseBody[0].materialsCode
+						requestSupportingBook();
+					}
+				}else{
+					//alert(ret.responseMsg)
+					teachBooks.style.display="none"
+				}
+			}else{
+				teachBooks.style.display="none"
+				//alert(err.msg)
+			}
+		})
+	}
+	
+	function requestSupportingBook(){
+		api.showProgress();
+		var body = {}
+		body.method="materialsGoodsDetail"
+		body.request={
+			materialsGoodsCode:window.good_code
+		}
+		ajaxRequest(body,function(ret,err){
+			api.hideProgress();
+			console.log(JSON.stringify(ret))
+			if(ret){
+				if(ret.responseCode==0){
+					window.goodInfo=ret.responseBody;
+					isSupportedBook=true
+					initBooks();
+				}else{
+					//alert(ret.responseMsg)
+					teachBooks.style.display="none"
+				}
+			}else{
+				//alert(err.msg)
+					teachBooks.style.display="none"
+			}
+		})
+	}
+	
+	function initBooks(){
+		var models = window.goodInfo.materialsGoodsModelDetail
+		var standards = window.goodInfo.materialsGoodsStandardDetail
+		for(var i=0;i<window.goodInfo.materialsGoodsSalesDetails.length;i++){
+			var item = window.goodInfo.materialsGoodsSalesDetails[i];
+			if(item.isChecked==true){
+				window.goodInfo.currentItem=item;
+			}else{
+			}
+			item.materialsGoodsOrganization=window.goodInfo.materialsGoodsOrganization;
+			item.materialsGoodsName=window.goodInfo.materialsGoodsName;
+//			item.materialsGoodsIntro=window.goodInfo.materialsGoodsIntro;不需要intro
+			item.materialsGoodsLogistics=window.goodInfo.materialsGoodsLogistics;
+			item.materialsGoodsUnit=window.goodInfo.materialsGoodsUnit;
+			
+			item.buyCount = 1;//默认购买一件,在规格选择和代购订单确认页面可以修改
+			
+			var modelId = item.goodsSalesModelId;
+			var standardId = item.goodsSalesStandardId;
+			if(modelId!=0){
+				for(var j=0;j<models.teachingMaterialsModels.length;j++){
+					if(modelId==models.teachingMaterialsModels[j].id){
+						item.spec1=models.teachingMaterialsModels[j].goodsModelName
+						item.goodsModelPreview=models.teachingMaterialsModels[j].goodsModelPreview
+					}
+				}
+			}
+			if(standardId!=0){
+				for(var j=0;j<standards.teachingMaterialsStandards.length;j++){
+					if(standardId==standards.teachingMaterialsStandards[j].id){
+						item.spec2=standards.teachingMaterialsStandards[j].goodsStandardName
+					}
+				}
+			}
+		}
+		console.log(JSON.stringify(window.goodInfo.currentItem))
+		getInnerByDot("book_detail","book_detail_template",window.goodInfo.currentItem)
+		initView()//填充之后需要再次initview
+	}
+	
+	function requestStudentInfo(){
+		var body =  {
+        	"method":"getStudentsByUserId",
+        	"request":{"userId":api.getPrefs({sync:true,key:"userid"})}
+		}
+		ajaxRequest(body,function(ret,err){
+			if(ret){
+				if(ret.responseCode==0){
+					console.log(JSON.stringify(ret))
+					if(!ret.responseBody||ret.responseBody.length==0){
+						toastAtMiddle("您还没有添加宝贝,请先添加宝贝信息!")
+					}else{
+						fillChildren(ret.responseBody)
+					}
+				}else{
+					alert(ret.responseMsg)
+				}
+			}else{
+				alert(err.msg)
+			}
+			
+		})
+	}
+	
+	function fillChildren(response){
+		if(response.length>4){
+			$api.dom(".add").style.display="none"
+		}
+		window.childInfo = response;
+		getInnerByDot("select","select_template",response)
+		var imgs=$api.domAll("img");
+		for(var i=0;i<imgs.length;i++){
+			imgs[i].onerror=function(){
+				$api.attr(this,"src","../../image/icon_header_default.png")
+			}
+		}
+	}
+
+	function onImgError(el){
+		$api.attr(el, "src", "../../image/eg_order.png");
+	}
+	
+	function initView(){
+		teachBooks=$api.dom(".teachbooks");
+		bookTitle=$api.dom(".book-title");
+		bookPic=$api.dom(".book-pic");
+		bookname=$api.dom(".bookname");
+		bookinfo=$api.dom(".bookinfo");
+		bookcount=$api.dom(".count");
+		ssss=$api.dom(".ssss");
+	}
+	
+	function select(el){
+		window.state = true;
+//		var last = $api.dom(".select .current");
+//		$api.removeCls(last, "current");
+		var lists = $api.domAll(".select .current")
+		var elIn=false;
+		for(var i=0;i<lists.length;i++){
+			if(el==lists[i]){
+				elIn=true
+				break;
+			}
+		}
+		if(elIn){
+			$api.removeCls(el, "current");
+		}else{
+			$api.addCls(el, "current");
+		}
+		var selectChildCount=$api.domAll(".select .current").length;
+		api.execScript({
+			name:"signupConfirm",
+	        script: 'updateBuyState('+(selectChildCount!=0)+');'
+        });
+//		if(isSupportedBook){
+//			changeBookState(selectChildCount);
+//		}
+		if(selectChildCount==0){
+			selectBooks($api.dom(".checkbox-img"))
+		}
+		updateSum()
+	}
+	function selectBooks(el){
+		if(!isSupportedBook){
+			return;
+		}
+		var lists = $api.domAll(".select .current");
+		if(lists.length==0){
+			window.checked=false;
+			$api.attr(el, "src", "../../image/icon_unchecked.png");
+			changeBookState(0)
+			return;
+		}
+		
+		if(window.checked){
+			changeBookState(0)
+			$api.attr(el, "src", "../../image/icon_unchecked.png");
+		}else{
+			changeBookState(1)
+			$api.attr(el, "src", "../../image/icon_checked.png");
+		}
+		window.checked = !window.checked;
+		updateSum();
+	}
+	function updateSum(){
+		var singleSum = 0;//单人购买教辅的总价
+		if(window.checked){//如果选择了配套教材,则计算教材价格
+			$api.val(bookcount, window.goodInfo.currentItem.buyCount);
+			singleSum+=(window.goodInfo.currentItem.buyCount*window.goodInfo.currentItem.goodsSalesPrice)
+		}
+		var lists = $api.domAll(".select .current");//所有被选择的学生
+		var sum = window.price*lists.length;//所有学生购买课程的价格
+		sum+=singleSum*lists.length;//加上所有学生如果购买教辅的总价
+		sum=sum.toFixed(2)
+		window.sum=sum;
+		var orderSum = sum;
+		if(balanceChecked){//确认使用余额
+			window.usebalance = orderSum<window.balance?orderSum:window.balance;
+			orderSum = orderSum<window.balance?'0.00':(orderSum-window.balance).toFixed(2)
+		}else{//不使用余额
+			window.usebalance = 0;
+		}
+		api.execScript({
+			name:"signupConfirm",
+	        script: "updateSum('"+orderSum+"');"
+        });
+	}
+	
+	function minus(){
+		if(!window.state){
+			return;
+		}
+		var count = window.goodInfo.currentItem.buyCount;
+        if(count==1)
+        	api.toast({
+		        msg:'不能再减少了呢',
+		        location:'middle'
+       		})
+       	else
+   		window.goodInfo.currentItem.buyCount=count-1
+		updateSum();
+	}
+	
+	function plus(){
+		if(!window.state){
+			return;
+		}
+		var count = window.goodInfo.currentItem.buyCount;
+		if(count==(window.goodInfo.currentItem.goodsSalesQuantity)){
+			api.toast({
+		        msg:'教辅库存不足!',
+		        location:'middle'
+       		})
+			return;
+		}
+		window.goodInfo.currentItem.buyCount=count+1;
+		updateSum();
+	}
+	
+	function changeBookState(length){
+		if(length>0){
+			teachBooks.style.background="#FFFFFF";
+			bookTitle.style.color="#666666"
+			bookname.style.color="#333333"
+			bookinfo.style.color="#666666"
+			bookPic.style.color="#666666"
+			bookcount.style.background="#FFF"
+			bookPic.style.background="#eeeeee"
+		}else{
+			teachBooks.style.background="#f0f0f0";
+			bookTitle.style.color="#999999"
+			bookname.style.color="#999999"
+			bookinfo.style.color="#999999"
+			bookPic.style.color="#999999"
+			bookcount.style.background="#f0f0f0"
+			bookPic.style.background="#fff"
+		}
+	}
+	function goBuy(){
+		if(!balanceChecked){
+			console.log("未使用余额")
+			checkRequestIp(function(requestIp){
+				createOrder(requestIp);
+			})
+		}else{
+			console.log("使用了余额")
+			api.showProgress();
+			api.getPrefs({
+		        sync:false,
+		        key:'tradePassword'
+	      },function(ret,err){
+			api.hideProgress();
+			console.log(ret.value)
+	      	if(!ret.value){//没有设置支付密码.
+	      		api.openFrame({
+                name: 'balancePayPassSetting',
+                url: 'balancePayPassSetting.html',
+                rect: {
+                    x:0,
+                    y:0,
+                    w:api.winWidth,
+                    h:api.winHeight
+                }
+            });
+	      	}else{//已经设置了支付密码,跳转到确认支付页面.
+				openBalancePay();
+	      	}
+	      });
+		}
+	}
+	
+	function openBalancePay(){
+		api.openFrame({
+            name: 'balancePayConfirm',
+            url: '../home/balancePayConfirm.html',
+            bounces:false,
+            pageParam:{
+            	balance:window.usebalance
+            },
+            rect: {
+                x:0,
+                y:0,
+                w:api.winWidth,
+                h:api.winHeight
+            }
+        });
+        api.sendEvent({
+            name:'balanceState',
+            extra:{
+            	isOpend:true
+            }
+        });
+	}
+	
+	function createOrder(requestIp){
+		//调用
+		//TODO 组装数据.调用生单接口,传递数据,跳转到支付页面.
+		var body={};
+		body.method="createGoodsOrder"
+		var goodsDetails=[];
+		var goodDetail = {}//window.courseInfo
+		goodDetail.goodsOrganization=window.courseInfo.organizationId;
+		goodDetail.goodsNo=window.courseInfo.courseId;
+		goodDetail.goodsPreview=window.courseInfo.courseImg;
+		goodDetail.goodsName=window.courseInfo.courseName;
+		goodDetail.goodsType=2;//1课程,2教辅 这里是课程
+		goodDetail.goodsPrice=window.courseInfo.coursePrice;
+		goodDetail.goodsNum=1;
+		goodDetail.freightAmount=0;
+		goodDetail.couponsAmount=0;
+		goodDetail.cashBack=0;
+		goodDetail.sinogoCoin=0;
+		goodDetail.orderRemark="";
+		goodDetail.distributionMode=0;
+		goodsDetails.push(goodDetail)
+		if(isSupportedBook&&window.checked){//存在配套教辅,并且已选择
+			var goodDetail = {}//window.courseInfo
+			goodDetail.goodsOrganization=window.goodInfo.currentItem.materialsGoodsOrganization;
+			goodDetail.goodsNo=window.goodInfo.currentItem.goodsSalesCode;
+			goodDetail.goodsPreview=window.goodInfo.currentItem.goodsModelPreview;
+			goodDetail.goodsName=window.goodInfo.currentItem.materialsGoodsName;
+			goodDetail.goodsType=1;//1课程,2教辅 这里是配套教辅
+			goodDetail.goodsPrice=window.goodInfo.currentItem.goodsSalesPrice;
+			goodDetail.goodsNum=window.goodInfo.currentItem.buyCount;
+			goodDetail.freightAmount=0;
+			goodDetail.couponsAmount=0;
+			goodDetail.cashBack=0;
+			goodDetail.sinogoCoin=0;
+			goodDetail.orderRemark="";
+			goodDetail.distributionMode=window.goodInfo.currentItem.materialsGoodsLogistics;
+			goodsDetails.push(goodDetail)
+		}
+		
+		var children = $api.domAll(".current")
+		var students = []
+		for(var i=0;i<children.length;i++){
+			var student = {}
+			student.studentId = $api.attr(children[i], "studentid"); 
+			student.classId = courseInfo.classId;
+			students.push(student)
+		}
+		
+		body.request={
+		    "userId": api.getPrefs({sync:true,key:'userid'}),//用户
+		    "totalAmount": window.sum,
+		    "sinogoCoin": 0,//中棋币抵扣
+		    "discountCoupon": "",//优惠券名称
+		    "couponAmount": 0,//优惠券金额
+		    "postFee": 0,//快递费
+		    "tradePassword":"",//余额支付密码.
+		    "clientFrom":"Student",//客户端来源,3.1添加参数
+		    "requestIp":requestIp,
+		    "walletBalance":window.usebalance,//
+		    "orderFrom": api.systemType=='ios'?1:2,//订单来源:IPHONE(1, "iPhone"), ANDROID(2, "Android"),WEIXIN(3, "微信"),WEIXINWAP(4, "微信公众号");
+		    "invoiceType": 0,//发票类型:1、普通发票2、电子发票3、增值税发票
+		    "invoiceTitle": "",//发票抬头
+		    "invoiceContent": 0,//发票内容:1、明细2、办公用品3、电脑配件4、耗材
+		    "students":students,//选择.
+		    "deliveryDetail": {},
+		    "teacherId":0,//老师id
+		    "goodsType":2,//商品类型1教辅,2课程
+		    "goodsDetails": goodsDetails
+		}
+		console.log(JSON.stringify(body))
+		api.showProgress();
+		ajaxRequest(body,function(ret,err){
+			api.hideProgress();
+			console.log("创建订单成功返回数据"+JSON.stringify(ret))
+			if(ret){
+				if(ret.responseCode==0){
+					if(ret.responseBody&&ret.responseBody.responseCode&&ret.responseBody.responseCode!=0){
+						return alert(ret.responseBody.responseMsg)
+					}
+					if(!ret.responseBody||ret.responseBody=='null'||ret.responseBody==null){
+						return alert("服务器异常!")
+					}
+					console.log(JSON.stringify(ret))
+		          	goPayment(ret.responseBody)
+				}else{
+					alert(ret.responseMsg)
+				}
+			}else{
+				alert(err.msg)
+			}
+		
+		})
+	}
+	
+	function goPayment(ret){
+		console.log(JSON.stringify(ret))
+		if(ret.paymentAmount==0){//已用余额或中棋币抵扣,无需第三方支付,直接进入支付成功页面
+			console.log("已经成功,显示成功")
+			toastAtMiddle("恭喜,支付成功!")
+			api.openWin({
+	            name: 'paySuccess',
+	            url: '../home/paySuccess.html',
+	            pageParam:{
+		            orderNo:ret.orderNo,
+					orderType:2,
+					orderSum:window.sum,
+					organizationId:window.courseInfo.organizationId
+	            }
+        	});
+			setTimeout("closeSelf()",2000)	
+			return;
+		}
+		api.openWin({
+	        name: 'payment',
+	        url: '../home/payment.html',
+	        pageParam:{
+	        	ret:ret,//传递订单所有信息.
+            	orderType:2,//1教辅,2课程
+				organizationId:window.courseInfo.organizationId
+	        }
+        });
+		console.log("还需支付,显示成功")
+	    setTimeout("closeSelf();",2000)
+	}
+	
+	function closeSelf(){
+		api.closeWin({
+			name:"signupConfirm"
+        });
+	}
+</script>
+</html>

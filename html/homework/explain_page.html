@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/fontstyle.css" />
+    <style>
+        header {
+            position: relative;
+            height: .9rem;
+            width: 100%;
+            background: #ff8344;
+        }
+
+        header h1 {
+            color: #fff;
+            line-height: .9rem;
+            text-align: center;
+            font-size: .34rem;
+            font-weight: normal;
+        }
+
+        header span:nth-child(1) {
+            position: absolute;
+            top: .225rem;
+            left: .32rem;
+            height: .5rem;
+            width: .5rem;
+        }
+
+        header span img {
+            height: .45rem;
+            width: .25rem;
+        }
+        section{
+          background:
+        }
+        section p{
+          text-indent: 2em;
+          font-size: .28rem;
+          color: #666;
+          margin: 0 .48rem .4rem .48rem;
+        }
+        section p:nth-child(1){
+          margin-top: .7rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <span onclick="api.closeWin()"><img src="../../image/back.png" alt=""></span>
+        <h1>说明</h1>
+    </header>
+    <section>
+      <p>知识图谱以班级（课程）维度，统计学生历史完成作业中，知识点掌握情况。</p>
+      <p>根据知识点的正确率情况，帮助您了解学生在历史学习过程中，哪里掌握的好，哪里掌握  的不好，以方便您对学生接下来的学习做针对性的辅导与规划。</p>
+    </section>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript">
+    imready = function() {
+        initVue();
+        assigment.init();
+    };
+    var assigment; //全局控制器Controller
+    initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+        var date = vueDateManager();
+        var methods = vueMethodsManager();
+        var components = vueComponentsManager();
+        assigment = new Vue({
+            el: '#header', //绑定元素
+            data: date, //本页面的静态动态全部数据
+            methods: methods, //本页面的全部方法
+            components: components,
+        })
+    }
+
+    vueDateManager = function() {
+        //初始化Vue数据date为一个json数组
+        var date = {};
+        date.ranklist;
+        console.log("数据管理者" + JSON.stringify(date));
+        return date;
+
+    }
+    vueMethodsManager = function() {
+        //时间管理中心 每个Vue事件的处理都可以在这管理
+        var methods = {};
+        methods.init = function() {
+
+
+
+
+        };
+        return methods;
+
+
+
+
+    }
+    vueComponentsManager = function() { //组件管理器
+        var components = {};
+        return components;
+    }
+    imready = function() {
+        // api.parseTapmode(); //默认页面加载完成后，引擎会对 dom 里面的元素进行 tapmode 属性解析，若是之后用代码创建的 dom 元素，则需要调用该方法后 tapmode 属性才会生效
+        // $api.fixStatusBar($api.dom('header'));
+        initVue();
+
+
+    };
+</script>
+
+</html>

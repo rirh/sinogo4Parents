@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <style>
+        header {
+            position: relative;
+            height: .9rem;
+            width: 100%;
+            background: #ff8344;
+        }
+
+        header h1 {
+            color: #fff;
+            line-height: .9rem;
+            text-align: center;
+            font-size: .34rem;
+            font-weight: normal;
+        }
+
+        header span {
+            position: absolute;
+            top: .225rem;
+            left: .32rem;
+            height: .5rem;
+            width: .5rem;
+        }
+
+        header span img {
+            height: .45rem;
+            width: .25rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+        <header>
+            <span onclick="api.closeWin()"><img src="../../image/back.png" alt=""></span>
+            <h1>加油加油</h1>
+        </header>
+        <div id="main" class="flex-con">
+        </div>
+
+    </div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+    var pageParam;
+    imready = function() {
+        initData();
+    };
+    initData = function() {
+        pageParam = api.pageParam.homework;
+        var request = {
+            "publishId": pageParam.homeworkPublishId,
+            "studentId": pageParam.homeWorkStudentId,
+        }
+        goRequest("getHomeWorkStudentInfo", request, function(ret) {
+            var result = ret.responseBody.answerQuestionsList;
+            var data = ret.responseBody.questionAttributeList;
+            result = dealWithResult(result);
+            data = dealWithData(data)
+            var response = ret.responseBody;
+            response.answerQuestionsList = result;
+            response.questionAttributeList = data;
+            api.openFrame({
+                name: 'answerResult_frm',
+                url: 'answerResult_frm_925.html',
+                rect: {
+                    x: 0,
+                    y: $api.offset($api.dom("header")).h,
+                    w: api.winWidth,
+                    h: 'auto'
+                },
+                pageParam: {
+                    jobDetalis: response,
+                    job: pageParam
+
+                }
+            });
+        })
+    }
+
+    function dealWithResult(result) {
+        var map = {},
+            newResult = [];
+        for (var i = 0; i < result.length; i++) {
+            var ai = result[i];
+            if (!map[ai.questionId]) {
+                newResult.push({
+                    answerCostTime: ai.answerCostTime,
+                    answerIsRight: ai.answerIsRight,
+                    answerSgfText: ai.answerSgfText,
+                    choiceOptionId: ai.choiceOptionId,
+                    choiceOptionSequence: ai.choiceOptionSequence,
+                    createTime: ai.createTime,
+                    homeWorkId: ai.homeWorkId,
+                    id: ai.id,
+                    questionId: ai.questionId,
+                    questionType: ai.questionType,
+                    studentId: ai.studentId,
+                    data: [ai]
+                });
+                map[ai.questionId] = ai;
+            } else {
+                for (var j = 0; j < newResult.length; j++) {
+                    var dj = newResult[j];
+                    if (dj.questionId == ai.questionId) {
+                        dj.data.push(ai);
+                        break;
+                    }
+                }
+            }
+        }
+        for (var i = 0; i < newResult.length; i++) {
+            var item = newResult[i];
+            var isRight = true;
+            if (item.data && item.data.length > 1) {
+                for (var j = 0; j < item.data.length; j++) {
+                    if (!item.data[j].answerIsRight) {
+                        isRight = false;
+                        break;
+                    }
+                }
+            } else {
+                isRight = item.answerIsRight
+            }
+            item.answerIsRight = isRight;
+        }
+        console.log(JSON.stringify(newResult))
+
+        return newResult;
+    }
+
+    function dealWithData(data) {
+        var questionTitleAttributes = data.questionTitleAttributes;
+        for (var i = 0; i < data.length; i++) {
+            var item = data[i];
+            var questionTitleAttributes = item.questionTitleAttributes;
+            for (var j = 0; j < questionTitleAttributes.length; j++) {
+                var titleTypeValue = questionTitleAttributes[j].titleTypeValue;
+                if (titleTypeValue == -1) { //文本
+                    item.textTitle = true;
+                    item.textTitleValue = questionTitleAttributes[j].titleDetails
+                } else if (titleTypeValue == 0) { //图片
+                    item.imgTitle = true;
+                    item.imgTitleValue = questionTitleAttributes[j].titleDetails
+                } else if (titleTypeValue == 1) { //音频
+                    item.audioTitle = true;
+                    item.audioTitleValue = questionTitleAttributes[j].titleDetails
+                } else if (titleTypeValue == 2) { //视频
+                    item.videoTitle = true;
+                    item.videoTitleValue = questionTitleAttributes[j].titleDetails
+                } else if (titleTypeValue == 3) { //sgf
+                    item.sgfTitle = true;
+                    item.sgfTitleValue = questionTitleAttributes[j].titleDetails
+                } else {
+                    //没这么干的
+                }
+            }
+            //8.30新增。添加对选择题-多选题的支持。多选题的questionTypeValue设置为 -1 （1选择，2对弈）
+            console.log(item.questionTypeValue)
+            if (item.questionTypeValue == 1) {
+                var questionOptionsAttributes = item.questionOptionsAttributes;
+                console.log(JSON.stringify(questionOptionsAttributes))
+                var rightCount = 0;
+                for (var j = 0; j < questionOptionsAttributes.length; j++) {
+                    var attr = questionOptionsAttributes[j];
+                    rightCount = attr.optionRight ? (rightCount + 1) : rightCount
+                }
+                console.log(rightCount)
+                if (rightCount > 1) { //如果正确答案数目大于1，则为多选题
+                    item.questionTypeValue = -1;
+                    item.questionTypeName = "多选题"
+                }
+            }
+        }
+        return data;
+
+    }
+</script>
+
+</html>

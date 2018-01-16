@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+    	html,body{
+    		height:100%;
+    		background:#F6F6F6
+    	}
+    	#header{
+    		height:0.88rem;
+    		background:#FF8345;
+    		position: fixed;
+    		top:0;
+    		z-index:2;
+    		width:100%;
+    	}
+    	#search {
+    		float:left;
+    		margin-top:0.14rem;
+			background-color:#FFF;			
+			margin-left:0.23rem;	
+			border-radius: 0.05rem;
+			padding-left:0.1rem;
+			width:6.1rem;
+			height:0.6rem;
+			font-size:0.24rem;
+			color:#333333;
+			outline: none;
+		}
+		header a{
+			font-size:0.3rem;
+			float:right;
+			height:0.8rem;
+			margin-top:0.04rem;
+			color:#FFF;
+			width:1rem;
+			margin-right: 0.04rem;
+			text-align: center;
+			line-height:0.88rem;
+		}
+		header a.active{
+			background:rgba(0,0,0,0.3) !important;
+		}
+		#main{
+			position: absolute;
+			top:0.88rem;
+			width:100%;
+		}
+		#search_content{
+			width:100%;
+			height:100%;
+			color:#777777;
+			font-size:0.24rem;
+			background:#FFF;
+		}
+		#search_content .item{
+			display:block;
+			height:0.88rem;
+			line-height:0.88rem;
+			margin:0 0.32rem;
+			position: relative;
+		}
+		#search_content .item:after{
+			border-bottom: 1px solid #e1e1e1;
+			position:absolute;
+			top:0;left:0;right:0;
+			pointer-events:none;
+			content:"";
+			display:block;
+		}
+		#search_content .item .active{
+			background:rgba(0,0,0,0.3) !important;
+		}
+    </style>
+</head>
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<header id="header">
+			<input id="search" placeholder="请输入城市名称"></input>
+			<a tapmode="active" onclick="api.closeWin()">取消</a>
+		</header>
+		<div id="main" class="flex-con">
+			<div id="search_content">
+			</div>
+			<script id="search_template" type="text/x-dot-template">
+				{{ for(var i=0;i<it.length;i++){ }}
+				<a tapmode="active" onclick="select('{{=it[i].regionShortName}}','{{=it[i].id}}')"  class="item">{{=it[i].regionShortName}}</a>
+				{{ } }}
+			</script>
+		</div>
+	</div>
+	
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/dist-controller.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript">
+	var db ;
+	imready = function(){
+		 db = api.require('db');
+		var input = document.getElementById("search");
+		handelVersionBelow4($api.byId("main"))
+		input.oninput=function(){
+			var value = this.value;
+			queryCity(value);
+		}
+		
+		getCityList();
+	};
+	
+	function select(name,code){
+		//先进行重复判断
+		var result = db.selectSqlSync({
+	       name:'sinogostudent',
+	        sql:"select * from cities_history where cityname= '"+name+"'"
+        });
+        if(result.data&&result.data.length>0){
+        	db.executeSql({
+	            name:"sinogostudent",
+	            sql:"delete from cities_history where cityname= '"+name+"' and citycode = '"+code+"' "
+            },function(ret,err){
+            	//coding...
+            });
+        }
+    	db.executeSql({
+	        name:'sinogostudent',
+	        sql:"insert into cities_history (cityname,citycode) values('"+name+"','"+code+"')"
+	        },function(ret,err){
+        });
+        api.ajax({
+	        url:"http://api.map.baidu.com/geocoder?address='"+name+"'&output=json&key=jbt3NtLURGUQehlEh59gG62MPDZToG6A&city=北京市'"+name+"'"
+        },function(ret,err){
+        	if(ret){
+  			  api.setPrefs({
+		        key:'currentLocation',
+		        value:name
+		      });
+		       api.setPrefs({
+                    key:'longitude',
+                    value:ret.result.location.lng
+                });
+		        api.setPrefs({
+                    key:'latitude',
+                    value:ret.result.location.lat
+                });
+		      api.sendEvent({
+			        name:'locationChanged',
+		      });
+		      api.closeWin({
+		      	name:"location"
+		      });
+		      api.closeFrame({
+		      	name:"location_con"
+		      });
+		      api.closeWin({
+		      	name:"location_search"
+		      })
+        	}else{
+        		api.sendEvent({
+			        name:'locationChanged',
+		      });
+		      api.closeWin({
+		      	name:"location"
+		      });
+		      api.closeFrame({
+		      	name:"location_con"
+		      });
+		      api.closeWin({
+		      	name:"location_search"
+		      })
+        	}
+        });
+
+	}
+	
+	function queryCity(key){
+		var queryList=[];
+		if(!key){
+			//显示暂无结果
+			getInnerByDot("search_content","search_template",queryList)
+			return;
+		}
+		for(var i=0;i<window.citylist.length;i++){
+			var city = window.citylist[i];
+			if(city.regionName.indexOf(key)!=-1){
+				queryList.push(city)
+			}
+		}
+		if(queryList.length==0){
+			getInnerByDot("search_content","search_template",queryList)
+		}else{
+			getInnerByDot("search_content","search_template",queryList)
+		}
+	}
+	
+	function getCityList(){
+		var date = new Date();
+		var today = (date.getMonth()+1)+"_"+date.getDate();
+		api.getPrefs({
+	        sync:false,
+	        key:'cityListOk_'+today
+        },function(ret,err){
+        	console.log(JSON.stringify(ret))
+        	if(ret.value||ret.value=='true'){
+        		console.log("已经存储了.读取文件")
+        		api.readFile({
+	                sync:false,
+	                path:'fs://cityList.jn'
+                },function(ret,err){
+                	if(ret){
+        		console.log(".读取文件成功,填充数据")
+	                	if(ret.status){
+	                		var cityList = $api.strToJson(ret.data);
+							//getInnerByDot("cities_content","cities_template",groupList)
+							window.citylist=cityList;
+	                	}else{
+        		console.log(".读取文件失败,掉接口111")
+        					requestCityList();
+	                	}
+                	}else{
+        		console.log(".读取文件失败,掉接口222")
+        				requestCityList();
+                	}
+                });
+        	}else{
+        		console.log(".没存储,掉接口333")
+        		requestCityList();
+        	}
+        })
+	}
+	function requestCityList(){
+		var body = {
+			method :"getRegionList",
+			request:{
+				regionType:2
+			}
+		}
+		ajaxRequest(body,function(ret,err){
+			var groupList = initCityList(ret.responseBody);
+			var date = new Date();
+			var today = (date.getMonth()+1)+"_"+date.getDate();
+			api.writeFile({
+	            path:'fs://groupcityList.jn',
+	            data:JSON.stringify(groupList),
+	            append:false
+            },function(ret,err){
+            	alert("groupcityList-"+JSON.stringify(ret))
+            	if(ret.status){
+            		api.setPrefs({
+	                    key:'groupCityListOk_'+today,
+	                    value:true
+                    });
+            	}
+            });
+			api.writeFile({
+	            path:'fs://cityList.jn',
+	            data:JSON.stringify(ret.responseBody),
+	            append:false
+            },function(ret,err){
+            	alert("cityList-"+JSON.stringify(ret))
+            	if(ret.status){
+            		api.setPrefs({
+	                    key:'cityListOk_'+today,
+	                    value:true
+                    });
+            	}
+            });
+			getInnerByDot("cities_content","cities_template",groupList)
+		})
+	}
+	
+</script>
+</html>

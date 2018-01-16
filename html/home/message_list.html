@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+    	html ,body{
+    		background:#F6F6F6;
+    		height:100%;
+    	}
+    	#main{
+    		height:100%;
+    	}
+    	#list_content > div{
+    		width:100%;
+    		height:1.18rem;
+    	}
+    	#list_content a{
+    		width:100%;
+    		height:1.18rem;
+    		position: relative;
+    	}
+    	#list_content a.active{
+    		background:#EEEEEE;
+    	}
+    	#circle{
+    		width:0.76rem;
+    		height:0.76rem;
+    		border-radius: 0.38rem;
+    		background:#ffdbc4;
+    		margin-top:0.22rem;
+    		margin-left:0.23rem;
+    		color:#666;
+    		text-align: center;
+    		font-size:0.2rem;
+    		float:left;
+    	}
+    	.unread #circle{
+    		background:#FF8344;
+    		color:#FFF;
+    	}
+    	#circle .span1{
+    		display:block;
+    		margin-top:0.07rem;
+    	}
+    	#circle .span-only{
+    		display:block;
+    		margin-top:0.22rem;
+    	}
+    	#list_content #right{
+    		float:left;
+    		font-size:0.24rem;
+    		margin-left:0.08rem;
+    		width:6.2rem;
+    		height:1.18rem;
+    		position: relative;
+    	}
+    	#list_content #right:before{
+    		position:absolute;
+    		border-bottom:1px solid #AAAAAA;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform: scaleY(0.5);
+    		-webkit-transform-origin: 0 0 ;
+    		content:"";
+    		display: block;
+    	}
+    	#right .title{
+    		margin-top:0.22rem;
+    		padding-left: 0.25rem;
+    		line-height:1;
+    		color:#666666;
+    		font-size:0.26rem;
+    		
+    	}
+    	.unread #right .title{
+    		color:#333333;
+    	}
+    	#right .date{
+    		float:right;
+    		margin-right:0.2rem;
+    		margin-top:0.22rem;
+    		color:#999;
+    		font-size:0.24rem;
+    	}
+    	.unread #right .date{
+    		color:#666;
+    	}
+    	#right .summary{
+    		padding-left: 0.25rem;
+    		color:#999;
+    		font-size:0.24rem;
+    		margin-top:0.15rem;
+    	}
+    	.unread #right .summary{
+    		color:#666;
+    	}
+    	#empty{
+			width:100%;
+			height:100%;
+			text-align: center;
+		}
+		#empty .errnet{
+			height:30%;
+			background:url(../../image/icon_net_err.png) no-repeat center bottom ;
+			background-size:2.5rem 2.5rem;
+		}
+		#empty label{
+			margin-top:0.5rem;
+			color:#666666;
+			font-size:0.34rem;
+		}
+		#empty .try{
+			margin:0.3rem auto;
+			width:1.8rem;
+			height:0.6rem;
+			color: #1A9973;
+			font-size:0.34rem;
+			line-height:0.6rem;
+		}
+		.badge {
+			width:0.28rem;
+			height:0.28rem;
+			position:absolute;
+			left:0.8rem;
+			top:0.15rem;
+		}
+    </style>
+</head>
+<body>
+	<div id="main">
+		<script id="list_template" type="text/x-dot-template">
+			{{ for(var i=0;i<it.length;i++){ }}
+				<div>
+					<a tapmode="active" class="{{=it[i].status==0?'unread':'read'}}" onclick="openMessageDetail('{{=i}}','{{=it[i].id}}','{{=it[i].status}}')">
+						<img style="display:{{=it[i].status==0?'block':'none'}}" src="../../image/icon_msg_unread.png" class="badge"/>
+						<div id="circle"  >
+							<span class="{{=it[i].typename2?'span1':'span-only'}}">{{=it[i].typename1}}</span>
+							<span>{{=it[i].typename2?it[i].typename2:''}}</span>
+						</div>
+						<div id="right">
+							<h3 class="title">{{=it[i].messageTitle}}</h3>
+							<span class="date">{{=it[i].messageTime}}</span>
+							<span class="ellipsis-1 summary">{{=it[i].messageContent}}</span>
+						</div>
+					</a>
+				</div>
+			{{ } }}
+		</script>
+		<div id="list_content">
+		</div>
+	</div>
+	<div id="empty" style="display:none">
+		<div class="errnet"></div>
+		<label class="errmsg">网络连接异常</label>
+		<div class="try" onclick="tryAgain()">再试一次</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	var pagesize = 10;
+	var pageindex = 1;
+	var loadEnd = false;
+	var userId ;
+	imready = function(){
+		//TODO 请求
+//		getMessagelist()
+		userId = api.getPrefs({sync:true,key:"userid"});
+		window.list=[];
+		requestMessageList();
+		api.setRefreshHeaderInfo({
+		    visible: true,
+		    loadingImg: 'widget://image/refresh.png',
+		    bgColor: '#ccc',
+		    textColor: '#fff',
+		    textDown: '下拉刷新...',
+		    textUp: '松开刷新...',
+		    showTime: true
+		}, function(ret, err) {
+		    //在这里从服务器加载数据，加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
+			pageindex=1;
+			loadEnd=false;
+			window.list=[];
+			requestMessageList();
+		});
+		api.addEventListener({
+		    name:'scrolltobottom',
+		    extra:{
+		        threshold:0            //设置距离底部多少距离时触发，默认值为0，数字类型
+		    }
+		}, function(ret, err){
+		   	if(loadEnd){
+				api.toast({
+                    msg:'没有更多内容了...',
+                    location:'middle'
+                });
+				return;
+			}
+	    	pageindex++;
+	    	requestMessageList();
+		});
+		
+		api.addEventListener({
+	        name:'viewappear'
+        },function(ret,err){
+//      	if(window.list.length>0){
+//      		setData();
+//      	}
+        });
+	};
+	
+	function requestMessageList(){
+		api.showProgress({
+        });
+		var body = {
+			"method":"getMessages",
+			"request":{
+				"scopeType":1, //1用户
+				"messageReceiverId":userId,//userid 
+				"page":pageindex,
+				"pageSize":pagesize
+			}
+		}
+		ajaxRequest(body,function(ret,err){
+			api.hideProgress();
+			api.refreshHeaderLoadDone();
+			if(ret){
+				if(ret.responseCode==0){
+					if(ret.responseBody.total!=0){
+						loadEnd = ret.responseBody.totalPage==pageindex
+						fillData(ret.responseBody);
+					}else{
+						showEmpty("暂时没有消息!",0);
+					}
+				}else{
+					showEmpty(ret.responseMsg);
+				}
+			}else{
+				showEmpty(err.msg);
+			}
+		})
+	}
+	
+	function fillData(result){
+		$api.byId("empty").style.display="none";
+		
+		for(var i=0;i<result.rows.length;i++){
+			var item = result.rows[i]
+			if(item.messageTypeName.length>=2){
+				item.typename1=item.messageTypeName.substr(0,2);
+				item.typename2=item.messageTypeName.substr(2,2);
+			}else{
+				item.typename1=item.messageTypeName
+			}
+			window.list.push(item)
+		}
+		//setData();
+		getInnerByDot("list_content","list_template",window.list)
+	}
+	
+	function showEmpty(msg,type){
+		$api.byId("empty").style.display="block"
+		$api.byId("main").style.display="none"
+		$api.dom(".errmsg").innerHTML=msg;
+		if(type==0){
+			$api.dom(".errnet").style.background="url(../../image/icon_empty.png) no-repeat center bottom "
+			$api.dom(".errnet").style.backgroundSize="2.18rem 2.18rem";
+		}else{
+			$api.dom(".errnet").style.background="url(../../image/icon_net_err.png) no-repeat center bottom "
+			$api.dom(".errnet").style.backgroundSize="2.5rem 2.5rem";
+		}
+	}
+	
+	function tryAgain(){
+		requestMessageList();
+	}
+	
+	function openMessageDetail(index,msgId,status){
+		if(status==0){
+			var body = {
+	    		method:"updateMessageStatus",
+	    		request:{
+	    			scopeType:1,//1用户
+	    			messageReceiverId:api.getPrefs({sync:true,key:"userid"}),
+	    			status:1,
+	    			messageId:msgId
+	    		}
+	    	}
+	    	console.log(JSON.stringify(body))
+	    	api.showProgress();
+	    	ajaxRequest(body,function(ret,err){
+	    	console.log(JSON.stringify(ret))
+	    		api.hideProgress();
+	    		if(ret){
+	    			
+	    		}else{
+	    			
+	    		}
+				var detail = window.list[index]
+				detail.status=1;
+				getInnerByDot("list_content","list_template",window.list)
+				var frameInfo={
+					name:'message_detail',
+					url:'message_detail.html',
+					pageParam:{
+						detail:detail
+					}
+				}
+				openWinWithTitle("title_messagedetail",detail.messageTypeName,frameInfo);
+	    	})
+	    }else{
+	    	var detail = window.list[index]
+	    	var frameInfo={
+				name:'message_detail',
+				url:'message_detail.html',
+				pageParam:{
+					detail:detail
+				}
+			}
+			openWinWithTitle("title_messagedetail",detail.messageTypeName,frameInfo);
+	    }
+	    
+	}
+	
+</script>
+</html>

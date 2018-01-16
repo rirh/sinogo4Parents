@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<link rel="stylesheet" type="text/css" href="../css/style.css" />
+	<style>
+		#wrap {
+			background: #F6F6F6;
+		}
+
+		header {
+			background: #FF8345;
+			height: 0.88rem;
+			width: 100%;
+			display: -webkit-flex;
+			/* 新版本语法: Chrome 21+ */
+			display: flex;
+			/* 新版本语法: Opera 12.1, Firefox 22+ */
+			display: -webkit-box;
+			/* 老版本语法: Safari, iOS, Android browser, older     WebKit browsers. */
+			display: -moz-box;
+			/* 老版本语法: Firefox (buggy) */
+			display: -ms-flexbox;
+			/* 混合版本语法: IE 10 */
+			overflow: hidden;
+		}
+
+		.tit-left {
+			width: 0%;
+			-webkit-flex: 1;
+			/* Chrome */
+			-ms-flex: 1;
+			/* IE 10 */
+			flex: 1;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 1;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 1;
+			/* OLD - Firefox 19- */
+			color: #FFFFFF;
+			line-height: 0.88rem;
+			color: #FFFFFF;
+		}
+
+		.tit-con {
+			-webkit-flex: 5;
+			/* Chrome */
+			-ms-flex: 5;
+			/* IE 10 */
+			flex: 5;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 5;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 5;
+			/* OLD - Firefox 19- */
+			color: #FFFFFF;
+			font-size: 0.34rem;
+			line-height: 0.88rem;
+			text-align: center;
+		}
+
+		.tit-right {
+			width: 0%;
+			background: #FF8345;
+			-webkit-flex: 1;
+			/* Chrome */
+			-ms-flex: 1;
+			/* IE 10 */
+			flex: 1;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 1;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 1;
+			/* OLD - Firefox 19- */
+		}
+
+		.time {
+			height: 1.02rem;
+			width: 100%;
+			display: -webkit-flex;
+			/* 新版本语法: Chrome 21+ */
+			display: flex;
+			/* 新版本语法: Opera 12.1, Firefox 22+ */
+			display: -webkit-box;
+			/* 老版本语法: Safari, iOS, Android browser, older     WebKit browsers. */
+			display: -moz-box;
+			/* 老版本语法: Firefox (buggy) */
+			display: -ms-flexbox;
+			/* 混合版本语法: IE 10 */
+			overflow: hidden;
+			background: #FFF;
+		}
+
+		.time-left {
+			/* OLD - Firefox 19- */
+			color: #FF8345;
+		}
+
+		.time-con {
+			text-align: center;
+			color: #FF8345;
+			line-height: 1.02rem;
+			font-size: 0.28rem;
+			text-align: center;
+			-webkit-flex: 5;
+			/* Chrome */
+			-ms-flex: 5;
+			/* IE 10 */
+			flex: 5;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 5;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 5;
+			/* OLD - Firefox 19- */
+		}
+
+		.time-right {
+			/* OLD - Firefox 19- */
+			text-align: right;
+		}
+		/*	.tit-left {
+			 margin-top: 8px;
+			 height: 26px;
+			 width: 15px !important;
+			 background: #000;
+			 background: url(../image/back.png) no-repeat center;
+			 background-size: 35% 100%;
+			 }*/
+
+		.tit-left img {
+			width: 0.24rem;
+			height: 0.45rem;
+			margin-top: 0.23rem;
+			margin-left: 0.23rem;
+		}
+
+		.tips {
+			color: #999;
+			margin-left: 0.23rem;
+			margin-top: 0.33rem;
+			font-size: 0.26rem;
+		}
+
+		.time-left img {
+			width: 0.22rem;
+			height: 0.37rem;
+			margin-top: 0.325rem;
+			margin-left: 0.23rem;
+		}
+
+		.time-right img {
+			width: 0.22rem;
+			height: 0.37rem;
+			margin-top: 0.325rem;
+			margin-right: 0.23rem;
+		}
+
+		.UICalendar {
+			background: #FFFFFF;
+			position: relative;
+		}
+
+		.UICalendar:after {
+			position: bottom;
+		}
+
+		.tipsBg {
+			background: url(../image/icon_sign_notice.png) no-repeat center center;
+			background-size: 1.92rem 0.58rem;
+		}
+
+		.imp {
+			color: #FF8344;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<header id="header">
+			<div class="tit-left" onclick="back()">
+				<img src="../image/back.png" />
+			</div>
+			<div class="tit-con">
+				签到
+			</div>
+			<div class="tit-right"></div>
+		</header>
+		<div id="main" class="flex-con">
+			<div class="time">
+				<div class="time-left" onclick="month(2)" style="display: none">
+					<img src="../image/icon_arrow_pre.png" />
+				</div>
+				<div class="time-con">2016年3月5日</div>
+				<div class="time-right" onclick="month(1)" style="display: none">
+					<img src="../image/icon_arrow_next.png" />
+				</div>
+			</div>
+			<div class="UICalendar" style="background: url(../image/bg_calendar_week.png) no-repeat center center #F6F6F6;"></div>
+			<img src="../image/icon_sign_notice.png" style="width:1.92rem;height:0.58rem;margin-left:0.24rem;" alt="" />
+			<div class="tips"></div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/common.js"></script>
+<script type="text/javascript">
+	//显示时间的div的dom元素
+	var time;
+	//日历控件
+	var UICalendar;
+	//日历控件的高度
+	var UICalendarhight;
+	imready = function() {
+		var date = new Date();
+		var year = date.getFullYear();
+		var month = date.getMonth() + 1;
+		var day = date.getDate();
+		time = $api.dom('.time-con');
+		$api.html(time, year + '年' + month + '月' + day + '日');
+		calendar();
+		$api.css($api.dom('.UICalendar'), 'height:' + UICalendarhight + 'px');
+		$api.dom(".UICalendar").style.backgroundSize = api.winWidth + "px " + UICalendarhight + "px"
+			//			$api.html($api.dom('.tips'), '<span>你已经连续签到' + year + '天。再签到' + month + '天可获得' + day + '中期币</span>');
+			//设置特殊日期  签到
+			//			UICalendar.setSpecialDates({
+			//				specialDates : [{
+			//					date : year + '-' + month + '-' + day,
+			//					bg : '../image/nice.png'
+			//				}, {
+			//					date : '2015-12-08',
+			//					color : '#abckde',
+			//					bg : '#ff0000'
+			//				}]
+			//			});
+		requestSignUpHistory()
+	};
+
+	function requestSignUpHistory() {
+		api.showProgress();
+		var body = {
+			"method": "getUserSignByUserId",
+			"request": {
+				"userId": api.getPrefs({
+					sync: true,
+					key: "userid"
+				})
+			}
+		}
+		console.log(JSON.stringify(body))
+		ajaxRequest(body, function(ret, err) {
+			console.log(JSON.stringify(ret))
+			api.hideProgress();
+			if (ret) {
+				if (ret.responseCode == 0) {
+					fillCalendar(ret.responseBody)
+				} else {
+					alert(ret.responseMsg)
+				}
+			} else {
+				alert(err.msg)
+			}
+		})
+	}
+
+	function fillCalendar(result) {
+		var dateList = result.dateList;
+		$api.html($api.dom('.tips'), '<span>您已经连续签到<span class="imp">' + result.continueCount + '</span>天</span><br/><br/>' + '<span>本月已经累计签到<span class="imp">' + dateList.length + '</span>天。继续加油哦!'); //再签到<span class="imp">' + 5 + '</span>天可获得<span class="imp">' + 1 + '</span>中期币</span>
+		var dates = [];
+		for (var i = 0; i < dateList.length; i++) {
+			var nDate = new Date(dateList[i].replace(/-/g, "/"));
+			var onlyDate = nDate.getFullYear() + "-" + (nDate.getMonth() + 1) + "-" + nDate.getDate()
+			if (api.systemType == 'ios') {
+				var date = {
+					date: dateList[i],
+					color: '#FF7700',
+					bg: 'widget://image/icon_sign_tag.png'
+				}
+			} else {
+				var date = {
+					date: onlyDate,
+					color: '#FF7700',
+					bg: 'widget://image/icon_sign_tag.png'
+				}
+			}
+
+			dates.push(date)
+		}
+		UICalendar.setSpecialDates({
+			specialDates: dates
+		});
+	}
+
+	function month(m) {
+		if (m == 1) {
+			UICalendar.nextMonth(function(ret, err) {
+				if (ret) {
+					var year = JSON.stringify(ret.year);
+					var month = JSON.stringify(ret.month);
+					$api.html(time, '<span>' + year + '年' + month + '月' + ' </span>');
+				} else {
+					alert(JSON.stringify(err));
+				}
+			});
+		} else if (m == 2) {
+			UICalendar.prevMonth(function(ret, err) {
+				if (ret) {
+					var year = JSON.stringify(ret.year);
+					var month = JSON.stringify(ret.month);
+					$api.html(time, '<span>' + year + '年' + month + '月' + ' </span>');
+				} else {
+					alert(JSON.stringify(err));
+				}
+			});
+		}
+	}
+
+	//关闭当前的页面
+	function back() {
+		api.closeWin({
+
+		});
+	}
+
+	function calendar() {
+		UICalendarhight = api.frameHeight / 10 * 6;
+		UICalendar = api.require('UICalendar');
+		UICalendar.open({
+			rect: {
+				x: 10,
+				y: $api.dom('header').offsetHeight + time.offsetHeight,
+				w: api.frameWidth - 20,
+				h: UICalendarhight
+			},
+			styles: {
+				bg: '',
+				week: {
+					weekdayColor: '#FF8345',
+					weekendColor: '#FF8345',
+					size: 14
+				},
+				date: {
+					color: '#FF7700',
+					selectedColor: '#fff',
+					selectedBg: '#E1F4D9',
+					size: 14
+				},
+				today: {
+					color: 'rgb(230,46,37)',
+					bg: ''
+				}
+			},
+			switchMode: 'none',
+			fixedOn: api.frameName,
+			fixed: false
+		}, function(ret, err) {
+			if (ret) {} else {
+				alert(JSON.stringify(err));
+			}
+		});
+	}
+</script>
+
+</html>

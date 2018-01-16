@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+    	html,body{
+    		height:100%;
+    		width:100%;
+    		text-align: center;
+    		background: url(../../image/icon_bg_dialog.png);
+    		overflow: hidden;
+    	}
+    	#empty{
+			width:100%;
+			height:77%;
+    	}
+    	#bottom{
+    		width:100%;
+    		height:23%;
+    		background:#FFF;
+    		position:absolute;
+    	}
+    	#bottom .label{
+    		margin-top:0.38rem;
+    		margin-left:0.42rem;
+    		font-size:0.34rem;
+    		float:left;
+    		color:#666;
+    	}
+    	#bottom ul{
+    		margin-top: 0.3rem;
+    		display:block;
+    		width: 100%;
+    		height: auto;
+    		padding: 0 2%;
+    	}
+    	#bottom ul li{
+    		float:left;
+    		width:18%;
+    		margin:0 3%;
+    		text-align: center;
+    		color:#333333;
+    		font-size:0.24rem;
+    	}
+    	#bottom ul li.active{
+    		background:rgba(0,0,0,0.2)
+    	}
+    	li img{
+    		width:0.89rem;
+    		height:0.89rem;
+    	}
+    </style>
+</head>
+<body>
+	<div id="empty" onclick="closeSelf();"></div>
+	<div id="bottom">
+		<div class="label">分享到</div>
+		<div style="clear:both"></div>
+		<ul>
+			<li tapmode="active1" class="wechat"><img src="../../image/icon_wechat_share.png" alt="" /><a >微信好友</a></li>
+			<li tapmode="active1"  class="wechat_circle"><img src="../../image/icon_wechat_circle.png" alt="" /><a >微信朋友圈</a></li>
+			<li tapmode="active1"  class="qq"><img src="../../image/icon_qq.png" alt="" /><a >QQ好友</a></li>
+			<li tapmode="active1"  class="weibo"><img src="../../image/icon_weibo.png" alt="" /><a >新浪微博</a></li>
+		</ul>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	imready = function(){
+		window.from = api.pageParam.from;
+		window.t = (window.from=='course'?'课程':'教辅')
+		api.sendEvent({
+	        name:'shareListener',
+	        extra:{
+	        	isOpend:true
+	        }
+        });
+		var lis = $api.domAll("li");
+		for(var i=0;i<lis.length;i++){
+			lis[i].index = i
+			lis[i].onclick = function(){
+				goShare(this.index)
+			}
+		}
+		api.addEventListener({
+	        name:'keyback'
+        },function(ret,err){
+//      	api.closeFrame({
+//              });
+        });
+	};
+	var url = "http://a.app.qq.com/o/simple.jsp?pkgname=com.sinogo.mobile.student"
+	function goShare(index){
+		switch(index){
+			case 0:
+			shareToWx();
+			break;
+			case 1:
+			shareToCircle();
+			break;
+			case 2:
+			shareToQQ();
+			break;
+			case 3:
+			shareToWeibo();
+			break;
+		}
+	}
+	
+	function shareToWx(){
+		var wx = api.require('wx');
+		wx.shareWebpage({
+		    scene: 'session',
+		    title: '我在中棋在线App发现一个很棒的'+window.t+",推荐给你!",
+		    description: '我在中棋在线App发现一个很棒的'+window.t+",推荐给你!",
+		    thumb: 'widget://icon/icon150x150.png',
+		    contentUrl: url
+		}, function(ret, err) {
+		    if(ret){
+				if(ret.status){
+					toastAtMiddle("恭喜,分享成功!")
+					closeSelf();
+				}
+			}else{
+				toastAtMiddle("您已取消分享!")
+			}
+		});
+//		wx.shareImage({
+//		    scene: 'session',
+//		    contentUrl: 'widget://res/img_share.jpg'
+//		}, function(ret, err) {
+//			if(ret){
+//				if(ret.status){
+//					toastAtMiddle("恭喜,分享成功!")
+//					closeSelf();
+//				}
+//			}else{
+//				toastAtMiddle("您已取消分享!")
+//			}
+//		});
+	}
+	
+	function shareToCircle(){
+		var wx = api.require('wx');
+		wx.shareWebpage({
+		    scene: 'timeline',
+		    title: '我在中棋在线App发现一个很棒的'+window.t+",推荐给你!",
+		    description: '我在中棋在线App发现一个很棒的'+window.t+",推荐给你!",
+		    thumb: 'widget://icon/icon150x150.png',
+		    contentUrl: url
+		}, function(ret, err) {
+		    if(ret){
+				if(ret.status){
+					toastAtMiddle("恭喜,分享成功!")
+					closeSelf();
+				}
+			}else{
+				toastAtMiddle("您已取消分享!")
+			}
+		});
+//		wx.shareImage({
+//		    scene: 'timeline',
+//		    contentUrl: 'widget://res/img_share.jpg'
+//		}, function(ret, err) {
+//			if(ret){
+//				if(ret.status){
+//					toastAtMiddle("恭喜,分享成功!")
+//					closeSelf();
+//				}
+//			}else{
+//				toastAtMiddle("您已取消分享!")
+//			}
+//		});
+	}
+	
+	function shareToQQ(){
+		var qq = api.require('QQPlus');
+		qq.shareNews({
+		    url: url,
+		    title: '我在中棋在线App发现一个很棒的'+window.t+",推荐给你!",
+		    description: '我在中棋在线App发现一个很棒的'+window.t+",推荐给你!",
+		    imgUrl: $api.imageUrl+"/course/fd52647b1453f6ec180b3a05dd604959.jpg",
+		    type:'QFriend'
+		},function(ret,err){
+		  if(ret){
+				if(ret.status){
+					toastAtMiddle("恭喜,分享成功!")
+					closeSelf();
+				}
+			}else{
+				toastAtMiddle("您已取消分享!")
+			}
+		});
+//		qq.shareImage({
+//		    type : 'QFriend',
+//		    imgPath: 'widget://res/img_share.jpg'
+//		},function(ret,err){
+//			if(ret){
+//				if(ret.status){
+//					toastAtMiddle("恭喜,分享成功!")
+//					closeSelf();
+//				}
+//			}else{
+//				toastAtMiddle("您已取消分享!")
+//			}
+//		});
+	}
+	
+	function shareToWeibo(){
+		var weibo = api.require('weibo');
+		weibo.shareImage({
+		    text: '我在中棋在线App发现一个很棒的'+window.t+",推荐给你!"+url,
+		    imageUrl: 'widget://res/img_share.jpg'
+		}, function(ret, err) {
+			if(ret){
+				if(ret.status){
+					toastAtMiddle("恭喜,分享成功!")
+					closeSelf();
+				}
+			}else{
+				toastAtMiddle("您已取消分享!")
+			}
+		});
+	}
+	
+	
+	function closeSelf(){
+		api.sendEvent({
+	        name:'shareListener',
+	        extra:{
+	        	isOpend:false
+	        }
+        });
+        api.closeFrame();
+	}
+</script>
+</html>

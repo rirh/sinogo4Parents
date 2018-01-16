@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+    	body{
+    		background: #F6F6F6;
+    	}
+    	#header{
+		    background-color: #FF8345;
+		    text-align: center; color: #fff;
+		    width: 100%; position: fixed;
+		    height:0.88rem;
+		    top:0;z-index: 2;
+		}
+		#main{
+			position: absolute;
+			top:0.88rem;
+		}
+		#header .back-icon{
+		    display: inline-block; width: 0.88rem; height: 0.88rem;
+		    background: url(../../image/icon_arrow_left.png) no-repeat center center; 
+		    -webkit-background-size: 0.25rem 0.4rem;
+		    background-size: 0.25rem 0.4rem;
+		    position: absolute; left: 0; bottom: 0;
+		}
+		#header .back-icon.active{
+			 background: url(../../image/icon_arrow_left.png) no-repeat center center rgba(0,0,0,0.2); 
+			 background-size: 0.25rem 0.4rem;
+		}
+		#header h1{
+		    font-size: 0.34rem;
+		    height: 0.88rem; line-height: 0.88rem; margin: 0 auto; color: #fff;
+		    width:5rem;
+		}
+		.agree-main{
+		    font-size:0.24rem;
+		}
+		.agree-main img{
+		    width:100%;
+		}
+		.protocol{
+			margin-top:0.24rem;
+			background: #FFF;
+			padding: 0.6rem 0.3rem;
+		}
+		.protocol h3{
+			text-align: center;
+			font-size: 0.38rem;
+		}
+		.protocol p{
+			font-size:0.3rem;
+			text-indent: 0.4rem;
+			margin-top: 0.2rem;
+		}
+    </style>
+</head>
+<body>
+	<div id="header">
+		<a class="back-icon" tapmode="active" onclick="closeWin()" ></a>
+		<h1 id="title">进课堂协议</h1>
+	</div>
+	<div id="main">
+		<div class="agree-main">
+		    <img src="../../image/protocol.jpg" alt="" />
+		</div>
+		<div class="protocol">
+		    <h3>进课堂教辅购买免责声明</h3>
+		    <p>1.用户在使用中棋教育服务的过程中应遵守国家法律法规及政策规定，且用户已充分知晓使用过程中所存在的风险，因其使用中棋教育服务而产生的行为后果由用户自行承担。</p>
+		    <p>2.用户承诺，在中棋教育平台的购买书本、教辅用品、线上线下课程均为用户自愿购买；</p>
+		    <p>3.中棋教育平台作为您进行了解、咨询、交易、统计的场所，提示您：应谨慎判断确定相关物品及/或信息的真实性、合法性和有效性。除非另有明确的书面说明，本平台不对各商家在本平台上发布的信息、内容、材料、产品和服务及各方在交易中各项义务的履行能力作任何形式的担保，法律另有规定的除外。</p>
+		    <p>教育部体育卫生与艺术教育司 国家体育总局群众体育司</p>
+		    <p style="float: right;padding-bottom: 0.4rem;" >详情请查看用户协议</p>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	imready = function(){
+	};
+</script>
+</html>

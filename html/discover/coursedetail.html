@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <style>
+    	body{
+    		
+    	}
+    	#header{
+		    background-color: #FF8345;
+		    text-align: center; color: #fff;
+		    width: 100%; position: relative;
+		    height:0.73rem;
+		    padding-top:0.15rem;
+		}
+		#header .back-icon{
+		    display: inline-block; width: 0.88rem; height: 0.88rem;
+		    background: url(../../image/icon_arrow_left.png) no-repeat center center; 
+		    -webkit-background-size: 0.25rem 0.4rem;
+		    background-size: 0.25rem 0.4rem;
+		    position: absolute; left: 0; bottom: 0;
+		}
+		#header .back-icon.active{
+			 background: url(../../image/icon_arrow_left.png) no-repeat center center rgba(0,0,0,0.2); 
+			 background-size: 0.25rem 0.4rem;
+		}
+		#header ul{
+		    font-size: 0.32rem;
+		    height: 0.56rem; line-height: 0.56rem; margin: 0 auto; color: #fff;
+		    width:4.66rem;
+		    border: 1px solid #FFFFFF;
+		    border-radius: 0.05rem;
+		}
+		#header ul li{
+			text-align:center;
+			width:50%;
+			float:left;
+			height:100%;
+		}
+		#header ul li.current{
+			color:#FF8344;
+			background: #FFF;
+		}
+		#header .btn_right{
+			width: 0.95rem; height: 0.73rem;
+			line-height: 0.88rem;
+			font-size:0.3rem;
+			position: absolute;
+			top: 25px;
+			right:0;
+			text-align: center;
+			background: url(../../image/icon_share.png) no-repeat center center;
+			background-size:0.38rem 0.36rem;
+		}
+		#header .btn_right.active{
+			background: url(../../image/icon_share.png) no-repeat center center rgba(0,0,0,0.3);
+			background-size:0.38rem 0.36rem;
+		}
+		#main{
+			height:1rem;
+		}
+		#footer{
+			height:0.98rem;
+			background:#FFFFFF;
+		}
+		/*#service{
+			float:left;
+			width:30%;
+			height:0.98rem;
+			background:#FFFFFF;
+			text-align: center;
+			line-height:0.98rem;
+			position: relative;
+		}
+		#service:after{
+			position: absolute;
+			border-right: 1px solid #eeeeee;
+			right:0;top:0;bottom:0;
+			display:block;content:"";
+			-webkit-transform: scaleX(0.5);
+			-webkit-transform-origin: 0 0;
+		}
+		#service.active{
+			background:rgba(0,0,0,0.3) !important;
+		}
+		#service span{
+			color:#FF8344;
+			font-size:0.32rem;
+			width:80%;
+			background:url(../../image/icon_service.png) no-repeat left center ;
+			background-size:0.48rem 0.44rem;
+			text-align: right;
+		}
+		#follow{
+			float:left;
+			width:30%;
+			height:0.98rem;
+			background:#FFFFFF;
+			text-align: center;
+			line-height:0.98rem;
+			position: relative;
+		}
+		#service:after{
+			position: absolute;
+			border-right: 1px solid #eeeeee;
+			right:0;top:0;bottom:0;
+			display:block;content:"";
+			-webkit-transform: scaleX(0.5);
+			-webkit-transform-origin: 0 0;
+		}
+		#follow.active{
+			background:rgba(0,0,0,0.3) !important;
+		}
+		#follow span{
+			color:#FF8344;
+			font-size:0.32rem;
+			width:54%;
+			background:url(../../image/icon_follow.png) no-repeat left center ;
+			background-size:0.48rem 0.44rem;
+			text-align: right;
+		}
+		#gosignup{
+			float:left;
+			width:40%;
+			height:0.98rem;
+			background:#FF8344;
+			text-align: center;
+			line-height:0.98rem;
+		}
+		#gosignup.active{
+			background:#FF4400 !important;
+		}
+		#gosignup span{
+			color:#FFF;
+			font-size:0.32rem;
+			width:70%;
+			background:url(../../image/icon_signup.png) no-repeat left center ;
+			background-size:0.48rem 0.44rem;
+			text-align: right;
+		}*/
+		#service{
+			float:left;
+			width:50%;
+			height:0.98rem;
+			background:#FFFFFF;
+			text-align: center;
+			line-height:0.98rem;
+		}
+		#service.active{
+			background:rgba(0,0,0,0.3) !important;
+		}
+		#service span{
+			color:#FF8344;
+			font-size:0.32rem;
+			width:54%;
+			background:url(../../image/icon_service.png) no-repeat left center ;
+			background-size:0.48rem 0.44rem;
+			text-align: right;
+		}
+		#follow{
+			float:left;
+			width:50%;
+			height:0.98rem;
+			background:#FFFFFF;
+			text-align: center;
+			line-height:0.98rem;
+			display: none;
+		}
+		#follow.active{
+			background:rgba(0,0,0,0.3) !important;
+		}
+		#follow span{
+			color:#FFF;
+			font-size:0.32rem;
+			width:54%;
+			background:url(../../image/icon_follow.png) no-repeat left center ;
+			background-size:0.48rem 0.44rem;
+			text-align: right;
+		}
+		#gosignup{
+			float:left;
+			width:50%;
+			height:0.98rem;
+			background:#FF8344;
+			text-align: center;
+			line-height:0.98rem;
+		}
+		#gosignup.active{
+			background:#FF4400 !important;
+		}
+		#gosignup span{
+			color:#FFF;
+			font-size:0.32rem;
+			width:54%;
+			background:url(../../image/icon_signup.png) no-repeat left center ;
+			background-size:0.48rem 0.44rem;
+			text-align: right;
+		}
+    </style>
+</head>
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<div id="header">
+			<a class="back-icon" tapmode="active" onclick="closeWin()" ></a>
+			<ul>
+				<li class="current">课程</li>
+				<li >学生评价</li>
+			</ul>
+			<a tapmode="active" class="btn_right" onclick="share()" ></a>
+		</div>
+		<div id="main" class="flex-con"></div>
+		<div id="footer" class="border-t">
+			<a tapmode='active' id="service" href="mqqwpa://im/chat?chat_type=wpa&uin=137054968&version=1&src_type=web&web_src=sinogo.org">
+				<span>在线客服</span>
+			</a>
+			<div tapmode='active' id="follow">
+				<span>关注</span>
+			</div>
+			<div tapmode='active' id="gosignup" onclick="goSignUpNow()">
+				<span>立即购买</span>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript">
+
+	imready = function(){
+		handelVersionBelow4($api.dom(".btn_right").style)
+		window.frames=[{
+	        name: 'coursedetail_con',
+	        url: 'coursedetail_con.html',
+	        bgColor: '#F6F6F6',
+				bounces : false,
+	        pageParam:api.pageParam
+	    }, {
+	        name: 'coursedetail_comment',
+	        url: 'coursedetail_comment.html',
+	        bgColor: '#F6F6F6',
+				bounces : false,
+	        pageParam:api.pageParam
+	    }];
+		var headerPos = $api.offset($api.byId("header"));
+		var footerPos = $api.offset($api.byId("footer"));
+		api.openFrameGroup({
+		    name: 'coursegroup',
+		    background: '#fff',
+		    scrollEnabled: true,
+		    rect: {
+		        x: 0,
+		        y: headerPos.h,
+		        w: api.winWidth,
+		        h: api.winHeight-headerPos.h-footerPos.h
+		    },
+		    index: 0,
+		    frames: window.frames
+		}, function(ret, err) {
+		    var index = ret.index;
+		    showHeader(index)
+		});
+		var lis = $api.domAll("#header li");
+		for(var i=0;i<lis.length;i++){
+			lis[i].index = i;
+			lis[i].onclick = function(){
+				showHeader(this.index);
+				api.setFrameGroupIndex({
+	                name: 'coursegroup',
+	                index:this.index
+                });
+			}
+		}
+		api.addEventListener({
+            name:'keyback'
+        },function(ret,err){
+        	if(window.isShareOpend){
+        		api.closeFrame({
+        			name:"course_share"
+                });
+                api.sendEvent({
+			        name:'shareListener',
+			        extra:{
+		        		isOpend:false
+		        	}
+	        	});
+    		}else{
+    			api.closeWin();
+    		}
+        });
+        api.addEventListener({
+	        name:'shareListener'
+        },function(ret,err){
+			window.isShareOpend=ret.value.isOpend;
+        });
+		setTimeout("requestCommentStar()",1000)
+	};
+	
+	function requestCommentStar(){
+		var body ={
+				"method":"getCommentStar",
+				"request":{
+				"commentType":2,//2为课程.1为教辅
+				"commentProduct":api.pageParam.courseId
+			}
+		}
+		ajaxRequest(body,function(ret,err){
+			if(ret){
+				if(ret.responseCode==0){
+					api.sendEvent({
+	                    name:'commentStar',
+	                    extra:{
+	                    	average:ret.responseBody.average,
+	                    	positive:ret.responseBody.positive,
+	                    	teacherName:api.pageParam.courseInfo.teacherName
+	                    }
+                    });
+				}else{
+					
+				}
+			}else{
+				//失败了
+			}
+		})
+	}
+	
+	function showHeader(index){
+		var act = $api.dom("ul li.current");
+		var lis = $api.domAll("li");
+		$api.removeCls(act, "current");
+		$api.addCls(lis[index], "current");
+	}
+	
+	function share(){
+		api.openFrame({
+	        name: 'course_share',
+	        url: '../home/share.html',
+			animation:{
+			    type:"push", //动画类型（详见动画类型常量）
+			    subType:"from_bottom",       //动画子类型（详见动画子类型常量）
+			    duration:300                //动画过渡时间，默认300毫秒
+			},
+			pageParam:{
+	        	from:"course"
+	        },
+	        rect: {
+		        x:0,
+		        y:0,
+		        w:api.winWidth,
+		        h:api.winHeight
+	        }
+        });
+	}
+	
+	function exchangeQq(qq){
+		$api.attr($api.dom("#service"), 'href', "mqqwpa://im/chat?chat_type=wpa&uin="+qq+"&version=1&src_type=web&web_src=sinogo.org");
+	}
+	
+	function goSignUpNow(){
+		var userid = api.getPrefs({sync:true,key:'userid'})
+		if(!userid){
+			api.openWin({
+                name: 'login',
+                url: '../login.html',
+                pageParam:{
+                	name:"signupConfirm",
+                	url:"discover",
+                	pageParam:api.pageParam
+                }
+            });
+			return;
+		}
+//		alert(JSON.stringify(api.pageParam))
+		api.openWin({
+	        name: 'signupConfirm',
+	        url: 'signupConfirm.html',
+	        pageParam:api.pageParam
+        });
+	}
+	
+</script>
+</html>

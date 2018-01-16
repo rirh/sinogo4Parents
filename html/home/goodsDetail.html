@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+    	html,body{
+    		font-size:0.26rem;
+    		color:#666666;
+    		height:100%;
+    		background:#FFF;
+    		line-height: 2;
+    		padding: 0.24rem;
+    	}
+    	ul{
+    		margin-top:0.26rem;
+    		margin-left:0.23rem;
+    	}
+    	img{
+    		max-width:100%;
+    	}
+    	
+    </style>
+</head>
+<body>
+	<div id="main">
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	imready = function(){
+		api.addEventListener({
+	        name:'detailChanged'
+        },function(ret,err){
+        	fillData(ret.value.currentItem.materialsGoodsIntro);
+        });
+        var good_detail = api.pageParam.ret;
+        fillData(good_detail.currentItem.materialsGoodsIntro);
+	};
+	function fillData(intro){
+		$api.byId("main").innerHTML=intro;
+	}
+</script>
+</html>

@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../../css/api.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+	<style>
+		body {}
+
+		.flex-wrap {
+			background: #F0EFF3;
+		}
+
+		header {
+			padding-right: 0.23rem;
+			padding-left: 0.23rem;
+			background: #FF8345;
+			height: 0.88rem;
+			line-height: 0.88rem;
+			display: -webkit-flex;
+			/* 新版本语法: Chrome 21+ */
+			display: flex;
+			/* 新版本语法: Opera 12.1, Firefox 22+ */
+			display: -webkit-box;
+			/* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+			display: -moz-box;
+			/* 老版本语法: Firefox (buggy) */
+			display: -ms-flexbox;
+			/* 混合版本语法: IE 10 */
+		}
+
+		.babyleft {
+			width: 0%;
+			display: block;
+			-webkit-flex: 1;
+			/* Chrome */
+			-ms-flex: 1;
+			/* IE 10 */
+			flex: 1;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 1;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 1;
+			/* OLD - Firefox 19- */
+			text-align: left;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+		}
+
+		.babycenter {
+			text-align: center;
+			color: #ffffff;
+			font-size: 0.34rem;
+			display: block;
+			-webkit-flex: 5;
+			/* Chrome */
+			-ms-flex: 5;
+			/* IE 10 */
+			flex: 5;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 5;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 5;
+			/* OLD - Firefox 19- */
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+		}
+
+		.babyright {
+			color: #FFFFFF;
+			width: 0%;
+			font-size: 0.3rem;
+			display: block;
+			-webkit-flex: 1;
+			/* Chrome */
+			-ms-flex: 1;
+			/* IE 10 */
+			flex: 1;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 1;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 1;
+			/* OLD - Firefox 19- */
+			text-align: right;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+		}
+
+		.babyleft img {
+			display: inline-block;
+			width: 0.24rem;
+			height: 0.45rem;
+			margin: 0 auto;
+			margin-top: 0.215rem;
+		}
+
+		.mbox {
+			border-bottom: 0.01rem #efefef solid;
+			line-height: 0.88rem;
+			display: -webkit-flex;
+			/* 新版本语法: Chrome 21+ */
+			display: flex;
+			/* 新版本语法: Opera 12.1, Firefox 22+ */
+			display: -webkit-box;
+			/* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+			display: -moz-box;
+			/* 老版本语法: Firefox (buggy) */
+			display: -ms-flexbox;
+			/* 混合版本语法: IE 10 */
+			height: 0.88rem;
+			background: #FFFFFF;
+			border-bottom: 0.01rem #efefef solid;
+		}
+
+		.left {
+			font-size: 0.3rem;
+			display: block;
+			text-align: right;
+			margin-left: 0.28rem;
+			line-height: 0.88rem;
+			font-size: 0.3rem;
+			display: block;
+		}
+
+		.center {
+			text-align: center;
+			color: #ffffff;
+			font-size: 0.34rem;
+			display: block;
+			-webkit-flex: 5;
+			/* Chrome */
+			-ms-flex: 5;
+			/* IE 10 */
+			flex: 5;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 5;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 5;
+			/* OLD - Firefox 19- */
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			margin-right: 0.23rem;
+			font-size: 0.28rem;
+			line-height: 0.88rem;
+			color: #666666;
+			display: block;
+			text-align: right;
+		}
+
+		.right {
+			font-size: 0.3rem;
+			display: block;
+			text-align: center;
+			margin-right: 0.23rem;
+			line-height: 0.88rem;
+			font-size: 0.3rem;
+			display: block;
+		}
+
+		.o1 {
+			height: 1.82rem;
+		}
+
+		.l1 {
+			margin-bottom: 0.78rem;
+			line-height: 1.82rem;
+		}
+
+		.headpic {
+			display: inline-block;
+			width: 0.94rem;
+			height: 0.94rem;
+			margin: 0 auto;
+			margin-top: 0.44rem;
+			border-radius: 0.94rem;
+			background: url(../../image/mine/hardicon.png);
+			background-size: cover;
+		}
+
+		.right img {
+			width: 0.14rem;
+			height: 0.26rem;
+			margin: 0 auto;
+			margin-top: 0.31rem;
+		}
+
+		.main .mbox .one img {
+			margin-top: 0.78rem;
+		}
+
+		.o1 img {
+			margin-top: 0.78rem;
+		}
+
+		body #wrap #main .o1 .headpic {}
+
+		#line {
+			width: 100%;
+			position: relative;
+		}
+
+		#line:after {
+			border-bottom: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+
+		#main .mbox .hobby {
+			margin-left: 1.3rem;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			-o-text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		button {
+			width: 90%;
+			border-radius: .1rem;
+			height: .8rem;
+			margin-top: 2rem;
+			background: #ff8344;
+			margin-left: 5%;
+			font-size: .34rem;
+			text-align: center;
+			line-height: .8rem;
+			color: #fff;
+		}
+
+		.button_tap {
+			background: #eee;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<header class="title">
+			<div class="babyleft" onclick="api.closeWin({});">
+				<img src="../../image/back.png" />
+			</div>
+			<!-- <div class="babycenter">
+				宝贝信息
+			</div> -->
+			<!-- 20170914修订 -->
+			<div class="babycenter">
+				学生信息
+			</div>
+			<div class="babyright">
+
+			</div>
+			<!-- 20170914修订 -->
+			<!-- <div class="babyright" onclick="savePersonInfo()">
+				完成
+			</div> -->
+		</header>
+		<div id="main" class="flex-center">
+			<div class="mbox o1" tapmode="touch" onclick="update(1)">
+				<div class="left l1">
+					头像
+				</div>
+				<div class="center ">
+					<div class="headpic"></div>
+				</div>
+				<div class="right one">
+					<img src="../../image/mine/todo.png">
+				</div>
+			</div>
+			<div id="line"></div>
+			<div class="mbox" tapmode="touch" onclick="update(2)">
+				<div class="left">
+					姓名
+				</div>
+				<div class="center name "></div>
+				<div class="right icon">
+					<img src="../../image/mine/todo.png">
+				</div>
+			</div>
+			<div id="line"></div>
+			<div class="mbox" tapmode="touch" onclick="update(3)">
+				<div class="left">
+					性别
+				</div>
+				<div class="center sex"></div>
+				<div class="right">
+					<img src="../../image/mine/todo.png">
+				</div>
+			</div>
+			<div id="line"></div>
+			<div class="mbox" tapmode="touch" onclick="update(4)">
+				<div class="left">
+					生日
+				</div>
+				<div class="center birthday"></div>
+				<div class="right">
+					<img src="../../image/mine/todo.png">
+				</div>
+			</div>
+			<div id="line"></div>
+			<div class="mbox" tapmode="touch" onclick="update(5)">
+				<div class="left">
+					学校
+				</div>
+				<div class="center school"></div>
+				<div class="right">
+					<img src="../../image/mine/todo.png">
+				</div>
+			</div>
+			<div id="line"></div>
+			<div class="mbox" tapmode="touch" onclick="update(6)">
+				<div class="left">
+					兴趣爱好
+				</div>
+				<div class="center hobby"></div>
+				<div class="right">
+					<img src="../../image/mine/todo.png">
+				</div>
+			</div>
+			<div id="line"></div>
+			<div class="">
+				<button tapmode="button_tap" type="button" onclick="remCorrelation()" name="button">解除关联</button>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/User.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	var pictureAddress;
+	//图片地址
+	var studentName;
+	//学生姓名
+	var studentGender;
+	//学生性别
+	var studentBirthDay;
+	//学生生日
+	var studentHobbyId;
+	//学生爱好id
+	var studentHobby = [];
+	//学生爱好
+	var shoolName;
+	//学校名称
+	var studentId;
+	imready = function() {
+		console.log("个人中心pageParam数据"+JSON.stringify(api.pageParam));
+		studentId = api.pageParam.id.id;
+		pictureAddress = api.pageParam.id.studentImage;
+		studentName = api.pageParam.id.studentName;
+		studentGender = api.pageParam.id.studentGender;
+		studentBirthDay = api.pageParam.id.studentBirthday;
+		studentHobby = api.pageParam.id.studentHobby;
+		studentHobbyId = api.pageParam.id.studentHobbyId;
+		shoolName = api.pageParam.id.schoolName;
+		getHobbyForHttp();
+		AddlisterBostcast();
+	};
+
+	function getHobbyForHttp() {
+		var data = {};
+		data.method = 'getHobbys';
+		data.request = {}, api.showProgress();
+		console.log("爱好getHobbys请求数据：" + JSON.stringify(data));
+		ajaxRequest(data, function(ret, err) {
+			api.hideProgress();
+			if (ret) {
+				console.log("爱好getHobbys成功返回数据：" + JSON.stringify(ret));
+				if (ret.responseCode == 0) {
+					console.log("处理之前的数据=====" + studentHobbyId + "---" + studentHobby);
+					var reg = /^(?=.*\d.*\b)/;
+					var hobbylist = new Array();
+					var hobbyidlist = new Array();
+					studentHobby = studentHobby.replace(/\[|]/g, '');
+					if (reg.test(studentHobby)) { //判断是否包含数字
+
+						if (studentHobby.indexOf(",") > 0) {
+							var s = studentHobby.split(",");
+							console.log(s);
+							for (var j = 0; j < s.length; j++) {
+								for (var i = 0; i < ret.responseBody.length; i++) {
+									if (Number(ret.responseBody[i].id) == Number(s[j])) {
+										hobbylist.push(ret.responseBody[i].hobby);
+										hobbyidlist.push(ret.responseBody[i].id);
+									}
+								}
+							}
+							studentHobby = hobbylist;
+							studentHobbyId = hobbyidlist;
+							// studentHobby=studentHobby.join(",");
+						} else {
+							var i = studentHobby - 1;
+							if (studentHobby > 0) {
+								if (studentHobby < 0) {
+									studentHobby = " ";
+								} else {
+									studentHobby = ret.responseBody[i].hobby;
+									studentHobbyId = ret.responseBody[i].id;
+								}
+							} else {
+								studentHobby = " ";
+							}
+						}
+
+					} else {
+
+						studentHobbyId = studentHobby;
+					}
+					console.log("处理完数据：====" + JSON.stringify(studentHobbyId) + "---" + JSON.stringify(studentHobby));
+
+					// if (isEmpty(studentHobbyId) && isEmpty(studentHobby)) { //两个都是空的
+					// 	studentHobby = " ";
+					// 	console.log("两个都是空的");
+					//
+					// } else {
+					// 	if (isEmpty(studentHobbyId)) { //id为空 内容不为空
+					// 		console.log("id为空 内容不为空");
+					// 		var reg = /^(?=.*\d.*\b)/; //判断字符串中是否含有数字
+					// 		if (reg.test(studentHobby)) { //判断是否是数字
+					// 			if (studentHobby.indexOf(",") > -1) {
+					// 				studentHobbyId = new Array();
+					// 				var list = new Array();
+					// 				var s = studentHobby.split(",");
+					// 				for (var j = 0; j < s.length; j++) {
+					// 					for (var i = 0; i < ret.responseBody.length; i++) {
+					// 						if (ret.responseBody[i].hobby == s[j] || ret.responseBody[i].id == s[j]) {
+					// 							studentHobbyId.push(ret.responseBody[i].id);
+					// 							list.push(ret.responseBody[i].hobby);
+					// 						}
+					// 					}
+					// 				}
+					// 				studentHobby = list;
+					// 			} else {
+					// 				studentHobbyId = Number(studentHobby);
+					// 				studentHobby = ret.responseBody[Number(studentHobby)].hobby;
+					// 			}
+					//
+					// 		} else { //不是数字的情况
+					// 			studentHobbyId = new Array();
+					// 			var list = new Array();
+					// 			var s = studentHobby.split(",");
+					// 			for (var j = 0; j < s.length; j++) {
+					// 				for (var i = 0; i < ret.responseBody.length; i++) {
+					// 					if (ret.responseBody[i].hobby == s[j] || ret.responseBody[i].id == s[j]) {
+					// 						studentHobbyId.push(ret.responseBody[i].id);
+					// 						list.push(ret.responseBody[i].hobby);
+					// 					}
+					// 				}
+					// 			}
+					// 			studentHobby = list;
+					// 		}
+					// 	} else {
+					// 		if (isEmpty(studentHobby)) { //ID不为空 内容为空
+					// 			console.log("ID不为空 内容为空");
+					// 			var reg = /^(?=.*\d.*\b)/; //判断字符串中是否含有数字
+					// 			if (reg.test(studentHobby)) { //判断是否是数字
+					// 				if (studentHobbyId.indexOf(",") > -1) {
+					// 					studentHobby = new Array();
+					// 					var list = new Array();
+					// 					var s = studentHobbyId.split(",");
+					// 					for (var j = 0; j < s.length; j++) {
+					// 						for (var i = 0; i < ret.responseBody.length; i++) {
+					// 							if (ret.responseBody[i].hobby == s[j] || ret.responseBody[i].id == s[j]) {
+					// 								studentHobby.push(ret.responseBody[i].id);
+					// 								list.push(ret.responseBody[i].hobby);
+					// 							}
+					// 						}
+					// 					}
+					// 					studentHobby = list;
+					// 				} else {
+					// 					studentHobbyId = studentHobbyId;
+					// 					studentHobby = ret.responseBody[studentHobbyId].hobby;
+					// 				}
+					//
+					// 			} else { //不是数字的情况
+					// 				studentHobby = new Array();
+					// 				var list = new Array();
+					// 				var s = studentHobbyId.split(",");
+					// 				for (var j = 0; j < s.length; j++) {
+					// 					for (var i = 0; i < ret.responseBody.length; i++) {
+					// 						if (ret.responseBody[i].hobby == s[j] || ret.responseBody[i].id == s[j]) {
+					// 							studentHobbyId.push(ret.responseBody[i].id);
+					// 							list.push(ret.responseBody[i].hobby);
+					// 						}
+					// 					}
+					// 				}
+					// 				studentHobby = list;
+					// 			}
+					// 		} else { //两个都是有数据的 依照id为准
+					// 			console.log("两个都是有数据的 依照id为准 ");
+					//
+					// 			studentHobby = new Array();
+					// 			var s = studentHobbyId.split(",");
+					// 			for (var j = 0; j < s.length; j++) {
+					// 				for (var i = 0; i < ret.responseBody.length; i++) {
+					// 					if (ret.responseBody[i].id == s[j]) {
+					// 						studentHobby.push(ret.responseBody[i].hobby);
+					// 					};
+					// 				};
+					// 			};
+					// 		};
+					// 	};
+					// };
+
+					initMode();
+
+					// if (studentHobbyId.indexOf(",") > 0) {
+					// 	var s = studentHobbyId.split(",");
+					// 	for (var j = 0; j < s.length; j++) {
+					// 		for (var i = 0; i < ret.responseBody.length; i++) {
+					// 			if (ret.responseBody[i].id == s[j]) {
+					// 				studentHobby.push(ret.responseBody[i].hobby);
+					// 			}
+					// 		}
+					// 	}
+					// } else {
+					// 	console.log(studentHobbyId);
+					// 	console.log(isEmpty(null));
+					// 	console.log(isEmpty(studentHobbyId + " "));
+					// 	if (studentHobbyId.length > 0 && !isEmpty($api.trimAll(studentHobbyId + " "))) {
+					// 		if (studentHobbyId <= 0) {
+					// 			studentHobby = " ";
+					// 		} else {
+					// 			studentHobby = ret.responseBody[studentHobbyId - 1].hobby;
+					// 		}
+					// 	} else {
+					// 		studentHobby = " ";
+					// 	}
+					// }
+
+				}
+			} else {
+				console.log("爱好getHobbys失败返回数据：" + JSON.stringify(err));
+			}
+		})
+	}
+
+	//刷新页面数据
+	var sex;
+
+	function initMode() {
+		if (studentGender == 0) {
+			studentGender = 0;
+			sex = "男";
+		} else {
+			sex = "女";
+			studentGender = 1;
+		}
+		if (pictureAddress.length > 0) {
+			$api.css($api.dom('.headpic'), 'background: url(' + $api.imageUrl + pictureAddress + ');background-size: 100%;background-repeat: no-repeat;');
+		} else {
+			$api.css($api.dom('.headpic'), 'background: url(../../image/mine/hardicon.png);background-size: 100%;');
+		}
+		$api.text($api.dom('.name'), studentName);
+		$api.text($api.dom('.sex'), sex);
+		if (studentBirthDay != null) {
+			studentBirthDay = studentBirthDay.substring(0, 11);
+			$api.text($api.dom('.birthday'), studentBirthDay.substring(0, 11));
+		} else {
+			$api.text($api.dom('.birthday'), studentBirthDay);
+		}
+		$api.text($api.dom('.school'), shoolName);
+
+		$api.text($api.dom('.hobby'), studentHobby);
+	}
+
+	function AddlisterBostcast() {
+		api.addEventListener({
+			name: 'updateHobby'
+		}, function(ret, err) {
+			console.log("接受到的爱好数据" + JSON.stringify(ret));
+			if (ret) {
+				$api.text($api.dom('.hobby'), ret.value.key1);
+				studentHobbyId = ret.value.key2;
+				// 20170914修订 修改即保存
+				next();
+
+			} else {
+				api.toast({
+					msg: err,
+					duration: 2000,
+					location: 'bottom'
+				});
+			}
+
+
+		});
+	}
+
+	function savePersonInfo() {
+		console.log(pictureAddress);
+		if (pictureAddress == null || pictureAddress == "") {
+			pictureAddress = api.fsDir + '/default/' + 'hardicon.png';
+			savePersonInfo();
+		} else if (pictureAddress.substring(0, 9) != '/student/') {
+			var date = {};
+			date.values = {
+				"uploadType": 2
+			}
+			date.files = {
+				"multipartFile": pictureAddress
+			}
+			var imageUrl = $api.imageUrl
+			var splits = imageUrl.split(":");
+			var imageUpdate = splits[0] + ":" + splits[1] + ':8086/user/image/upload';
+			console.log("上传头像地址" + imageUpdate);
+			api.showProgress();
+			console.log("上传图片请求数据" + JSON.stringify(date));
+			api.ajax({
+				url: imageUpdate,
+				method: 'post',
+				data: date
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret) + '上传图片返回值-----' + JSON.stringify(err));
+				api.hideProgress();
+				console.log(JSON.stringify(err.body));
+				if (err.body.substring(0, 9) == '/student/') {
+					pictureAddress = err.body;
+					next();
+				} else {
+					alert("服务器地址失败。")
+				}
+			});
+		} else {
+			next();
+		}
+	}
+
+	function next() {
+
+		var data = {};
+		data.method = 'insertStudent';
+		data.request = {
+			"userId": api.getPrefs({
+				sync: true,
+				key: 'userid'
+			}),
+			"studentId": studentId,
+			"studentImage": pictureAddress,
+			"studentName": studentName,
+			"studentType": "1",
+			"schoolName": shoolName,
+			"studentGender": studentGender,
+			"studentBirthDay": studentBirthDay,
+			"studentHobby": studentHobbyId
+		}, api.showProgress();
+		console.log("用户中心insertStudent请求数据：" + JSON.stringify(data));
+		ajaxRequest(data, function(ret, err) {
+			api.hideProgress();
+			if (ret) {
+				if (ret.responseBody != 0) {
+					api.sendEvent({
+						name: 'updateInfo'
+					});
+				} else {
+					alert("修改失败！请稍后重试");
+				}
+				console.log("用户中心insertStudent成功返回数据：" + JSON.stringify(ret));
+			} else {
+				console.log("用户中心insertStudent失败返回数据：" + JSON.stringify(err));
+			}
+		})
+	}
+
+	function update(type) {
+		switch (type) {
+			case 1:
+				api.actionSheet({
+					cancelTitle: "取消",
+					buttons: ["拍照", "从手机相册选择", "查看大图"]
+				}, function(ret, err) {
+					var index = ret.buttonIndex;
+					handpic(index);
+				});
+				break;
+			case 2:
+				api.prompt({
+					title: "请输入姓名",
+					buttons: ['确定', '取消']
+				}, function(ret, err) {
+					if(ret){
+						var index = ret.buttonIndex;
+						if(index===1){
+							var text = ret.text;
+							studentName = ret.text;
+							// 20170914修订 修改即保存
+							initMode();
+							// 20170914修订 修改即保存
+							next();
+						}
+					}
+
+				});
+
+				break;
+			case 3:
+				api.actionSheet({
+					cancelTitle: "取消",
+					buttons: ["男", "女"],
+					style: {
+						fontNormalColor: "#666",
+						titleFontColor: "#666"
+					}
+				}, function(ret, err) {
+					var index = ret.buttonIndex;
+					if (index == 1) {
+						studentGender = 0;
+						$api.text($api.dom('.sex'), "男");
+					} else if (index == 2) {
+						studentGender = 1;
+						$api.text($api.dom('.sex'), "女");
+					}
+					next();
+				});
+				// 20170914修订 修改即保存
+
+				break;
+			case 4:
+				api.openPicker({
+					type: "date",
+					date: "",
+					title: "选择时间"
+				}, function(ret, err) {
+					if (ret) {
+						if (ret.month < 10) {
+							ret.month = "0" + ret.month;
+						}
+						if (ret.day < 10) {
+							ret.day = "0" + ret.day;
+						}
+						studentBirthDay = ret.year + "-" + ret.month + "-" + ret.day;
+						initMode();
+						// 20170914修订 修改即保存
+						next();
+					} else {
+						alert(err.msg);
+					}
+				});
+				break;
+			case 5:
+				api.prompt({
+					title: "请输入学校名称",
+					buttons: ['确定', '取消']
+				}, function(ret, err) {
+					if(ret){
+						var index = ret.buttonIndex;
+						if(index===1){
+							var text = ret.text;
+							shoolName = text;
+							initMode();
+							// 20170914修订 修改即保存
+							next();
+						}
+					}
+
+				});
+
+				break;
+			case 6:
+				api.openWin({
+					name: 'updatehobby',
+					url: 'updatehobby.html',
+					pageParam: {
+						hobbyChoose: studentHobbyId
+					}
+				});
+				break;
+		}
+	}
+
+	//打开头像时间
+	function handpic(index) {
+		switch (index) {
+			case 1:
+				//拍照
+				api.getPicture({
+					sourceType: "camera",
+					encodingType: "jpg",
+					mediaValue: "pic",
+					destinationType: "url",
+					allowEdit: true,
+					quality: 100,
+					targetWidth: 400,
+					targetHeight: 400,
+					saveToPhotoAlbum: false
+				}, function(ret, err) {
+					if (ret) {
+						if (ret.data.length > 0) {
+							ret.data.length > 0 ? $api.css($api.dom('.headpic'), "background: url(" + (pictureAddress = ret.data) + ");background-size: 100%,100%;") : initMode();
+							// 20170914修订 修改即保存
+							savePersonInfo();
+						}
+						//							pictureAddress = ret.data;
+						//							initMode();
+						//							$api.css($api.dom('.headpic'), "background: url(" + JSON.stringify(ret.data) + ");background-size: 100%,100%;");
+					} else {
+						//				        alert(JSON.stringify(err));
+					}
+				});
+				break;
+			case 2:
+				//从手机相册选择
+				api.getPicture({
+					sourceType: "album",
+					encodingType: "jpg",
+					mediaValue: "pic",
+					destinationType: "url",
+					allowEdit: true,
+					quality: 100,
+					targetWidth: 400,
+					targetHeight: 400,
+					saveToPhotoAlbum: false
+				}, function(ret, err) {
+					if (ret) {
+						if (ret.data.length > 0) {
+							ret.data.length > 0 ? $api.css($api.dom('.headpic'), "background: url(" + (pictureAddress = ret.data) + ");background-size: 100%,100%;") : initMode();
+							// 20170914修订 修改即保存
+							savePersonInfo();
+						}
+						//							pictureAddress = ret.data;
+						//                         alert(pictureAddress);
+						//							$api.css($api.dom('.headpic'), "background: url(" + pictureAddress + ");background-size: 100%,100%;");
+					} else {
+						//				        alert(JSON.stringify(err));
+					}
+				});
+				break;
+			case 3:
+				//查看大图
+				api.openFrame({
+					name: 'preimage',
+					url: 'preimage.html',
+					pageParam: {
+						icon: $api.imageUrl + pictureAddress
+					},
+					rect: {
+						x: 0,
+						y: 0,
+						w: api.frameWidth,
+						h: api.frameHeight
+					},
+					animation: {
+						type: "scube", //动画类型（详见动画类型常量）
+						subType: "from_top", //动画子类型（详见动画子类型常量）
+						duration: 300 //动画过渡时间，默认300毫秒
+					}
+				});
+				break;
+		}
+	}
+
+	function cancle() {
+		api.closeWin({});
+	}
+
+	function remCorrelation() {
+		var userid = api.getPrefs({
+		    key: 'userid',
+				sync:true
+		});
+
+		console.log("家长id"+userid+"学生id"+api.pageParam.id.id);
+		api.confirm({
+			title: '提示',
+			msg: '解除关联后，可重新关联',
+			buttons: ['确定', '取消']
+		}, function(ret, err) {
+			var index = ret.buttonIndex;
+      if(index===1){
+				var list = {
+					userId:userid ,
+					studentId: api.pageParam.id.id
+				}
+				goRequest("studentDelete", list, function(ret) {
+					api.alert({
+						title: '提示',
+						msg: '操作成功！',
+					}, function(ret, err) {
+						if (ret) {
+							api.sendEvent({
+								name: 'updateInfo'
+							});
+							api.closeToWin({
+								name: 'root'
+							});
+						} else {
+							alert(JSON.stringify(err));
+						}
+					});
+
+				})
+			}
+		});
+
+	}
+</script>
+
+</html>

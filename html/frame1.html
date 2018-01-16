@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>端API</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+		<style>
+			html,body{
+				font-size:0.26rem;
+				background:#F6F6F6;
+				height:100%;
+			}
+			#main{
+				height:100%;
+				position: absolute;
+				top:0.78rem;
+				width: 100%;
+			}
+
+			#discover_content .listview {
+				min-height: 3.1rem;
+				background: #FFF;
+				width: 100%;
+			}
+			.listview a {
+				min-height:2.4rem;
+				width: 100%;
+				position :relative;
+				background:#FFF;
+			}
+			.listview a.active {
+				background:#F9F9F9 !important;
+			}
+			.listview .price{
+				height:0.7rem;
+				line-height:0.7rem;
+				text-align: center;
+				font-size:0.32rem;
+				background:#FFF;
+				color:#FF8344;
+				position:relative;
+			}
+			.listview .price:before{
+				position:absolute;
+				border-top:dashed 1px #e6e6e6;
+				top:0;left:0;right:0;
+				content:"";display:block;
+				-webkit-transform:scaleY(0.5);
+				-webkit-transform-origin: 0 0;
+			}
+			.listview .price img{
+				width:0.26rem;
+				height:0.26rem;
+			}
+			.listview .price .pricespan{
+				margin-left:0.1rem;
+			}
+			#discover_content .pic {
+				width: 2.12rem;
+				height: 1.6rem;
+				margin-left:0.24rem;
+				margin-top:0.39rem;
+				float:left;
+			}
+			#discover_content #right {
+				float:left;
+				margin-left:0.22rem;
+				margin-top:0.4rem;
+				min-height:1.62rem;
+				width:4.7rem;
+			}
+			#right .h2{
+				font-size:0.28rem;
+				color:#333333;
+			}
+			#right > div{
+				font-size:0.22rem;
+				color:#666666;
+				margin-top:0.1rem;
+			}
+			#right .double{
+				width:3rem;
+				height: 0.32rem;
+				line-height: 0.32rem;
+			}
+			#right .double img{
+				width:0.24rem;
+				height: 0.24rem;
+				margin-right:0.1rem;
+			}
+			.starcontent{
+				display: inline-block;
+				padding: 0;
+				margin: 0;
+			}
+			.starcontent .star{
+				max-width:0.24rem;
+				max-height:0.24rem;
+				width:0.24rem;
+				height:0.24rem;
+				float: left;
+				margin-left: 0.06rem;
+			}
+			#right .ellipsis-1{
+				display: -webkit-box;
+				-webkit-line-clamp: 1;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				word-wrap: break-word;
+				white-space: normal !important;
+				height: 0.32rem;
+			}
+			#right .imp{
+				color:#F48844;
+			}
+			.listview{
+				position: relative;
+				/*border-bottom: 0.01rem solid #CCCCCC;*/
+			}
+			.listview:after {
+				border-bottom: 1px solid #c8c7cc;
+				display: block;
+				content: '';
+				position: absolute;
+				bottom: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				-webkit-transform-origin: 0 0;
+				-webkit-transform: scaleY(0.5);
+				pointer-events: none;
+			}
+			ul .current{
+				color:#F76249;
+			}
+
+			/* */
+	    	#filter{
+				height:0.78rem;
+				background:#F6F6F6;
+				overflow-x: hidden;
+				border-bottom:1px solid #CCCCCC;
+				position: fixed;
+				top:0;
+				width:100%;
+				z-index: 100;
+			}
+			#filter li{
+				float:left;
+				width:50%;
+				height:0.78rem;
+				line-height:0.78rem;
+				text-align: center;
+				background: url(../image/icon_filter_down.png) no-repeat right 0.75rem center;
+				background-size:0.18rem 0.09rem;
+			}
+			#filter li.current{
+				background: url(../image/icon_filter_up.png) no-repeat right 0.75rem center ;
+				background-size:0.18rem 0.09rem;
+				color:#F76249;
+				height:0.75rem;
+				border-bottom: 0.03rem solid #FF8344;
+			}
+			#filter li span{
+				font-size:0.26rem;
+				margin-right:0.4rem;
+				width:99%;
+				height:0.46rem;
+				line-height:0.46rem;
+				background:rgba(0,0,0,0)
+			}
+			.head_span{
+				border-right: 1px solid #d9d9d9;
+			}
+			#empty{
+				width:100%;
+				height:100%;
+				text-align: center;
+			}
+			#empty .errnet{
+				height:30%;
+				background:url(../image/icon_net_err.png) no-repeat center bottom ;
+				background-size:2.5rem 2.5rem;
+			}
+			#empty label{
+				margin-top:0.5rem;
+				color:#666666;
+				font-size:0.34rem;
+			}
+			#empty .try{
+				margin:0.3rem auto;
+				width:1.8rem;
+				height:0.6rem;
+				color: #1A9973;
+				font-size:0.34rem;
+				line-height:0.6rem;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="filter">
+			<ul>
+				<li id="category" onclick="filterResult('category')"><span class="head_span">全部分类</span></li>
+				<li id="sort" onclick="filterResult('sort')" ><span>距离优先</span></li>
+			</ul>
+		</div>
+		<div id="main">
+			<script type="text/x-dot-template" id="discover_template">
+				{{ for(var i=0;i<it.length;i++){ }}
+					<div class="listview">
+						<a tapmode="active" onclick="goDetail({{=i}},'{{=it[i].classId}}','{{=it[i].courseId}}')">
+							<img class="pic" src="{{=($api.imageUrl+it[i].courseImg)}}" onerror="onImgError(this)" alt="" />
+							<div id="right">
+								<h3 class="h2 ellipsis-2">{{=it[i].courseName}} {{=it[i].className}}</h3>
+								<div>
+									<span class="double">
+										{{var length=it[i].score; if(!isInteger(length)){length=parseInt(length)} }}
+										{{ for(var j=0;j<length;j++){ }}
+											<img src="../image/icon_star_whole.png" />
+										{{ } }}
+										{{ var length=it[i].score; if(!isInteger(length)){ }}
+										<img src="../image/icon_star_half.png" />
+										{{ } }}
+										&nbsp;&nbsp;<span class="imp">{{=it[i].score}}分</span>
+									</span>
+									已有: <span class="imp" >{{=it[i].registeredPeopers}}</span>人报名
+								</div>
+								<div>
+									<span class="double">{{=it[i].teachingInstitutionName}}</span>
+									距离:<span>{{=(it[i].distance||it[i].distance==0)?it[i].distance:''}}KM</span>
+								</div>
+							</div>
+						</a>
+						<div class="price">
+						<img src="../image/icon_course_price.png" alt="" />
+						<span class="pricespan">{{=it[i].coursePrice}}</span>
+						</div>
+					</div>
+				{{ } }}
+			</script>
+			<div id="discover_content">
+			</div>
+		</div>
+		<div id="empty" style="display:none">
+			<div class="errnet"></div>
+			<label class="errmsg">网络连接异常</label>
+			<div class="try" onclick="tryAgain()">再试一次</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/common.js"></script>
+	<script type="text/javascript" src="../script/doT.js"></script>
+	<script type="text/javascript" src="../script/zepto.js"></script>
+	<script type="text/javascript">
+		var content;
+		var filter;
+
+		window.categoryGroup = [];
+		window.sortGroup = [{groupName:"距离优先",groupId:0,sortorder:'distance'},{groupName:"价格优先",groupId:1,sortorder:'coursePrice'},{groupName:"好评优先",groupId:2,sortorder:'score'},{groupName:"销量优先",groupId:3,sortorder:'registeredPeopers'}]
+
+		var isFilterOpend=false;
+
+		window.courseCategory=0;
+		window.courseLevel=0;
+
+		window.sort=0;
+
+		imready = function() {
+			content = $api.byId("discover_content");
+			filter = $api.byId("filter");
+//			api.setRefreshHeaderInfo({
+//			    visible: true,
+//			    loadingImg: 'widget://image/refresh.png',
+//			    bgColor: '#ccc',
+//			    textColor: '#fff',
+//			    textDown: '下拉刷新...',
+//			    textUp: '松开刷新...',
+//			    showTime: true
+//			}, function(ret, err) {
+//				getCoursesList();
+//			});
+			window.indexes = [0,-1,-1];
+			getCoursesList();
+			requestCategory();
+			api.addEventListener({
+	            name:'locationChanged'
+            },function(ret,err){
+            	getCoursesList();
+            });
+            api.addEventListener({
+	            name:'keyback'
+            },function(ret,err){
+            	if(isFilterOpend){
+            		api.closeFrame({
+            			name:"discover_filter"
+                    });
+                    isFilterOpend=false
+            		lastType='';
+            	}
+            });
+            api.addEventListener({
+	            name:'filterListener'
+            },function(ret,err){
+            	isFilterOpend=ret.value.isOpend;
+            	if(!isFilterOpend){
+            		lastType='';
+            		$api.removeCls($api.dom(".current"), "current");
+            	}
+            });
+            api.addEventListener({
+	            name:'filterEvent'
+            },function(ret,err){
+            	var value = ret.value;
+            	console.log(JSON.stringify(ret))
+            	if(value.type=='category'){
+            		window.courseCategory=value.val[0];
+					window.courseLevel=value.val[1];
+
+					var indexes = value.indexes;
+					window.indexes = indexes;
+					console.log(indexes)
+					getCategoryName_new(indexes)
+					getCoursesList();
+            	}else{
+            		window.sort=value.val[0]
+            		$api.byId("sort").innerHTML=window.sortGroup[window.sort].groupName
+            		sortCoursesList();
+            	}
+
+            });
+            api.setRefreshHeaderInfo({
+	            visible: true,
+	            loadingImg: 'widget://image/refresh.png',
+	            bgColor: '#ccc',
+	            textColor: '#fff',
+	            textDown: '下拉刷新...',
+	            textUp: '松开刷新...',
+	            showTime: true
+	        }, function(ret, err) {
+	            //在这里从服务器加载数据，加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
+	            getCoursesList();
+	        });
+		}
+
+		function getCategoryName_new(indexes){
+			//
+			var category='全部分类'
+			if(indexes[0]==0){//全部分类
+			}else{//一级分类已选择，接下来可能选择二级分类或者对应级别。
+				if(indexes[1]==-1){//无二级分类
+					if(indexes[2]==0){//选择了全部级别
+						category = window.categories[indexes[0]].groupName;
+					}else{
+						category = window.categories[indexes[0]].groupName+"-"+window.categories[indexes[0]].level[indexes[2]].levelName;
+					}
+				}else if(indexes[1]==0){//二级分类选择了全部
+					category = window.categories[indexes[0]].groupName;
+				}else{
+					if(indexes[2]==0){//选择了全部级别
+						category = window.categories[indexes[0]].secondGroup[indexes[1]].groupName;
+					}else{
+						category = window.categories[indexes[0]].secondGroup[indexes[1]].groupName+"-"+window.categories[indexes[0]].secondGroup[indexes[1]].level[indexes[2]].levelName;
+					}
+				}
+			}
+			$api.byId("category").innerHTML=category
+
+		}
+
+		function getCategoryName(){
+			var category='全部分类'
+			console.log(window.courseCategory)
+			console.log(window.courseLevel)
+			if(window.courseCategory==0){
+				$api.byId("category").innerHTML="全部分类"
+				console.log(category)
+			}else{
+				for(var i=0;i<window.categoryGroup.length;i++){
+					if(window.categoryGroup[i].groupId==window.courseCategory){
+						category=window.categoryGroup[i].groupName;
+						if(window.courseLevel!=0){
+							for(var j=0;j<window.categoryGroup[i].level.length;j++){
+								if(window.courseLevel==window.categoryGroup[i].level[j].childId){
+									category+="-";
+									category+=window.categoryGroup[i].level[j].childName
+								}
+							}
+						}
+					}
+				}
+				console.log(category)
+			}
+			$api.byId("category").innerHTML=category
+		}
+
+		function getLocation() {
+		var baiduLocation = api.require('baiduLocation');
+		baiduLocation.getLocation(function(ret, err) {
+	       if (ret.status) {
+		        var lon = ret.longitude;
+		        var lat = ret.latitude;
+		        if(lon==0||lat==0){
+		        	//alert("定位失败!请打开GPS开关或手动选择城市.")
+		        	api.setPrefs({
+	                    key:'gpsLocation',
+	                    value:"无法获取"
+                    });
+                    toastAtMiddle("定位失败!请打开GPS开关或手动选择城市!")
+		        	return;
+		        }
+		        api.setPrefs({
+                    key:'longitude',
+                    value:lon
+                });
+		        api.setPrefs({
+                    key:'gpslongitude',
+                    value:lon
+                });
+		        api.setPrefs({
+                    key:'latitude',
+                    value:lat
+                });
+		        api.setPrefs({
+                    key:'gpslatitude',
+                    value:lat
+                });
+		        api.ajax({
+		        	url:"http://api.map.baidu.com/geocoder/v2/?ak=jbt3NtLURGUQehlEh59gG62MPDZToG6A&location="+lat+","+lon+"&output=json&pois=0&qq-pf-to=pcqq.c2c"
+		        },function(ret,err){
+		        	if (ret) {
+		        		if(ret.status==0){
+		        			var city = ret.result.addressComponent.city;
+		        			var address = ret.result.formatted_address;
+		        			var i = city.indexOf("市");
+		        			if(i!=-1){
+		        				city = city.split('市')[0]
+		        			}
+		        			var currentLocation = api.getPrefs({
+		        				sync:true,
+		        				key:'currentLocation'
+		        			})
+		        			if(!currentLocation){
+		        				api.setPrefs({
+				                    key:'currentLocation',
+				                    value:city
+			                    });
+		        			}else{
+		        			}
+		        			api.setPrefs({
+			                    key:'gpsLocation',
+			                    value:city
+		                    });
+		                    api.sendEvent({
+	                            name:'locationChanged'
+                            });
+                            api.execScript({
+                            	frameName:'frame0',
+	                            script: 'updateLocation();'
+                            });
+		        			api.setPrefs({
+			                    key:'address',
+			                    value:address
+		                    });
+		        		}
+				    }else{
+				        //alert(JSON.stringify(err));
+				        api.toast({
+	                        msg:'定位失败,请手动选择所在城市!',
+	                        location:'middle'
+                        });
+				    }
+		        });
+		    } else {
+		       	api.toast({
+                    msg:'定位失败,请手动选择所在城市!',
+                    location:'middle'
+                });
+                alert("无法定位您的位置,请您打开定位开关,并赋予中棋学生端以定位权限,或者手动选择您所在的城市!")
+		    }
+		});
+	}
+
+		function getCoursesList(){
+			var lat = api.getPrefs({sync:true,key:"latitude"});
+			var lon = api.getPrefs({sync:true,key:"longitude"});
+			if(!lat||!lon||lat==0||lon==0){
+				showEmpty("没有获取到您的位置信息,请开启定位或者手动选择所在城市!",0);
+				api.refreshHeaderLoadDone();
+				getLocation();
+				return ;
+			}
+			api.showProgress();
+			var body={};
+			body.method="foundCoursePage"
+			body.request={
+				"userId":api.getPrefs({sync:true,key:"userid"}),
+				"latitude": lat,
+				"longitude": lon,
+				"key": "",
+				"courseCategory":window.courseCategory,
+   			 	"courseLevel":window.courseLevel
+			}
+			ajaxRequest(body,function(ret,err){
+				api.hideProgress();
+				api.refreshHeaderLoadDone();
+				console.log(JSON.stringify(ret))
+				if(ret){
+					if(ret.responseCode==0){
+						if(!ret.responseBody||ret.responseBody.length==0){
+							showEmpty("附近没有任何课程",0);
+						}else{
+							$api.byId("empty").style.display="none"
+							$api.byId("main").style.display="block"
+							window.courseList=(ret.responseBody)
+							sortCoursesList();
+						}
+					}else{
+						showEmpty(ret.responseMsg);
+					}
+				}else{
+					showEmpty(err.msg);
+				}
+			})
+		}
+
+		var compare1 = function (prop) {
+		    return function (obj1, obj2) {
+		        var val1 = obj1[prop];
+		        var val2 = obj2[prop];
+		        if (val1 < val2) {
+		            return -1;
+		        } else if (val1 > val2) {
+		            return 1;
+		        } else {
+		            return 0;
+		        }
+		    }
+		}
+		var compare2 = function (prop) {
+		    return function (obj1, obj2) {
+		        var val1 = obj1[prop];
+		        var val2 = obj2[prop];
+		        if (val1 < val2) {
+		            return 1;
+		        } else if (val1 > val2) {
+		            return -1;
+		        } else {
+		            return 0;
+		        }
+		    }
+		}
+
+		function sortCoursesList(){
+			if(!window.courseList||window.courseList.length==0){
+				return;
+			}
+			if(window.sort==0||window.sort==1){
+				window.courseList.sort(compare1(window.sortGroup[window.sort].sortorder))
+			}else{
+				window.courseList.sort(compare2(window.sortGroup[window.sort].sortorder))
+			}
+			getInnerByDot("discover_content","discover_template",window.courseList)
+		}
+
+		function showEmpty(msg,type){
+			$api.byId("empty").style.display="block"
+			$api.byId("main").style.display="none"
+			$api.dom(".errmsg").innerHTML=msg;
+			if(type==0){
+				$api.dom(".errnet").style.background="url(../image/icon_empty.png) no-repeat center bottom "
+				$api.dom(".errnet").style.backgroundSize="2.18rem 2.18rem";
+			}else{
+				$api.dom(".errnet").style.background="url(../image/icon_net_err.png) no-repeat center bottom "
+				$api.dom(".errnet").style.backgroundSize="2.5rem 2.5rem";
+			}
+		}
+
+		function tryAgain(){
+			getCoursesList();
+		}
+
+		function onImgError(el){
+			$api.attr(el,"src","../image/eg_discover.png")
+		}
+
+		function requestCategory(tag){
+			var body={};
+			body.method="getCourseCategoryAndLevelV1"
+			body.request={
+			}
+			if(tag){
+				api.showProgress("正在获取课程分类...");
+			}
+			ajaxRequest(body,function(ret,err){
+				api.hideProgress();
+				//ret=
+				if(ret){
+					if(ret.responseCode==0){
+						handleResponse_new(ret.responseBody)
+						if(tag){
+							openFilter(tag);
+						}
+					}else{
+						if(tag){
+						toastAtMiddle("获取课程分类失败,"+ret.responseMsg)
+						}
+					}
+				}else{
+					if(tag){
+					toastAtMiddle("获取课程分类失败,"+err.msg)
+					}
+				}
+			})
+		}
+
+		function handleResponse_new(ret){
+			window.categories = [];
+			for(var i=0;i<ret.length;i++){//先晒出
+				if(ret[i].categoryParentId==0){//先筛选出第一分类
+					var groupItem = {};
+					var item1 = ret[i];
+					groupItem.groupName=item1.categoryName;
+					groupItem.groupId=item1.categoryId
+					groupItem.secondGroup=[];
+					groupItem.level = item1.levels;
+					for(var j=0;j<ret.length;j++){
+						if(groupItem.groupId==ret[j].categoryParentId){
+							var groupItem_2 = {}
+							var item2=ret[j]
+							groupItem_2.groupName = item2.categoryName
+							groupItem_2.groupId = item2.categoryId
+							groupItem_2.parentId = item2.categoryParentId
+							groupItem_2.level = item2.levels;
+							groupItem.secondGroup.push(groupItem_2);
+						}
+					}
+					categories.push(groupItem)
+				}
+			}
+		    console.log(JSON.stringify(categories))
+			for(var i=0;i<window.categories.length;i++){
+				var item = window.categories[i];
+				for(var j=0;j<item.secondGroup.length;j++){
+					var innerItem = item.secondGroup[j];
+					var b = {
+						"levelName":"全部",
+						"id":0,
+						"parentId":innerItem.groupId,
+	                	"categoryId":innerItem.groupId
+					}
+					innerItem.level.unshift(b);
+				}
+				var a = {
+					"groupName": "全部",
+	                "groupId": item.groupId,
+	                "parentId": item.groupId
+				}
+				item.secondGroup.unshift(a)
+				var c = {
+					"levelName": "全部",
+	                "id": 0,
+	                "parentId": item.groupId,
+	                "categoryId":item.groupId
+				}
+				item.level.unshift(c)
+			}
+			var all= {
+		        "groupName": "全部分类",
+		        "groupId": 0,
+		        "level": []
+		    }
+		    categories.unshift(all)
+		    console.log(JSON.stringify(categories))
+
+		}
+
+		function handleResponse(ret){
+			window.categoryGroup = [];
+			for(var i=0;i<ret.category.length;i++){
+				var groupItem = {};
+				var item1 = ret.category[i];
+				groupItem.groupName=item1.categoryName;
+				groupItem.groupId=item1.id
+				groupItem.level=[];
+				for(var j=0;j<ret.level.length;j++){
+					var childItem = {}
+					var item2=ret.level[j]
+					childItem.childName = item2.levelName
+					childItem.childId = item2.id
+					childItem.parentId = item2.categoryId
+					if(groupItem.groupId==childItem.parentId){
+						groupItem.level.push(childItem);
+					}
+				}
+				categoryGroup.push(groupItem)
+			}
+			for(var i=0;i<window.categoryGroup.length;i++){
+				var item = window.categoryGroup[i];
+				var all = {
+					"childName": "全部",
+	                "childId": 0,
+	                "parentId": item.groupId
+				}
+				item.level.unshift(all)
+			}
+			var all= {
+		        "groupName": "全部分类",
+		        "groupId": 0,
+		        "level": []
+		    }
+		    categoryGroup.unshift(all)
+
+			console.log(JSON.stringify(categoryGroup))
+		}
+
+		function goDetail(index,classid,courseid){
+			var pageParam = {
+				classId : classid,
+				courseId : courseid,
+				courseInfo : window.courseList[index]
+			}
+			console.log("frame1pageParam数据"+JSON.stringify(pageParam))
+			openWin("coursedetail","discover",pageParam)
+		}
+//		function openFilter(h1,h2){
+//			window.h1 = h1;
+//			window.h2 = h2;
+//			filter.style.display="block"
+//		}
+//
+//		function closeFilter(name,p,c){
+//			api.closeFrame({
+//				name:'discover_filter'
+//          });
+//          $api.byId("filter").style.borderBottom="1px solid #CCCCCC"
+//			filter.style.display="none"
+//			$api.removeCls($api.dom(".current"), "current");
+//			if(name){
+//				//alert(name+p+c)
+//
+//				//TODO 调用接口筛选.
+//			}
+//		}
+
+		function showHeader(type){
+			$api.byId("filter").style.borderBottom="1px grey hidden"
+			var type = $api.byId(type);
+			var last = $api.dom(".current");
+			$api.removeCls(last, "current");
+			$api.addCls(type, "current");
+		}
+		var lastType='';
+		function filterResult(type){
+			if(type==lastType){//点击同一个,及收起
+				api.closeFrame({
+					name:"discover_filter"
+                });
+                isFilterOpend=false;
+                var last = $api.dom(".current");
+                $api.removeCls(last, "current");
+                lastType='';
+                return;
+			}else if(lastType==''){//第一次点击,打开filter窗口
+				lastType=type
+				showHeader(type)
+				if(type=='category'&&window.categoryGroup.length==0){
+					requestCategory(type);
+					return;
+				}
+				openFilter(type);
+				isFilterOpend=true;
+			}else{//打开状态下,点击不同filter
+				lastType=type
+				showHeader(type)
+				api.sendEvent({//发送切换filter的广播.
+	                name:'filterChanged',
+	                extra:{type:type}
+                });
+			}
+
+		}
+
+		function openFilter(type){
+			console.log(type)
+			var h1 = $api.offset(filter).h;
+			var h2 = h1*88/78;
+
+			var y = h1+h2;
+			var h = api.winHeight- y+5
+			api.openFrame({
+	            name: 'discover_filter',
+	            url: 'discover/discover_filter_new.html',
+	            pageParam:{
+	            	type:type,
+	            	categoryGroup:window.categories,
+	            	sortGroup:window.sortGroup,
+	            	indexes:window.indexes,
+	            	sort:window.sort
+	            },
+	            vScrollBarEnabled:false,
+	            bounces: false,
+	            rect: {
+		            x:0,
+		            y:y,
+		            w:api.winWidth,
+		            h:h
+	            }
+            });
+		}
+
+		function isInteger(x) {
+		    return x % 1 === 0;
+		}
+	</script>
+</html>

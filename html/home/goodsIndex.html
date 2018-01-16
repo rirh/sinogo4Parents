@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <style>
+    	html,body{
+    		height:100%;
+    	}
+    	#wrap{
+    		height:100%;
+    	}
+    	header{
+		    background-color: #FF8345;
+		    text-align: center; color: #fff;
+		    width: 100%; position: relative;
+		    height:0.88rem;
+		}
+		header .back-icon{
+		    display: inline-block; width: 0.88rem; height: 0.88rem;
+		    background: url(../../image/icon_arrow_left.png) no-repeat center center; 
+		    -webkit-background-size: 0.25rem 0.4rem;
+		    background-size: 0.25rem 0.4rem;
+		    position: absolute; left: 0; bottom: 0;
+		}
+		header .back-icon.active{
+			 background: url(../../image/icon_arrow_left.png) no-repeat center center rgba(0,0,0,0.2); 
+			 background-size: 0.25rem 0.4rem;
+		}
+		ul{
+			 height: 0.84rem;
+			 line-height: 0.84rem; 
+			 margin: 0 auto;
+			 color: #fff; 
+			 width:3rem;
+			 text-align:center;
+		}
+		ul li {
+			list-style: none;
+			float:left;
+			width: 1rem;
+			color:#eaeaea;
+			font-size:0.3rem;
+		}
+		ul li.current{
+			list-style: none;
+			float:left;
+			width: 1rem;
+			color:#FFF;
+			font-size:0.34rem;
+			border-bottom:5px solid #FFF;
+		}
+		header .btn_left{
+			width: 1.2rem; height: 0.88rem;
+			line-height: 0.88rem;
+			font-size:0.3rem;
+			position: absolute;
+			right:0.78rem;
+			text-align: center;
+		}
+		header .btn_left.active{
+			background:rgba(0,0,0,0.3);
+		}
+		header .btn_right{
+			width: 0.32rem; height: 0.88rem;
+			line-height: 0.88rem;
+			font-size:0.3rem;
+			position: absolute;
+			padding-right:0.23rem;
+			padding-left:0.23rem;
+			right:0;
+			text-align: center;
+		}
+		header .btn_right img{
+			width:0.34rem;
+			height:0.32rem;
+		}
+		header .btn_right.active{
+			background:rgba(0,0,0,0.3);
+		}
+		#main{
+			width: 100%;
+			height:1rem;
+		}
+		#footer{
+			height:0.98rem;
+			background:#F0F0F0;
+		}
+		/*#service{
+			float:left;
+			width:30%;
+			height:0.98rem;
+			background:#FFF;
+			text-align: center;
+			line-height:0.98rem;
+			position: relative;
+		}
+		#service:before{
+			position: absolute;
+			border-right: 1px solid #eeeeee;
+			right:0;top:0;bottom:0;
+			display:block;content:"";
+			-webkit-transform: scaleX(0.5);
+			-webkit-transform-origin: 0 0;
+		}
+		#service.active{
+			background:rgba(0,0,0,0.3);
+		}
+		#service span{
+			color:#FF8344;
+			font-size:0.3rem;
+			background:url(../../image/icon_service.png) no-repeat left center;
+			background-size:0.48rem 0.44rem;
+			padding-left:0.56rem;
+		}
+		#shopcart{
+			float:left;
+			width:30%;
+			height:0.98rem;
+			background:#FFF;
+			text-align: center;
+			line-height:0.98rem;
+			position: relative;
+		}
+		#shopcart:before{
+			position: absolute;
+			border-right: 1px solid #eeeeee;
+			right:0;top:0;bottom:0;
+			display:block;content:"";
+			-webkit-transform: scaleX(0.5);
+			-webkit-transform-origin: 0 0;
+		}
+		.badge {
+			padding:2px 5px;
+			float:right;
+			position:absolute;
+			margin-top:0.1rem;
+			top:0.03rem;
+			right:-0.05rem;
+			font-size:0.22rem;
+			line-height:1;
+			color:#fff;
+			background-color:#dd524d;
+			border-radius:10px;
+			display:none;
+		}
+		#shopcart.active{
+			background:rgba(0,0,0,0.3);
+		}
+		#shopcart span{
+			color:#FF8344;
+			font-size:0.3rem;
+			background:url(../../image/icon_follow.png) no-repeat left center;
+			background-size:0.48rem 0.42rem;
+			padding-left:0.56rem;
+		}
+		#gobuy{
+			float:left;
+			width:40%;
+			height:0.98rem;
+			background:#FF4400;
+			text-align: center;
+			line-height:0.98rem;
+		}
+		#gobuy.active{
+			background:#FF8344 !important;
+		}
+		#gobuy span{
+			color:#FFF;
+			font-size:0.3rem;
+			background:url(../../image/icon_go_buy.png) no-repeat left center;
+			background-size:0.44rem 0.42rem;
+			padding-left:0.52rem;
+		}*/
+		#service{
+			float:left;
+			width:50%;
+			height:0.98rem;
+			background:#F0F0F0;
+			text-align: center;
+			line-height:0.98rem;
+		}
+		#service.active{
+			background:rgba(0,0,0,0.3);
+		}
+		#service span{
+			color:#FF8344;
+			font-size:0.3rem;
+			background:url(../../image/icon_service.png) no-repeat left center;
+			background-size:0.48rem 0.44rem;
+			padding-left:0.56rem;
+		}
+		#shopcart{
+			float:left;
+			width:2.82rem;
+			height:0.98rem;
+			background:#FF8344;
+			text-align: center;
+			line-height:0.98rem;
+			display: none;
+		}
+		.badge {
+			padding:2px 5px;
+			float:right;
+			position:absolute;
+			margin-top:0.1rem;
+			top:0.03rem;
+			right:-0.05rem;
+			font-size:0.22rem;
+			line-height:1;
+			color:#fff;
+			background-color:#dd524d;
+			border-radius:10px;
+			display:none;
+		}
+		#shopcart.active{
+			background:#EE8344;
+		}
+		#shopcart span{
+			color:#FFF;
+			font-size:0.3rem;
+			background:url(../../image/icon_shop_cart.png) no-repeat left center;
+			background-size:0.48rem 0.42rem;
+			padding-left:0.56rem;
+		}
+		#gobuy{
+			float:left;
+			width:50%;
+			height:0.98rem;
+			background:#FF4400;
+			text-align: center;
+			line-height:0.98rem;
+		}
+		#gobuy.active{
+			background:#FF4433;
+		}
+		#gobuy span{
+			color:#FFF;
+			font-size:0.3rem;
+			background:url(../../image/icon_go_buy.png) no-repeat left center;
+			background-size:0.44rem 0.42rem;
+			padding-left:0.52rem;
+		}
+		
+    </style>
+</head>
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<header id="header">
+			<a class="back-icon" tapmode="active" onclick="closeWin()" ></a>
+			<ul>
+				<li class="current"  >
+					商品
+				</li>
+				<li class=""  >
+					详情
+				</li>
+				<li class="" >
+					评价
+				</li>
+			</ul>
+			<a tapmode="active" class="btn_left" onclick="goShoppingCart()" style="display: none" >购物车<span class="badge">2</span></a>
+			<a tapmode="active" class="btn_right" onclick="share()" ><img src="../../image/icon_share.png" alt="" /></a>
+		</header>
+		<div id="main" class="flex-con"></div>
+		<div id="footer" class="border-t">
+			<a tapmode='active' id="service" href="mqqwpa://im/chat?chat_type=wpa&uin=2893182235&version=1&src_type=web&web_src=sinogo.org">
+				<!--<a href="mqqwpa://im/chat?chat_type=wpa&uin=137054968&version=1&src_type=web&web_src=sinogo.org">报名咨询</a>>-->
+				<span>客服</span>
+			</a>
+			<div tapmode='active' id="shopcart" onclick="pushShoppingcart()" >
+				<span>关注</span>
+			</div>
+			<div tapmode='active' id="gobuy" onclick="buyNow()">
+				<span>立即购买</span>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	//var db ;
+	imready = function(){
+		handelVersionBelow4($api.dom(".btn_left").style)
+		handelVersionBelow4($api.dom(".btn_right").style)
+//		db = api.require('db');
+		var pageParam = api.pageParam;
+		console.log(JSON.stringify(pageParam));
+		window.good_code= pageParam.good_code;
+		getGoodDetail(window.good_code);
+		var lis = $api.domAll("li");
+		for(var i=0;i<lis.length;i++){
+			lis[i].index=i;
+			lis[i].onclick=function(){
+				api.setFrameGroupIndex({
+	                name: 'goodsgroup',
+	                index:this.index
+                });
+				showHeader(this.index);
+			}
+		}
+//		initCartCount();
+     	$api.attr($api.byId("gobuy"), "disabled", "disabled");
+        $api.byId("gobuy").style.background="#ccc"
+        api.addEventListener({
+	        name:'keyback'
+        },function(ret,err){
+        	if(window.isSpecOpend){
+        		api.closeFrame({
+        			name:"specDialog"
+                });
+                 api.sendEvent({
+			        name:'specListener',
+			        extra:{
+			        	isOpend:false
+			        }
+		        });
+        	}else{
+        		if(window.isShareOpend){
+	        		api.closeFrame({
+	        			name:"book_share"
+	                });
+	                api.sendEvent({
+				        name:'shareListener',
+				        extra:{
+			        		isOpend:false
+			        	}
+		        	});
+        		}else{
+        			api.closeWin();
+        		}
+        	}
+        });
+        api.addEventListener({
+	        name:'goodloadedok'
+        },function(ret,err){
+        	var quantity = ret.value.quantity;
+			if(quantity<1){
+		      	$api.attr($api.byId("footer"), "disabled", "disabled");
+		        $api.byId("gobuy").style.background="#ccc"
+			}else{
+		      	$api.removeAttr($api.byId("footer"), "disabled");
+		        $api.byId("gobuy").style.background="#FF4400"
+			}
+        });
+        api.addEventListener({
+	        name:'specListener'
+        },function(ret,err){
+			window.isSpecOpend=ret.value.isOpend;
+        });
+        api.addEventListener({
+	        name:'shareListener'
+        },function(ret,err){
+			window.isShareOpend=ret.value.isOpend;
+        });
+        api.addEventListener({
+	        name:'specChanged'
+        },function(ret,err){
+        	window.goodInfo= ret.value.good_detail;
+        	console.log(JSON.stringify(window.goodInfo))
+        	api.sendEvent({
+	            name:'detailChanged',
+	            extra:window.goodInfo
+            });
+        });
+	};
+	
+	function getGoodDetail(good_code){
+		api.showProgress();
+		var body = {}
+		body.method="materialsGoodsDetail"
+		body.request={
+			materialsGoodsCode:good_code
+		}
+		ajaxRequest(body,function(ret,err){
+        	api.hideProgress();
+			if(ret){
+				if(ret.responseCode==0){
+					window.goodInfo = ret.responseBody;
+	        		initFrameGroup();
+				}else{
+					alert(ret.responseMsg)				
+				}
+			}else{
+				alert(err.msg)
+			}
+        })
+	}
+	
+	function initFrameGroup(){
+		var models = window.goodInfo.materialsGoodsModelDetail
+		var standards = window.goodInfo.materialsGoodsStandardDetail
+		for(var i=0;i<window.goodInfo.materialsGoodsSalesDetails.length;i++){
+			var item = window.goodInfo.materialsGoodsSalesDetails[i];
+			if(item.isChecked==true){
+				window.goodInfo.currentItem=item;
+			}else{
+			}
+			item.materialsGoodsOrganization=window.goodInfo.materialsGoodsOrganization;
+			item.materialsGoodsName=window.goodInfo.materialsGoodsName;
+			item.materialsGoodsIntro=window.goodInfo.materialsGoodsIntro;
+			item.materialsGoodsLogistics=window.goodInfo.materialsGoodsLogistics;
+			item.materialsGoodsUnit=window.goodInfo.materialsGoodsUnit;
+			
+			item.buyCount = 1;//默认购买一件,在规格选择和代购订单确认页面可以修改
+			
+			var modelId = item.goodsSalesModelId;
+			var standardId = item.goodsSalesStandardId;
+			if(modelId!=0){
+				for(var j=0;j<models.teachingMaterialsModels.length;j++){
+					if(modelId==models.teachingMaterialsModels[j].id){
+						item.spec1=models.teachingMaterialsModels[j].goodsModelName
+						item.goodsModelPreview=models.teachingMaterialsModels[j].goodsModelPreview
+					}
+				}
+			}
+			if(standardId!=0){
+				for(var j=0;j<standards.teachingMaterialsStandards.length;j++){
+					if(standardId==standards.teachingMaterialsStandards[j].id){
+						item.spec2=standards.teachingMaterialsStandards[j].goodsStandardName
+					}
+				}
+			}
+		}
+		var haveSpec=true;
+		if(modelId==0&&standardId==0){
+			haveSpec=false
+		}
+		window.frames=[{
+		        name: 'goodsSummary',
+		        url: 'goodsSummary.html',
+		        bgColor: '#F6F6F6',
+		        pageParam:{
+		        	ret:window.goodInfo,
+		        	code:window.good_code,
+		        	haveSpec:haveSpec
+		        },
+		        bounces: false
+		    }, {
+		        name: 'goodsDetail',
+		        url: 'goodsDetail.html',
+		        bgColor: '#F6F6F6',
+		        pageParam:{
+		        	ret:window.goodInfo,
+		        	code:window.good_code,
+		        	haveSpec:haveSpec
+		        },
+		        bounces: false
+		    }, {
+		        name: 'goodsComments',
+		        url: 'goodsComments.html',
+		        bgColor: '#F6F6F6',
+		        pageParam:{
+		        	ret:window.goodInfo,
+		        	code:window.good_code,
+		        	haveSpec:haveSpec
+		        },
+		        bounces: false
+		    }];
+		var headerPos = $api.offset($api.dom("header"));
+		var footerPos = $api.offset($api.byId("footer"));
+		api.openFrameGroup({
+		    name: 'goodsgroup',
+		    background: '#fff',
+		    scrollEnabled: true,
+		    rect: {
+		        x: 0,
+		        y: headerPos.h,
+		        w: api.winWidth,
+		        h: api.winHeight-headerPos.h-footerPos.h
+		    },
+		    index: 0,
+		    frames: window.frames
+		}, function(ret, err) {
+		    var index = ret.index;
+		    showHeader(index)
+		});
+	}
+	
+	function initCartCount(){
+		var result = db.selectSqlSync({
+            name:'sinogostudent',
+            sql:'select count(*) from shopping_cart'
+        });
+		var count = result.data[0]["count(*)"];
+		if(count>0){
+			$api.dom(".badge").style.display="block"
+			$api.dom(".badge").innerHTML=count
+		}else{
+			$api.dom(".badge").style.display="none"
+		}
+	}
+	
+	function showHeader(index){
+		var act = $api.dom("ul li.current");
+		var lis = $api.domAll("li");
+		$api.removeCls(act, "current");
+		$api.addCls(lis[index], "current");
+	}
+	
+	function goShoppingCart(){
+//		var i = $api.dom(".badge").innerHTML;
+//		var frameInfo={
+//			name:'shoppingcart',
+//			url:'shoppingcart.html',
+//		}
+//		openWinWithTitle("title_shoppingcart","购物车",frameInfo);s
+		openWin("shoppingcart")
+	}
+	
+	function getCustomService(){
+		//联系客服
+	}
+	
+	function share(){
+		api.openFrame({
+	        name: 'book_share',
+	        url: 'share.html',
+			animation:{
+			    type:"push",                //动画类型（详见动画类型常量）
+			    subType:"from_bottom",       //动画子类型（详见动画子类型常量）
+			    duration:300                //动画过渡时间，默认300毫秒
+			},
+			pageParam:{
+	        	from:"book"
+	        },
+	        rect: {
+		        x:0,
+		        y:0,
+		        w:api.winWidth,
+		        h:api.winHeight
+	        }
+        });
+	}
+	
+	function pushShoppingcart(){
+		//加入购物车
+//		alert("加入购物车")
+		var t = window.testinfo;
+		var selectResult = db.selectSqlSync({
+	        name:'sinogostudent',
+	        sql:"select * from shopping_cart where good_id = '"+t.good_id+"'"
+        });
+        var sql = "insert into shopping_cart (good_name,good_id,good_spec,good_price,good_count) values ('"+t.good_name+"','"+t.good_id+"','"+t.good_spec+"','"+t.good_price+"','"+1+"')";
+        var c = 0;
+        if(selectResult.data&&selectResult.data.length>0){//购物车存在同类商品
+        	c = parseInt(selectResult.data[0].good_count)+1;
+        	sql="update shopping_cart set good_count = '"+c+"' where good_id = '"+t.good_id+"'"
+        }
+       	var result = db.executeSqlSync({
+	        name:'sinogostudent',
+	        sql:sql
+   	 	});
+		if(result.status==true){
+			api.toast({
+	            msg:'添加购物车成功!',
+	            location:'middle'
+            });
+		}else{
+			api.toast({
+	            msg:'添加失败,咋回事捏!',
+	            location:'middle'
+            });
+		}
+        initCartCount()
+	}
+	function buyNow(){
+		var current = window.goodInfo.currentItem;
+       	if(current.goodsSalesQuantity<1){
+           return toastAtMiddle("库存不足,请等待,或选择其他规格!");
+       	}
+		var pageParam={
+			type:'fromBuyNow',
+			studentId:api.pageParam.studentId,
+			classId:api.pageParam.classId,
+			goodinfo : window.goodInfo
+		}
+		console.log(JSON.stringify(pageParam))
+		openWin("orderconfirm","",pageParam)
+	}
+	
+</script>
+</html>

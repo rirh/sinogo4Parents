@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../../css/common.css"/>
+		<link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+		<style>
+			header {
+				background: #FF8345;
+				height: 0.88rem;
+				width: 100%;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				overflow: hidden;
+			}
+			.tit-left {
+				width: 0%;
+				display: block;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				text-align: left;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			.tit-con {
+				text-align: center;
+				font-size: 0.34rem;
+				display: block;
+				-webkit-flex: 4; /* Chrome */
+				-ms-flex: 4; /* IE 10 */
+				flex: 4; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 4; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 4; /* OLD - Firefox 19- */
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				font-size: 0.28rem;
+				height: 0.58rem;
+				padding-top: 0.15rem;
+			}
+			.tit-right {
+				width: 0%;
+				display: block;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				text-align: right;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				background: #FF8345;
+			}
+			.tit-con-all {
+				border: #FFFFFF solid 1px;
+				border-radius: 0.03rem;
+				margin: 0 auto;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				text-align: center;
+				font-size: 0.28rem;
+				line-height: 0.58rem;
+				height: 0.58rem;
+				width: 4.64rem;
+				position: relative;
+			}
+			.tit-con-left {
+				background: #FFFFFF;
+				color: #FF8345;
+				border-radius: 0.03rem;
+				line-height: 0.58rem;
+				text-align: center;
+				width: 0%;
+				display: block;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+			}
+			.tit-con-right {
+				background: #FF8345;
+				color: #FFFFFF;
+				border-radius: 0.03rem;
+				line-height: 0.58rem;
+				text-align: center;
+				width: 0%;
+				display: block;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+			}
+			.back {
+				display: inline-block;
+				color: #FFFFFF;
+				text-align: center;
+				background: url(../../../image/back.png);
+				background-size: cover;
+				margin-left: 0.23rem;
+				width: 0.24rem;
+				height: 0.45rem;
+				margin-top: 0.215rem;
+			}
+			.picbox {
+				display: inline-block;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				text-align: center;
+				display: none;
+				height: 1.05rem;
+				width: 1.1rem;
+			}
+			.isnone {
+				font-size: 0.28rem;
+				height: 1.07rem;
+				border: solid #d9d9d9 1px;
+				padding-bottom: 0.1rem;
+			}
+			.isnone:after {
+				border-bottom: 1px solid #d9d9d9;
+				content: "";
+				display: block;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				-webkit-transform-origin: 0 0;
+				-webkit-transform: scaleY(0.5);
+			}
+			.pic {
+				width: 0.64rem;
+				height: 0.64rem;
+				margin: 0 auto;
+				border-radius: 0.64rem;
+				margin-top: 0.08rem;
+			}
+			.text {
+			   
+				margin-bottom: 0;
+				height: 0.33rem;
+				font-size: 0.22rem;
+			     width: 1.1rem;
+				text-align: center;
+				overflow: hidden;
+				text-overflow:ellipsis;
+				white-space: nowrap;
+				
+			}
+			.active {
+				background: url(../../../image/mine/iconf.png);
+				background-repeat: no-repeat;
+				background-size: cover;
+				border: solid #FF8344 1px;
+			}
+			.default {
+				background: url(../../../image/mine/icon.png);
+				background-repeat: no-repeat;
+				background-size: cover;
+			}
+			.tactive {
+				color: #ff8433;
+			}
+			.tdefault {
+				color: #d2d2d2;
+			}
+		</style>
+	</head>
+	<body >
+		<div id="wrap" class="flex-wrap flex-vertical">
+			<header>
+				<div class="tit-left" onclick="api.closeWin();" >
+					<div class="back"></div>
+				</div>
+				<div class="tit-con">
+					<div class="tit-con-all">
+						<div class="tit-con-left" onclick="swicth(1)">
+							我的课程
+						</div>
+						<div class="tit-con-right" onclick="swicth(2)">
+							课程表
+						</div>
+					</div>
+				</div>
+				<div class="tit-right"></div>
+			</header>
+			<div id="main" class="flex-con">
+				<div class="isnone">
+					<div class="picbox"  >
+						<div class="pic active" onclick="clo(this)"></div><span class="text tactive ellipsis-1">name</span>
+					</div>
+					<div class="picbox"  >
+						<div class="pic default" onclick="clo(this)" ></div><span class="text tdefault ellipsis-1">name</span>
+					</div>
+					<div class="picbox"  >
+						<div class="pic default"  onclick="clo(this)"></div><span class="text tdefault ellipsis-1">name</span>
+					</div>
+					<div class="picbox"  >
+						<div class="pic default" onclick="clo(this)" ></div><span class="text tdefault ellipsis-1">name</span>
+					</div>
+					<div class="picbox"  >
+						<div class="pic default" onclick="clo(this)"></div><span class="text tdefault ellipsis-1">name</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../../script/api.js"></script>
+	<script type="text/javascript" src="../../../script/common.js"></script>
+	<script type="text/javascript" src="../../../script/zepto.js"></script>
+	<script type="text/javascript">
+		var userId;
+		var studentId = [];
+		var childrenname=[];
+		
+		var currentIndex=0;
+		
+		//关于点击事件的方法TODO
+		function clo(tag) {
+			var tab = $api.domAll('.pic');
+			var text = $api.domAll('.text');
+			//改变文字颜色
+			if (tag == $api.dom('.active'))
+				return;
+			for (var i = 0, len = text.length; i < len; i++) {
+				if (tag == tab[i]) {
+					currentIndex = i;
+				} else {
+					//移除对应头像的属性
+					$api.removeCls(text[i], 'tactive');
+					$api.removeCls(tab[i], 'active');
+					//添加对应头像的属性
+					$api.addCls(tab[i], 'default');
+					$api.addCls(text[i], 'tdefault');
+				}
+			}
+			$api.removeCls(text[currentIndex], 'tdefault');
+			$api.removeCls(tab[currentIndex], 'default');
+			$api.addCls(tab[currentIndex], 'active');
+			$api.addCls(text[currentIndex], 'tactive');
+			//更新数据
+			send(currentIndex);
+		}
+
+		function send(i) {
+			if(currentTag==1){
+				api.sendEvent({
+					name : 'lesson',
+					extra : {
+						key1 : studentId[i] ,
+					}
+				});
+			}else{
+				api.sendEvent({
+					name : 'schedule',
+					extra : {
+						key1 : studentId[i] ,
+					}
+				});
+			}
+			window.sId = studentId[i]
+		}
+
+		function gofunto() {
+			api.openFrame({
+				name : 'lesson',
+				url : 'lesson.html',
+				rect : {
+					x : 0,
+					y : $api.dom('header').offsetHeight + $api.dom('.isnone').offsetHeight + 1,
+					w : api.frameWidth,
+					h : $api.dom('#main').offsetHeight - $api.dom('.isnone').offsetHeight
+				},
+				pageParam : {
+					id : studentId[0],
+					y : $api.dom('header').offsetHeight + $api.dom('.isnone').offsetHeight + 1,
+					h : $api.dom('#main').offsetHeight
+				},
+				bounces : false,
+				bgColor : 'rgba(0,0,0,0)',
+				vScrollBarEnabled : true,
+				hScrollBarEnabled : true
+			});
+		}
+
+		function PostChildren() {
+			var data = {};
+			data.method = 'getStudentsByUserId';
+			data.request = {
+				"userId" : api.getPrefs({
+					sync : true,
+					key : 'userid'
+				})
+			}, api.showProgress();
+			console.log("我的课程getStudentsByUserId请求数据：" + JSON.stringify(data));
+			ajaxRequest(data, function(ret, err) {
+				api.hideProgress();
+				if (ret) {
+					console.log("我的课程getStudentsByUserId成功返回数据：" + JSON.stringify(ret));
+					if (ret.responseCode == 0) {
+						if (ret.responseBody.length > 1) {
+//							api.closeFrame({
+//								name : 'catchNoInfo'
+//							});
+							var tab = $api.domAll('.pic');
+							$api.css($api.dom(".isnone"), 'display:block;');
+							var pic = $api.domAll('.picbox');
+							var name = $api.domAll('.picbox span');
+							var studentName;
+							for (var i = 0; i < ret.responseBody.length; i++) {
+								studentId.push(ret.responseBody[i].id);
+								if(ret.responseBody[i].studentName.length>5){
+								 studentName=ret.responseBody[i].studentName.substring(0,3)+"...";
+								}else{
+								studentName=ret.responseBody[i].studentName
+								}
+								
+								$api.css(pic[i], 'display:inline-block;');
+								$api.html(name[i], studentName);
+								if (ret.responseBody[i].studentImage.length > 0) {
+									$api.css(tab[i], 'background: url(' + $api.imageUrl + ret.responseBody[i].studentImage + ');background-size: 100%;background-repeat: no-repeat;')
+								} else {
+									$api.css(tab[i], 'background: url(../../../image/mine/hardicon.png );background-size: 100%;')
+								}
+							}
+							
+							window.sId=studentId[0]
+							gofunto();
+						}else if (ret.responseBody.length == 1) {
+//							api.closeFrame({
+//								name : 'catchNoInfo'
+//							});
+							studentId[0] = ret.responseBody[0].id;
+						    window.sId=studentId[0]
+							$api.css($api.dom(".isnone"), 'display:none;');
+							gofunto();
+						} else if (ret.responseBody.length == 0) {
+							api.openFrame({
+								name : 'catchNoInfo',
+								url : 'catchNoInfo.html',
+								rect : {
+									x : 0,
+									y : $api.dom('header').offsetHeight,
+									w : api.frameWidth,
+									h : $api.dom('#main').offsetHeight
+								},
+								pageParam:{tab:1},
+								bounces : false,
+								bgColor : 'rgba(0,0,0,0)',
+								reload:true,
+								vScrollBarEnabled : true,
+								hScrollBarEnabled : true
+							});
+						}
+					}
+				} else {
+					console.log("我的课程getStudentsByUserId失败返回数据：" + JSON.stringify(err));
+				}
+			})
+		}
+
+		//检查孩子的数量
+		function cheak() {
+			if (childrenname.length > 1) {
+				$api.css($api.dom('.isnone'), 'display:block;');
+				frameY = $api.dom('.isnone').offsetHeight;
+				for ( i = 0; i < childrenname.length; i++) {
+				
+					$api.css(pic[i], 'display:inline-block;');
+					$api.html(name[i], childrenname[i]);
+				}
+			}
+		}
+
+		imready = function() {
+			PostChildren();
+			api.addEventListener({
+	            name:'nocourse'
+            },function(ret,err){
+            	openNoInfo(0)
+            });
+            api.addEventListener({
+	            name:'noInfoClose'
+            },function(ret,err){
+            	api.closeFrame({
+					name:"catchNoInfo"
+	            });
+            });
+		};
+		var currentTag = 1;
+	
+		function swicth(tag) {
+			if(currentTag==tag){
+				return;
+			}
+			currentTag = tag;
+			var left = $api.dom('.tit-con-left');
+			var right = $api.dom('.tit-con-right');
+			if (tag == 1) {
+				$api.css(left, 'background:#FFF;color: #FF8345;');
+				$api.css(right, 'background:#FF8345;color: #FFF;');
+				send(currentIndex);
+				openframe(1);
+				//打开listview
+			} else if (tag == 2) {
+				$api.css(left, 'background:#FF8345;color: #FFF;');
+				$api.css(right, 'background:#FFF;color: #FF8345;');
+				send(currentIndex);
+				openframe(2);
+			}
+		}
+		function openframe(nume) {
+			if (nume == 1) {
+				if(!window.sId){
+					openNoInfo(1)
+					return;
+				}
+				api.openFrame({
+					name : 'lesson',
+					url : 'lesson.html',
+					rect : {
+						x : 0,
+						y : $api.dom('header').offsetHeight + $api.dom('.isnone').offsetHeight ,
+						w : api.frameWidth,
+						h : "auto"
+					},
+					pageParam : {
+						id : window.sId
+					},
+					bounces : false,
+					bgColor : 'rgba(0,0,0,0)',
+					vScrollBarEnabled : true,
+					hScrollBarEnabled : true
+				});
+			} else if (nume == 2) {
+				if(!window.sId){
+					openNoInfo(1)
+					return;
+				}
+				api.openFrame({
+					name : 'schedule',
+					url : '../../home/schedule_v2.html',
+					rect : {
+						x : 0,
+						y : $api.dom('header').offsetHeight + $api.dom('.isnone').offsetHeight ,
+						w : api.frameWidth,
+						h : $api.dom('#main').offsetHeight - $api.dom('.isnone').offsetHeight
+					},
+					pageParam : {
+						id : window.sId
+					},
+					bounces : false,
+					bgColor : 'rgba(0,0,0,0)',
+					vScrollBarEnabled : true,
+					hScrollBarEnabled : true
+				});
+			}
+		}
+		
+		function openNoInfo(tab){
+			var isY = tab==1?true:false;
+			var y = isY?($api.dom('header').offsetHeight):($api.dom('header').offsetHeight + $api.dom('.isnone').offsetHeight )
+			var h = api.winHeight-y
+			api.openFrame({
+				name : 'catchNoInfo',
+				url : 'catchNoInfo.html',
+				rect : {
+					x : 0,
+					y : y,
+					w : api.frameWidth,
+					h : h
+				},
+				bounces : false,
+				pageParam:{tab:tab},
+				bgColor : 'rgba(0,0,0,0)',
+				reload:true,
+				vScrollBarEnabled : true,
+				hScrollBarEnabled : true
+			});
+		}
+		
+	</script>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <style>
+        header {
+            position: relative;
+            height: .9rem;
+            width: 100%;
+            background: #ff8344;
+        }
+
+        header h1 {
+            color: #fff;
+            line-height: .9rem;
+            text-align: center;
+            font-size: .34rem;
+            font-weight: normal;
+        }
+
+        header span {
+            position: absolute;
+            top: .225rem;
+            left: .32rem;
+            height: .5rem;
+            width: .5rem;
+        }
+
+        header span img {
+            height: .45rem;
+            width: .25rem;
+        }
+
+        section ul {
+            width: 100%;
+            vertical-align: middle;
+            height: 1.06rem;
+            border: solid 1px #f4f4f4;
+        }
+
+        section ul li {
+            float: left;
+            display: block;
+            list-style-type: none;
+            width: 1.1rem;
+        }
+
+        section ul li div {
+            margin-top: .08rem;
+        }
+
+        section ul li div img {
+            display: block;
+            width: 0.64rem;
+            height: 0.64rem;
+            margin: 0 auto;
+            border-radius: 50%;
+        }
+
+        section ul li p span {
+            width: 100%;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .img_active {
+            border: solid #ff8344 1px;
+        }
+
+        .text_active {
+            color: #ff8344;
+        }
+        .empty {
+            font-size: .48rem;
+            color: #666;
+            width: 100%;
+            height: 5rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <span onclick="api.closeWin()"><img src="../../image/back.png" alt=""></span>
+        <h1>作业</h1>
+    </header>
+    <section id="main">
+        <div class="empty" v-show="!showUI">
+            暂无孩子信息
+        </div>
+        <ul class="children" v-show="showUI">
+            <li v-for="(item,index) in studetninfo" @click="chooseKid(item,index)">
+                <div>
+                    <img :class="{'img_active':item.ischoose}" :src="item.studentImage | pushimg" alt="">
+                </div>
+                <p><span :class="{'text_active':item.ischoose}">{{item.studentName}}</span></p>
+            </li>
+        </ul>
+    </section>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/vue.min.js"></script>
+<script type="text/javascript">
+    var task; //全局控制器Controller
+    initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+        var data = vueDateManager();
+        var methods = vueMethodsManager();
+        task = new Vue({
+            el: '#main', //绑定元素
+            data: data, //本页面的静态动态全部数据
+            methods: methods, //本页面的全部方法
+        })
+    }
+    Vue.filter('pushimg', function(value) {
+        if (value) {
+            value = $api.imageUrl + value;
+        } else {
+            value = task.defaultimg;
+        }
+        return value;
+    });
+    vueDateManager = function() {
+        //初始化Vue数据date为一个json数组
+        var data = {};
+        data.studetninfo = new Array();
+        data.defaultIndex = 0; //默认选中的孩子
+        data.showUI = true;
+        data.defaultimg = "../../image/mine/hardicon.png";
+        console.log("数据管理者" + JSON.stringify(data));
+        return data;
+    }
+    vueMethodsManager = function() {
+        var methods = {};
+        methods.init = function() {
+            var list = {
+                "userId": Number(api.getPrefs({
+                    sync: true,
+                    key: 'userid'
+                }))
+            }
+            goRequest("getStudentsByUserId", list, function(ret) {
+                var responseBody = ret.responseBody;
+                if (responseBody.length <= 0) {
+                    task.showUI = false;
+                    return;
+                }
+                for (var i = 0; i < responseBody.length; i++) {
+                    var list = {};
+                    responseBody[i].ischoose = false;
+                    list = responseBody[i];
+                    task.studetninfo.push(list);
+                };
+                task.studetninfo[task.defaultIndex].ischoose = true;
+                methods.goframe(task.studetninfo[task.defaultIndex]);
+            });
+        }
+        methods.goframe = function(pageParam) {
+            var y = $api.offset($api.dom("header")).h + $api.offset($api.dom("section")).h;
+            api.openFrame({
+                name: 'task_frm',
+                url: 'task_frm.html',
+                rect: {
+                    x: 0,
+                    y: y,
+                    w: api.frameWidth,
+                    h: api.frameHeight - y
+                },
+                pageParam: {
+                    student: pageParam
+                },
+                bounces: true,
+                bgColor: 'rgba(0,0,0,0)',
+                vScrollBarEnabled: true,
+                hScrollBarEnabled: true
+            });
+        }
+        methods.chooseKid = function(item, index) {
+            for (var i = 0; i < task.studetninfo.length; i++) {
+                task.studetninfo[i].ischoose = false;
+            };
+            if (!task.studetninfo[index].ischoose) {
+                task.studetninfo[index].ischoose = !task.studetninfo[index].ischoose;
+            }
+            api.sendEvent({
+                name: 'taskEvent',
+                extra: {
+                    student: item
+                }
+            });
+        }
+        return methods;
+    }
+    imready = function() {
+        initVue();
+        task.init();
+        api.addEventListener({
+            name: 'scrolltobottom',
+            extra: {
+                threshold: 0 //设置距离底部多少距离时触发，默认值为0，数字类型
+            }
+        }, function(ret, err) {
+            if (ret) {
+                alert(JSON.stringify(ret));
+            }
+        });
+
+    }
+</script>
+
+</html>

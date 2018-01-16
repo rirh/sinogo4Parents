@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../../../css/api.css" />
+	<link rel="stylesheet" type="text/css" href="../../../css/style.css" />
+	<style>
+		.h-right {
+			text-align: right;
+			margin-right: 0.23rem;
+			-webkit-flex: 0.3;
+			/* Chrome */
+			-ms-flex: 0.3;
+			/* IE 10 */
+			flex: 0.3;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 0.3;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 0.3;
+		}
+
+		.h-left {
+			margin-left: 0.23rem;
+			text-align: left;
+			-webkit-flex: 0.3;
+			/* Chrome */
+			-ms-flex: 0.3;
+			/* IE 10 */
+			flex: 0.3;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 0.3;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 0.3;
+		}
+
+		.h-left img {
+			margin-top: 0.215rem;
+			width: 0.25rem;
+			height: 0.45rem;
+			background: url(../../../image/setting/icon-back.png);
+			background-size: cover;
+			margin-left: 0;
+		}
+		/****************************************************************************************************************/
+
+		#main .customerBox {
+			width: 100%;
+			background: #fff;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+		}
+
+		#main .customerBox .serviceNumber {
+			height: 0.575rem;
+			line-height: 0.575rem;
+			display: -webkit-flex;
+			/* 新版本语法: Chrome 21+ */
+			display: flex;
+			/* 新版本语法: Opera 12.1, Firefox 22+ */
+			display: -webkit-box;
+			/* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+			display: -moz-box;
+			/* 老版本语法: Firefox (buggy) */
+			display: -ms-flexbox;
+			/* 混合版本语法: IE 10 */
+		}
+
+		#main .customerBox .serviceNumber .serviceNumberConten {
+			-webkit-flex: 2;
+			/* Chrome */
+			-ms-flex: 2;
+			/* IE 10 */
+			flex: 2;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 2;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 2;
+			/* OLD - Firefox 19- */
+			margin-left: 0.23rem;
+			font-size: 0.28rem;
+			color: #333;
+		}
+
+		#main .customerBox .serviceNumber .serviceNumberState {
+			-webkit-flex: 1;
+			/* Chrome */
+			-ms-flex: 1;
+			/* IE 10 */
+			flex: 1;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 1;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 1;
+			/* OLD - Firefox 19- */
+			margin-left: 0.23rem;
+			font-size: 0.28rem;
+			text-align: right;
+			margin-right: 0.23rem;
+		}
+
+		.PendingTreatment {
+			color: #FF8344;
+		}
+
+		.AlreadyCompleted {
+			color: #1EBEB6
+		}
+
+		#main .customerBox .serviceNumber .serviceNumberConten span {
+			font-size: 0.26rem;
+		}
+
+		#main .aftermarketTypebox {
+			background: #fffff9;
+			height: 0.66rem;
+			line-height: 0.66rem;
+			color: #666;
+			position: relative;
+		}
+
+		#main .aftermarketTypebox:before {
+			border-top: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+
+		#main .aftermarketTypebox:after {
+			border-bottom: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+
+		#main .aftermarketTypebox .studentName {
+			margin-left: 0.23rem;
+			font-size: 0.28rem;
+			height: 0.8rem;
+		}
+
+		#main .aftermarketTypebox .studentName span {
+			font-size: 0.26rem;
+		}
+
+		#main .aftermarketTypebox .aftermarketType {
+			margin-left: 1rem;
+		}
+
+		#main .orderContentBox {
+			height: 2.3rem;
+			display: -webkit-flex;
+			/* 新版本语法: Chrome 21+ */
+			display: flex;
+			/* 新版本语法: Opera 12.1, Firefox 22+ */
+			display: -webkit-box;
+			/* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+			display: -moz-box;
+			/* 老版本语法: Firefox (buggy) */
+			display: -ms-flexbox;
+			/* 混合版本语法: IE 10 */
+			border-bottom: solid 1px #d9d9d9;
+			position: relative;
+		}
+
+		#main .orderContentBox .orderContentImg {
+			height: 1.60rem;
+			width: 2.60rem;
+			margin-left: 0.23rem;
+			margin-top: 0.28rem;
+		}
+
+		#main .orderContentTextbox {
+			margin-left: 0.32rem;
+			width: 4.14rem;
+			margin-top: 0.3rem;
+		}
+
+		#main .orderContentTextbox p {
+			margin-top: 0.2rem;
+			font-size: 0.26rem;
+			color: #666;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+		}
+
+		#main .orderContentBox #afterSales {
+			height: 0.43rem;
+			width: 1.42rem;
+			line-height: 0.43rem;
+			outline: none;
+			font-size: 0.26rem;
+			text-align: center;
+			border-radius: 0.05rem;
+			border: solid #d9d9d9 1px;
+			position: absolute;
+			bottom: 0.4rem;
+			right: 0.23rem;
+			color: #FF8344;
+		}
+
+		#main .difference {
+			height: 0.29rem;
+			background: #f4f4f4;
+			position: relative;
+		}
+
+		#main .difference:after {
+			border-bottom: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+
+		.tapmode {
+			background: #f4f4f4
+		}
+
+		#search {
+			color: #d9d9d9;
+			font-size: 0.26rem;
+			background: #f6f6f6;
+			height: 1.31rem;
+			position: relative;
+			display: none;
+		}
+
+		#search img {
+			position: absolute;
+			height: 0.26rem;
+			width: 0.26rem;
+			left: 0.47rem;
+			top: 0.525rem;
+		}
+
+		#search input {
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			width: 93.87%;
+			height: 0.75rem;
+			margin-top: 0.28rem;
+			margin-left: 0.23rem;
+			border-radius: 0.1rem;
+			border: solid 1px #ccc;
+			outline: none;
+			padding-left: 0.73rem;
+			font-size: 0.26rem;
+			color: #666;
+		}
+
+		.empty {
+			width: 2.05rem;
+			height: 2.05rem;
+		}
+		.emptyText{
+			height: 0.66rem;
+			line-height: 0.66rem;
+			text-align: center;
+			font-size: 0.28rem;
+			color: #666;
+		}
+
+		.flex-wrap {
+			display: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="flex-wrap flex-vertical">
+		<!--	<div id="search">
+			<img src="../../../image/mine/icon_serch.png"/>
+			<input placeholder="商品名称，商品编号，订单编号" type="text"/>
+			</div>-->
+		<div class="flex-con" id="main">
+
+
+
+
+		</div>
+</body>
+<script type="template" id="dotTmpl">
+	{{for(var i = 0 ; i
+	<it.length; i ++ ){}} <div class="customerBox">
+		<div class="serviceNumber">
+			<div class="serviceNumberConten">
+				服务单号：<span>{{=it[i].serviceNumber}}</span>
+			</div>
+			<div class="serviceNumberState PendingTreatment ">
+				{{=it[i].serviceNumberState}}
+			</div>
+		</div>
+		<div class="serviceNumber">
+			<div class="serviceNumberConten">
+				下单时间：<span>{{=it[i].createtime}}</span>
+			</div>
+		</div>
+		{{for(var j = 0 ; j
+		<it[i].student.length; j ++ ){}} <div class="aftermarketTypebox">
+			<div class="studentName">
+				购买学生：<span>{{=it[i].student[j].studentName}}</span>
+			</div>
+			</div>
+			{{for(var k = 0 ; k
+			<it[i].student[j].goodsOrderDetails.length; k++ ){}} <div class="orderContentBox">
+				<img class="orderContentImg" src='{{=it[i].student[j].goodsOrderDetails[k].img}}' ? '{{=it[i].student[j].goodsOrderDetails[k].img}}': '../../../image/eg_books.png' />
+				<div class="orderContentTextbox">
+					<p>
+						{{=it[i].student[j].goodsOrderDetails[k].orderContentTitle}}
+					</p>
+					<p>
+						数量：<span>x {{=it[i].student[j].goodsOrderDetails[k].orderContentNumber}}</span>
+					</p>
+					<button id="afterSales" onclick="afterSales('{{=it[i].student[j].goodsOrderDetails[k].img}}','{{=i}}','{{=j}}','{{=k}}')">
+		申请售后
+		</button>
+				</div>
+				</div>
+				{{}}} {{}}}
+				<div class="difference"></div>
+				</div>
+				{{}}}
+</script>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../script/common.js"></script>
+<script type="text/javascript">
+	var pageindex = 1;
+	var pagesize = 20;
+	var loadEnd = false;
+	var page;
+	var json;
+	var noInfo = "<img class='empty'  src='../../../image/mine/noOrder.png'   /><p class='emptyText'>暂无售后,先去找课逛逛吧~</p>"
+
+	function jsonInfo(responseBody) {
+		json = [];
+		for (var i = 0; i < responseBody.length; i++) {
+			var list = {};
+			list.orderAmount = responseBody[i].orderAmount;
+			list.orderFrom = responseBody[i].orderFrom;
+			list.serviceNumber = responseBody[i].orderNo;
+			list.tag = responseBody[i].orderStatus;
+			switch (list.tag) { //售后状态（1，已提交  2，教师审核通过  3，教师拒绝 4，已完成 5，管理员已拒绝）
+				case 1:
+					list.serviceNumberState = "待处理";
+					break;
+				case 2:
+					list.serviceNumberState = "教师审核通过";
+					break;
+				case 3:
+					list.serviceNumberState = "教师拒绝";
+					break;
+				case 4:
+					list.serviceNumberState = "已完成";
+					break;
+				case 5:
+					list.serviceNumberState = "管理员已拒绝";
+					break;
+				default:
+					list.serviceNumberState = " ";
+					break;
+			}
+			list.serviceNumberState = " "; //现在暂时定为全都不显示
+			list.createtime = responseBody[i].createTime;
+			var student = responseBody[i].orderStudentDetails;
+			list.student = [];
+			//遍历孩子
+			for (var j = 0; j < student.length; j++) {
+				var mlist = {};
+				var goodsOrderDetails = [];
+				mlist.studentName = student[j].studentName;
+				mlist.studentId = student[j].studentId;
+				var OrderDetails = responseBody[i].goodsOrderDetails;
+				//遍历货物
+				for (var k = 0; k < OrderDetails.length; k++) {
+					var omlist = {}
+					omlist.cashBack = OrderDetails[k].cashBack;
+					omlist.couponsAmount = OrderDetails[k].couponsAmount;
+					omlist.freightAmount = OrderDetails[k].freightAmount;
+					omlist.goodsExpand = OrderDetails[k].goodsExpand;
+					omlist.goodsNo = OrderDetails[k].goodsNo;
+					omlist.goodsPrice = OrderDetails[k].goodsPrice;
+					omlist.goodsType = OrderDetails[k].goodsType;
+					omlist.organizationId = OrderDetails[k].organizationId;
+					omlist.sinogoCoin = OrderDetails[k].sinogoCoin;
+					omlist.orderContentTitle = OrderDetails[k].goodsName;
+					omlist.orderContentNumber = OrderDetails[k].goodsNum
+					omlist.orderContentTitle = OrderDetails[k].goodsName;
+					omlist.img = $api.imageUrl + OrderDetails[k].goodsPreview;
+					//						console.log("返回网络图片地址：" + omlist.img);
+					goodsOrderDetails.push(omlist)
+				}
+				mlist.goodsOrderDetails = goodsOrderDetails;
+				list.student.push(mlist);
+			}
+			json.push(list);
+		}
+		console.log(JSON.stringify(json))
+		var tmpl = doT.template($api.text($api.dom("#dotTmpl")));
+		if (pageindex == 1) {
+			$api.dom("#main ").innerHTML = '';
+		}
+		if (pageindex == page) {
+			loadEnd = true;
+		} else {}
+		$api.dom("#main ").innerHTML += tmpl(json);
+		api.parseTapmode();
+		$api.css($api.dom(".flex-wrap"), "display:block");
+	}
+
+	function afterSales(img, i, j, k) {
+		var sale = {};
+		sale.method = "verifySupport";
+		sale.request = {
+			"goodsNo": json[i].student[j].goodsOrderDetails[k].goodsNo,
+			"studentId": json[i].student[j].studentId,
+			"orderNo": json[i].serviceNumber
+		};
+		console.log("申请售后verifySupport请求时数据：" + JSON.stringify(sale));
+		ajaxRequest(sale, function(ret, err) {
+			if (ret) {
+				console.log("申请售后verifySupport成功返回数据：" + JSON.stringify(ret));
+				if (ret.responseCode == 0) {
+					if (ret.responseBody) {
+						api.sendEvent({
+							name: 'openScheduleQuery'
+						});
+					} else {
+						api.openWin({
+							name: 'approvalDetails',
+							url: 'approvalDetails.html',
+							pageParam: {
+								orderNo: json[i].serviceNumber,
+								student: json[i].student[j],
+								goods: json[i].student[j].goodsOrderDetails[k],
+								img: img
+							}
+						});
+
+					}
+				} else {
+					console.log("申请售后verifySupport失败返回数据：" + JSON.stringify(ret));
+
+					alert(ret.responseMsg);
+				}
+			}
+		})
+	}
+
+	function getHotCities() {
+		var data = {};
+		data.method = "orderSupportList";
+		data.request = {
+			//				"teacherId" : api.getPrefs({sync : true,key : 'userid'}),
+			"userId": api.getPrefs({
+				sync: true,
+				key: 'userid'
+			}),
+			"page": pageindex,
+			"pageSize": pagesize
+		}, api.showProgress();
+		console.log('售后详情orderSupportSearch:请求数据' + '--' + JSON.stringify(data))
+		ajaxRequest(data, function(ret, err) {
+			api.hideProgress();
+			api.refreshHeaderLoadDone();
+			if (ret) {
+				console.log('售后详情orderSupportSearch:成功返回数据' + '--' + JSON.stringify(ret));
+				if (ret.responseCode == 0) {
+					if (ret.responseBody.rows.length == 0) {
+
+						$api.css($api.dom("#main"), "padding-top:3rem;text-align:center;font-size: 0.5rem;color: #666;");
+						$api.html($api.dom("#main"), noInfo);
+						$api.css($api.dom(".flex-wrap"), "display:block");
+					} else {
+						page = ret.totalPage;
+						loadEnd = ret.responseBody.totalPage == pageindex;
+						jsonInfo(ret.responseBody.rows);
+					}
+				} else {
+					alert(ret.responseMsg);
+				}
+			} else {
+				console.log('售后详情orderSupportSearch:失败返回数据' + '--' + JSON.stringify(err));
+			}
+		})
+	}
+
+	function lister() {
+		api.addEventListener({
+			name: 'scheduleQueryUpdate'
+		}, function(ret, err) {
+			//coding...
+			console.log("刷新执行");
+			pageindex = 1;
+			loadEnd = false;
+			getHotCities();
+		});
+	}
+
+	apiready = function() {
+		$api.fixStatusBar($api.dom('header'));
+		lister();
+		getHotCities();
+		api.setRefreshHeaderInfo({
+			visible: true,
+			loadingImg: 'widget://image/refresh.png',
+			bgColor: '#ccc',
+			textColor: '#fff',
+			textDown: '下拉刷新...',
+			textUp: '松开刷新...',
+			showTime: true
+		}, function(ret, err) {
+			//在这里从服务器加载数据，加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
+			pageindex = 1;
+			loadEnd = false;
+			getHotCities();
+		});
+		api.addEventListener({
+			name: 'scrolltobottom',
+			extra: {
+				threshold: 0 //设置距离底部多少距离时触发，默认值为0，数字类型
+			}
+		}, function(ret, err) {
+			if (loadEnd) {
+				api.toast({
+					msg: '没有更多内容了...',
+					location: 'middle'
+				});
+				return;
+			}
+			pageindex++;
+			api.showProgress();
+			getHotCities();
+		});
+	};
+</script>
+
+</html>

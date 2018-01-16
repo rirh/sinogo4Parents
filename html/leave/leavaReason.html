@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+		<style>
+			html, body {
+				width: 100%;
+				height: 100%;
+				padding-top: 3rem;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				background: url(../../image/divider_vertical.png);
+				position: relative;
+				overflow: hidden;
+			}
+			#main {
+				position: relative;
+				margin-left: 0.285rem;
+				width: 6.93rem;
+				border-radius: 0.1rem;
+				background: #FFF;
+			}
+			#main .leaveTitle {
+				height: 0.8rem;
+				font-size: 0.32rem;
+				color: #333;
+				text-align: left;
+				line-height: 0.8rem;
+				margin-left: 0.23rem;
+			}
+			#main .line {
+				height: 1px;
+				margin-left: 0.23rem;
+				background: #aaa;
+				width: 6.6rem;
+			}
+			#main .chooseReasonBox {
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+			}
+			#main .chooseReasonBox .chooseReason {
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				width: 0%;
+				display: block;
+			}
+			#main .chooseReasonBox .chooseReason div {
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				line-height: 0.88rem;
+				height: 0.88rem;
+			}
+			#main .chooseReasonBox .chooseReason div .pic {
+				margin-top: 0.22rem;
+				margin-left: 0.32rem;
+				height: 0.42rem;
+				width: 0.42rem;
+			}
+			#main .chooseReasonBox .chooseReason div .Reson {
+				margin-left: 0.23rem;
+				font-size: 0.3rem;
+				color: #333;
+			}
+			#main .textbox {
+				position: relative
+			}
+			#main .textbox textarea {
+				height: 1.27rem;
+				width: 6.10rem;
+				margin-left: 0.415rem;
+				margin-top: 0.3rem;
+				border-radius: 0.1rem;
+				border: solid 1px #d9d9d9;
+				padding: 0.1rem;
+				font-size: 0.24rem;
+				color: #666;
+				resize: none;
+			}
+			#main .textbox p {
+				position: absolute;
+				right: 0.425rem;
+				bottom: 0.1rem;
+				font-size: 0.23rem;
+				color: #aaa;
+			}
+			#main #button {
+				bottom: 0px;
+				height: 0.88rem;
+				border-top: solid 1px #d9d9d9;
+				margin-top: 0.41rem;
+				line-height: 0.88rem;
+			}
+			#main #button button {
+				width: 50%;
+				float: left;
+				height: 0.88rem;
+				line-height: 0.88rem;
+				font-size: 0.32rem;
+				color: #aaa;
+			}
+			.default {
+				background: url(../../image/mine/leave_unchoose.png) no-repeat;
+				background-size: 100%;
+			}
+			.active {
+				background: url(../../image/mine/leave_choose.png) no-repeat;
+				background-size: 100%;
+			}
+		</style>
+	</head>
+	<body class="popupWindown">
+		<div id="main" class="flex-con">
+			<div class="leaveTitle">
+				请选择请假原因
+			</div>
+			<div class="line"></div>
+			<div class="chooseReasonBox">
+				<div class="chooseReason" onclick="Reason(0)">
+					<div>
+						<div class="pic default"></div>
+						<div class="Reson">
+							病假
+						</div>
+					</div>
+				</div>
+				<div class="chooseReason"  onclick="Reason(1)">
+					<div>
+						<div class="pic default"></div>
+						<div class="Reson">
+							事假
+						</div>
+					</div>
+				</div>
+				<div class="chooseReason"  onclick="Reason(2)">
+					<div>
+						<div class="pic default"></div>
+						<div class="Reson">
+							天气原因
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="chooseReasonBox">
+				<div class="chooseReason"  onclick="Reason(3)">
+					<div>
+						<div class="pic default"></div>
+						<div class="Reson">
+							其他原因
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="textbox">
+				<textarea  onfocus="limitTextarea(this,'.state')" oninput="OnInput (event)" onpropertychange="OnPropChanged (event)" ></textarea>
+				<p>
+					30/字
+				</p>
+			</div>
+			<div id="button">
+				<button style="border-right: solid 1px #d9d9d9" onclick="api.closeFrame();">
+					取消提交
+				</button>
+				<button style="color: #FF8345" onclick="handinReason()">
+					提交请假理由
+				</button>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/zepto.js"></script>
+	<script type="text/javascript" src="../../script/common.js"></script>
+	<script type="text/javascript">
+		var reason = -1;
+		//请假理由请假原因(0:病假   1:事假   2:天气原因   3:其他)
+		var remake;
+		//请假北湖
+		apiready = function() {
+		}
+		function limitTextarea(self, nowleng) {
+			$(self).on('input propertychange', function(event) {
+				var _val = $(self).val();
+				_val = _val < 30 ? _val : _val.substr(0, 30);
+				$(self).val(_val);
+				$(nowleng).text(_val.length)
+			});
+			$(self).blur(function() {
+				$(self).off('input propertychange');
+			});
+		}
+
+		function OnInput(event) {
+			$api.text($api.dom("#main .textbox p"), (30 - event.target.value.length) + "/字");
+		}
+
+		function handinReason() {
+			if (reason != -1) {
+				var textRemark = $api.val($api.dom("#main .textbox textarea"));
+				if (textRemark.length > 0) {
+					var data = {};
+					data.method = 'studentLeave';
+					data.request = {
+						"studentId" : api.pageParam.studentId,
+						"classTimetableIds" : api.pageParam.classTimetableIds,
+						"reason" : reason,
+						"remark" : textRemark
+					}, api.showProgress();
+					console.log("请假申请studentLeave请求数据：" + JSON.stringify(data));
+					ajaxRequest(data, function(ret, err) {
+						api.hideProgress();
+						if (ret) {
+							console.log("请假申请studentLeave成功返回数据：" + JSON.stringify(ret));
+							if (ret.responseBody) {
+								alert("您的请假申请已提交，老师将尽快与您联系");
+								api.closeToWin({
+	                                name: 'leave'
+                                });
+                                api.closeFrame({
+                                });
+                                api.sendEvent({
+	                                name:'updateLeaveInfo'
+                                });
+                                 api.closeFrame({
+                                });
+                                
+							} else {
+								alert("申请失败，请稍后再试！");
+								api.closeFrame();
+							}
+						} else {
+							console.log("请假申请studentLeave失败返回数据：" + JSON.stringify(err));
+							alert("申请失败，请稍后再试！");
+							api.closeFrame();
+						}
+					})
+				} else {
+					api.toast({
+						msg : '请填写请假备注！！'
+					});
+				}
+			} else {
+				api.toast({
+					msg : '请选择请假原因！'
+				});
+			}
+		}
+
+		function Reason(Reason) {
+			var reasonBox = $api.domAll(".pic");
+			for (var i = 0; i < reasonBox.length; i++) {
+				if ($api.hasCls(reasonBox[i], "active")) {
+					$api.removeCls(reasonBox[i], "active");
+					$api.addCls(reasonBox[i], "default");
+				}
+			}
+			$api.removeCls(reasonBox[Reason], "default");
+			$api.addCls(reasonBox[Reason], "active");
+			reason = Reason;
+		}
+	</script>
+</html>

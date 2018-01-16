@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+		<style>
+			body {
+			}
+			.flex-wrap {
+				background: #F6F6F6;
+			}
+		header {
+				padding-right:0.23rem;
+				padding-left:0.23rem;
+			    margin-bottom:0.4rem;
+				background: #FF8345;
+				height: 0.88rem;
+				line-height: 0.88rem;
+				display: -webkit-flex;  /* 新版本语法: Chrome 21+ */
+			    display: flex;          /* 新版本语法: Opera 12.1, Firefox 22+ */
+			    display: -webkit-box;   /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+			    display: -moz-box;      /* 老版本语法: Firefox (buggy) */
+			    display: -ms-flexbox; 
+			      /* 混合版本语法: IE 10 */   
+			}
+			.left {
+			    width:0%;
+				display:block;
+			   -webkit-flex: 3;        /* Chrome */  
+			    -ms-flex: 3 ;            /* IE 10 */  
+			    flex: 3;                /* NEW, Spec - Opera 12.1, Firefox 20+ */
+			    -webkit-box-flex: 3 ;    /* OLD - iOS 6-, Safari 3.1-6 */  
+			    -moz-box-flex: 3;       /* OLD - Firefox 19- */  
+			    text-align: left;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			.center {
+		       text-align:center;
+			   color:#ffffff;
+		    	font-size:0.34rem;  
+				display:block;
+				-webkit-flex: 10;        /* Chrome */  
+			    -ms-flex: 10 ;            /* IE 10 */  
+			    flex: 10;                /* NEW, Spec - Opera 12.1, Firefox 20+ */
+			    -webkit-box-flex: 10 ;    /* OLD - iOS 6-, Safari 3.1-6 */  
+			    -moz-box-flex: 10;       /* OLD - Firefox 19- */  
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			.right {
+		        width:0%;
+				color: #fff;
+				font-size:0.3rem; 
+				display:block;
+				 -webkit-flex: 3;        /* Chrome */  
+			    -ms-flex: 3 ;            /* IE 10 */  
+			    flex:3;                /* NEW, Spec - Opera 12.1, Firefox 20+ */
+			    -webkit-box-flex: 3 ;    /* OLD - iOS 6-, Safari 3.1-6 */  
+			    -moz-box-flex:3;       /* OLD - Firefox 19- */  
+			   text-align: right;
+				-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+			}
+			.left img {
+				
+				display:inline-block;
+				width:0.24rem;
+				height: 0.45rem;
+				margin: 0 auto;
+				margin-top:0.215rem;
+				
+			}
+			
+			.cam {
+			    
+				 display: -webkit-flex;  /* 新版本语法: Chrome 21+ */
+			    display: flex;          /* 新版本语法: Opera 12.1, Firefox 22+ */
+			    display: -webkit-box;   /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+			    display: -moz-box;      /* 老版本语法: Firefox (buggy) */
+			    display: -ms-flexbox;   /* 混合版本语法: IE 10 */   
+				margin-top: 0.48rem;
+				height:1.6rem;
+				background: #FFFFFF;
+				border-bottom: #d9d9d9 solid 0.01rem;
+				border-top: #d9d9d9 solid 0.01rem;
+			}
+			.pic {
+			    margin-top:0.46rem;
+				width:0.88rem;
+				height:0.68rem;
+				background:url(../../image/mine/camera.png);
+				background-size:cover;
+				margin-left:0.51rem;
+				
+				
+			}
+			.text {
+				-webkit-flex: 1;        /* Chrome */  
+			    -ms-flex: 1 ;            /* IE 10 */  
+			    flex: 1;                /* NEW, Spec - Opera 12.1, Firefox 20+ */
+			    -webkit-box-flex: 1 ;    /* OLD - iOS 6-, Safari 3.1-6 */  
+			    -moz-box-flex: 1;       /* OLD - Firefox 19- */     
+				background: #FFFFFF;
+				margin-left: 0.53rem;
+				line-height: 1.6rem;
+				font-size: 0.32rem;
+			}
+			.pics {
+				margin-top: 0.48rem;
+				 display: -webkit-flex;  /* 新版本语法: Chrome 21+ */
+			    display: flex;          /* 新版本语法: Opera 12.1, Firefox 22+ */
+			    display: -webkit-box;   /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+			    display: -moz-box;      /* 老版本语法: Firefox (buggy) */
+			    display: -ms-flexbox;   /* 混合版本语法: IE 10 */  
+				background: #FFFFFF;
+				border-bottom: #d9d9d9 solid 0.01rem;
+				border-top: #d9d9d9 solid 0.01rem;
+				
+			}
+			.tips {
+				margin-top: 0.56rem;
+				margin-left: 0.28rem;
+				color: #7D7D7D
+			}
+			.mpic{
+			   display: inline-block;
+			    margin-top:0.45rem;
+				width:0.88rem;
+				height:0.70rem;
+				background:url(../../image/mine/album.png);
+				background-size:cover;
+				margin-left:0.51rem;
+			
+			
+			
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap" class="flex-wrap flex-vertical">
+			<header>
+				<div class="left" onclick="cancel()">
+					<img src="../../image/back.png" />
+				</div>
+				<div class="center">
+					选择头像
+				</div>
+				<div class="right" onclick="next()">
+					下一步
+				</div>
+			</header>
+			<div id="main" class="flex-con">
+				<div class="cam" onclick="camera('camera')">
+					<div class="pic"></div>
+					<div class="text">
+						拍照
+					</div>
+				</div>
+				<div class="pics"  onclick="camera('album')">
+					<div class="mpic"></div>
+					<div class="text">
+						相册选取
+					</div>
+				</div>
+				<div class="tips">
+					可点击下一步直接跳过，系统会自动帮您的宝贝生成合适的头像；之后您可以在我的宝贝中完善头像信息，并获得相应的奖励
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../script/User.js"></script>
+	<script type="text/javascript">
+		//打开相机
+		function camera(type ) {
+			api.getPicture({
+				sourceType : type,
+				//选择图片的类型
+				encodingType : 'jpg',
+				//媒体类型
+				mediaValue : 'pic',
+				//返回数据类型，指定返回图片地址或图片经过base64编码后的字符串
+				destinationType : 'url',
+				//选择后是否可以编辑 只针对于ios手机
+				allowEdit : true,
+				//图片质量，只针对jpg格式图片（0-100整数）
+				quality : 100,
+				//压缩后的图片宽度，图片会按比例适配此宽度
+				targetWidth : 100,
+				//描述：（可选项）压缩后的图片高度，图片会按比例适配此高度
+				targetHeight : 100,
+				//（可选项）拍照或录制视频后是否保存到相册
+				saveToPhotoAlbum : false
+			}, function(ret, err) {
+				if (ret) {
+				//设置储存
+					setUser('headpic',ret.data);
+					api.openWin({
+						name : 'userinfo',
+						url : 'userinfo.html',
+				pageParam:api.pageParam
+					});
+				} else {
+					alert(JSON.stringify(err));
+				}
+			});
+		}
+
+		function next() {
+			api.openWin({
+				name : 'userinfo',
+				url : 'userinfo.html',
+				pageParam:api.pageParam
+			});
+		}
+
+		function cancel() {
+			api.closeWin({
+				name : 'selecthead'
+			});
+		}
+
+		imready = function() {
+		
+				
+	
+			
+		};
+	</script>
+</html>

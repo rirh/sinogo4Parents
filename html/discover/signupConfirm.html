@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <style>
+    	body{
+    		background: #F6F6F6;
+    	}
+    	#header{
+		    background-color: #FF8345;
+		    text-align: center; color: #fff;
+		    width: 100%; position: relative;
+		    height:0.88rem;
+		}
+		#header .back-icon{
+		    display: inline-block; width: 0.88rem; height: 0.88rem;
+		    background: url(../../image/icon_arrow_left.png) no-repeat center center; 
+		    -webkit-background-size: 0.25rem 0.4rem;
+		    background-size: 0.25rem 0.4rem;
+		    position: absolute; left: 0; bottom: 0;
+		}
+		#header .back-icon.active{
+			 background: url(../../image/icon_arrow_left.png) no-repeat center center rgba(0,0,0,0.2); 
+			 background-size: 0.25rem 0.4rem;
+		}
+		#header h1{
+		    font-size: 0.34rem;
+		    height: 0.88rem; line-height: 0.88rem; margin: 0 auto; color: #fff;
+		    width:5rem;
+		}
+		#main{
+			height:1rem;
+		}
+		#footer{
+			height:0.98rem;
+			background:#FFFFFF;
+		}
+		#service{
+			float:left;
+			width:2.14rem;
+			height:0.98rem;
+			background:#FFFFFF;
+			text-align: center;
+		}
+		#sum{
+			float:left;
+			width:65%;
+			height:0.98rem;
+			background:#FFFFFF;
+			text-align: right;
+			line-height:0.98rem;
+			color:#333333;
+		}
+		#sum span{
+			margin-right: 0.23rem;
+			color:#FF8344;
+		}
+		#gobuy{
+			float:left;
+			width:35%;
+			height:0.98rem;
+			background:#FF4400;
+			text-align: center;
+			line-height:0.98rem;
+		}
+		#gobuy.active{
+			background:#FF8344;
+		}
+		#gobuy span{
+			color:#FFF;
+			font-size:0.3rem;
+		}
+    </style>
+</head>
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<div id="header">
+			<a class="back-icon" tapmode="active" onclick="closeWin()" ></a>
+			<h1 id="title">确认订单</h1>
+		</div>
+		<div id="main" class="flex-con">
+		</div>
+		<div id="footer" class="border-t">
+			<div id="sum">
+				合计:
+				<span>0￥</span>
+			</div>
+			<div tapmode='active'id="gobuy" onclick="buyNow()">
+				<span>提交订单</span>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	var sumSpan ;
+	var childSelected=false;
+	imready = function(){
+		var headerPos = $api.offset($api.byId("header"));
+		var footerPos = $api.offset($api.byId("footer"));
+		window.courseInfo = api.pageParam.courseInfo;
+		sumSpan = $api.dom("#sum span")
+		api.openFrame({
+	        name: 'signupConfirm_con',
+	        url: 'signupConfirm_con.html',
+	        pageParam:{
+	        	courseInfo:window.courseInfo
+	        },
+	        rect: {
+		        x:0,
+		        y:headerPos.h,
+		        w:api.winWidth,
+		        h:api.winHeight-headerPos.h-footerPos.h
+	        }
+        });
+        window.sum = window.courseInfo.coursePrice
+        window.balance=0;
+        sumSpan.innerHTML= "0.00￥"
+        $api.byId("gobuy").style.background="#ccc"
+        api.addEventListener({
+            name:'balanceState'
+        },function(ret,err){
+    		window.frameOpen = ret.value.isOpend;
+        });
+        api.addEventListener({
+            name:'keyback'
+        },function(ret,err){
+        	if(window.frameOpen){
+	            api.sendEvent({
+		            name:'balanceState',
+		            extra:{
+		            	isOpend:false
+		            }
+	            });
+        		api.closeFrame({
+        			name:'balancePayConfirm'
+                });
+        	}else{
+        		api.closeWin();
+        	}
+        });
+	};
+	
+	function updateSum(sum){
+		window.sum=sum
+		sumSpan.innerHTML=sum+"￥"
+	}
+	
+	function updateBuyState(state){
+		childSelected=state
+		if(childSelected){
+			 $api.byId("gobuy").style.background="#FF4400"
+		}else{
+			 $api.byId("gobuy").style.background="#ccc"
+		}
+	}
+	
+	function buyNow(){
+		if(!childSelected){
+			return toastAtMiddle("请先选择为哪个宝贝报课!")
+		}
+		api.execScript({
+			frameName:"signupConfirm_con",
+	        script: 'goBuy();'
+        });
+
+	}
+</script>
+</html>

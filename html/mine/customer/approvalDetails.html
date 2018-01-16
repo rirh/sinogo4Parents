@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+		<style>
+			.flex-wrap {
+			background: #f6f6f6;
+			}
+			header {
+			background: #FF8345;
+			height: 0.88rem;
+			width: 100%;
+			display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+			display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+			display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+			display: -moz-box; /* 老版本语法: Firefox (buggy) */
+			display: -ms-flexbox; /* 混合版本语法: IE 10 */
+			overflow: hidden;
+			}
+			.tit-left {
+			width: 0%;
+			display: block;
+			-webkit-flex: 1; /* Chrome */
+			-ms-flex: 1; /* IE 10 */
+			flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 1; /* OLD - Firefox 19- */
+			text-align: left;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			}
+			.tit-con {
+			text-align: center;
+			font-size: 0.34rem;
+			display: block;
+			-webkit-flex: 4; /* Chrome */
+			-ms-flex: 4; /* IE 10 */
+			flex: 4; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 4; /* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 4; /* OLD - Firefox 19- */
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			height: 0.58rem;
+			line-height: 0.88rem;
+			color: #fff;
+			}
+			.tit-right {
+			width: 0%;
+			display: block;
+			-webkit-flex: 1; /* Chrome */
+			-ms-flex: 1; /* IE 10 */
+			flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 1; /* OLD - Firefox 19- */
+			text-align: right;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			background: #FF8345;
+			}
+			.back {
+			display: inline-block;
+			color: #FFFFFF;
+			text-align: center;
+			background: url(../../../image/back.png);
+			background-size: cover;
+			margin-left: 0.23rem;
+			width: 0.24rem;
+			height: 0.45rem;
+			margin-top: 0.215rem;
+			}
+			#main .orderbox {
+			width: 100%;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			padding-bottom: 0.3rem;
+			border: solid 1px #d9d9d9;
+			background: #fff;
+			}
+			#main .orderbox img {
+			height: 1.60rem;
+			width: 2.60rem;
+			margin-left: 0.23rem;
+			margin-top: 0.28rem;
+			}
+			#main .orderbox .orderTextbox {
+			float: right;
+			width: 4.10rem;
+			margin-left: 0.23rem;
+			}
+			#main .orderbox .orderTextbox p {
+			font-size: 0.24rem;
+			color: #666;
+			}
+			#main .orderbox .orderTextbox .orderTitle {
+			margin-top: 0.28rem;
+			font-size: 0.28rem;
+			color: #333;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			}
+			#main .orderbox .orderTextbox .orderPrice {
+			margin-top: 0.15rem;
+			font-size: 0.24rem;
+			color: #666;
+			}
+			#main .orderbox .orderTextbox .orderPrice span {
+			color: #FF8344;
+			}
+			#main .serviceTypeBook {
+			background: #fff;
+			width: 100%;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			margin-top: 0.3rem;
+			display: none;
+			}
+			#main .serviceTypeBook .serviceTitle {
+			padding-left: 0.23rem;
+			line-height: 0.86rem;
+			height: 0.86rem;
+			color: #333;
+			font-size: 0.28rem;
+			border-top: solid #d9d9d9 1px;
+			border-bottom: solid #d9d9d9 1px;
+			}
+			#main .serviceTypeBook .serviceValue {
+			height: 1.32rem;
+			border-bottom: solid #d9d9d9 1px;
+			}
+			#main .serviceTypeBook .serviceValue button {
+			height: 0.62rem;
+			width: 1.68rem;
+			margin-left: 0.23rem;
+			margin-top: 0.35rem;
+			border-radius: 0.05rem;
+			color: #FFF;
+			font-size: 0.28rem;
+			outline: none;
+			}
+			#main .serviceTypeBook .serviceNumber {
+			padding-left: 0.23rem;
+			line-height: 0.86rem;
+			height: 0.86rem;
+			color: #333;
+			font-size: 0.28rem;
+			border-top: solid #d9d9d9 1px;
+			border-bottom: solid #eee 1px;
+			}
+			#main .serviceTypeBook .serviceValue .numberBox {
+			height: 0.66rem;
+			width: 2.48rem;
+			border-radius: 0.1rem;
+			border: solid #D9D9D9 1px;
+			line-height: 0.66rem;
+			margin-left: 0.23rem;
+			margin-top: 0.32rem;
+			}
+			#main .serviceTypeBook .serviceValue .numberBox #plus {
+			width: 0.64rem;
+			text-align: center;
+			float: left;
+			color: #666;
+			font-size: 0.26rem;
+			}
+			#main .serviceTypeBook .serviceValue .numberBox span {
+			width: 1.14rem;
+			text-align: center;
+			float: left;
+			font-size: 0.28rem;
+			color: #333;
+			border-left: solid #d9d9d9 1px;
+			border-right: solid #d9d9d9 1px;
+			}
+			#main .serviceTypeBook .serviceValue .numberBox #reduce {
+			width: 0.64rem;
+			text-align: center;
+			float: left;
+			color: #666;
+			font-size: 0.26rem;
+			}
+			#main .serviceTypeLesson {
+			background: #fff;
+			width: 100%;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			margin-top: 0.3rem;
+			display: none;
+			}
+			#main .serviceTypeLesson .serviceTitle {
+			padding-left: 0.23rem;
+			line-height: 0.86rem;
+			height: 0.86rem;
+			color: #333;
+			font-size: 0.28rem;
+			border-top: solid #d9d9d9 1px;
+			border-bottom: solid #d9d9d9 1px;
+			}
+			#main .serviceTypeLesson .serviceValue {
+			height: 1.32rem;
+			}
+			#main .serviceTypeLesson .serviceValue button {
+			height: 0.62rem;
+			width: 1.68rem;
+			margin-left: 0.23rem;
+			margin-top: 0.35rem;
+			border-radius: 0.05rem;
+			color: #FFF;
+			font-size: 0.28rem;
+			outline: none;
+			}
+			.default {
+			background:#666;
+			}
+			.active {
+			background:#FF8344;
+			}
+			#main .serviceTypeLesson .refundAmount {
+			padding-left: 0.23rem;
+			line-height: 0.86rem;
+			height: 0.86rem;
+			color: #333;
+			font-size: 0.28rem;
+			border-top: solid #d9d9d9 1px;
+			border-bottom: solid #eee 1px;
+			}
+			#main .serviceTypeLesson .refundAmount  span {
+			float: right;
+			margin-right: 0.23rem;
+			color: #FF8344;
+			}
+			#main .serviceTypeLesson .serviceValue img {
+			display: block;
+			float: left;
+			height: 0.29rem;
+			width: 0.29rem;
+			margin-left: 0.23rem;
+			margin-top: 0.24rem;
+			}
+			#main .serviceTypeLesson .serviceValue .tips {
+			display: inline-block;
+			width: 90%;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			}
+			#main .serviceTypeLesson .serviceValue .tips p {
+			margin-top: 0.24rem;
+			margin-left: 0.23rem;
+			font-size: 0.20rem;
+			color: #666;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			}
+			#main .serviceTypeLesson .serviceValue .tips span {
+			color: #FF8344;
+			}
+			#main .inputBox {
+			background: #fff;
+			width: 100%;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			margin-top: 0.3rem;
+			}
+			#main .inputTitle {
+			padding-left: 0.23rem;
+			line-height: 0.86rem;
+			height: 0.86rem;
+			color: #333;
+			font-size: 0.28rem;
+			border-top: solid #d9d9d9 1px;
+			border-bottom: solid #d9d9d9 1px;
+			}
+			#main .inputBox textarea {
+			height: 2.4rem;
+			width: 100%;
+			color: #444;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			font-size: 0.24rem;
+			padding: 0.23rem;
+			}
+			#main .inputBox .textareaBox {
+			position: relative;
+			}
+			#main .inputBox .textareaBox span {
+			position: absolute;
+			right: 0.23rem;
+			bottom: 0.1rem;
+			font-size: 0.24rem;
+			color: #666;
+			}
+			#main .endtab {
+			height: 0.98rem;
+			width: 100%;
+			background: #FF8345;
+			color: #FFFFFF;
+			font-size: 0.32rem;
+			line-height: 0.89rem;
+			text-align: center;
+			position: fixed;
+			bottom: 0;}
+			.tapmode{
+			background: #d9d9d9;
+
+			}
+		</style>
+	</head>
+	<body >
+		<div id="wrap" class="flex-wrap flex-vertical">
+			<header>
+				<div class="tit-left" onclick="api.closeWin();" >
+					<div class="back"></div>
+				</div>
+				<div class="tit-con">
+					申请售后服务
+				</div>
+				<div class="tit-right"></div>
+			</header>
+			<div class="flex-con" id="main">
+				<div class="orderbox">
+					<img  src=""/>
+					<div class="orderTextbox">
+						<p class="orderTitle">
+							{{title}}
+						</p>
+						<p class="orderPrice">
+							价格：<span >￥{{price}}</span>
+						</p>
+						<p>
+							数量：<span>x{{number}}</span>
+						</p>
+					</div>
+				</div>
+				<div class="serviceTypeBook">
+					<div class="serviceTitle">
+						服务类型
+					</div>
+					<div class="serviceValue">
+						<button class="but active" onclick="bookType(0)">
+							换货
+						</button>
+						<button class="but default " onclick="bookType(1)" style="margin-left: 0.6rem">
+							退货
+						</button>
+					</div>
+					<div style="width: 100%;height: 0.36rem;background: #f4f4f4"></div>
+					<div class="serviceNumber">
+						申请数量
+					</div>
+					<div class="serviceValue">
+						<div class="numberBox">
+							<p id="plus" onclick="increase(false)" tapmode="tapmode">
+								-
+							</p>
+							<span id="orderNumber">1</span>
+							<p id="reduce"onclick="increase(true)" tapmode="tapmode">
+								+
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="serviceTypeLesson">
+					<div class="serviceTitle">
+						服务类型
+					</div>
+					<div class="serviceValue">
+						<button style="background:#FF8344">
+							退课
+						</button>
+					</div>
+					<div style="width: 100%;height: 0.36rem;background: #f4f4f4"></div>
+					<div class="refundAmount">
+						退款金额 <span>￥{{orderRefundMoney}}</span>
+					</div>
+					<div class="serviceValue" style="height: 0.84rem;border-bottom: solid #d9d9d9 1px;padding-bottom:0.26rem ">
+						<img src="../../../image/mine/icon_tips.png"  />
+						<div class="tips">
+							<p>
+								根据您的剩余课时及您报名的实付款，本次退课江按照实付款金额乘剩余课时，然后除以总课时的公式获得退款金额<span>￥{{orderRefundMoney}}</span>，如有疑问请咨询客服
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="inputBox">
+					<div class="inputTitle">
+						问题描述
+					</div>
+					<div class="textareaBox">
+						<textarea oninput="OnInput (event)" onpropertychange="OnPropChanged (event)" ></textarea>
+						<span>0/500字</span>
+					</div>
+				</div>
+				<div class="endtab" onclick="submit()">
+					提交
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../../script/api.js"></script>
+	<script type="text/javascript" src="../../../script/common.js"></script>
+	<script type="text/javascript" src="../../../script/vue.js"></script>
+	<script type="text/javascript">
+		//教辅1,退货 2,换货    课程3,退费
+		var goodsType;
+		//文本的内容
+		var problemDescribe;
+		//文本的最大长度
+		var problemDescribeMax = 500;
+		//货品初始值
+		var orderNumberInit = 1;
+		//货品值
+		var orderNumber;
+		//货品数量最大值
+		var orderNumberMax = 10;
+		//退款数额
+		var orderRefundMoney;
+		// Firefox, Google Chrome, Opera, Safari, Internet Explorer from version 9
+		function OnInput(event) {
+			if (event.target.value.length > problemDescribeMax) {
+				api.toast({
+					msg : '字数超出！'
+				});
+				$api.val($api.dom("textarea"), $api.val($api.dom("textarea")).substring(0, problemDescribeMax));
+				return;
+			} else {
+				problemDescribe = $api.val($api.dom("textarea"));
+				$api.text($api.dom(".textareaBox span"), (problemDescribeMax - event.target.value.length) + "/" + problemDescribeMax + "字");
+			}
+		}
+
+		// Internet Explorer
+		function OnPropChanged(event) {
+			if (event.target.value.length > problemDescribeMax) {
+				api.toast({
+					msg : '字数超出！'
+				});
+				$api.val($api.dom("textarea"), $api.val($api.dom("textarea")).substring(0, problemDescribeMax));
+				return;
+			} else {
+				problemDescribe = $api.val($api.dom("textarea"));
+				$api.text($api.dom(".textareaBox span"), (problemDescribeMax - event.target.value.length) + "/" + problemDescribeMax + "字");
+			}
+		}
+
+		function bookType(type) {
+			switch(type) {
+				case 0:
+					goodsType = 2;
+					$api.removeCls($api.domAll(".but")[type], "default");
+					$api.addCls($api.domAll(".but")[type], "active");
+					if ($api.hasCls($api.domAll(".but")[type + 1], "active")) {
+						$api.removeCls($api.domAll(".but")[type + 1], "active");
+						$api.addCls($api.domAll(".but")[type + 1], "default");
+					}
+					break;
+				case 1:
+					goodsType = 1;
+					$api.removeCls($api.domAll(".but")[type], "default");
+					$api.addCls($api.domAll(".but")[type], "active");
+					if ($api.hasCls($api.domAll(".but")[type - 1], "active")) {
+						$api.removeCls($api.domAll(".but")[type - 1], "active");
+						$api.addCls($api.domAll(".but")[type - 1], "default");
+					}
+					break;
+				default:
+					break;
+			}
+		}
+
+		function increase(isadd) {
+			orderNumber = $api.text($api.dom("#orderNumber"))
+			if (isadd) {
+				if (orderNumber < orderNumberMax) {
+					orderNumber++;
+					$api.text($api.dom("#orderNumber"), orderNumber);
+				}else{
+				    api.toast({
+	                    msg:'不能再多了！'
+                    });
+				}
+			} else {
+				if (orderNumberInit < orderNumber) {
+					orderNumber--;
+					$api.text($api.dom("#orderNumber"), orderNumber);
+				}else{
+				  api.toast({
+	                    msg:'不能再少了！'
+                    });
+				}
+			}
+		}
+
+
+		function submit() {
+		switch(JSON.stringify(api.pageParam.goods.goodsType)) {//1是课本2是课程
+				case '1':
+				orderRefundMoney=(api.pageParam.goods.goodsPrice)*(orderNumber>0?orderNumber:orderNumberInit)
+				break;
+				case '2':
+				break;
+				}
+			var data = {}
+			console.log("退款金额"+orderRefundMoney);
+			data.method = "createOrderSupport";
+			data.request = {
+				"userId" : api.getPrefs({
+					sync : true,
+					key : 'userid'
+				}),
+				"studentId" : api.pageParam.student.studentId,
+				"orderNo" : api.pageParam.orderNo,
+				"goodsNo" : api.pageParam.goods.goodsNo,
+				"goodsPrice" : api.pageParam.goods.goodsPrice,
+				"goodsNum" : orderNumber?orderNumber:orderNumberInit,
+				"refundMoney" : orderRefundMoney,
+				"goodsType" : api.pageParam.goods.goodsType,
+				"supportType" : goodsType,
+			};
+			api.showProgress();
+			console.log("申请售后服务createOrderSupport请求数据" + JSON.stringify(data));
+			ajaxRequest(data, function(ret, err) {
+			api.hideProgress();
+				api.hideProgress();
+				if (ret) {
+					console.log("申请售后服务createOrderSupport成功返回数据" + JSON.stringify(ret))
+					if (ret.responseCode == 0) {
+						if (ret.responseBody) {
+							api.sendEvent({
+								name : 'scheduleQueryUpdate'
+							});
+							alert("提交成功");
+							api.closeWin({
+							});
+						} else {
+							alert(ret.responseMsg);
+						}
+					}else{
+							alert(ret.responseMsg);
+					}
+				} else {
+					console.log("申请售后服务createOrderSupport失败返回数据" + JSON.stringify(err))
+					alert(err.responseMsg);
+				}
+			})
+		}
+
+		function initViewBook() {
+
+			$api.dom("#main .orderbox img").src = api.pageParam.img;
+			var orderData = {
+				title : api.pageParam.goods.orderContentTitle,
+				price : api.pageParam.goods.goodsPrice,
+				number : orderNumberMax,
+				goodsPrice : api.pageParam.goods.goodsPrice
+			}
+			new Vue({
+				el : '#wrap',
+				data : orderData
+			})
+
+
+		}
+			function initViewLesson() {
+			var data = {};
+			data.method = "getRefundMoney";
+			data.request = {
+				"studentId" : api.pageParam.student.studentId,
+				"orderNo" : api.pageParam.orderNo,
+				"goodsNo" : api.pageParam.goods.goodsNo,
+			};
+			api.showProgress();
+			console.log("申请售后服务getRefundMoney请求数据" + JSON.stringify(data));
+			ajaxRequest(data, function(ret, err) {
+			api.hideProgress();
+				if (ret) {
+					console.log("申请售后服务getRefundMoney成功返回数据" + JSON.stringify(ret));
+					if (ret.responseCode == 0) {
+				    		$api.dom("#main .orderbox img").src = api.pageParam.img;
+				    		orderRefundMoney=ret.responseBody;
+							var orderData = {
+								title : api.pageParam.goods.orderContentTitle,
+								price : api.pageParam.goods.goodsPrice,
+								number : orderNumberMax,
+								goodsPrice : api.pageParam.goods.goodsPrice,
+								orderRefundMoney:ret.responseBody
+							}
+							new Vue({
+								el : '#wrap',
+								data : orderData
+							})
+					}
+				} else {
+					console.log("申请售后服务getRefundMoney失败返回数据" + JSON.stringify(err));
+				}
+			})
+
+
+
+		}
+
+		imready = function() {
+			console.log("申请售后服务pageParam数据：" + JSON.stringify(api.pageParam));
+			console.log("1是课本2是课程：" + api.pageParam.goods.goodsType);
+			orderNumberMax = api.pageParam.goods.orderContentNumber;
+			switch(JSON.stringify(api.pageParam.goods.goodsType)) {//1是课本2是课程
+				case '1':
+					goodsType = 2;
+					//教辅1,退货 2,换货    课程3,退费
+					$api.css($api.dom("#main .serviceTypeBook"), "display:block");
+					initViewBook();
+					break;
+				case '2':
+					goodsType = 3;
+					$api.css($api.dom("#main .serviceTypeLesson"), "display:block");
+					initViewLesson();
+					break;
+				default:
+					return;
+					break;
+			}
+
+		};
+	</script>

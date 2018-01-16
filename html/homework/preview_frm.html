@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../../css/api.css" />
+	<style>
+		.job_msg {
+			height: 1.31rem;
+			width: 100%;
+		}
+
+		.job_msg div:nth-child(1) p:nth-child(1) span {
+			font-size: .28rem;
+			color: #333;
+			margin-left: .28rem;
+			line-height: .655rem;
+		}
+
+		.job_msg div:nth-child(1) p:nth-child(2) span {
+			font-size: .26rem;
+			color: #666;
+			margin-left: .28rem;
+			line-height: .655rem;
+		}
+		/********************作业******************/
+
+		#task {
+			background: #fff;
+		}
+
+		#task dd {
+			margin-bottom: .28rem;
+		}
+
+		#task h3 {
+			height: .86rem;
+			width: auto;
+			background: #f6f6f6;
+			border-left: solid 0.06rem #a05150;
+		}
+
+		#task h3 span {
+			margin-left: 0.28rem;
+			font-size: 0.28rem;
+			line-height: 0.86rem;
+			color: #333;
+			font-weight: normal;
+		}
+
+		#task h3 img {
+			height: 0.28rem;
+			width: 0.29rem;
+			margin: 0.29rem 0 0 0.23rem;
+		}
+
+		.questionTitleAttributes div {
+			background: #fff;
+			margin-top: .28rem;
+		}
+
+		.questionTitleAttributes .questionTitle_text {
+			margin-top: .29rem;
+			color: #1ebeb6;
+			font-size: .3rem;
+			margin-left: .32rem;
+		}
+
+		.questionTitleAttributes .questionTitle_img {
+			max-width: 5.1rem;
+			display: block;
+			background: #fff;
+			margin: 0 auto;
+		}
+
+		.questionTitleAttributes .questionTitle_sgf {
+			background: #FFF;
+			width: 5.8rem;
+			height: 5.8rem;
+			margin-left: 0.85rem;
+			border-radius: 0.1rem;
+			margin-top: 0.56rem;
+		}
+
+		.questionOptionsAttributes {
+			background: #fff;
+			margin-top: .28rem;
+		}
+
+		.questionOptionsAttributes div {
+			margin-top: .28rem;
+			overflow: hidden;
+		}
+
+		.questionOptionsAttributes div div {
+			margin: 0 auto;
+			width: 6.52rem;
+			border-radius: .05rem;
+			min-height: .9rem;
+			background: #f6f6f6
+		}
+
+		.questionOptionsAttributes .questionOption {
+			position: relative;
+			font-size: .26rem;
+			color: #666;
+		}
+
+		.questionOptionsAttributes .questionOption span:nth-child(1) {
+			position: absolute;
+			left: .28rem;
+			top: .28rem;
+			display: inline-block;
+		}
+
+		.questionOptionsAttributes .questionOption span:nth-child(2) {
+			text-indent: 1em;
+			margin: .28rem .28rem .28rem .28rem;
+		}
+		.questionOptionsAttributes .questionOption span img{
+			max-width: 5.1rem;
+			display: block;
+			background: #fff;
+			margin: 0 auto;
+			margin-left: .71rem;
+		}
+		[v-cloak]{
+			display: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical" >
+		<div id="main" class="flex-con" v-cloak >
+			<section class="job_msg">
+				<div>
+					<p><span>{{pageParam | job_name}}</span></p>
+					<p><span>{{pageParam.job.homeworkTitle}}&nbsp共{{pageParam.job.questionCount}}题</span></p>
+				</div>
+				<dl id="task">
+					<dd v-for="(question,questionindex) in pageParam.jobDetalis">
+						<h3><span>难度</span><img v-for="start in question.difficultyValue" src="../../image/icon_start.png" alt=""></h3>
+						<div class="questionTitleAttributes">
+							<!-- 题目题干 -->
+							<div v-for="(questionTitle,questionTitleindex) in question.questionTitleAttributes">
+								<!-- titleTypeValue -1文字 0 图片 1音频 2视频 3 sgf文件-->
+								<div v-show="questionTitle.titleTypeValue==-1" class="questionTitle_text">
+									{{questionTitle.titleDetails}}
+								</div>
+								<div v-show="questionTitle.titleTypeValue==0">
+									<img class="questionTitle_img" :src="questionTitle.titleDetails" alt="">
+								</div>
+								<div v-show="questionTitle.titleTypeValue==1">
+									<audio src="questionTitle.titleDetails" controls="controls">
+										 手机不支持音频标签
+									 </audio>
+								</div>
+								<div v-show="questionTitle.titleTypeValue==2">
+									<video src="questionTitle.titleDetails" controls="controls">
+										手机不支持视频标签
+										</video>
+								</div>
+								<div class="questionTitle_sgf" v-show="questionTitle.titleTypeValue==3">
+									<iframe :sgf="questionTitle.titleDetails" :loaded="false" @load="iframeLoaded"></iframe>
+								</div>
+							</div>
+						</div>
+						<!-- 题目选项 -->
+						<div class="questionOptionsAttributes">
+							<div v-for="(questionOption,questionOptionIndex) in question.questionOptionsAttributes">
+								<div class="questionOption" v-for="(options,optionsIndex) in questionOption.questionOptions">
+									<span v-show="optionsIndex==0">{{questionOption.optionName}}.</span>
+									<span v-show="options.optionTypeValue==-1">{{options.optionDetails}}</span>
+									<span v-show="options.optionTypeValue== 0"><img :src="options.optionDetails" alt=""></span>
+								</div>
+							</div>
+						</div>
+					</dd>
+				</dl>
+			</section>
+		</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/vue.min.js"></script>
+<script  type="text/javascript" src="../../script/jquery-3.1.1.js"></script>
+<script src="../../script/chessboard.js"></script>
+<script src="../../script/sgfutils.js"></script>
+<script type="text/javascript">
+	var task; //全局控制器Controller
+	initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+		var data = vueDateManager();
+		var methods = vueMethodsManager();
+		task = new Vue({
+			el: '#main', //绑定元素
+			data: data, //本页面的静态动态全部数据
+			methods: methods, //本页面的全部方法
+		})
+	}
+	Vue.filter('job_name', function(value) { //开始时间过滤器
+		if (!isEmpty(value)) {
+			value = value.job.publishDate;
+			var a = new Array("日", "一", "二", "三", "四", "五", "六");
+			var week = new Date(value.substring(0, 10)).getDay();
+			var str = "周" + a[week];
+			value = value.substring(5, 7) + "月" + value.substring(8, 10) + "日 " + str + " " + value.substring(11, 16);
+		}
+		return value;
+	})
+
+
+	vueDateManager = function() {
+		//初始化Vue数据date为一个json数组
+		var data = {};
+		data.pageParam = {
+			"jobDetalis": {
+				"questionAttributeList": [{
+					"questionTypeName": "",
+					"questionId": 0,
+					"questionOptionsAttributes": [{
+						"optionId": 0,
+						"optionName": "",
+						"optionRight": 0,
+						"questionId": 0,
+						"questionOptions": [{
+							"optionTypeName": "",
+							"optionTypeValue": 0,
+							"optionDetails": ""
+						}],
+						"optionValue": 0
+					}],
+					"drawChessBoard": 0,
+					"knowledgeId": 0,
+					"difficultyValue": 0,
+					"questionTypeValue": 0,
+					"subjectName": "",
+					"difficultyName": "",
+					"subjectId": 0,
+					"knowledgeName": "",
+					"boardSize": 0,
+					"programmeId": 0,
+					"programmeName": "",
+					"questionTitleAttributes": [{
+						"titleTypeValue": 0,
+						"titleDetails": "",
+						"titleTypeName": ""
+					}]
+				}],
+				"answerQuestionsList": [{
+					"id": 0,
+					"createTime": "",
+					"answerCostTime": 0,
+					"answerSgfText": "",
+					"choiceOptionId": 0,
+					"homeWorkId": 0,
+					"choiceOptionSequence": 0,
+					"questionId": 0,
+					"studentId": 0,
+					"answerIsRight": 0,
+					"questionType": 0
+				}],
+				"boardSize": 0,
+				"programmeId": 0,
+				"subjectId": 0,
+				"knowledgeId": 0,
+				"knowledgeName": "",
+				"drawChessBoard": 0,
+				"programmeName": "",
+				"questionTypeName": "",
+				"subjectName": "",
+				"questionId": 0,
+				"questionTypeValue": 0,
+				"difficultyName": "",
+				"difficultyValue": 0
+			},
+			"job": {
+				"questionCount": 0,
+				"courseName": "",
+				"homeWorkStudentId": 0,
+				"homeworkPublishId": 0,
+				"monthStr": "0",
+				"className": "",
+				"studentWorkStatus": 0,
+				"limitDate": "",
+				"studentScore": 0,
+				"courseCategory": "",
+				"month": 0,
+				"homeworkTitle": "",
+				"publishDate": ""
+			}
+		};
+
+		console.log("数据管理者" + JSON.stringify(data));
+		return data;
+
+	}
+	vueMethodsManager = function() {
+			var methods = {};
+			methods.init = function() {
+				task.pageParam = api.pageParam;
+				console.log("pageParam参数：++++++++++++++++++++++++++++++" + JSON.stringify(task.pageParam));
+			};
+			methods.iframeLoaded = function(e) {
+				var el = e.target; //当前控件
+				if (!el) {
+					el = e;
+				}
+				var loaded = $(el).attr("loaded");
+				console.log(loaded)
+				if (loaded == 'true') {
+					console.log("加载完了吧")
+					return;
+				}
+				//获取属性，即可使用
+				var src = "weiqiResult.html";
+
+				var sgf = $(el).attr("sgf");
+				var boardSize = $(el).attr("boardSize");
+				var answerIsRight = false;
+				var answerSgf = "";
+				var showRight = false;
+
+				console.log("sgf===" + sgf)
+
+				src += "?sgf=" + sgf + "&boardSize=" + boardSize + "&answerIsRight=" + answerIsRight + "&answerSgf=" + answerSgf + "&showRight=" + showRight;
+				$(el).attr("src", src);
+				$(el).attr("loaded", "true");
+			}
+
+			return methods;
+
+		}
+		// initVue();
+	imready = function() {
+		// $api.fixStatusBar($api.dom("header"));
+		initVue();
+		task.init();
+
+	}
+</script>
+
+</html>

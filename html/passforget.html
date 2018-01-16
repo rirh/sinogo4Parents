@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/common.css"/>
+    <style>
+    	html,body{
+    		height: 100%;
+    		background: #f6f6f6;
+    	}
+    	#main{
+    		text-align: center;
+    	}
+    	@media (-webkit-min-device-pixel-ratio:2) {
+		    .login{
+		   		box-shadow:0 0 0px 0.01rem rgb(204,204, 204);  
+		    }
+		}
+		@media (-webkit-max-device-pixel-ratio:2) {
+			.login{
+	   			box-shadow:0 0 0px 1px rgb(204,204, 204);  
+		    }
+		}
+    	#input{
+			width: 90%;
+			height:4rem;
+			margin-left:5%;
+			border-radius: 0.05rem;
+			margin-top:1.31rem;
+			background: #FFF;
+		}
+		.input_wrap {
+			position: relative;
+			width: 100%;
+			height:1rem;
+			line-height:1rem;
+		}
+		.inputborder{
+			position: relative;
+		}
+		.inputborder:after{
+			border-bottom: 1px solid #ccc;
+			position: absolute;
+			bottom: 0;left:0;right:0;
+			content:"";display: block;
+			-webkit-transform: scaleY(0.5);
+			-webkit-transform-origin: 0 0;
+		}
+		.imgborder{
+			width: 0.53rem;
+			height: 0.6rem;
+			position: relative;
+			float: left;
+			margin-top: 0.2rem;
+			margin-left: 0.23rem;
+		}
+		.imgborder:after{
+			border-right:1px solid rgba(255,131,68,0.5);
+			position: absolute;
+			right: 0;top:0;bottom:0;
+			content:"";display:block;
+			-webkit-transform: scaleX(0.5);
+			-webkit-transform-origin: 0 0;
+		}
+		.imgborder img {
+			width: 0.3rem;
+			height: 0.3rem;
+			position: absolute;
+			top: 0.15rem;
+			left:0;
+		}
+		.input_wrap .input {
+			height: 0.6rem;
+			outline: none;
+			font-size:0.26rem;
+			padding-left: 0.23rem;
+			float: left;
+			width:80%;
+			margin-top: 0.2rem;
+			position: relative;
+		}
+		.telcode{
+			width:30%;
+		}
+		.btn-code{
+			position:absolute;
+			top:0.15rem;
+			right:0.23rem;
+			width:2rem;
+			height:0.66rem;
+			line-height:0.66rem;
+			text-align:center;
+			background:#ffdac5;
+			font-size:0.28rem;
+			color:#666;
+			border-radius: 0.05rem;
+		}
+		.btn {
+			width: 90%;
+			height: 0.88rem;
+			background-color: #FF8344;
+			margin: 0.1rem auto;
+			text-align: center;
+			line-height: 0.88rem;
+			color: #FFF;
+			position: relative;
+			font-size: 0.3rem;
+			border-radius: 0.05rem;
+		}
+    </style>
+</head>
+<body>
+	<div id="header">
+			<a class="back-icon" tapmode="" onclick="api.closeWin()"></a>
+			<h1 style="font-size:0.34rem;">重置密码</h1>
+		</div>
+		<div id="main">
+			<div id="input" class="login">
+				<div class="input_wrap inputborder">
+					<div class="imgborder">
+					<img src="../image/icon_user_phone.png" />
+					</div>
+					<input class="input" id="userphone" maxlength="11" type="tel" placeholder="请输入注册手机号" />
+				</div>
+				<div class="input_wrap inputborder">
+					<div class="imgborder">
+					<img src="../image/icon_user_code.png" />
+					</div>
+					<input class="input telcode" id="usercode" type="number" placeholder="请输入验证码" />
+					<div tapmode="active" onclick="getCode()" class="btn-code" >
+					获取验证码
+					</div>
+				</div>
+				<div class="input_wrap inputborder">
+					<div class="imgborder">
+					<img src="../image/login02.png" />
+					</div>
+					<input class="input" id="userpass" type="password" placeholder="请输入新密码" />
+					<span></span>
+				</div>
+				<div class="input_wrap">
+					<div class="imgborder">
+					<img src="../image/login02.png" />
+					</div>
+					<input class="input" id="userrepass" type="password" placeholder="请确认新密码" />
+				</div>
+			</div>
+			<a class="btn login" style="margin-top:0.6rem;" tapmode="active" onclick="ensure()">确   认</a>
+		</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/common.js"></script>
+<script type="text/javascript">
+	var inputs;
+	var btnCode;
+	var phoneOk=false;
+	imready = function(){
+		inputs = $api.domAll(".input")
+		inputs[0].onblur=function(){
+			if(!isMobile($api.trimAll(this.value))){
+	            phoneOk=false
+            }else{
+            	phoneOk=true
+            }
+       	}
+       	btnCode=$api.dom(".btn-code")
+		
+	};
+	
+	function ensure(){
+		var phone = $api.trimAll(inputs[0].value);
+		var code =  $api.trimAll(inputs[1].value);
+		var password = $api.trimAll(inputs[2].value);
+		var repassword = $api.trimAll(inputs[3].value);
+		
+		var msgs= ['手机号','验证码','密码','确认密码']
+		
+		for(var i=0;i<inputs.length;i++){
+			if(!inputs[i].value){
+				api.toast({
+	                msg:msgs[i]+'不能为空',
+	                location:'middle'
+                });
+				return;
+			}
+		}
+		
+		if(!isMobile(phone)){
+			api.toast({
+                msg:'手机号码格式有误',
+                location:'middle'
+            });
+			return;
+		}
+		
+		if(password!=repassword){
+			api.toast({
+                msg:'两次输入密码不一致!',
+                location:'middle'
+            });
+			return;
+		}
+		
+		if(password.length<6||password.length>32){
+			api.toast({
+                msg:'密码长度不正确!请确认密码没有空格,并且在6到32位之间!',
+                location:'middle'
+            });
+			return;
+		}
+		
+		if(code!=window.currentCode){
+			api.toast({
+                msg:'验证码输入有误!',
+                location:'middle'
+            });
+			return;
+		}
+		//TODO 忘记密码重置接口
+		var body={
+			method:'userPasswordReset',
+			request:{
+				userPhone:phone,
+				password:password
+			}
+		}
+		api.showProgress();
+		ajaxRequest(body,function(ret,err){
+			api.hideProgress();
+			if(ret){
+				if(ret.responseCode==0){
+                    api.toast({
+	                    msg:'密码重置成功,请重新登录!',
+	                    location:'middle'
+                    });
+                    setTimeout("api.closeWin();",1000)
+				}else{
+					alert("密码重置失败!"+ret.responseMsg)
+				}
+			}else{
+				alert("密码重置失败!"+err.responseMsg)
+			}
+		})
+		
+		
+	}
+	
+	function getCode(){
+		if(window.timerid){
+			return;
+		}
+		inputs[0].blur();
+		if(!phoneOk){
+			alert("手机号码有误,请重新输入!")
+			return;
+		}
+		
+		var phoneNum = inputs[0].value
+		api.showProgress({
+        });
+		var body={
+			method:"verifyUserPhone",
+			request:{
+				userPhone:phoneNum
+			}
+		}
+		ajaxRequest(body,function(ret,err){
+			api.hideProgress();
+			if(ret){
+				//返回值:responseBody为true,说明尚未注册,responseBody为false,表示已经注册
+				//尚未注册则提示,并且不发送验证码.
+				if(ret.responseCode==0){
+					if(!ret.responseBody){
+						checkRequestIp(function(requestIp){
+							requestCode(phoneNum,requestIp);
+						})
+					}else{
+						alert("该手机号尚未注册!")
+					}
+				}else{
+					alert(ret.responseMsg)
+				}
+			}else{
+				alert(err.msg)
+			}
+		})
+		
+	}
+	
+	function requestCode(phoneNum,requestIp){
+		api.showProgress({
+        });
+		var body = {};
+		body.method="sendMessage"
+		body.request={
+		   	"smsTemplate":"UserForgetPwd",
+			"phoneNo":phoneNum,
+			"requestIp":requestIp
+		}
+		ajaxRequest(body,function(ret,err){
+			api.hideProgress();
+			if(ret){
+				//已发送后,显示倒计时
+		        btnCode.innerHTML="重新获取("+(60)+")"
+		        window.timerid = setInterval("showCountdown();",1000)
+		        window.currentCode = ret.responseBody.verificationCode;
+			}
+			else{
+				alert(err.msg)
+			}
+		})
+	}
+	
+	var total=0;
+	function showCountdown(){
+		total+=1000;
+		if(total==60000){
+			clearInterval(window.timerid)
+			btnCode.innerHTML="获取验证码";
+			window.timerid=undefined 
+			total=0;
+			return;
+		}
+		btnCode.innerHTML="重新获取("+(60-total/1000)+")"
+	}
+		
+	
+</script>
+</html>

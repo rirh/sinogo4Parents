@@ -1,0 +1,212 @@
+#notice{
+	height:0.99rem;
+	line-height:0.99rem;
+	padding-left:0.23rem;
+	position: relative;
+	font-size: 0.28rem;
+	color:#333;
+	background: #FFF;
+}
+#notice:after{
+	position: absolute;
+	border-bottom: 1px solid #cccccc;
+	bottom:0;left:0;right:0;
+	-webkit-transform: scaleY(0.5);
+	-webkit-transform-origin: 0 0;
+	content:"";display: block;
+}
+#notice .notice{
+	color:#FF8344;
+	font-size:0.3rem;
+}
+#main .childList {
+  overflow: hidden;
+  font-size: 0.24rem;
+  padding-right: 0.23rem;
+  border-bottom: 1px solid #d9d9d9;
+  background: #FFF;
+}
+#main .childList a {
+  display: block;
+}
+#main .childList dl {
+  float: left;
+  width:20%;
+  padding: 0.2rem 0;
+}
+#main .childList dl.cor {
+  color: #ff8344;
+}
+#main .childList dl.cor dt {
+  border: 1px solid #ff8344;
+}
+#main .childList dl dt {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  border: 1px solid #666;
+  margin: auto;
+}
+#main .childList dl dt img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+#main .childList dl dd {
+  padding-top: 0.18rem;
+  text-align: center;
+}
+#main .childList .add {
+  float: right;
+  margin-top: 0.4rem;
+  margin-bottom: 0.2rem;
+  width: 0.94rem;
+  height: 0.94rem;
+  background: url(../../image/icon_child_add.png) no-repeat;
+  background-size: 100% 100%;
+}
+#childinfo{
+	height:3.2rem;
+	margin-top:0.5rem;
+	background: #FFF;
+	position: relative;
+}
+#childinfo:before{
+	position: absolute;
+	border-top: 1px solid #ccc;
+	top:0;left:0;right:0;
+	content:"";display: block;
+	transform: scaleY(0.5);
+	transform-origin: 0 0;
+}
+#childinfo:after{
+	position: absolute;
+	border-bottom: 1px solid #ccc;
+	bottom:0;left:0;right:0;
+	content:"";display: block;
+	transform: scaleY(0.5);
+	transform-origin: 0 0;
+}
+#childinfo .item{
+	margin-left:0.23rem;
+	position: relative;
+	height:0.8rem;
+	line-height:0.8rem;
+	font-size: 0.28rem;
+	color: #333;
+}
+#childinfo .item:after{
+	position: absolute;
+	border-bottom: 1px solid #ccc;
+	bottom:0;left:0;right:0;
+	content:"";display: block;
+	transform: scaleY(0.5);
+	transform-origin: 0 0;
+}
+#childinfo .item .inner-item{
+	background: url(../../image/icon_editor.png) no-repeat center right;
+	background-size:0.32rem 0.32rem;
+	margin-right: 0.24rem;
+}
+#childinfo .noborder:after{
+	border-bottom: 0px solid #ccc;
+}
+#childinfo .item .inputhint{
+	font-size: 0.26rem;
+	color: #999;
+}
+#childinfo .item .selected{
+	font-size: 0.26rem;
+	color: #333;
+}
+#childinfo .item .input{
+	font-size: 0.26rem;
+	color: #333;
+	width:80%;
+	outline: none;
+}
+#ensure{
+	margin: 0.6rem 0.23rem;
+	font-size:0.32rem;
+	background: #FF8344;
+	border-radius: 0.1rem;
+	color:#FFF;
+	height: 0.88rem;
+	line-height: 0.88rem;
+	text-align: center;
+}
+#distpicker{
+	position:absolute;
+	top:0;
+	width:100%;
+	height:100%;
+	background: url(../../image/icon_bg_dialog.png);
+	display: none;
+}
+#distpicker #footer{
+	height:6.5rem;
+	background:#FFF;
+	/* display: -webkit-flex;
+	 display: flex;  
+	 display: -webkit-box;   
+	 display: -moz-box;    */  
+}
+#distpicker #footer .handles{
+	height:0.91rem;
+}
+#distpicker #footer .handles div{
+	height:0.91rem;
+	line-height:0.91rem;
+	margin: auto 0.23rem;
+	font-size:0.32rem;
+	color:#333;
+	position: relative;
+}
+#distpicker #footer .handles div:after{
+	position: absolute;
+	border-bottom: 1px solid #ccc;
+	bottom:0;left:0;right:0;
+	content:"";display: block;
+	transform: scaleY(0.5);
+	transform-origin: 0 0;
+}
+#distpicker #footer .handles div .cancel{
+	float:left;
+	padding: 0 0.3rem;
+}
+#distpicker #footer .handles div .cancel:active{
+	background:rgba(0,0,0,0.2)
+}
+#distpicker #footer .handles div .ok{
+	float:right;
+	padding: 0 0.3rem;
+}
+#distpicker #footer .handles div .ok:active{
+	background:rgba(0,0,0,0.2)
+}
+#distpicker #footer .tips{
+	height:1.4rem;
+	line-height:1.4rem;
+	font-size:0.3rem;
+	color:#666;
+	width:100%;
+	position: relative;
+}
+#distpicker #footer .tips span{
+	width:30%;
+	margin:0 1.2%;
+	text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

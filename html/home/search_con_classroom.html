@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+    	html,body{
+    		height:100%;
+    	}
+    	#main{
+    		height:100%;
+    	}
+    	#guide{
+    		position:fixed;
+			top: 0;
+    	}
+    	#recent{
+    		height:0.88rem;
+    		background:url(../../image/icon_arrow_right.png) no-repeat right 0.23rem center #FFF;
+    		background-size:0.16rem 0.28rem;
+    		position: relative;
+    	}
+    	#recent:after{
+    		border-bottom:1px solid #c1c1c1;
+    		position: absolute;
+    		top:0.88rem;
+			right: 0;
+			bottom: 0;
+			left: 0;
+    		display: block;
+    		content:'';
+    		pointer-events:none;
+    		transform-origin: 0 0;
+    		transform: scaleY(0.5);
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform: scaleY(0.5);
+    	}
+    	#recent a{
+    		font-size:0.24rem;
+    		color:#adacac;
+    		float:left;
+    		width: 6.8rem;
+    		height:0.88rem;
+    		line-height:0.88rem;
+    		background:url(../../image/icon_history.png) no-repeat left 0.23rem center;
+    		background-size:0.28rem 0.28rem;
+    		padding-left:0.7rem;
+    	}
+    	#recent a.active{
+    		background:url(../../image/icon_history.png) no-repeat left 0.23rem center rgba(0,0,0,0.1);
+    		background-size:0.28rem 0.28rem;
+    	}
+    	#history{
+    		width:100%;
+    		background:#FFF;
+    	}
+    	#history #history_title{
+    		height:0.88rem;
+    		margin-left:0.23rem;
+    		margin-right:0.23rem;
+    		background:url(../../image/icon_arrow_down.png) no-repeat right center;
+    		background-size:0.28rem 0.16rem;
+    		position: relative;
+    	}
+    	#history #history_title:after{
+    		border-bottom:1px solid #E1E1E1;
+    		position: absolute;
+			right: 0;
+			bottom: 0;
+			left: 0;
+    		display: block;
+    		content:'';
+    		pointer-events:none;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform: scaleY(0.5);
+    	}
+    	#history #history_title span{
+    		font-size:0.24rem;
+    		color:#adacac;
+    		float:left;
+    		height:0.88rem;
+    		line-height:0.88rem;
+    		background:url(../../image/icon_search_light.png) no-repeat left center;
+    		background-size:0.26rem 0.26rem;
+    		padding-left:0.47rem;
+    	}
+    	
+    	#history #history_content div{
+    		font-size:0.24rem;
+    		margin-left:0.23rem;
+    		margin-right:0.23rem;
+    		color:#777777;
+    		height:0.88rem;
+    		line-height:0.88rem;
+    		position: relative;
+    	}
+    	#history #history_content div:after{
+    		border-bottom:1px solid #E1E1E1;
+    		position: absolute;
+			right: 0;
+			bottom: 0;
+			left: 0;
+    		display: block;
+    		content:'';
+    		pointer-events:none;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform: scaleY(0.5);
+    	}
+    	#history #history_content div a{
+    		width: 6.55rem;
+    		height:100%;
+    		padding-left:0.5rem;
+    		background:#FFF;
+    	}
+    	#history #history_content div a.active{
+    		background:#F9F9F9 !important;
+    	}
+    	#list-content{
+    	}
+    	.item{
+    		position:relative;
+    		width: 50%;
+    		height:3.52rem;
+    		display:inline-block;
+    		background:#FFF;
+    	}
+    	.item.active{
+    		/*background:rgba(0,0,0,0.2)*/
+    	}
+    	.item:after{
+    		border-bottom: 1px solid #eeeeee;
+    		display: block;
+			content: '';
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			pointer-events: none;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+    	}
+    	.item_left{
+    		height:3.52rem;
+    		float:left;
+    	}
+    	.item_left .inner_left{
+    		margin-top:0.34rem;
+    		margin-left:0.23rem;
+    		position:relative;
+    		width:3.515rem;
+    		height:2.84rem;
+    	}
+    	.item_left .inner_left:after{
+    		border-right:1px solid #eeeeee;
+    		display: block;
+			content: '';
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			pointer-events: none;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleX(0.5);
+    	}
+    	/*.item_left .inner_left.active{
+    		background:rgba(0,0,0,0.3)
+    	}*/
+		.item_left .inner_left img{
+			width:3.35rem;
+			height:1.92rem;
+		}
+    	.item_right{
+    		height:3.52rem;
+    		float:left;
+    		margin-left:0.2rem;
+    	}
+    	.item_right .inner_right{
+    		margin-top:0.34rem;
+    		width:3.515rem;
+    		height:2.84rem;
+    	}
+    	/*.item_right .inner_right.active{
+    		background:rgba(0,0,0,0.3)
+    	}*/
+		.item_right .inner_right img{
+			width:3.35rem;
+			height:1.92rem;
+		}
+		.cr_title{
+			font-size:0.28rem;
+			color:#333333;
+			width: 3.35rem;
+		}
+		.cr_content{
+			display: block;
+			font-size:0.24rem;
+			width: 3.35rem;
+			color:#666666;
+		
+		}
+		.cr_imp{
+			font-size:0.24rem;
+			color:#FF8345;
+		}
+		.toright{
+			float:right;
+		}
+		.cr_spec{
+			font-size:0.24rem;
+			color:#666;
+		}
+		#empty{
+			width:100%;
+			height:100%;
+			text-align: center;
+		}
+		#empty .errnet{
+			height:30%;
+			background:url(../../image/icon_net_err.png) no-repeat center bottom ;
+			background-size:2.5rem 2.5rem;
+		}
+		#empty label{
+			margin-top:0.5rem;
+			color:#666666;
+			font-size:0.34rem;
+		}
+		#empty .try{
+			margin:0.3rem auto;
+			width:1.8rem;
+			height:0.6rem;
+			color: #1A9973;
+			font-size:0.34rem;
+			line-height:0.6rem;
+		}
+    </style>
+</head>
+<body>
+	<div id="main">
+		<script id="list-template" type="text/x-dot-template">
+			{{ for(var i=0;i<it.length;i++){ }}
+				{{ if(i%2==0){ }}
+				<div tapmode="active" class="item" onclick="goGoodDetail({{=it[i].goodsSalesCode}})">
+				<div class="item_left" >
+					<div tapmode="active"  class="inner_left">
+						<img src="{{=$api.imageUrl+it[i].goodsModelPreview}}" alt="" />
+						<h3 class="cr_title ellipsis-1">{{=it[i].materialsGoodsName}}</h3>
+						<span class="cr_content"><span class="cr_spec">{{=it[i].spec1}}  {{=it[i].spec2}}</span></span>
+						<span class="cr_content"><span>价格: <span class="cr_imp">{{=it[i].goodsSalesPrice}}</span>元</span> <span class="toright"> <span class="cr_imp">{{=it[i].goodsSalesCount}}</span> 人购买</span></span>
+					</div>
+				</div>
+				</div>
+				{{ }else{ }}
+				<div tapmode="active" class="item" onclick="goGoodDetail({{=it[i].goodsSalesCode}})">
+				<div class="item_right" >
+					<div tapmode="active"  class="inner_right">
+						<img src="{{=$api.imageUrl+it[i].goodsModelPreview}}" alt="" />
+						<h3 class="cr_title ellipsis-1">{{=it[i].materialsGoodsName}}</h3>
+						<span class="cr_content"><span class="cr_spec">{{=it[i].spec1}}  {{=it[i].spec2}}</span></span>
+						<span class="cr_content"><span>价格: <span class="cr_imp">{{=it[i].goodsSalesPrice}}</span>元</span> <span class="toright"> <span class="cr_imp">{{=it[i].goodsSalesCount}}</span> 人购买</span></span>
+					</div>
+				</div>
+				</div>	
+				{{ } }}		
+			{{ } }}
+		</script>
+		<div id="list-content">
+		</div>
+		<div id="empty" style="display:none">
+			<div class="errnet"></div>
+			<label class="errmsg">网络连接异常</label>
+			<div class="try" onclick="tryAgain()">再试一次</div>
+		</div>
+		<div id="guide">
+			<div id="recent">
+				<a tapmode='active'>最近浏览</a>
+			</div>
+			<script id="history_template" type="text/x-dot-template">
+				{{ for(var i=0;i<it.length;i++){ }}
+					<div ><a  tapmode="active" onclick="searchByKey('{{=it[i]}}');">{{=it[i]}}</a></div>
+				{{ } }}
+			</script>
+			<div id="history">
+				<div id="history_title">
+					<span>历史搜索</span>
+				</div>
+				<div id="history_content">
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript">
+	imready = function(){
+		initHistory();
+	};
+	
+	function handleGuide(s){
+		if(s){
+			api.setRefreshHeaderInfo({
+				visible:false
+            },function(ret,err){
+            });
+			initHistory()
+		}
+		$api.byId("guide").style.display=s?"block":"none";
+	}
+	
+	function initHistory(){
+		var arr = getHistoryArr();
+		if(arr.length==0){
+			$api.byId("history").style.display="none";
+        	return;
+		}
+		var list = [];
+		for(var i=0;i<arr.length;i++){
+			list.push(arr[i])
+		}
+		var content = $api.byId("history_content");
+		var tpl = $api.byId("history_template").text;
+		var tempFn = doT.template(tpl);
+		content.innerHTML=tempFn(list)
+	}
+	function searchByKey(keyword){
+		var arr = getHistoryArr();
+		var list = [];
+		for(var i=0;i<arr.length;i++){
+			if(keyword!=arr[i]){
+				list.push(arr[i])
+			}
+		}
+		list.unshift(keyword);
+		var str ="";
+		for(var i=0;i<list.length;i++){
+			str +=",";
+			str +=list[i];
+		}
+		api.setPrefs({
+	        key:'books_search_history',
+	        value:str
+        });
+         api.execScript({
+        	name:'search',
+	        script: "setInput('"+keyword+"');"
+        });
+        //goSearch
+        handleGuide(false)
+        window.keyword=keyword;
+        api.setRefreshHeaderInfo({
+		    visible: true,
+		    loadingImg: 'widget://image/refresh.png',
+		    bgColor: '#ccc',
+		    textColor: '#fff',
+		    textDown: '下拉刷新...',
+		    textUp: '松开刷新...',
+		    showTime: true
+		}, function(ret, err) {
+		    //在这里从服务器加载数据，加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
+			pageIndex=1;
+			loadEnd=false;
+			requestClassroomBooks();
+		});
+       	requestClassroomBooks();
+	}
+	var pageIndex = 1;
+	function requestClassroomBooks(){
+		api.showProgress();
+		var bodyParam={};
+		bodyParam.method="searchMaterialsGoods";
+		bodyParam.request={
+			"materialsGoodsOrganization":api.pageParam.organizationId,
+			"materialsGoodsStatus":2,//已上架
+			"materialsGoodsName":window.keyword,
+			page:pageIndex,
+			pageSize:20
+		}
+		ajaxRequest(bodyParam,function(ret,err){
+			api.hideProgress();
+			api.refreshHeaderLoadDone();
+			if(ret){
+				if(ret.responseCode==0){
+					if(ret.responseBody.total==0){
+						showEmpty("没有查询到任何教辅",0);
+					}else{
+						loadEnd = ret.responseBody.totalPage==pageIndex
+						var more = pageIndex!=1;
+						$api.byId("empty").style.display="none"
+						$api.byId("list-content").style.display="block"
+						openBookList(ret.responseBody.rows,more);
+					}
+				}else{
+					showEmpty(ret.responseMsg);
+				}
+			}else{
+				showEmpty(err.msg);
+			}
+		});
+	}
+	function openBookList(list,more){
+		$api.byId("empty").style.display="none"
+		var booklist=[];
+		for(var i=0;i<list.length;i++){
+			var item = list[i];
+			var json = {}
+			json.materialsGoodsName=item.teachingMaterialsGoods.materialsGoodsName;
+			json.goodsModelPreview=item.teachingMaterialsImage;
+			json.spec1=item.teachingMaterialsModel?item.teachingMaterialsModel.goodsModelName:""
+			json.goodsSalesCode=item.teachingMaterialsSales.goodsSalesCode;
+			json.goodsSalesCount=item.teachingMaterialsSales.goodsSalesCount;
+			json.goodsSalesPrice=item.teachingMaterialsSales.goodsSalesPrice;
+			json.goodsSalesQuantity=item.teachingMaterialsSales.goodsSalesQuantity;
+			json.spec2=item.teachingMaterialsStandard?item.teachingMaterialsStandard.goodsStandardName:'';
+			booklist.push(json)
+		}
+		getInnerByDot("list-content","list-template",booklist,more);
+	}
+	
+	function  goGoodDetail(goodCode){
+		api.openWin({
+	        name: 'goodsIndex',
+	        url: 'goodsIndex.html',
+	        pageParam:{
+	        	good_code:goodCode,
+				studentId:api.pageParam.studentId,
+				classId:api.pageParam.classId
+			}
+        });
+	}
+	
+	function showEmpty(msg,type){
+		$api.byId("empty").style.display="block"
+		$api.byId("list-content").style.display="none"
+		$api.dom(".errmsg").innerHTML=msg;
+		if(type==0){
+			$api.dom(".errnet").style.background="url(../../image/icon_empty.png) no-repeat center bottom "
+			$api.dom(".errnet").style.backgroundSize="2.18rem 2.18rem";
+		}else{
+			$api.dom(".errnet").style.background="url(../../image/icon_net_err.png) no-repeat center bottom "
+			$api.dom(".errnet").style.backgroundSize="2.5rem 2.5rem";
+		}
+	}
+	
+	function tryAgain(){
+		requestClassroomBooks();
+	}
+
+	function getHistoryStr(){
+		var books_search_history = api.getPrefs({
+	        sync:true,
+	        key:'books_search_history'
+        });
+        return books_search_history;
+	}
+	
+	function getHistoryArr(){
+		var str = getHistoryStr();
+		if(str){
+			str = str.substring(1)
+			if(str){
+				return str.split(",")
+			}else{
+				return [];
+			}
+		}else{
+			return [];
+		}
+		
+	}
+	
+	
+	
+</script>
+</html>

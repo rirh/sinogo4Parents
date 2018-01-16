@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+		<style>
+			body {
+			}
+			header {
+				width: 100%;
+				background: #FF8345;
+				height: 0.88rem;
+				line-height: 0.88rem;
+				text-align: center;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older     WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				color: #323237;
+				position: relative;
+				font-size: 0.28rem;
+				color: #ffffff;
+			}
+			.flex-wrap {
+				background: #F6F6F6;
+			}
+			.left {
+				width: 0%;
+				text-align: left;
+				margin-left: 0.23rem;
+				font-size: 0.3rem;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				display: block;
+			}
+			.center {
+				font-size: 0.34rem;
+				display: block;
+				-webkit-flex: 5; /* Chrome */
+				-ms-flex: 5; /* IE 10 */
+				flex: 5; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 5; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 5; /* OLD - Firefox 19- */
+			}
+			.right {
+				width: 0%;
+				margin-left: 0.23rem;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				display: block;
+			}
+			.tips {
+				font-size: 0.28rem;
+				margin-left: 0.23rem;
+				height: 1.07rem;
+				line-height: 1.07rem;
+				text-align: left;
+			}
+			.minput {
+				height: 2.3rem;
+				background: #FFFFFF;
+			}
+			.money {
+				height: 1.15rem;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older     WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				font-size: 0.42rem;
+			}
+			.minput input {
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				margin-left: 0.20rem;
+				display: inline-block;
+				color: #ff4400;
+				font-size: 0.43rem;
+				outline: none;
+			}
+			.money p {
+				margin-left: 0.23rem;
+				display: inline-block;
+				color: #333333;
+				font-size: 0.42rem;
+			}
+			.money div {
+				margin-left: 0.3rem;
+				display: inline-block;
+				font-size: 0.28rem;
+				line-height: 1.15rem;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+			}
+			.minput p {
+				display: inline-block;
+				line-height: 1.15rem;
+				color: #ff4400;
+				font-size: 0.44rem;
+			}
+			.mtips {
+				color: #666666;
+				font-size: 0.24rem;
+				margin-top: 0.32rem;
+				margin-left: 0.23rem;
+			}
+			.sure {
+				margin-top: 0.71rem;
+				height: 0.98rem;
+				border-radius: 0.1rem;
+				background: #aaaaaa;
+				text-align: center;
+				color: #FFFFFF;
+				font-size: 0.32rem;
+				line-height: 0.98rem;
+				margin-left: 0.23rem;
+				margin-right: 0.23rem;
+			}
+			.balance {
+				color: #333333 !important;
+				font-size: 0.28rem!important;
+			}
+			.mbalance {
+				color: #ff8344 !important;
+			}
+			.touch {
+				background: #e2743c;
+			}
+			#line {
+				width: 100%;
+				position: relative;
+			}
+			#line:after {
+				border-bottom: 1px solid #d9d9d9;
+				content: "";
+				display: block;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				-webkit-transform-origin: 0 0;
+				-webkit-transform: scaleY(0.5);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap" class="flex-wrap flex-vertical">
+			<header>
+				<div class="left" onclick="cancel()">
+					取消
+				</div>
+				<div class="center">
+					退款
+				</div>
+				<div class="right" ></div>
+			</header>
+			<div id="main" class="flex-con">
+				<p class="tips">
+					输入退款金额
+				</p>
+				<div id="line"></div>
+				<div class="minput">
+					<div class="money">
+						<p>
+							￥
+						</p>
+						<input class="name" id="name" maxlength='3' type="number"  pattern="\d*"  oninput="OnInput (event)" onpropertychange="OnPropChanged (event)">
+					</div>
+					<div id="line"></div>
+					<div class="money">
+						<p class="balance">
+							余额：￥<span><span>
+						</p>
+						<div class="mbalance" onclick="full()">
+							全部退款
+						</div>
+					</div>
+					<div id="line"></div>
+				</div>
+				<div class="mtips">
+					退款将原路返还您充值时所用的账户（支付宝/微信/银行卡）2-5个工作日内完成还款
+				</div>
+				<div class="sure" tapmode='touch' onclick="refund()">
+					确认支付：￥
+				</div>
+			</div>
+	</body>
+	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/common.js"></script>
+	<script type="text/javascript">
+		//剩下的余额
+		var money = 52.0;
+		//点击取消事件
+		function cancel() {
+			api.closeWin({
+			});
+		}
+
+		function refund() {
+			if ($api.val($api.dom('#name')) > 0) {
+				var data = {};
+				data.method = "refundWallet";
+				data.request = {
+					"userId" : api.getPrefs({
+						sync : true,
+						key : 'userid'
+					}),
+					"refundAmount" : $api.val($api.dom('#name'))
+				}, console.log("退款refundWallet请求数据：" + JSON.stringify(data));
+				api.showProgress();
+				ajaxRequest(data, function(ret, err) {
+					api.hideProgress();
+					if (ret) {
+						console.log("退款refunWallet成功返回数据：" + JSON.stringify(ret))
+						if (ret.responseCode == 0) {
+							if (ret.responseBody) {
+								alert("恭喜，退款成功！请注意查收。")
+								api.sendEvent({
+									name : 'updateInfo'
+								});
+								api.closeToWin({
+									name : 'root'
+								});
+							} else {
+								alert("退款失败,请稍后重试。")
+								api.closeToWin({
+									name : 'root'
+								});
+							}
+						}
+					} else {
+						console.log("退款refunWallet失败返回数据：" + JSON.stringify(err))
+						alert("退款失败,请稍后重试。")
+						api.closeToWin({
+							name : 'root'
+						});
+					}
+				})
+			} else if ($api.val($api.dom('#name')) == "") {
+			} else {
+				api.toast({
+					msg : '请输入正确的金额！'
+				});
+			}
+		}
+
+		function full() {
+			//设置输入框的值为余额值
+			$api.dom('#name').value = $api.text($api.dom('.balance span'));
+			$api.css($api.dom('.sure'), 'background: #FF4400;');
+			$api.html($api.dom('.sure'), "确认支付：￥" + $api.text($api.dom('.balance span')));
+			$api.one($api.dom('.sure'), 'click', function() {
+			});
+		}
+
+		function OnInput(event) {
+			$api.val($api.dom('.sure'))
+			if (($api.val($api.dom('.name'))) != 0) {
+				$api.css($api.dom('.sure'), 'background: #FF4400;');
+				$api.html($api.dom('.sure'), "确认支付：￥" + event.target.value);
+				if (($api.val($api.dom('.name'))) > money) {
+					api.toast({
+						msg : '请输入正确的金额'
+					});
+					$api.val($api.dom('.name'), "");
+					$api.css($api.dom('.sure'), 'background: #aaaaaa;');
+					$api.html($api.dom('.sure'), "确认支付：￥" + event.target.value);
+				}
+			} else {
+				$api.css($api.dom('.sure'), 'background: #aaaaaa;');
+				$api.html($api.dom('.sure'), "确认支付：￥" + event.target.value);
+			}
+		}
+
+		imready = function() {
+			money = api.getPrefs({
+				sync : true,
+				key : 'RMB_COIN'
+			})
+			$api.text($api.dom('.balance span'), money);
+		};
+	</script>
+</html>

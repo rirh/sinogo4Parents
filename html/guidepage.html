@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+		<style>
+			body {
+			}
+		</style>
+	</head>
+	<body>
+		<div id="header">
+			<a class="back-icon" tapmode="" onclick="closeWin()"></a>
+			<h1>偏好选择</h1>
+		</div>
+		<div onclick="goLogin()">注册或登录.</div>
+		<div style="margin-top: 50px" onclick="goHome()">选好了.</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/common.js"></script>
+	<script type="text/javascript">
+		imready = function() {
+		};
+		function goLogin(){
+			openWin('login')
+			api.closeWin();
+		}
+		
+		function goHome(){
+			api.execScript({
+				name : 'root',
+				script : 'showInfo();'
+			});
+			api.closeWin();
+		}
+	</script>
+</html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/home/schedule.css"/>
+    <style>
+    	
+    </style>
+</head>
+<body>
+	<img id="cursor" style="display: none" src="../../image/icon_time_cursor.png"/>
+	<div id="cweek" style="display: none"></div>
+	<div id="main">
+		<div id="schedule-title" >
+			<div tapmode="active" class="pre-week" onclick="goOtherWeek('pre')"></div>
+			<div class="curweek">
+				<span class="back" onclick="gobackCurrent()">本周</span>
+				<span class="date">11.11</span>
+				<span class="date">~</span>
+				<span class="date">11.17</span>
+				<div onclick="openCalendar()" style="display:none;"><img src="../../image/icon_calendar.png" alt="" /></div>
+			</div>
+			<div tapmode="active" class="next-week" onclick="goOtherWeek('next')"></div>
+		</div>
+		<div id="schedule-time">
+			<table border="1" bordercolor="#CCCCCC"  > 
+				<tr class="table-title">
+					<th width="11.2%"></th>
+					<th width="35.2%" class="current-duration">上午</th>
+					<th width="35.2%">下午</th>
+					<th width="18.4%">晚上</th>
+				</tr>
+			</table>
+		</div>
+		<script type="text/x-dot-template" id="schedule-template">
+			<table border="1" bordercolor="#CCCCCC" > 
+			{{ for(var i=0;i<it.length;i++){ }}
+			<tr class="table-data">
+				<td width="11.2%" class="week-info {{=it[i].currentWeek?'currentWeek':''}}"></td>
+				<td width="35.2%" class="{{=it[i].am.sc.length==0?'':it[i].am.cls}}">
+				{{ for(var j=0,sc=it[i].am.sc;j<sc.length;j++){ }}
+					<div style="height:{{=parseInt(tdh/sc.length)+'px'}};line-height:{{=parseInt(tdh/sc.length)+'px'}}" class="{{=(it[i].am.cls=='cur'&&sc[j].cls=='cur')?(sc.length==(j+1)?('cur-'+(j+1)):'cur'):''}}" onclick="godetail(this,{{=sc[j].courseid}},{{=sc[j].classid}},{{=sc[j].institutionId}},'{{=sc[j].classname}}')">
+					<div class="{{=(it[i].am.cls=='cur'&&sc[j].cls!='cur')?sc[j].cls:''}}" >
+					<div class="ellipsis-1" style="width:50%;float:left">{{=sc[j].classname}}</div>
+					<div style="width:50%;float:right">{{=sc[j].classnum}}课时{{=sc[j].startTime}}</div>
+					</div>
+					</div>
+				{{ } }}
+				</td>
+				<td width="35.2%" class="{{=it[i].pm.sc.length==0?'':it[i].pm.cls}}">
+				{{ for(var j=0,sc=it[i].pm.sc;j<sc.length;j++){ }}
+					<div style="height:{{=parseInt(tdh/sc.length)+'px'}};line-height:{{=parseInt(tdh/sc.length)+'px'}}" class="{{=(it[i].pm.cls=='cur'&&sc[j].cls=='cur')?(sc.length==(j+1)?('cur-'+(j+1)):'cur'):''}}" onclick="godetail(this,{{=sc[j].courseid}},{{=sc[j].classid}},{{=sc[j].institutionId}},'{{=sc[j].classname}}')">
+					<div class="{{=(it[i].pm.cls=='cur'&&sc[j].cls!='cur')?sc[j].cls:''}}" >
+					<div class="ellipsis-1" style="width:50%;float:left">{{=sc[j].classname}}</div>
+					<div style="width:50%;float:right">{{=sc[j].classnum}}课时{{=sc[j].startTime}}</div>
+					</div>
+					</div>
+				{{ } }}
+				</td>
+				<td width="18.4%" class="{{=it[i].ni.sc.length==0?'':it[i].ni.cls}}">
+				{{ for(var j=0,sc=it[i].ni.sc;j<sc.length;j++){ }}
+					<div style="display: table;height:{{=parseInt(tdh/sc.length)+'px'}};" class="{{=(it[i].ni.cls=='cur'&&sc[j].cls=='cur')?(sc.length==(j+1)?('cur-n-'+(j+1)):'cur'):''}}" onclick="godetail(this,{{=sc[j].courseid}},{{=sc[j].classid}},{{=sc[j].institutionId}},'{{=sc[j].classname}}')">
+					<div class="{{=(it[i].ni.cls=='cur'&&sc[j].cls!='cur')?sc[j].cls:''}}" style="display: table-cell;vertical-align: middle" >
+					<div class="ellipsis-2">{{=sc[j].classname}}</div>
+					{{=sc[j].classnum}}课时 {{=sc[j].startTime}}
+					</div>
+					</div>
+				{{ } }}
+				</td>
+			</tr>
+			{{ } }}
+			</table>
+		</script>
+		<div id="content">
+		</div>
+		
+	</div>
+	<div id="empty" style="display:none">
+		<div class="errnet"></div>
+		<label class="errmsg">网络连接异常</label>
+		<div class="try" onclick="tryAgain()">再试一次</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript">
+	
+	//当前周几:0~6
+	var currentWeek;
+	//当前所在范围:0:上午,1:下午,2:晚上
+	var currentDuration;
+	//当前时:0~23
+	var currentHour;
+	/*
+	 * 当周开始日期
+	 */
+	var thisStart;
+	//当周结束日期
+	var thisEnd;
+	//当前选择周开始日期
+	var currentStart;
+	//当前选择周结束日期
+	var currentEnd;
+	var currentDate;
+	var currentFirstDate;
+	
+	//当前周选择标识戳
+	var cweekElement;
+	//当前时间标识戳
+	var cursorElement;
+	
+	var weekCount=0;
+	var flag =true;
+	
+	var weeks = ["周日","周一","周二","周三","周四","周五","周六"]
+	var tdh=255;
+	imready = function(){
+		var w = document.documentElement.clientWidth;
+		api.addEventListener({
+			name : 'schedule'
+		}, function(ret, err) {
+			console.log('schedule' + JSON.stringify(ret.value.key1))
+			window.studentId=ret.value.key1
+			initView()
+		});
+		window.studentId=api.pageParam.id;
+		tdh = parseInt(255*w/750);
+		initView();
+		
+		api.addEventListener({
+	        name:'calendarDateChanged'
+        },function(ret,err){
+//        	alert(JSON.stringify(ret))
+        	//先求得 weekCount.
+        	var nowDate = new Date();
+        	var nowMills = nowDate.getTime();
+        	var nowYear = nowDate.getFullYear();
+        	var nowMonth = nowDate.getMonth();
+        	var nowDay = nowDate.getDate();
+        	var nowWeek = nowDate.getDay();
+        	
+        	var toYear = ret.value.year;
+        	var toMonth = (ret.value.month-1);
+        	var toDay = ret.value.day;
+        	
+        	nowDate.setFullYear(toYear)
+        	nowDate.setMonth(toMonth);
+        	nowDate.setDate(toDay);
+        	
+        	var toMills = nowDate.getTime();
+        	//var toWeek = nowDate.getDay();
+        	
+        	var days = (toMills-nowMills)/(1000*60*60*24);
+        	
+        	var x = nowWeek+days;
+        	var count = 0;
+        	if(x<0){
+        		count =  parseInt(x/7)-1;
+        	}else{
+	        	if(x%7==0)
+	        		count = x/7-1;
+	        	else 
+	        		count = parseInt(x/7)
+    		}
+        	
+			weekCount = count;
+        	requestSchedule();
+        });
+		
+	};
+	
+	function initWeeks(){
+		console.log("initWeeks----------------------")
+		var infos = $api.domAll(".week-info");
+		var week = currentDate.getDay()==0?7:currentDate.getDay();
+        currentDate = addDate(currentDate,(week-1)*-1);
+		for(var i = 0;i<infos.length;i++){
+            infos[i].innerHTML = weeks[currentDate.getDay()]+"<br/>"+currentDate.Format("MM-dd");
+            addDate(currentDate,1);
+       	}
+	}
+	
+	function initWeekTitle(){
+		var date = currentDate = new addDate(new Date(),weekCount*7);
+		currentWeek = date.getDay()==0?6:(date.getDay()-1);
+		currentDuration = date.getHours()<12?0:date.getHours()<18?1:2;
+		currentHour=(date.getHours());
+		
+		var startDate = getWeekDate(addDate(date,((date.getDay()==0?7:date.getDay())-1)*-1))
+		var endDate = getWeekDate(addDate(date,((date.getDay()==0?7:date.getDay())-1-6)*-1))
+		currentDate = new addDate(new Date(),weekCount*7);
+		
+		var spans = $api.domAll(".curweek span");
+		if(weekCount==0){
+			spans[0].innerHTML="本周"
+			$api.removeCls(spans[0], "other");
+		}else{
+			spans[0].innerHTML="返回本周"
+			$api.addCls(spans[0], "other");
+		}
+		spans[1].innerHTML=startDate[0]
+		spans[3].innerHTML=endDate[0]
+		
+		requestSchedule(startDate[1],endDate[1]);
+	}
+	
+	function requestSchedule(start,end){
+//		var body
+		api.showProgress({
+        });
+        console.log((start+" 00:00:00")+"---------"+(end+" 23:59:59"))
+//		setTimeout("initSchedule();",2000)
+        var body={};
+        body.method="studentClassTimetable";
+        body.request={
+        	"studentId":window.studentId,
+		    "schoolTime":start+" 00:00:00",
+		    "quittingTime":end+" 23:59:59"
+        }
+		ajaxRequest(body,function(ret,err){
+			api.hideProgress();
+			console.log(JSON.stringify(ret))
+			if(ret){
+				if(ret.responseCode==0){
+					$api.byId("empty").style.display="none"
+					$api.byId("main").style.display="block"
+//					var ret = {"responseBody":[{"assistantFirst":0,"assistantFirstName":"","assistantFirstUserName":"","assistantSecond":0,"assistantSecondName":"","assistantSecondUserName":"","chapterId":0,"classId":127,"className":"进课堂4班","courseId":9,"courseName":"北京研发--测试课程--进课堂","coursePeriod":1,"courseSection":1,"createTime":"2017-02-22 10:22:22","dayLimit":1,"id":197,"organizationId":9,"quittingTime":"2017-02-27 17:05:20","schoolTime":"2017-02-27 16:54:15","signIn":true,"signOut":true,"studentInClass":null,"studentLeave":null,"studentNoLeave":null,"studentRegister":15,"teacherId":36,"teacherName":"焦宁娜","teacherUserName":"jiaoningna","teachingInstitutionId":66,"teachingInstitutionName":"","timetableStatus":1,"week":1},{"assistantFirst":0,"assistantFirstName":"","assistantFirstUserName":"","assistantSecond":0,"assistantSecondName":"","assistantSecondUserName":"","chapterId":0,"classId":134,"className":"测试课程2_收费","courseId":16,"courseName":"测试课程2_收费","coursePeriod":2,"courseSection":1,"createTime":"2017-02-24 13:36:38","dayLimit":1,"id":203,"organizationId":9,"quittingTime":"2017-02-27 14:35:41","schoolTime":"2017-02-27 13:35:35","signIn":false,"signOut":false,"studentInClass":null,"studentLeave":null,"studentNoLeave":null,"studentRegister":3,"teacherId":36,"teacherName":"焦宁娜","teacherUserName":"jiaoningna","teachingInstitutionId":66,"teachingInstitutionName":"","timetableStatus":1,"week":1},{"assistantFirst":0,"assistantFirstName":"","assistantFirstUserName":"","assistantSecond":0,"assistantSecondName":"","assistantSecondUserName":"","chapterId":0,"classId":134,"className":"测试课程2_收费","courseId":16,"courseName":"测试课程2_收费","coursePeriod":2,"courseSection":1,"createTime":"2017-02-24 13:36:38","dayLimit":1,"id":203,"organizationId":9,"quittingTime":"2017-02-27 19:35:41","schoolTime":"2017-02-27 18:35:35","signIn":false,"signOut":false,"studentInClass":null,"studentLeave":null,"studentNoLeave":null,"studentRegister":3,"teacherId":36,"teacherName":"焦宁娜","teacherUserName":"jiaoningna","teachingInstitutionId":66,"teachingInstitutionName":"","timetableStatus":1,"week":1},{"assistantFirst":0,"assistantFirstName":"","assistantFirstUserName":"","assistantSecond":0,"assistantSecondName":"","assistantSecondUserName":"","chapterId":0,"classId":134,"className":"测试课程2_收费","courseId":16,"courseName":"测试课程2_收费","coursePeriod":2,"courseSection":1,"createTime":"2017-02-24 13:36:38","dayLimit":1,"id":203,"organizationId":9,"quittingTime":"2017-02-27 20:35:41","schoolTime":"2017-02-27 19:45:35","signIn":false,"signOut":false,"studentInClass":null,"studentLeave":null,"studentNoLeave":null,"studentRegister":3,"teacherId":36,"teacherName":"焦宁娜","teacherUserName":"jiaoningna","teachingInstitutionId":66,"teachingInstitutionName":"","timetableStatus":1,"week":1},{"assistantFirst":0,"assistantFirstName":"","assistantFirstUserName":"","assistantSecond":0,"assistantSecondName":"","assistantSecondUserName":"","chapterId":0,"classId":134,"className":"测试课程2_收费","courseId":16,"courseName":"测试课程2_收费","coursePeriod":3,"courseSection":1,"createTime":"2017-02-24 13:36:38","dayLimit":1,"id":204,"organizationId":9,"quittingTime":"2017-02-28 14:35:52","schoolTime":"2017-02-28 13:35:48","signIn":false,"signOut":false,"studentInClass":null,"studentLeave":null,"studentNoLeave":null,"studentRegister":3,"teacherId":36,"teacherName":"焦宁娜","teacherUserName":"jiaoningna","teachingInstitutionId":66,"teachingInstitutionName":"","timetableStatus":1,"week":2},{"assistantFirst":0,"assistantFirstName":"","assistantFirstUserName":"","assistantSecond":0,"assistantSecondName":"","assistantSecondUserName":"","chapterId":0,"classId":134,"className":"测试课程2_收费","courseId":16,"courseName":"测试课程2_收费","coursePeriod":4,"courseSection":1,"createTime":"2017-02-24 13:36:38","dayLimit":1,"id":205,"organizationId":9,"quittingTime":"2017-03-01 14:36:07","schoolTime":"2017-03-01 13:35:57","signIn":false,"signOut":false,"studentInClass":null,"studentLeave":null,"studentNoLeave":null,"studentRegister":3,"teacherId":36,"teacherName":"焦宁娜","teacherUserName":"jiaoningna","teachingInstitutionId":66,"teachingInstitutionName":"","timetableStatus":1,"week":3},{"assistantFirst":0,"assistantFirstName":"","assistantFirstUserName":"","assistantSecond":0,"assistantSecondName":"","assistantSecondUserName":"","chapterId":0,"classId":134,"className":"测试课程2_收费","courseId":16,"courseName":"测试课程2_收费","coursePeriod":5,"courseSection":1,"createTime":"2017-02-24 13:36:38","dayLimit":1,"id":206,"organizationId":9,"quittingTime":"2017-03-02 14:36:27","schoolTime":"2017-03-02 13:36:18","signIn":false,"signOut":false,"studentInClass":null,"studentLeave":null,"studentNoLeave":null,"studentRegister":3,"teacherId":36,"teacherName":"焦宁娜","teacherUserName":"jiaoningna","teachingInstitutionId":66,"teachingInstitutionName":"","timetableStatus":1,"week":4},{"assistantFirst":0,"assistantFirstName":"","assistantFirstUserName":"","assistantSecond":0,"assistantSecondName":"","assistantSecondUserName":"","chapterId":0,"classId":132,"className":"收费7班","courseId":14,"courseName":"围棋测试收费课程","coursePeriod":3,"courseSection":1,"createTime":"2017-02-24 16:24:51","dayLimit":0,"id":211,"organizationId":9,"quittingTime":"2017-03-01 10:00:00","schoolTime":"2017-03-01 09:00:00","signIn":false,"signOut":false,"studentInClass":null,"studentLeave":null,"studentNoLeave":null,"studentRegister":0,"teacherId":36,"teacherName":"焦宁娜","teacherUserName":"jiaoningna","teachingInstitutionId":66,"teachingInstitutionName":"","timetableStatus":1,"week":3},{"assistantFirst":0,"assistantFirstName":"","assistantFirstUserName":"","assistantSecond":0,"assistantSecondName":"","assistantSecondUserName":"","chapterId":0,"classId":132,"className":"收费7班","courseId":14,"courseName":"围棋测试收费课程","coursePeriod":3,"courseSection":1,"createTime":"2017-02-24 16:24:51","dayLimit":0,"id":211,"organizationId":9,"quittingTime":"2017-03-01 11:10:00","schoolTime":"2017-03-01 10:10:00","signIn":false,"signOut":false,"studentInClass":null,"studentLeave":null,"studentNoLeave":null,"studentRegister":0,"teacherId":36,"teacherName":"焦宁娜","teacherUserName":"jiaoningna","teachingInstitutionId":66,"teachingInstitutionName":"","timetableStatus":1,"week":3},{"assistantFirst":0,"assistantFirstName":"","assistantFirstUserName":"","assistantSecond":0,"assistantSecondName":"","assistantSecondUserName":"","chapterId":0,"classId":126,"className":"收费五班","courseId":1,"courseName":"北京研发---测试课程--收费","coursePeriod":1,"courseSection":1,"createTime":"2017-02-28 16:33:29","dayLimit":1,"id":226,"organizationId":9,"quittingTime":"2017-02-28 16:33:13","schoolTime":"2017-02-28 16:33:10","signIn":false,"signOut":false,"studentInClass":null,"studentLeave":null,"studentNoLeave":null,"studentRegister":3,"teacherId":36,"teacherName":"焦宁娜","teacherUserName":"jiaoningna","teachingInstitutionId":66,"teachingInstitutionName":"","timetableStatus":1,"week":2},{"assistantFirst":0,"assistantFirstName":"","assistantFirstUserName":"","assistantSecond":0,"assistantSecondName":"","assistantSecondUserName":"","chapterId":0,"classId":126,"className":"收费五班","courseId":1,"courseName":"北京研发---测试课程--收费","coursePeriod":2,"courseSection":1,"createTime":"2017-02-28 16:33:29","dayLimit":1,"id":227,"organizationId":9,"quittingTime":"2017-03-01 16:33:19","schoolTime":"2017-03-01 16:33:15","signIn":false,"signOut":false,"studentInClass":null,"studentLeave":null,"studentNoLeave":null,"studentRegister":3,"teacherId":36,"teacherName":"焦宁娜","teacherUserName":"jiaoningna","teachingInstitutionId":66,"teachingInstitutionName":"","timetableStatus":1,"week":3},{"assistantFirst":0,"assistantFirstName":"","assistantFirstUserName":"","assistantSecond":0,"assistantSecondName":"","assistantSecondUserName":"","chapterId":0,"classId":126,"className":"收费五班","courseId":1,"courseName":"北京研发---测试课程--收费","coursePeriod":3,"courseSection":1,"createTime":"2017-02-28 16:33:29","dayLimit":1,"id":228,"organizationId":9,"quittingTime":"2017-03-02 16:33:25","schoolTime":"2017-03-02 16:33:22","signIn":false,"signOut":false,"studentInClass":null,"studentLeave":null,"studentNoLeave":null,"studentRegister":3,"teacherId":36,"teacherName":"焦宁娜","teacherUserName":"jiaoningna","teachingInstitutionId":66,"teachingInstitutionName":"","timetableStatus":1,"week":4}],"responseCode":0,"responseMsg":"成功","traceId":null}
+					fillData(ret.responseBody)
+				}else{
+					fillData([])
+					showEmpty(ret.responseMsg)
+				}
+			}else{
+				fillData([])
+				showEmpty(err.msg)
+			}
+		})
+	}
+	
+	function showEmpty(msg){
+		$api.byId("empty").style.display="block"
+		$api.dom(".errmsg").innerHTML=msg;
+	}
+	
+	function tryAgain(){
+		initView();
+	}
+	
+	
+	function fillData(result){
+		//result =[{"assistantFirst":0,"assistantFirstName":"","assistantFirstUserName":"","assistantSecond":0,"assistantSecondName":"","assistantSecondUserName":"","chapterId":0,"classId":134,"className":"测试课程2_收费","courseId":16,"courseName":"测试课程2_收费","coursePeriod":2,"courseSection":1,"createTime":"2017-02-24 13:36:38","dayLimit":1,"id":203,"organizationId":9,"quittingTime":"2017-02-27 18:35:41","schoolTime":"2017-02-27 17:45:35","signIn":false,"signOut":false,"studentInClass":null,"studentLeave":null,"studentNoLeave":null,"studentRegister":3,"teacherId":36,"teacherName":"焦宁娜","teacherUserName":"jiaoningna","teachingInstitutionId":66,"teachingInstitutionName":"","timetableStatus":1,"week":1},{"assistantFirst":0,"assistantFirstName":"","assistantFirstUserName":"","assistantSecond":0,"assistantSecondName":"","assistantSecondUserName":"","chapterId":0,"classId":134,"className":"测试课程2_收费","courseId":16,"courseName":"测试课程2_收费","coursePeriod":2,"courseSection":1,"createTime":"2017-02-24 13:36:38","dayLimit":1,"id":203,"organizationId":9,"quittingTime":"2017-02-27 20:35:41","schoolTime":"2017-02-27 19:45:35","signIn":false,"signOut":false,"studentInClass":null,"studentLeave":null,"studentNoLeave":null,"studentRegister":3,"teacherId":36,"teacherName":"焦宁娜","teacherUserName":"jiaoningna","teachingInstitutionId":66,"teachingInstitutionName":"","timetableStatus":1,"week":1},{"assistantFirst":0,"assistantFirstName":"","assistantFirstUserName":"","assistantSecond":0,"assistantSecondName":"","assistantSecondUserName":"","chapterId":0,"classId":134,"className":"测试课程2_收费","courseId":16,"courseName":"测试课程2_收费","coursePeriod":3,"courseSection":1,"createTime":"2017-02-24 13:36:38","dayLimit":1,"id":204,"organizationId":9,"quittingTime":"2017-02-28 14:35:52","schoolTime":"2017-02-28 13:35:48","signIn":false,"signOut":false,"studentInClass":null,"studentLeave":null,"studentNoLeave":null,"studentRegister":3,"teacherId":36,"teacherName":"焦宁娜","teacherUserName":"jiaoningna","teachingInstitutionId":66,"teachingInstitutionName":"","timetableStatus":1,"week":2},{"assistantFirst":0,"assistantFirstName":"","assistantFirstUserName":"","assistantSecond":0,"assistantSecondName":"","assistantSecondUserName":"","chapterId":0,"classId":134,"className":"测试课程2_收费","courseId":16,"courseName":"测试课程2_收费","coursePeriod":4,"courseSection":1,"createTime":"2017-02-24 13:36:38","dayLimit":1,"id":205,"organizationId":9,"quittingTime":"2017-03-01 14:36:07","schoolTime":"2017-03-01 13:35:57","signIn":false,"signOut":false,"studentInClass":null,"studentLeave":null,"studentNoLeave":null,"studentRegister":3,"teacherId":36,"teacherName":"焦宁娜","teacherUserName":"jiaoningna","teachingInstitutionId":66,"teachingInstitutionName":"","timetableStatus":1,"week":3},{"assistantFirst":0,"assistantFirstName":"","assistantFirstUserName":"","assistantSecond":0,"assistantSecondName":"","assistantSecondUserName":"","chapterId":0,"classId":134,"className":"测试课程2_收费","courseId":16,"courseName":"测试课程2_收费","coursePeriod":5,"courseSection":1,"createTime":"2017-02-24 13:36:38","dayLimit":1,"id":206,"organizationId":9,"quittingTime":"2017-03-02 14:36:27","schoolTime":"2017-03-02 13:36:18","signIn":false,"signOut":false,"studentInClass":null,"studentLeave":null,"studentNoLeave":null,"studentRegister":3,"teacherId":36,"teacherName":"焦宁娜","teacherUserName":"jiaoningna","teachingInstitutionId":66,"teachingInstitutionName":"","timetableStatus":1,"week":4},{"assistantFirst":0,"assistantFirstName":"","assistantFirstUserName":"","assistantSecond":0,"assistantSecondName":"","assistantSecondUserName":"","chapterId":0,"classId":132,"className":"收费7班","courseId":14,"courseName":"围棋测试收费课程","coursePeriod":3,"courseSection":1,"createTime":"2017-02-24 16:24:51","dayLimit":0,"id":211,"organizationId":9,"quittingTime":"2017-03-01 10:00:00","schoolTime":"2017-03-01 09:00:00","signIn":false,"signOut":false,"studentInClass":null,"studentLeave":null,"studentNoLeave":null,"studentRegister":0,"teacherId":36,"teacherName":"焦宁娜","teacherUserName":"jiaoningna","teachingInstitutionId":66,"teachingInstitutionName":"","timetableStatus":1,"week":3},{"assistantFirst":0,"assistantFirstName":"","assistantFirstUserName":"","assistantSecond":0,"assistantSecondName":"","assistantSecondUserName":"","chapterId":0,"classId":126,"className":"收费五班","courseId":1,"courseName":"北京研发---测试课程--收费","coursePeriod":1,"courseSection":1,"createTime":"2017-02-28 16:33:29","dayLimit":1,"id":226,"organizationId":9,"quittingTime":"2017-02-28 16:33:13","schoolTime":"2017-02-28 16:33:10","signIn":false,"signOut":false,"studentInClass":null,"studentLeave":null,"studentNoLeave":null,"studentRegister":3,"teacherId":36,"teacherName":"焦宁娜","teacherUserName":"jiaoningna","teachingInstitutionId":66,"teachingInstitutionName":"","timetableStatus":1,"week":2},{"assistantFirst":0,"assistantFirstName":"","assistantFirstUserName":"","assistantSecond":0,"assistantSecondName":"","assistantSecondUserName":"","chapterId":0,"classId":126,"className":"收费五班","courseId":1,"courseName":"北京研发---测试课程--收费","coursePeriod":2,"courseSection":1,"createTime":"2017-02-28 16:33:29","dayLimit":1,"id":227,"organizationId":9,"quittingTime":"2017-03-01 17:33:19","schoolTime":"2017-03-01 16:33:15","signIn":false,"signOut":false,"studentInClass":null,"studentLeave":null,"studentNoLeave":null,"studentRegister":3,"teacherId":36,"teacherName":"焦宁娜","teacherUserName":"jiaoningna","teachingInstitutionId":66,"teachingInstitutionName":"","timetableStatus":1,"week":3},{"assistantFirst":0,"assistantFirstName":"","assistantFirstUserName":"","assistantSecond":0,"assistantSecondName":"","assistantSecondUserName":"","chapterId":0,"classId":126,"className":"收费五班","courseId":1,"courseName":"北京研发---测试课程--收费","coursePeriod":3,"courseSection":1,"createTime":"2017-02-28 16:33:29","dayLimit":1,"id":228,"organizationId":9,"quittingTime":"2017-03-02 16:33:25","schoolTime":"2017-03-02 16:33:22","signIn":false,"signOut":false,"studentInClass":null,"studentLeave":null,"studentNoLeave":null,"studentRegister":3,"teacherId":36,"teacherName":"焦宁娜","teacherUserName":"jiaoningna","teachingInstitutionId":66,"teachingInstitutionName":"","timetableStatus":1,"week":4}];
+		handleResult(result);
+		initWeeks()
+	}
+	
+	function handleResult(result){
+		//data:0,am:{sc:[],cls:'over'},pm:{sc:[],cls:'over'},ni:{sc:[],cls:'over'}
+		var list = [{},{},{},{},{},{},{}]
+		var temp = [{schedule:[]},{schedule:[]},{schedule:[]},{schedule:[]},{schedule:[]},{schedule:[]},{schedule:[]}]//周1,2,3,4,5,6,7
+		for(var i=0;i<result.length;i++){
+			var item = result[i];
+			var schoolTime = item.schoolTime;
+			var startdate = new Date(schoolTime.replace(/-/g,"/"))
+			var enddate = new Date(item.quittingTime.replace(/-/g,"/"))
+			var index = startdate.getDay()==0?6:(startdate.getDay()-1);
+			temp[index].schedule.push(item);
+		}
+		for(var i=0;i<temp.length;i++){
+			var s=temp[i].schedule;
+			var am={sc:[]};
+			var pm={sc:[]};
+			var ni={sc:[]};
+			for(var j=0;j<s.length;j++){
+				var item = s[j];
+				var schoolTime = item.schoolTime;
+				var startdate = new Date(schoolTime.replace(/-/g,"/"))
+				var enddate = new Date(item.quittingTime.replace(/-/g,"/"))
+				var h = startdate.getHours();
+				var sitem={
+					"id":item.id,
+					"institutionId":item.teachingInstitutionId,
+					"courseid": item.courseId,
+	                "classname": item.courseName,
+	                "coursename":item.courseName,
+	                "classnum": item.coursePeriod+"",
+	                "startTime": startdate.Format("hh:mm"),
+	                "endTime": enddate.Format("hh:mm"),
+	                "classid":item.classId  
+				}
+				var d = new Date();
+				var dd = d.getTime();
+				var sd = startdate.getTime();
+				var ed = enddate.getTime();
+				console.log(dd)
+				console.log(sd)
+				console.log(ed)
+				if(dd<sd){
+					sitem.cls='fut'
+				}else if(dd<=ed){
+					sitem.cls='cur'
+				}else{
+					sitem.cls='over'
+				}
+				console.log(sitem.cls)
+				if(h<12){//am
+					am.sc.push(sitem)
+				}else if(h<18){//pm
+					pm.sc.push(sitem)
+				}else{//ni
+					ni.sc.push(sitem)
+				}
+			}
+			if(weekCount<0){
+				am.cls='over'
+				pm.cls='over'
+				ni.cls='over'
+			}else if(weekCount>0){
+				am.cls='fut'
+				pm.cls='fut'
+				ni.cls='fut'
+			}else{//当前周
+				if(i<currentWeek){
+					am.cls='over'
+					pm.cls='over'
+					ni.cls='over'
+				}else if(i>currentWeek){
+					am.cls='fut'
+					pm.cls='fut'
+					ni.cls='fut'
+				}else{
+					var d = new Date();
+					if(d.getHours()<12){
+						am.cls='cur'
+						pm.cls='fut'
+						ni.cls='fut'
+					}else if(d.getHours()<18){
+						am.cls='over'
+						pm.cls='cur'
+						ni.cls='fut'
+					}else{
+						am.cls='over'
+						pm.cls='over'
+						ni.cls='cur'
+					}
+				}
+			}
+			list[i].data=s.length;
+			list[i].am=am;
+			list[i].pm=pm;
+			list[i].ni=ni;
+		}
+		console.log(JSON.stringify(result))
+		console.log(JSON.stringify(list))
+		list[currentWeek].currentWeek="currentWeek";
+		getInnerByDot("content","schedule-template",list);
+	}
+	
+	function initView(){
+		var data = {};
+		data.method = 'studentCourse';
+		data.request = {
+			"studentId" : window.studentId
+		}, api.showProgress();
+		ajaxRequest(data, function(ret, err) {
+			api.hideProgress();
+			if (ret) {
+				if(ret.responseCode==0){
+					if(ret.responseBody.length==0){
+						//没课
+						api.sendEvent({
+	                        name:'nocourse',
+	                        extra:{}
+	                    });
+					}else{
+						api.sendEvent({
+	                            name:'noInfoClose'
+                            });
+						initWeekTitle();
+				
+						var ths = $api.domAll(".table-title th");
+						$api.removeCls($api.dom(".current-duration"), "current-duration");
+						$api.addCls(ths[(currentDuration+1)], "current-duration");
+					}
+				}else{
+				api.sendEvent({
+	                            name:'noInfoClose'
+                            });
+					initWeekTitle();
+				
+				var ths = $api.domAll(".table-title th");
+				$api.removeCls($api.dom(".current-duration"), "current-duration");
+				$api.addCls(ths[(currentDuration+1)], "current-duration");
+				}
+			} else {
+			api.sendEvent({
+	                            name:'noInfoClose'
+                            });
+				initWeekTitle();
+						
+				var ths = $api.domAll(".table-title th");
+				$api.removeCls($api.dom(".current-duration"), "current-duration");
+				$api.addCls(ths[(currentDuration+1)], "current-duration");
+			}
+		})
+		
+	}
+	
+	
+	function godetail(el,courseid,classid,institutionId,courseName){
+		//el的父节点中,如果class包含over,则整体都是节课状态,tag=-1
+		//el父节点中class为cur,判断当前节点的是否为空.
+		//如果为空,继续判断当前节点的子节点(1个),如果为over则为over,否则为其他
+		var parentElement = el.parentElement;
+		var tag = 0;
+		if($api.attr(parentElement,"class").indexOf("over")==-1){
+			//不为over状态,判断是否为cur
+			if($api.attr(parentElement,"class").indexOf("cur")==-1){
+				//不为当前,不判断
+			}else{
+				//当前,继续
+				if($api.attr(el,"class")){//存在class,则为cur不处理
+				}else{//不存在,判断子节点
+					if($api.attr(el.children[0],"class").indexOf("over")==-1){//不存在over
+					}else{
+						tag=-1;
+					}
+				}
+			}
+		}else{//over
+			tag=-1
+		}
+		if(courseid&&courseid!=0){
+			var pageParam = {
+            	courseId:courseid,
+            	classId:classid,
+            	id:window.studentId,
+            	institutionId:institutionId,
+            	courseName:courseName,
+            	tag:tag
+            }
+            console.log(JSON.stringify(pageParam))
+			api.openWin({
+	            name: 'mcourseDatailsContent',
+	            url: '../mine/mylesson/mcourseDatailsContent.html',
+	            pageParam:pageParam
+            });
+		}else{
+			
+		}
+	}
+	
+	/*
+	 * 打开日历
+	 */
+	function openCalendar(){
+		var frameInfo={
+			name:'schedulecalendar',
+			url:'schedulecalendar.html',
+		}
+		openWinWithTitle("title_calendar","日历",frameInfo);
+	}
+	
+	/*
+	 * 返回本周
+	 */
+	function gobackCurrent(){
+		if(weekCount==0)
+			return;
+		weekCount=0;
+		initWeekTitle();
+	}
+	
+	/*
+	 * 跳转到其他周
+	 */
+	function goOtherWeek(tag){
+		if(tag=='pre'){
+			weekCount--;
+		}else{
+			weekCount++;
+		}
+		initWeekTitle();
+	}
+
+	function getWeekDate(date){
+		return [date.Format("MM.dd"),date.Format("yyyy-MM-dd")];
+	}
+//	function(date){             
+//      var week = date.getDay()-1;
+//      date = addDate(date,week*-1);
+//      currentFirstDate = new Date(date);
+//  }
+	function addDate(date,n){       
+	    date.setDate(date.getDate()+n);        
+	    return date;
+    }
+	
+</script>
+</html>

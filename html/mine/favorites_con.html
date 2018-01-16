@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <style>
+    	body{
+    		
+    	}
+    	#discover_content .listview {
+			height: 2.4rem;
+		}
+		.listview a {
+			height:2.4rem;
+			width: 100%;
+			position :relative;
+			background:#FFF;
+		}
+		.listview a.active {
+			background:#F9F9F9 !important;
+		}
+		#discover_content .pic {
+			width: 2.6rem;
+			height: 1.6rem;
+			margin-left:0.24rem;
+			margin-top:0.39rem;
+			float:left;
+		}
+		#discover_content #right {
+			display: inline-block;
+			margin-left:0.42rem;
+			margin-top:0.4rem;
+			height:1.62rem;
+			width:4.2rem;
+		}
+		#right .h2{
+			font-size:0.28rem;
+			color:#333333;
+		}
+		#right > div{
+			font-size:0.22rem;
+			color:#666666;
+			margin-top:0.1rem;
+		}
+		#right .double{
+			width:3rem;
+			height: 0.32rem;
+			line-height: 0.32rem;
+		}
+		#right .double img{
+			width:0.24rem;
+			height: 0.24rem;
+			margin-right:0.1rem;
+		}
+		#right .status{
+			font-size:0.26rem;
+			color:#666;
+		}
+		#right .price{
+			font-size:0.26rem;
+			color:#FF8344;
+		}
+		#right .price span{
+			padding-left:0.1rem;
+		}
+		#right .price img{
+			width:0.24rem;
+			height: 0.24rem;
+			margin-top:0.02rem;
+		}
+		.starcontent{
+			display: inline-block;
+			padding: 0;
+			margin: 0;
+		}
+		.starcontent .star{
+			max-width:0.24rem;
+			max-height:0.24rem;	
+			width:0.24rem;
+			height:0.24rem;
+			float: left;
+			margin-left: 0.06rem;
+		}
+		#right .ellipsis-1{
+			display: -webkit-box;
+			-webkit-line-clamp: 1;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			word-wrap: break-word;
+			white-space: normal !important;
+			height: 0.32rem;
+		}
+		#right .imp{
+			color:#F48844;
+		}
+		.listview{
+			position: relative;
+			/*border-bottom: 0.01rem solid #CCCCCC;*/
+		}
+		.listview:after {
+			border-bottom: 1px solid #c8c7cc;
+			display: block;
+			content: '';
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+			pointer-events: none;
+		}
+		ul .current{
+			color:#F76249;
+		}
+		
+		#empty{
+			width:100%;
+			height:100%;
+			text-align: center;
+		}
+		#empty .errnet{
+			height:30%;
+			background:url(../../image/icon_net_err.png) no-repeat center bottom ;
+			background-size:2.5rem 2.5rem;
+		}
+		#empty label{
+			margin-top:0.5rem;
+			color:#666666;
+			font-size:0.34rem;
+		}
+		#empty .try{
+			margin:0.3rem auto;
+			width:1.8rem;
+			height:0.6rem;
+			color: #1A9973;
+			font-size:0.34rem;
+			line-height:0.6rem;
+		}
+    </style>
+</head>
+<body>
+	<div id="main">
+		<script type="text/x-dot-template" id="discover_template">
+		{{ for(var i=0;i<it.length;i++){ }}
+			<div class="listview">
+				<a tapmode="active" onclick="goDetail()">
+					<img class="pic" src="{{=($api.imageUrl+it[i].courseImg)}}" onerror="onImgError(this)" alt="" />
+					<div id="right">
+						<h3  class="h2 ellipsis-2">{{=it[i].courseName}} {{=it[i].className}}</h3>
+						<div class="status">
+							&nbsp;
+						</div>
+						<div class="price">
+							<img src="../../image/icon_course_price.png" alt="" />
+							<span>1000</span>
+						</div>
+					</div> 
+				</a>
+			</div>
+		{{ } }}
+		</script>
+		<div id="discover_content">
+		</div>
+	</div>
+	<div id="empty" style="display:none">
+		<div class="errnet"></div>
+		<label class="errmsg">网络连接异常</label>
+		<div class="try" onclick="tryAgain()">再试一次</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript">
+	imready = function(){
+		getCoursesList();
+	};
+	function getCoursesList(){
+		var lat = api.getPrefs({sync:true,key:"latitude"});
+		var lon = api.getPrefs({sync:true,key:"longitude"});
+		api.showProgress();
+		var body={};
+		body.method="foundCoursePage"
+		body.request={
+			"userId":1,
+			"latitude": 0,
+			"longitude": 0,
+			"key": "",
+			"courseCategory":window.courseCategory,
+		 	"courseLevel":window.courseLevel
+		}
+		ajaxRequest(body,function(ret,err){
+			api.hideProgress();
+			api.refreshHeaderLoadDone();
+			console.log(JSON.stringify(ret))
+			if(ret){
+				if(ret.responseCode==0){
+					if(!ret.responseBody||ret.responseBody.length==0){
+						showEmpty("暂无数据",0);
+					}else{
+						$api.byId("empty").style.display="none"
+						$api.byId("main").style.display="block"
+						window.courseList=(ret.responseBody)
+						sortCoursesList();
+					}
+				}else{
+					showEmpty(ret.responseMsg);
+				}
+			}else{
+				showEmpty(err.msg);
+			}
+		})
+	}
+	function showEmpty(msg,type){
+		$api.byId("empty").style.display="block"
+		$api.byId("main").style.display="none"
+		$api.dom(".errmsg").innerHTML=msg;
+		if(type==0){
+			$api.dom(".errnet").style.background="url(../../image/icon_empty.png) no-repeat center bottom "
+			$api.dom(".errnet").style.backgroundSize="2.18rem 2.18rem";
+		}else{
+			$api.dom(".errnet").style.background="url(../../image/icon_net_err.png) no-repeat center bottom "
+			$api.dom(".errnet").style.backgroundSize="2.5rem 2.5rem";
+		}
+	}
+	
+	function tryAgain(){
+		getCoursesList();
+	}
+	
+	function sortCoursesList(){
+		getInnerByDot("discover_content","discover_template",window.courseList)
+	}
+	
+	function goDetail(){
+		toastAtMiddle("详情页面")
+	}
+	
+	function isInteger(x) {
+	    return x % 1 === 0;
+	}
+</script>
+</html>

@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+    	html,body{
+    		background:#F6F6F6;
+    		height:100%;
+    		width:100%;
+    	}
+    	body{
+    		font-size:0.26rem;
+    	}
+    	#page{
+    		position:absolute;
+    		right:0;
+    		left:0.23rem;
+    		float:left;
+    	}
+    	#canvas{
+    		width:6.6%;
+    		height:100%;
+    		float:right;
+    		position: fixed;
+    		right: 0px;
+    		font-size:0.2rem;
+    		padding-top:0.4rem;
+    		background: rgba(0,0,0,0)
+    	}
+    	#right{
+    		width:6.6%;
+    		height:80%;
+    		float:right;
+    		position: fixed;
+    		right: 0px;
+    		font-size:0.2rem;
+    		margin-top:0.4rem;
+    	}
+    	.itemtitle{
+    		font-size:0.26rem;
+    		color:#636363;
+    		margin-top:0.19rem;
+    	}
+    	.item{
+    		font-size:0.26rem;
+    		color:#666666;
+    		background: #FFF;
+    		width:2rem;
+    		margin-top:0.19rem;
+    		height:0.62rem;
+    		line-height:0.62rem;
+    		text-align: center;
+    		border-radius: 0.1rem;
+    		margin-right:0.31rem;
+    	}
+    	.item.active{
+    		background:#FF8345 !important;
+    		color:#FFF;
+    	}
+    	.item.current{
+    		color:#FF8345;
+    	}
+    	.word{
+    		display:block;
+    		margin-top:0.19rem;
+    		background:#FF8345;
+    		width:0.4rem;
+    		height:0.4rem;
+    		padding:0.05rem 0.05rem;
+    		line-height:0.4rem;
+    		text-align: center;
+    		font-size:0.2rem;
+    		color:#FFF;
+    		border-radius: 1rem;
+    	}
+    	#bottom{
+    		height:1rem;
+    	}
+    	.index{
+    		font-size:0.2rem;
+    		width:100%;
+    		height:3.8%;
+    		color:#FF8345;
+    		text-align: center;
+    	}
+    	.index .active{
+    		background:rgba(0,0,0,0.3) !important;
+    	}
+    </style>
+</head>
+<body>
+	<div id="page">
+		<div class="itemtitle" >当前定位:GPS</div>
+		<!--当前定位-->
+		<a tapmode="active" id="loc" class="item" onclick="selectCity()">北京</a>
+
+		<div class="itemtitle history" style="display: none" >历史访问城市</div>
+		<div id="history_content" style="display: none" >
+		</div>
+		<script id="history_template" type="text/x-dot-template">
+			{{ for(var i=0;i<it.length;i++){ }}
+				{{ if(it[i].cityname==window.currentCity){ }}
+				<a tapmode="active" class="item current" onclick="selectCity('{{=it[i].cityname}}','{{=it[i].citycode}}')">{{=it[i].cityname}}</a>
+				{{ }else{ }}
+				<a tapmode="active" class="item" onclick="selectCity('{{=it[i].cityname}}','{{=it[i].citycode}}')">{{=it[i].cityname}}</a>
+				{{ } }}
+			{{ } }}
+		</script>
+		<div class="itemtitle" >国内热门城市</div>
+		<div id="hotcity_content">
+		</div>
+		<script id="hotcity_template" type="text/x-dot-template">
+			{{ for(var i=0;i<it.length;i++){ }}
+				{{ if(it[i].cityname==window.currentCity){ }}
+				<a tapmode="active" class="item current" onclick="selectCity('{{=it[i].regionName}}','{{=it[i].id}}')">{{=it[i].regionName}}</a>
+				{{ }else{ }}
+				<a tapmode="active" class="item" onclick="selectCity('{{=it[i].regionName}}','{{=it[i].id}}')">{{=it[i].regionName}}</a>
+				{{ } }}
+			{{ } }}
+		</script>
+		<div id="cities_content">
+		</div>
+		<script id="cities_template" type="text/x-dot-template">
+			{{ for(var i=0;i<it.length;i++){ }}
+				<div class="word" id="position{{=i}}" >{{=it[i].gn}}</div>
+				<div>
+					{{ for(var j=0,cl=it[i]['lis'].length;j<cl;j++){ }}
+						{{ if(it[i]['lis'][j].n==window.currentCity){ }}
+						<a tapmode="active" class="item current" onclick="selectCity('{{=it[i]['lis'][j].regionShortName}}','{{=it[i]['lis'][j].id}}')">{{=it[i]['lis'][j].regionShortName}}</a>
+						{{ }else{ }}
+						<a tapmode="active" class="item" onclick="selectCity('{{=it[i]['lis'][j].regionShortName}}','{{=it[i]['lis'][j].id}}')">{{=it[i]['lis'][j].regionShortName}}</a>
+						{{ } }}
+					{{ } }}
+				</div>
+			{{ } }}
+		</script>
+		<div id="bottom"></div>
+	</div>
+	<div  id="right">
+	</div>
+	<canvas id="canvas">
+	</canvas>
+	<script type="text/x-dot-template" id="index_template">
+		{{ for(var i=0;i<it.length;i++){ }}
+			<a href="#position{{=i}}" id="go{{=i}}" tapmode="active" class="index">{{=it[i]}}</a>
+		{{ } }}
+	</script>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/py.js"></script>
+<script type="text/javascript" src="../../script/dist-controller.js"></script>
+<script type="text/javascript" src="../../script/swipe.js"></script>
+<script type="text/javascript">
+//	var db ;
+	imready = function(){
+		if(api.pageParam.tag=='first'){
+			toastAtMiddle("请您先定位或选择您所在的城市!")
+		}
+//		db = api.require('db');
+		//第一次进入需要调用接口获取所有城市数据.
+		//数据包括热门城市和按首字母分类的全部城市.
+		api.setPrefs({
+	        key:'gpsLocation',
+	        value:''
+        });
+		var gpscity = api.getPrefs({
+	        sync:true,
+	        key:'gpsLocation'
+        });
+        if(!gpscity){
+        	$api.byId("loc").innerHTML="正在获取...";
+        }
+         if(api.pageParam.tag=='first'){
+	        api.addEventListener({
+		        name:'swiperight'
+	        },function(ret,err){
+	        });
+	      }
+        //$api.byId("loc").innerHTML=(gpscity)?gpscity:"无法获取";
+		getLocation();
+
+		getHotCities();
+		initCity();
+		startup();
+		initIndexes();
+		//initHistory();
+		initCities();
+	};
+
+	function getLocation() {
+		api.showProgress();
+		var baiduLocation = api.require('baiduLocation');
+		baiduLocation.getLocation({
+//	        accuracy: '100m',
+//		    filter: 1,
+//		    autoStop: true
+        },function(ret,err){
+	       if (ret.status) {
+		        var lon = ret.longitude;
+		        var lat = ret.latitude;
+		        if(lon==5e-324||lat==5e-324){
+		        	api.hideProgress();
+			    	api.setPrefs({
+	                    key:'gpsLocation',
+	                    value:"无法获取"
+	                });
+	                $api.byId("loc").innerHTML="无法获取";
+			       	api.toast({
+	                    msg:'定位失败,请手动选择所在城市!',
+	                    location:'middle'
+	                });
+	                alert("无法定位您的位置,请您打开定位开关,并赋予中棋学生端以定位权限,或者手动选择您所在的城市!")
+		        	return;
+		        }
+		        if(lon==0||lat==0){
+		        	//alert("定位失败!请打开GPS开关或手动选择城市.")
+		        	api.setPrefs({
+	                    key:'gpsLocation',
+	                    value:"无法获取"
+                    });
+	                $api.byId("loc").innerHTML="无法获取";
+                    toastAtMiddle("定位失败!请打开GPS开关或手动选择城市!")
+		        	return;
+		        }
+		        api.setPrefs({
+                    key:'longitude',
+                    value:lon+''
+                });
+		        api.setPrefs({
+                    key:'gpslongitude',
+                    value:lon+''
+                });
+		        api.setPrefs({
+                    key:'latitude',
+                    value:lat+''
+                });
+		        api.setPrefs({
+                    key:'gpslatitude',
+                    value:lat+''
+                });
+		        api.ajax({
+		        	url:"http://api.map.baidu.com/geocoder/v2/?ak=jbt3NtLURGUQehlEh59gG62MPDZToG6A&location="+lat+","+lon+"&output=json&pois=0&qq-pf-to=pcqq.c2c"
+		        },function(ret,err){
+		        	api.hideProgress();
+		        	if (ret) {
+		        		if(ret.status==0){
+		        			var city = ret.result.addressComponent.city;
+		        			var address = ret.result.formatted_address;
+		        			var i = city.indexOf("市");
+		        			if(i!=-1){
+		        				city = city.split('市')[0]
+		        			}
+		        			var currentLocation = api.getPrefs({
+		        				sync:true,
+		        				key:'currentLocation'
+		        			})
+		        			if(!currentLocation){
+		        				api.setPrefs({
+				                    key:'currentLocation',
+				                    value:city
+			                    });
+		        			}else{
+		        			}
+		        			api.setPrefs({
+			                    key:'gpsLocation',
+			                    value:city
+		                    });
+		                     $api.byId("loc").innerHTML=city;
+		                    api.sendEvent({
+	                            name:'locationChanged'
+                            });
+                            api.execScript({
+                            	frameName:'frame0',
+	                            script: 'updateLocation();'
+                            });
+		        			api.setPrefs({
+			                    key:'address',
+			                    value:address
+		                    });
+		        		}
+				    }else{
+				    	api.setPrefs({
+		                    key:'gpsLocation',
+		                    value:"无法获取"
+		                });
+		                 $api.byId("loc").innerHTML="无法获取";
+				        api.toast({
+	                        msg:'定位失败,请手动选择所在城市!',
+	                        location:'middle'
+                        });
+				    }
+		        });
+		    } else {
+		    	api.hideProgress();
+		    	api.setPrefs({
+                    key:'gpsLocation',
+                    value:"无法获取"
+                });
+                $api.byId("loc").innerHTML="无法获取";
+		       	api.toast({
+                    msg:'定位失败,请手动选择所在城市!',
+                    location:'middle'
+                });
+                alert("无法定位您的位置,请您打开定位开关,并赋予中棋学生端以定位权限,或者手动选择您所在的城市!")
+		    }
+        });
+	}
+
+	function getHotCities(){
+		var data =  {};
+		data.method="getRegionHotList";
+		data.request="",
+		api.showProgress();
+		ajaxRequest(data,function(ret,err){
+			api.hideProgress();
+			if(ret){
+				if(ret.responseCode==0){
+					getInnerByDot("hotcity_content","hotcity_template",ret.responseBody);
+				}else{
+					alert(ret.responseMsg)
+				}
+			}else{
+				alert(err.msg)
+			}
+		})
+	}
+
+	function initCity(){
+		window.currentCity = api.getPrefs({
+	        sync:true,
+	        key:'currentLocation'
+        });
+        if($api.byId("loc").innertHTML==currentCity){
+        	$api.addCls($api.byId("loc"), "current");
+        }
+	}
+
+	function startup() {
+		var el = document.getElementsByTagName("canvas")[0];
+		el.addEventListener("touchstart", handleStart, false);
+		el.addEventListener("touchmove", handleMove, false);
+    }
+
+    function ok(){
+    	var href=document.getElementById("go19").href;
+        window.open(href);
+    }
+
+	//处理触摸开始事件
+	function handleStart(evt) {
+  		evt.preventDefault(); //阻止事件的默认行为
+	 	var touches = evt.changedTouches;
+		//暂时取0即可
+		var clientY = touches[0].clientY;
+		checkPosition(clientY)
+    }
+
+    //处理触摸移动事件
+	function handleMove(evt) {
+		evt.preventDefault();
+		var el = document.getElementsByTagName("canvas")[0];
+		var ctx = el.getContext("2d");
+		var touches = evt.changedTouches;
+		var clientY = touches[0].clientY;
+		checkPosition(clientY)
+	}
+
+	function checkPosition(y){
+		//小于最小值,或大于最大值,取消检索
+		if(y<window.ps[0]||y>window.ps[26]){
+			return;
+		}
+		var index ;
+		for(var i=0;i<window.ps.length;i++){
+			var p1 = window.ps[i];
+			var p2 = window.ps[i+1];
+			if(y>p1&&y<p2){
+				index = i;
+				break;
+			}
+		}
+		if(window.lastIndex==index){
+			return;
+		}
+		window.lastIndex = index;
+		api.toast({
+	        msg:window.indexes[index],
+	        location:'middle'
+        });
+		document.getElementById("go"+index).href;
+		var href=$api.attr(document.getElementById("go"+index), "href");
+		//toastAtMiddle(href)
+        window.open(href);
+	}
+
+	function initIndexes(){
+		window.indexes = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+		getInnerByDot("right","index_template",indexes);
+		var right = $api.byId("right")
+		var margintop = Math.round((api.winWidth*40/750)*100)/100;
+		var height = (api.winHeight*0.8)*100/100;
+		var ph = height/26*100/100;
+		//alert(ph*26)
+		window.ps = [];
+		for(var i=0;i<=26;i++){
+			window.ps.push(ph*(i+1))
+		}
+		var as = $api.domAll("#right a")
+	}
+//	function initHistory(){
+//		//
+//		var result = db.executeSqlSync({
+//          name:'sinogostudent',
+//          sql:'CREATE TABLE IF NOT EXISTS cities_history(_id INTEGER PRIMARY KEY AUTOINCREMENT, cityname varchar(255), citycode varchar(255))'
+//      });
+//     	var result2= db.selectSqlSync({
+//	        name:'sinogostudent',
+//	        sql:'SELECT * FROM cities_history order by _id desc'
+//      });
+//		if(result2.status==true&&result2.data.length!=0){
+//			getInnerByDot("history_content","history_template",result2.data);
+//		}else{
+//			$api.byId("history_content").style.display="none";
+//			$api.dom(".history").style.display="none";
+//		}
+//	}
+
+	function initCities(){
+//		var citylist = [{groupname:'A',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'B',list:[{cityname:"北京",citycode:"bj"},{cityname:"上海",citycode:"qd"},{cityname:"青岛",citycode:"jn"},{cityname:"澳门",citycode:"sh"},{cityname:"北京",citycode:"bj"},{cityname:"上海",citycode:"qd"}]},{groupname:'C',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"},{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"},{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"},{cityname:"台北",citycode:"TP"}]},{groupname:'D',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'E',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'F',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'G',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'H',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'I',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'J',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'K',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'L',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'M',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'N',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'O',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'P',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'Q',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'R',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'S',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'T',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'U',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'V',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'W',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'X',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'Y',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]},{groupname:'Z',list:[{cityname:"鞍山",citycode:"bj"},{cityname:"安康",citycode:"qd"},{cityname:"安阳",citycode:"jn"},{cityname:"澳门",citycode:"sh"}]}];
+//		var hot ;
+		//var groupList = getCityList();
+		//{groupname:'hot',list:[{cityname:"北京",citycode:"bj"},{cityname:"青岛",citycode:"qd"},{cityname:"济南",citycode:"jn"},{cityname:"上海",citycode:"sh"},{cityname:"深圳",citycode:"sz"},{cityname:"海口",citycode:"hk"},{cityname:"三亚",citycode:"sy"}]},
+//		var namelist = [];
+//		for(var i=0;i<citylist.length;i++){
+//			var o = citylist[i];
+//			if(o.groupname=="hot"){
+//				hot = o;
+//			}else{
+//				namelist.push(o);
+//			}
+//		}
+//		getInnerByDot("hotcity_content","hotcity_template",hot.list);
+		//getInnerByDot("cities_content","cities_template",groupList)
+
+		var date = new Date();
+		var today = (date.getMonth()+1)+"_"+date.getDate();
+		api.getPrefs({
+	        sync:false,
+	        key:'groupCityListOk_'+today
+        },function(ret,err){
+        	console.log(JSON.stringify(ret))
+        	if(ret.value||ret.value=='true'){
+        		console.log("已经存储了.读取文件")
+        		api.readFile({
+	                sync:false,
+	                path:'fs://groupcityList.jn'
+                },function(ret,err){
+                	if(ret){
+        		console.log(".读取文件成功,填充数据")
+	                	if(ret.status){
+	                		var groupList = $api.strToJson(ret.data);
+							getInnerByDot("cities_content","cities_template",groupList)
+	                	}else{
+        		console.log(".读取文件失败,掉接口")
+        					requestCityList();
+	                	}
+                	}else{
+        		console.log(".读取文件失败,掉接口")
+        				requestCityList();
+                	}
+                });
+        	}else{
+        		console.log(".没存储,掉接口")
+        		requestCityList();
+        	}
+        });
+
+	}
+
+	function requestCityList(){
+		var body = {
+			method :"getRegionList",
+			request:{
+				regionType:2
+			}
+		}
+		ajaxRequest(body,function(ret,err){
+			var groupList = initCityList(ret.responseBody);
+			var date = new Date();
+			var today = (date.getMonth()+1)+"_"+date.getDate();
+			api.writeFile({
+	            path:'fs://groupcityList.jn',
+	            data:JSON.stringify(groupList),
+	            append:false
+            },function(ret,err){
+            	if(ret.status){
+            		api.setPrefs({
+	                    key:'groupCityListOk_'+today,
+	                    value:true
+                    });
+            	}
+            });
+			api.writeFile({
+	            path:'fs://cityList.jn',
+	            data:JSON.stringify(ret.responseBody),
+	            append:false
+            },function(ret,err){
+            	if(ret.status){
+            		api.setPrefs({
+	                    key:'cityListOk_'+today,
+	                    value:true
+                    });
+            	}
+            });
+			getInnerByDot("cities_content","cities_template",groupList)
+		})
+	}
+
+	function selectCity(name,code){
+		if(!name&&!code){//点击gps位置时执行此处
+			//return;
+			name=api.getPrefs({
+				sync:true,
+				key:"gpsLocation"
+			})
+			code='0'
+			if(name=='无法获取'){
+				return toastAtMiddle("请打开GPS重新定位!");
+			}
+			api.setPrefs({
+		        key:'currentLocation',
+		        value:name
+		      });
+	       api.setPrefs({
+                key:'longitude',
+                value:api.getPrefs({sync:true,key:"gpslongitude"})
+            });
+	        api.setPrefs({
+                key:'latitude',
+                value:api.getPrefs({sync:true,key:"gpslatitude"})
+            });
+
+    		api.sendEvent({
+			    name:'locationChanged',
+	      });
+	      if(api.pageParam.tag=='first'){
+			      api.sendEvent({//
+				        name:'firstLocationListener'
+			      });
+		      }
+		      api.closeWin({
+		      	name:"location"
+		      });
+		      api.closeFrame({
+		      	name:"location_con"
+		      });
+
+			return;
+		}
+		//先进行重复判断
+		//TODO 8.29注释掉历史选择内容。
+//      db.selectSql({
+//	        name:'sinogostudent',
+//	        sql:"select * from cities_history where cityname= '"+name+"'"
+//      },function(ret,err){
+//      	if (ret.status) {
+//		        //alert(JSON.stringify(ret));
+//		        if(ret.data&&ret.data.length>0){
+//		        	db.executeSql({
+//			            name:"sinogostudent",
+//			            sql:"delete from cities_history where cityname= '"+name+"' and citycode = '"+code+"' "
+//		            },function(ret,err){
+//		            	//coding...
+//		            });
+//		        }else{
+//			        db.executeSql({
+//				        name:'sinogostudent',
+//				        sql:"insert into cities_history (cityname,citycode) values('"+name+"','"+code+"')"
+//				        },function(ret,err){
+//			        });
+//		        }
+//		    } else {
+//		        //alert("数据库读写错误,请重新选择或联系客服!");
+//		    }
+//      });
+		
+		//点击列表中的城市 逻辑如下。
+		//先根据城市名，获取该城市的经纬度
+		api.showProgress({
+			title:'正在获取经纬度'
+        });
+		api.ajax({
+	        url:"http://api.map.baidu.com/geocoder?address='"+name+"'&output=json&key=jbt3NtLURGUQehlEh59gG62MPDZToG6A&city='"+name+"'"
+        },function(ret,err){
+        	api.hideProgress();
+        	if(ret){
+  			  api.setPrefs({
+		        key:'currentLocation',
+		        value:name
+		      });
+		       api.setPrefs({
+                    key:'longitude',
+                    value:ret.result.location.lng
+                });
+		        api.setPrefs({
+                    key:'latitude',
+                    value:ret.result.location.lat
+                });
+		      api.sendEvent({
+			        name:'locationChanged',
+		      });
+		      if(api.pageParam.tag=='first'){
+			      api.sendEvent({//
+				  	name:'firstLocationListener'
+			      });
+		      }
+		      api.closeWin({
+		      	name:"location"
+		      });
+		      api.closeFrame({
+		      	name:"location_con"
+		      });
+        	}else{
+        	  api.sendEvent({
+			        name:'locationChanged',
+		      });
+		      if(api.pageParam.tag=='first'){
+			      api.sendEvent({//
+				        name:'firstLocationListener'
+			      });
+		      }
+		      api.closeWin({
+		      	name:"location"
+		      });
+		      api.closeFrame({
+		      	name:"location_con"
+		      });
+        	}
+        });
+	}
+
+</script>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<!-- 此页面Vue工作模板-->
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>studentCompletion</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+
+    <style scoped>
+        /****************************模板导入***********************************************/
+
+        .h-right {
+            text-align: right;
+            margin-right: .23rem;
+            -webkit-flex: .3;
+            /* Chrome */
+            -ms-flex: .3;
+            /* IE 10 */
+            flex: .3;
+            /* NEW, Spec - Opera 12.1, Firefox 20+ */
+            -webkit-box-flex: .3;
+            /* OLD - iOS 6-, Safari 3.1-6 */
+            -moz-box-flex: .3;
+            width: 0%;
+            display: block;
+        }
+
+        .h-left {
+            margin-left: .23rem;
+            text-align: left;
+            -webkit-flex: .3;
+            /* Chrome */
+            -ms-flex: .3;
+            /* IE 10 */
+            flex: .3;
+            /* NEW, Spec - Opera 12.1, Firefox 20+ */
+            -webkit-box-flex: .3;
+            /* OLD - iOS 6-, Safari 3.1-6 */
+            -moz-box-flex: .3;
+            width: 0%;
+            display: block;
+        }
+
+        .h-left img {
+            margin-top: .215rem;
+            width: .25rem;
+            height: .45rem;
+            background: url(../../image/setting/icon-back.png);
+            background-size: cover;
+            margin-left: 0;
+        }
+        /*****************************************************************************************/
+    </style>
+</head>
+
+<body>
+    <div class="flex-wrap flex-vertical">
+        <div class="flex-con" id="main">
+            <img width="300px" height="300px" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1505217094211&di=6b5840f1f2d07de3217e9b879e060f69&imgtype=0&src=http%3A%2F%2Fp4.sanwen8.com%2F65%2F2013%2F10%2F1917%2F36097492_1.jpg" alt="">
+        </div>
+        <video width="320" height="240" controls src="http://7o50kb.com2.z0.glb.qiniucdn.com/c1.1.mp4">
+          <!-- <source src="http://7o50kb.com2.z0.glb.qiniucdn.com/c1.1.mp4" type="video/mp4">
+          <source src="http://7o50kb.com2.z0.glb.qiniucdn.com/c1.1.ogg" type="video/ogg"> -->
+        您的浏览器不支持Video标签。
+        </video>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+
+<script>
+    var assigment; //全局控制器Controller
+    initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+        var date = vueDateManager();
+        var methods = vueMethodsManager();
+        assigment = new Vue({
+            el: '#main', //绑定元素
+            data: date, //本页面的静态动态全部数据
+            methods: methods, //本页面的全部方法
+            created: function() {
+                Vue.config.silent = true;
+            }
+        })
+    }
+    vueDateManager = function() {
+        //初始化Vue数据date为一个json数组
+        var date = {};
+        date.name = "ctleryes"
+
+        console.log("数据管理者" + JSON.stringify(date));
+        return date;
+
+    }
+    vueMethodsManager = function() {
+        //时间管理中心 每个Vue事件的处理都可以在这管理
+        var methods = {};
+        methods.datebase = function() {
+            var db = api.require('db');
+            db.executeSql({
+                name: "ctleryes",
+                sql: "CREATE TABLE IF NOT EXISTS shopping_cart(_id INTEGER PRIMARY KEY AUTOINCREMENT,user_id varchar(255),good_name varchar(255))"
+            }, function(ret, err) {
+                if (ret) {
+                    console.log(JSON.stringify(ret));
+                } else {
+                    console.log(JSON.stringify(err));
+                }
+            });
+            var sql = "insert into shopping_cart (good_name,good_id,good_spec,good_price,good_count) values ('" + t.good_name + "','" + t.good_id + "','" + t.good_spec + "','" + t.good_price + "','" + 1 + "')";
+
+
+
+
+
+        };
+        /******************************数据库操*********************/
+        var db = api.require('db');
+        methods.openDatabase = function() { //打开数据库
+            db.openDatabase({
+                name: assigment.name
+            }, function(ret, err) {
+                if (ret.status) {
+                    console.log(JSON.stringify(ret));
+                } else {
+                    console.log(JSON.stringify(err));
+                }
+            });
+        };
+        methods.closeDatabase = function() { //关闭数据库
+            db.closeDatabase({
+                name: assigment.name
+            }, function(ret, err) {
+                if (ret.status) {
+                    console.log(JSON.stringify(ret));
+                } else {
+                    console.log(JSON.stringify(err));
+                }
+            });
+        }
+        methods.executeSql = function(sql, callback) { //执行事务语句
+            db.executeSql({
+                name: assigment.name,
+                sql: sql
+            }, function(ret, err) {
+                callback(ret, err)
+            });
+        }
+        methods.selectSql = function(sql, callback) { //查询数据库
+            db.selectSql({
+                name: assigment.name,
+                sql: sql
+            }, function(ret, err) {
+                callback(ret, err);
+            });
+        }
+        methods.wirte = function() {
+            if (assigment.size > 3) {
+                // c("api.cacheDir", api.cacheDir);
+                // c("渠道号", api.channel);
+                c("assigment.size", assigment.size);
+                api.writeFile({
+                    path: api.cacheDir + "/log/" + Date.now() + ".txt",
+                    data: "内存剩余大小：" + (assigment.size / 1024) + "MB\n" + "记录时间" + Date.now(),
+                    append: true
+                }, function(ret, err) {
+                    if (ret.status) {
+                        //成功
+                        c("存储成功", JSON.stringify(ret));
+                        assigment.size = api.getFreeDiskSpace({
+                            sync: true
+                        });
+                        // for (var t = Date.now(); Date.now() - t <= 2;);
+                        assigment.wirte();
+                    } else {}
+                });
+            } else {
+                var fs = api.require('fs');
+                fs.remove({
+                    path: api.cacheDir + "/log"
+                }, function(ret, err) {
+                    if (ret.status) {
+                        assigment.size = api.getFreeDiskSpace({
+                            sync: true
+                        });
+                        assigment.wirte();
+
+                    } else {
+                        alert(JSON.stringify(err));
+                    }
+                });
+
+            }
+
+
+        }
+        methods.ble = function() {
+            var ble = api.require('ble');
+            ble.initManager(function(ret) {
+                if (ret.state == "poweredOn") {
+                    api.alert({
+                        msg: "初始化成功"
+                    });
+                }
+            });
+        }
+        console.log("事件管理者：" + JSON.stringify(methods));
+        return methods;
+
+
+
+
+    }
+    imready = function() {
+        // api.parseTapmode(); //默认页面加载完成后，引擎会对 dom 里面的元素进行 tapmode 属性解析，若是之后用代码创建的 dom 元素，则需要调用该方法后 tapmode 属性才会生效
+        // $api.fixStatusBar($api.dom('header'));
+        initVue();
+        // var sql = "CREATE TABLE IF NOT EXISTS table_1(_id INTEGER PRIMARY KEY AUTOINCREMENT,user_name varchar(255),good_name varchar(255))" //创建表
+        // var sql = "DROP TABLE  table_1"; //删除表
+        // var user_name="小明",good_name="防晒霜";
+        // var sql = "insert into table_1 (user_name,good_name) values ('" +  user_name+ "','" + good_name + "')";//插入数据
+        // var sql= "update table_1 set user_name='ctleryes' where user_name='小明'";
+        // var sql ="select * from table_1";
+        // assigment.executeSql(sql, function(ret, err) {
+        //     if (ret.status) {
+        //         console.log(JSON.stringify(ret));
+        //     } else {
+        //         console.log(JSON.stringify(err));
+        //     }
+        // });
+        // assigment.selectSql(sql, function(ret, err) {
+        //     if (ret.status) {
+        //         console.log(JSON.stringify(ret));
+        //     } else {
+        //         console.log(JSON.stringify(err));
+        //     }
+        // });
+
+        // var videoPlayer = api.require('videoPlayer');
+        // videoPlayer.openPlay({
+        //   rect:
+        //     {   x: 0,
+        //         y : 0,
+        //         w : 320,
+        //         h: 250
+        //     },
+        //     texts: {
+        //         head: {
+        //             title: '顶部文字'
+        //         }
+        //     },
+        //     styles: {
+        //         head: {
+        //             bg: 'rgba(0.5,0.5,0.5,0.7)',
+        //             height: 44,
+        //             y:20,
+        //             titleSize: 20,
+        //             titleColor: '#fff',
+        //             backSize: 44,
+        //             backImg: 'fs://img/back.png',
+        //             customButtons:[],
+        //         },
+        //         foot: {
+        //             bg: 'rgba(0.5,0.5,0.5,0.7)',
+        //             height: 44,
+        //             playSize: 44,
+        //             playImg: 'fs://img/back.png',
+        //             pauseImg: 'fs://img/back.png',
+        //             timeSize: 14,
+        //             timeColor: '#fff',
+        //             sliderImg: 'fs://img/slder.png',
+        //             progressColor: '#696969',
+        //             progressSelected: '#76EE00',
+        //             verticalImg:'',
+        //             horizontalImg:'',
+        //
+        //         }
+        //     },
+        //     path: 'http://7o50kb.com2.z0.glb.qiniucdn.com/c1.1.mp4', //（可选项）字符串类型；文档的路径，支持网络和本地（fs://）路径；默认：未传值时不播放
+        //     //在 android 平台上不支持 widget://
+        //     autoPlay: true //（可选项）布尔类型；打开时是否自动播放；默认：true（自动播放）
+        // }, function(ret, err) {
+        //     if (ret) {
+        //         console.log(JSON.stringify(ret));
+        //             } else {
+        //         alert(JSON.stringify(err));
+        //     }
+        // });
+
+
+
+
+    }
+</script>
+
+</html>

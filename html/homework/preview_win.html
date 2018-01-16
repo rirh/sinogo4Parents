@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/fontstyle.css" />
+    <style>
+        header {
+            position: relative;
+            height: .9rem;
+            width: 100%;
+            background: #ff8344;
+        }
+
+        header h1 {
+            color: #fff;
+            line-height: .9rem;
+            text-align: center;
+            font-size: .34rem;
+            font-weight: normal;
+        }
+
+        header span:nth-child(1) {
+            position: absolute;
+            top: .225rem;
+            left: .32rem;
+            height: .5rem;
+            width: .5rem;
+        }
+
+        header span img {
+            height: .45rem;
+            width: .25rem;
+        }
+
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <span onclick="api.closeWin()"><img src="../../image/back.png" alt=""></span>
+        <h1>题目预览</h1>
+    </header>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript">
+    imready = function() {
+        initVue();
+        assigment.init();
+    };
+    var assigment; //全局控制器Controller
+    initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+        var date = vueDateManager();
+        var methods = vueMethodsManager();
+        var components = vueComponentsManager();
+        assigment = new Vue({
+            el: '#header', //绑定元素
+            data: date, //本页面的静态动态全部数据
+            methods: methods, //本页面的全部方法
+            components: components,
+        })
+    }
+
+    vueDateManager = function() {
+        //初始化Vue数据date为一个json数组
+        var date = {};
+        date.pageParam="";
+        console.log("数据管理者" + JSON.stringify(date));
+        return date;
+
+    }
+    vueMethodsManager = function() {
+        //时间管理中心 每个Vue事件的处理都可以在这管理
+        var methods = {};
+        methods.init = function() {
+          assigment.pageParam = api.pageParam.homework;
+          var request = {
+              "publishId": assigment.pageParam.homeworkPublishId,
+              // "studentId": assigment.pageParam.homeWorkStudentId,
+          };
+          goRequest("getHomeWorkQuestions",request,function(ret){
+          	var data = ret.responseBody;
+          	data = dealWithData(data);
+          	var result = [];
+          	for(var i=0;i<data.length;i++){
+          		var item = data[i];
+          		var json = {
+          			"answerCostTime": 0,
+	                "answerIsRight": false,
+	                "answerSgfText": "",
+	                "choiceOptionId": 0,
+	                "choiceOptionSequence": -1,
+	                "createTime": "2017-08-30 11:29:56",
+	                "homeWorkId": 0,
+	                "id": 0,
+	                "questionId": item.questionId,
+	                "questionType": item.questionTypeValue,
+	                "studentId": 0
+          		}
+          		result.push(json)
+          	}
+			var response = {};
+			response.answerQuestionsList=result;
+			response.questionAttributeList=data;
+            api.openFrame({
+                name: 'preview_frm',
+                url: 'preview_frm_925.html',
+                rect: {
+                    x: 0,
+                    y: $api.offset($api.dom("header")).h,
+                    w: api.winWidth,
+                    h: 'auto'
+                },
+                pageParam: {
+                    jobDetalis: response,
+                    job:assigment.pageParam
+
+                }
+            });
+          })
+
+
+
+
+        };
+        methods.goContent = function() {
+            var headerPos = $api.offset($api.dom('header'));
+            var y = headerPos.h;
+            var h = api.winHeight - y;
+            api.openFrame({
+                name: 'rank_frm',
+                url: 'rank_frm.html',
+                rect: {
+                    x: 0,
+                    y: y,
+                    w: api.winWidth,
+                    h: h
+                },
+                pageParam: {
+                    student: assigment.ranklist
+                }
+            });
+        }
+
+        methods.goExplain = function() {
+
+        }
+        return methods;
+
+
+
+
+    }
+    vueComponentsManager = function() { //组件管理器
+        var components = {};
+        return components;
+    }
+    imready = function() {
+        // api.parseTapmode(); //默认页面加载完成后，引擎会对 dom 里面的元素进行 tapmode 属性解析，若是之后用代码创建的 dom 元素，则需要调用该方法后 tapmode 属性才会生效
+        // $api.fixStatusBar($api.dom('header'));
+        initVue();
+        assigment.init();
+
+    };
+    
+    function dealWithResult(result){
+		var map = {},
+	    	newResult = [];
+		for(var i = 0; i < result.length; i++){
+		    var ai = result[i];
+		    if(!map[ai.questionId]){
+		        newResult.push({
+		            answerCostTime: ai.answerCostTime,
+		            answerIsRight: ai.answerIsRight,
+		            answerSgfText: ai.answerSgfText,
+		            choiceOptionId: ai.choiceOptionId,
+		            choiceOptionSequence: ai.choiceOptionSequence,
+		            createTime: ai.createTime,
+		            homeWorkId: ai.homeWorkId,
+		            id: ai.id,
+		            questionId: ai.questionId,
+		            questionType: ai.questionType,
+		            studentId: ai.studentId,
+		            data:[ai]
+		        });
+		        map[ai.questionId] = ai;
+		    }else{
+		        for(var j = 0; j < newResult.length; j++){
+		            var dj = newResult[j];
+		            if(dj.questionId == ai.questionId){
+		                dj.data.push(ai);
+		                break;
+		            }
+		        }
+		    }
+		}
+		for(var i=0;i<newResult.length;i++){
+			var item = newResult[i];
+			var isRight = true;
+			if(item.data&&item.data.length>1){
+				for(var j=0;j<item.data.length;j++){
+					if(!item.data[j].answerIsRight){
+						isRight=false;
+						break;
+					}
+				}
+			}else{
+				isRight=item.answerIsRight
+			}
+			item.answerIsRight=isRight;
+		}
+		console.log(JSON.stringify(newResult))
+		
+		return newResult;
+	}
+	
+	function dealWithData(data) {
+		var questionTitleAttributes = data.questionTitleAttributes;
+		for (var i = 0; i < data.length; i++) {
+			var item = data[i];
+			var questionTitleAttributes = item.questionTitleAttributes;
+			for (var j = 0; j < questionTitleAttributes.length; j++) {
+				var titleTypeValue = questionTitleAttributes[j].titleTypeValue;
+				if (titleTypeValue == -1) { //文本
+					item.textTitle = true;
+					item.textTitleValue = questionTitleAttributes[j].titleDetails
+				} else if (titleTypeValue == 0) { //图片
+					item.imgTitle = true;
+					item.imgTitleValue = questionTitleAttributes[j].titleDetails
+				} else if (titleTypeValue == 1) { //音频
+					item.audioTitle = true;
+					item.audioTitleValue = questionTitleAttributes[j].titleDetails
+				} else if (titleTypeValue == 2) { //视频
+					item.videoTitle = true;
+					item.videoTitleValue = questionTitleAttributes[j].titleDetails
+				} else if (titleTypeValue == 3) { //sgf
+					item.sgfTitle = true;
+					item.sgfTitleValue = questionTitleAttributes[j].titleDetails
+				} else {
+					//没这么干的
+				}
+			}
+			//8.30新增。添加对选择题-多选题的支持。多选题的questionTypeValue设置为 -1 （1选择，2对弈）
+			console.log(item.questionTypeValue)
+			if(item.questionTypeValue==1){
+				var questionOptionsAttributes = item.questionOptionsAttributes;
+				console.log(JSON.stringify(questionOptionsAttributes))
+				var rightCount = 0;
+				for(var j=0;j<questionOptionsAttributes.length;j++){
+					var attr = questionOptionsAttributes[j];
+					rightCount = attr.optionRight?(rightCount+1):rightCount
+				}
+				console.log(rightCount)
+				if(rightCount > 1){//如果正确答案数目大于1，则为多选题
+					item.questionTypeValue=-1;
+					item.questionTypeName="多选题"
+				}
+			}
+		}
+		return data;
+
+	}
+	
+</script>
+
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+	<style>
+		body {
+		}
+		#header{
+		    background-color: #FF8345;
+		    text-align: center; color: #fff;
+		    width: 100%; position: relative;
+		    height:0.88rem;
+		}
+		#header .back-icon{
+		    display: inline-block; width: 0.88rem; height: 0.88rem;
+		    background: url(../image/icon_arrow_left.png) no-repeat center center; 
+		    -webkit-background-size: 0.25rem 0.4rem;
+		    background-size: 0.25rem 0.4rem;
+		    position: absolute; left: 0; bottom: 0;
+		}
+		#header .back-icon.active{
+			 background: url(../image/icon_arrow_left.png) no-repeat center center rgba(0,0,0,0.2); 
+			 background-size: 0.25rem 0.4rem;
+		}
+		#header h1{
+		    font-size: 0.34rem;
+		    height: 0.88rem; line-height: 0.88rem; margin: 0 auto; color: #fff;
+		    width:5rem;
+		}
+		#header .btn_left{
+			width: 1.2rem; height: 0.88rem;
+			line-height: 0.88rem;
+			font-size:0.3rem;
+			position: absolute;
+			top: 0;
+			right:0.88rem;
+			text-align: center;
+			display: none;
+		}
+		#header .btn_left.active{
+			background:rgba(0,0,0,0.3);
+		}
+		#header .btn_right{
+			width: 0.95rem; height: 0.88rem;
+			line-height: 0.88rem;
+			font-size:0.3rem;
+			position: absolute;
+			top: 0;
+			right:0;
+			text-align: center;
+			display: none;
+		}
+		#header .btn_right.active{
+			background:rgba(0,0,0,0.3);
+		}
+	</style>
+	</head>
+	<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<div id="header">
+			<a class="back-icon" tapmode="active" onclick="closeWin()" ></a>
+			<h1 id="title">首页</h1>
+		</div>
+		<div id="main" class="flex-con"></div>
+	</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/common.js"></script>
+	<script type="text/javascript">
+		
+		imready = function() {
+			var params = api.pageParam;
+			$api.byId("title").innerHTML=params.title;
+			var headerPos = $api.offset($api.byId('header'));
+			var y = headerPos.h;
+			var h = api.winHeight-y;
+			api.openFrame({
+	            name: params.frameInfo.name,
+	            url: params.frameInfo.url,
+	            pageParam:params.frameInfo.pageParam,
+	            rect: {
+		            x:0,
+		            y:y,
+		            w:api.winWidth,
+		            h:h
+	            }
+            });	
+		};
+		
+	</script>
+</html>

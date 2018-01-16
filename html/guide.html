@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<style>
+			body {
+				text-align: center;
+				height: 100%;
+			}
+			/*slide*/
+			.swipe {
+				height: 100%;
+				overflow: hidden;
+				/*visibility: hidden;*/
+				position: relative;
+			}
+			.swipe-wrap {
+				height: 100%;
+				overflow: hidden;
+				position: relative;
+			}
+			.swipe-wrap > div {
+				float: left;
+				width: 100%;
+				position: relative;
+			}
+			.swipe-wrap > div {
+				height: 100%;
+				overflow: hidden;
+				position: relative;
+			}
+			.swipe-wrap img {
+				width: 100%;
+				height: 100%;
+				min-width: 320px;
+			}
+			#slide {
+				margin: 0 auto;
+				position: relative;
+			}
+			#pointer {
+				position: absolute;
+				bottom: 12px;
+				overflow: hidden;
+				width: 100%;
+				text-align: center;
+			}
+			#pointer div {
+				display: inline-block;
+				width: 6px;
+				height: 6px;
+				border-radius: 6px;
+				margin-right: 4px;
+				background-color: #FFFFFF;
+				display: none;
+			}
+			#pointer div.active {
+				background-color: #999999;
+			}
+			#control {
+				position: absolute;
+				color: #FFF;
+				bottom: 0px;
+				overflow: hidden;
+				width: 100%;
+				height: 5%;
+			}
+			#guide {
+				position: absolute;
+				text-align: center;
+				width: 100%;
+				height: 40px;
+				line-height: 40px;
+				display: none;
+			}
+			#guide div {
+				color: #FFF;
+				font-size: 18px;
+				display: inline;
+				margin: 0 20px;
+				border: 1px solid #FFF;
+				border-radius: 5px;
+				padding: 5px 15px;
+			}
+			#bottom {
+				position: absolute;
+				display: block;
+				margin: 10px;
+				bottom: 0px;
+				font-size: 14px;
+				color: #FFF;
+				text-align: right
+			}
+		</style>
+	</head>
+	<body>
+		<div id='slide' class='swipe'>
+			<div class='swipe-wrap' id="banner-content">
+				<div  >
+					<img src="../image/p0.jpg"/>
+				</div>
+				<div >
+					<img src="../image/p1.jpg"/>
+				</div>
+				<div >
+					<img src="../image/p2.jpg"/>
+				</div>
+				<div>
+					<img src="../image/p3.jpg"/>
+				</div>
+			</div>
+			<div id="pointer">
+				<div class="active"></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+			<div id="control">
+				<div id="guide">
+					<div>
+						立即体验
+					</div>
+				</div>
+				<div id="bottom">
+					跳过引导
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/common.js"></script>
+	<script src="../script/swipe.js"></script>
+	<script type="text/javascript">
+		apiready = function() {
+			$api.dom('body').style.height = (api.winHeight) + "px";
+			var tag = api.pageParam.tag;//tag为0,默认情况,tag为1,结束后跳到定位页面
+			initSlide();
+			initBtn();
+		};
+		function initBtn() {
+			var btns = $api.domAll("#guide div");
+			var skip = $api.dom("#bottom")
+			skip.onclick = function() {
+				window.mySlide.slide(3)
+			}
+			var hs = ["login","guidepage"]
+			for (var i = 0; i < btns.length; i++) {
+				btns[i].index = i;
+				btns[i].onclick = function() {
+					api.sendEvent({
+	                    name:'welcomeback',
+	                    extra:{"tag":api.pageParam.tag}
+                    });
+					api.closeFrame();
+//					api.openWin({
+//	                    name: 'login',
+//	                    url: 'login.html'
+//                  });
+				}
+			}
+		}
+
+		function initSlide() {
+			var slide = $api.byId('slide');
+			var pointer = $api.domAll('#pointer div');
+			window.mySlide = Swipe(slide, {
+				auto : 0,
+				continuous : false,
+				disableScroll : true,
+				stopPropagation : true,
+				callback : function(index, element) {
+					var actPoint = $api.dom('#pointer div.active');
+					$api.removeCls(actPoint, 'active');
+					$api.addCls(pointer[index], 'active');
+					if (index == 3) {
+						$api.dom("#control").style.height = "30%";
+						$api.dom("#guide").style.display = "block";
+						$api.dom("#bottom").style.display = "none";
+					} else {
+						$api.dom("#control").style.height = "5%";
+						$api.dom("#guide").style.display = "none";
+						$api.dom("#bottom").style.display = "block";
+					}
+				},
+				transitionEnd : function(index, element) {
+				}
+			});
+		}
+	</script>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+    	html,body{
+    		height:100%;
+    		background:url(../../image/icon_bg_dialog.png);
+    		overflow: hidden;
+    	}
+    	#wrap{
+    		position: relative;
+    		height:100%;
+    	}
+    	#main{
+    		position: relative;
+    		margin: 0.5rem 0.5rem 0.6rem 0.6rem;
+    		background: #FFF;
+    	}
+    	#main #notice{
+    		line-height:0.96rem;
+    		color:#64ac3c;
+    		font-size:0.34rem;
+    		margin: 0 0.24rem;
+    		position: relative;
+    	}
+    	#main #notice:after{
+    		position: absolute;
+    		border-bottom: 1px solid #ccc;
+    		content:"";display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform: scaleY(0.5);
+    		-webkit-transform-origin: 0 0;
+    	}
+    	#main #notice img{
+    		float:right;
+    		width:0.41rem;
+    		height:0.41rem;
+    		margin-top:0.28rem;
+    	}
+    	#main #content{
+    		color:#64ac3c;
+    		font-size:0.34rem;
+    		margin: 0 0.24rem;
+    		position: relative;
+    	}
+    	#main #content #content-tip{
+    		height:40%;
+    		color:#333;
+    		text-align: left;
+    	}
+    	#main #content #content-tip span{
+    	}
+    	#main #content #sum{
+    		height:50%;
+    		color:#FF8344;
+    		text-align: left;
+    	}
+    	#main #content #sum span{
+    	}
+    	#main #pass{
+    		font-size:0.34rem;
+    		margin: 0 0.24rem;
+    		position: relative;
+    	}
+    	#main #pass #pass_content{
+    		height:50%;
+    	}
+    	#main #pass #pass_content table{
+    		position: relative;
+    		margin: 0 auto;
+    	}
+    	#main #pass #pass_content td{
+    		width:0.9rem;
+    		height:0.91rem;
+    		text-align: center;
+    		color:#333;
+    		border: 1px solid #ccc;
+    		line-height:0.91rem;
+    	}
+    	#main #pass #repass{
+    		height:50%;
+    		line-height:1rem;
+    		float: right;
+    		color:#999;
+    		font-size:0.24rem;
+    	}
+    	#keyboard{
+    		height:45%;
+    		background: #F6F6F6;
+    		position: relative;
+    	}
+    	#keyboard table{
+    		width:100%;
+    		height:95%;
+    		font-size:0.5rem;
+    		position: relative;
+    	}
+    	#keyboard table td{
+    		text-align:center;
+    	}
+    	#keyboard table td.active{
+    		background:rgba(0,0,0,0.3) !important;
+    	}
+    </style>
+</head>
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<div id="header">
+			<a class="back-icon" tapmode="" onclick="closeSelf()"></a>
+			<h1 style="font-size:0.34rem;">余额支付</h1>
+		</div>
+		<div id="main" class="flex-con">
+			<div id="notice">
+				<span style="float: left;">请输入支付密码</span>
+				<img src="../../image/icon_close.png" onclick="closeSelf()" alt="" />
+			</div>
+			<div id="content">
+				&nbsp;
+				<div id="content-tip" ><span>现金余额支付</span></div>
+				<div id="sum"><span>￥   58.0</span></div>
+			</div>
+			<div id="pass">
+				<div id="pass_content">
+					<table border="1" bordercolor="#ccc">
+						<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						</tr>
+					</table>
+				</div>
+				<div id="repass">忘记密码?</div>
+			</div>
+		</div>
+		<div id="keyboard">
+			<table border="1" bordercolor="#ccc">
+				<tr>
+					<td tapmode='active' width="33%">1</td>
+					<td tapmode='active' width="33%">2</td>
+					<td tapmode='active' width="33%">3</td>
+				</tr>
+				<tr>
+					<td tapmode='active' >4</td>
+					<td tapmode='active' >5</td>
+					<td tapmode='active' >6</td>
+				</tr>
+				<tr>
+					<td tapmode='active' >7</td>
+					<td tapmode='active' >8</td>
+					<td tapmode='active' >9</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td tapmode='active' >0</td>
+					<td tapmode='active' >删</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	window.tryCount = 5;
+	window.inputFlag = true;
+	window.time = 30;
+	imready = function(){
+		var h = $api.offset($api.byId("main")).h
+		$api.byId("notice").style.height=h*0.2+"px"
+		$api.byId("content").style.height=h*0.45+"px"
+		$api.byId("pass").style.height=h*0.35+"px"
+		window.wordArr=[];
+		
+		var balance = api.pageParam.balance;
+		$api.byId("sum").innerHTML="￥   "+balance
+		
+		api.getPrefs({
+	        sync:false,
+	        key:'paypasswordinput'
+        },function(ret,err){
+        	if(!ret.value){
+        		return;
+        	}
+        	var lastTime = ret.value;
+        	var date = new Date();
+        	var nowTime = date.getTime();
+        	var t = nowTime-lastTime;
+        	if(t<(30*60*1000)){
+        		window.inputFlag = false;
+        		window.time=30-parseInt(t/(60*1000))
+        	}else{
+        		window.inputFlag = true;
+        	}
+        });
+		
+		var tds = $api.domAll("#keyboard td");
+		for(var i=0;i<tds.length;i++){
+			tds[i].index=i;
+			tds[i].onclick=function(){
+				if(!this.innerHTML){
+					return;
+				}
+				if(!window.inputFlag){
+					var lastTime = api.getPrefs({sync:true,key:'paypasswordinput'});
+		        	var date = new Date();
+		        	var nowTime = date.getTime();
+		        	var t = nowTime-lastTime;
+		        	if(t<(30*60*1000)){
+		        		window.inputFlag = false;
+		        		window.time=30-parseInt(t/(60*1000))
+						return toastAtMiddle("连续输入密码错误次数过多,请您"+window.time+"分钟后再试");
+		        	}else{
+		        		window.inputFlag = true;
+		        	}
+				}
+				if(this.innerHTML=='删'){
+					if(window.wordArr.length>0){
+						window.wordArr.pop();
+						pushWord();
+					}
+					return;
+				}
+				if(window.wordArr.length==6){
+					return;
+				}
+				window.wordArr.push(this.innerHTML)
+				console.log(JSON.stringify(window.wordArr))
+				pushWord();
+				if(window.wordArr.length==6){
+					//TODO 验证密码是否正确
+					//toastAtMiddle(JSON.stringify(window.wordArr))
+					vertifyPassword();
+					return;
+				}
+			}
+		}
+		api.addEventListener({
+            name:'swiperight'
+        },function(ret,err){
+        });
+        $api.byId("repass").onclick=function(){
+	  		api.openFrame({
+                name: 'balancePayPassSetting',
+                url: 'balancePayPassSetting.html',
+                pageParam:{
+                	from:"reset"
+                },
+                rect: {
+                    x:0,
+                    y:0,
+                    w:api.winWidth,
+                    h:api.winHeight
+                }
+            });
+            api.sendEvent({
+	            name:'passSettingState',
+	            extra:{
+	            	isOpend:true
+	            }
+            });
+        	closeSelf()
+        }
+        
+	};
+	
+	function vertifyPassword(){
+		api.showProgress();
+		api.getPrefs({
+	        sync:false,
+	        key:'tradePassword'
+        },function(ret,err){
+        	var inputpass='';
+        	for(var i=0;i<window.wordArr.length;i++){
+        		inputpass+=window.wordArr[i]
+        	}
+        	if(hex_md5(inputpass)==ret.value){
+        		//密码正确,如果密码正确,则返回使用余额支付的钱数.返回支付
+        		api.sendEvent({
+	                name:'passwordSeted',
+	                extra:{
+	                }
+                });
+                api.hideProgress();
+                closeSelf();
+        	}else{
+        		//密码错误
+        		api.hideProgress();
+        		window.tryCount--;
+        		window.wordArr=[];
+        		pushWord()
+        		if(window.tryCount==0){
+        			//禁止输入:
+        			toastAtMiddle("您输入密码错误次数过多,请"+window.time+"分钟后再试!")//五次.
+        			window.inputFlag=false;
+        			var date = new Date();
+        			api.setPrefs({
+	                    key:'paypasswordinput',
+	                    value:date.getTime()
+                    });
+        		}else{
+        			toastAtMiddle("您输入的支付密码错误,您还可以尝试"+window.tryCount+"次!")//五次.
+        		}
+        	}
+        });
+		
+	}
+	
+	function pushWord(){
+		var passes = $api.domAll("#pass_content td");
+		console.log("push----"+JSON.stringify(window.wordArr))
+		for(var i=0;i<passes.length;i++){
+			console.log("*")
+			passes[i].innerHTML=window.wordArr[i]?'*':''
+		}
+	}
+	
+	function closeSelf(){
+		api.sendEvent({
+	        name:'balanceState',
+	        extra:{
+	        	isOpend:false
+	        }
+        });
+        api.closeFrame({
+        	name:"balancePayConfirm"
+        });
+	}
+	
+</script>
+</html>

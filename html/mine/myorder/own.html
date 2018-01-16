@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+		<style>
+			body {
+			}
+			.flex-con {
+				background: #f6f6f6;
+			}
+			.shopbox {
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older         WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				margin-top: 0.29rem;
+				background: #FFFFFF;
+				height: 0.88rem;
+			}
+			.item1 {
+				display: block;
+				height: 0.6rem;
+				width: 0.6rem;
+				border-radius: 0.6rem;
+				margin-left: 0.23rem;
+				margin-top: 0.14rem;
+				background: #FF8344;
+				display: none;
+			}
+			.item2 {
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				display: block;
+				margin-left: 0.23rem;
+				line-height: 0.88rem;
+			}
+			.oitem {
+				font-size: 0.28rem;
+				height: 0.88rem;
+				line-height: 0.88rem;
+			}
+			.item3 {
+				display: block;
+				line-height: 0.88rem;
+				font-size: 0.28rem;
+				color: #333333;
+				font-size: 0.26rem;
+				margin-right: 0.23rem;
+			}
+			.item4 {
+				width: 0.14rem;
+				height: 0.26rem;
+				margin-top: 0.31rem;
+				margin-right: 0.23rem;
+				display: block;
+				background: url(../../../image/mine/todo.png);
+				background-size: cover;
+			}
+			.oitem1 {
+				float: left;
+				display: block;
+				font-size: 0.26rem;
+				color: #666666;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				word-break: keep-all;
+			}
+			.oitem3 {
+				float: left;
+				display: block;
+				font-size: 0.26rem;
+				color: #666666;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				word-break: keep-all;
+			}
+			.oitem2 {
+				float: right;
+				display: block;
+				font-size: 0.26rem;
+				color: #FF8344;
+				margin-right: 0.3rem;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				word-break: keep-all;
+			}
+			.title {
+				height: 2.37rem;
+				background: #FFFFFF;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older         WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				
+			}
+			#tips{
+			 
+			  vertical-align: bottom;
+			  margin-right: 0.23rem;
+			  height: 0.37rem;
+			  margin-bottom: 0.23rem;
+			  margin-top: 2rem;
+			  color: #666;
+			  font-size: 0.23rem;
+			
+			
+			}
+			.tleft {
+				margin-top: 0.3rem;
+				margin-left: 0.23rem;
+				display: block;
+				height: 1.62rem;
+				width: 2.58rem;
+				background-size: cover;
+				display: block
+			}
+			.tright {
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				margin-left: 0.38rem;
+				margin-top: 0.3rem;
+				margin-right: 0.23rem;
+			}
+			.p1 {
+				text-align: left;
+				color: #333333;
+				font-size: 0.3rem;
+				text-overflow: -o-ellipsis-lastline !important;
+				overflow: hidden;
+				text-overflow: ellipsis !important;
+				display: -webkit-box;
+				-webkit-line-clamp: 2 !important;
+				-webkit-box-orient: vertical;
+			}
+			.p2 {
+				color: #333333;
+				font-size: 0.26rem;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				word-break: keep-all;
+			}
+			.p3 {
+				color: #666666;
+				font-size: 0.24rem;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				word-break: keep-all;
+			}
+			.edugroup {
+				color: #FF8345;
+			}
+			.statistics {
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				height: 0.88rem;
+				line-height: 0.88rem;
+				font-size: 0.24rem;
+				color: #999999;
+				text-align: right;
+				padding-right: 0.23rem;
+				background: #FFFFFF;
+			}
+			.control {
+				height: 0.88rem;
+				font-size: 0.26rem;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older         WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				background: #FFFFFF;
+				color: #FFFFFF;
+			}
+				.cancelControl {
+				
+				height: 0.88rem;
+				font-size: 0.26rem;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older         WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				background: #FFFFFF;
+				color: #FFFFFF;
+				display:none;
+			}
+			.cleft {
+				display: block;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+			}
+			.ccenter {
+				text-align: center;
+				display: block;
+				height: 0.5rem;
+				width: 1.38rem;
+				line-height: 0.5rem;
+				border-radius: 0.02rem;
+				background: #AAAAAA;
+				margin-top: 0.19rem;
+			}
+			.mccenter {
+				text-align: center;
+				display: none;
+				height: 0.5rem;
+				width: 1.38rem;
+				line-height: 0.5rem;
+				border-radius: 0.02rem;
+				background: #AAAAAA;
+				margin-top: 0.19rem;
+			}
+			.cright {
+				text-align: center;
+				line-height: 0.5rem;
+				display: block;
+				height: 0.5rem;
+				width: 1.38rem;
+				margin-left: 0.3rem;
+				margin-right: 0.23rem;
+				border-radius: 0.02rem;
+				background: #FF8344;
+				margin-top: 0.19rem;
+			}
+			.order {
+				background: #f6f6f6;
+			}
+			.shopvalue {
+				background: #FFFFFF;
+			}
+			#line {
+				position: relative;
+			}
+			#line:after {
+				border-bottom: 1px solid #d9d9d9;
+				content: "";
+				display: block;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				-webkit-transform-origin: 0 0;
+				-webkit-transform: scaleY(0.5);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap" class="flex-wrap flex-vertical">
+		
+			<div id="main" class="flex-con">
+			
+			</div>
+		</div>
+	</body>
+	<script type="template" id="dotTmpl">
+		{{for(var i = 0 ; i<it.length;i++){}}
+		<div id="line"></div>
+		<div class="order" >
+		<div id="line"></div>
+		<div class="shopbox" onclick="details('{{=it[i].orderState}}','{{=i}}')">
+		<div class="item1"></div>
+		<div class="item2">
+		<div class="oitem" >
+		<div  class="oitem3">订单编号：</div>
+		<div  class="oitem1">{{=it[i].onumber}}</div>
+		<div  class="oitem2">{{=it[i].state}}</div></div>
+		</div>
+		<div class="item3">详情</div>
+		<div class="item4"></div>
+		</div>
+		<div id="line"></div>
+		<div class="shopvalue" onclick="openShopDetails('{{=i}}')">
+		{{for(var j = 0 ; j<it[i].shop.length;j++){}}
+		<div>
+		<div class="title">
+		<img class="tleft" src="{{=it[i].shop[j].img?it[i].shop[j].img:'../../../image/mine/mylesson.png'}}"/>
+		<div class="tright">
+		<p class="p1">{{=it[i].shop[j].name}}</p>
+		<p class="p2" style="display: none">老师：<span class="lessnum">{{=it[i].shop[j].teacher}}</span></p>
+		<p class="p3">价格:<span class="edugroup">{{=it[i].shop[j].price}}</span></p>
+		</div>
+		<p id="tips">{{=it[i].shop[j].number}}</p>
+		</div>
+		<div id="line"></div>
+		{{  } }}
+		</div>
+		<div id="line"></div>
+		<div class="statistics">
+		{{=it[i].tips}}
+		</div>
+		<div {{if(it[i].orderState==0||it[i].orderState==5||it[i].orderState==3){}}
+		        class="control"
+		 {{}else{}}
+		 class="cancelControl"
+		 {{}}}
+		>
+		<div class="cleft"></div>
+		<div 
+			{{if(it[i].orderState==5||it[i].orderState==3){}}
+		        class="mccenter"
+		 {{}else{}}
+		      class="ccenter" 
+		 {{}}}
+		 id="firstButton" onclick="orderGoEvent('{{=i}}','{{=it[i].orderAmount}}','{{=it[i].orderState}}','{{=it[i].onumber}}',1)">{{=it[i].firstButtonName}}</div>
+		<div class="cright" id="secoreButton" onclick="orderGoEvent('{{=i}}','{{=it[i].orderAmount}}','{{=it[i].orderState}}','{{=it[i].onumber}}',2)">{{=it[i].secoreButtonName}}</div>
+		</div>
+		</div>
+		<div id="line" style="margin-left: 0.23rem"></div>
+		{{  } }}
+	</script>
+	<script type="text/javascript" src="../../../script/api.js"></script>
+	<script type="text/javascript" src="../../../script/doT.js"></script>
+	<script type="text/javascript" src="../../../script/common.js"></script>
+	<script type="text/javascript">
+		//用户id
+		var userid;
+		//0待支付1、已取消2、待发货3、已发货4、已收货5、订单完成6、已评价7、已删除
+		var orderStatus;
+		var pageindex = 1;
+		var pagesize = 20;
+		var loadEnd = false;
+		//分页数量
+		var page;
+		//数据库返回数据
+		var bcakHttpInfo;
+		//发货状态
+		var stauts = ["待支付", "已取消", "待发货", "已发货", "已收货", "订单完成", "已评价","已删除",]
+		function dates() {
+			var json = [];
+			for (var i = 0; i < bcakHttpInfo.length; i++) {
+				var list = {};
+				list.onumber = bcakHttpInfo[i].orderNo;
+				list.orderState=bcakHttpInfo[i].orderStatus;
+				if(list.orderState==0){
+				list.firstButtonName="取消订单";
+				list.secoreButtonName="去支付"
+				}else if(list.orderState===5){
+				list.firstButtonName="";
+				list.secoreButtonName="评价"
+				}else if(list.orderState===3){
+				list.firstButtonName="";
+				list.secoreButtonName="确认收货"
+				}else{
+				list.firstButtonName="";
+				list.secoreButtonName=""
+				}
+				list.state = stauts[bcakHttpInfo[i].orderStatus];
+			    var shop = new Array();
+				for (var j = 0; j < bcakHttpInfo[i].goodsOrderDetails.length; j++) {
+					var olist = {};
+					olist.name = bcakHttpInfo[i].goodsOrderDetails[j].goodsName;
+					olist.img =$api.imageUrl+ bcakHttpInfo[i].goodsOrderDetails[j].goodsPreview
+					olist.price = bcakHttpInfo[i].goodsOrderDetails[j].goodsPrice;
+					olist.number="x"+ bcakHttpInfo[i].goodsOrderDetails[j].goodsNum;
+					shop.push(olist);
+				}
+				list['shop'] = shop;
+				list.tips = bcakHttpInfo[i].goodsOrderDetails.length + '条商品信息共计' + bcakHttpInfo[i].orderAmount + '元';
+				json.push(list);
+			}
+			var tmpl = doT.template($api.text($api.dom("#dotTmpl")));
+			if (pageindex == 1) {
+				$api.dom('#main').innerHTML = '';
+			}
+			if (pageindex == page) {
+				loadEnd = true;
+			}
+			$api.dom('#main').innerHTML += tmpl(json);
+		}
+//详情
+		function details(tag,index) {
+		var falg;
+			if(tag==0){
+			  falg = 2
+			
+			}else if(tag==5){
+			  falg = 3
+			
+			}else{
+			  falg = 1
+			
+			}
+			if (bcakHttpInfo != null) {
+				api.openWin({
+					name : 'orderDetailsTitle',
+					url : 'orderDetailsTitle.html',
+					pageParam : {
+						info : bcakHttpInfo[index],
+						tag:falg//1代表全部订单,2代表待付款，3代表待评价
+					}
+				});
+			}
+		}
+ openShopDetails=function(index){
+  console.log(JSON.stringify(bcakHttpInfo[index])); 
+ 
+    
+    
+    }
+		function orderGoEvent(i,orderAmount,orderState,orderNum,tag){
+		switch(tag){
+			   case 1://取消订单
+			   api.confirm({
+				    title: '提示',
+				    msg: '确定取消订单？',
+				    buttons: ['确定', '取消']
+				}, function(ret, err) {
+				    var index = ret.buttonIndex;
+				 if(index==1){
+				 	var data = {};
+					data.method = "cancelOrder";
+					data.request = {
+						"orderNo" : orderNum,
+						"tradingBussiness":"ORDER"
+					}, api.showProgress();
+					console.log("取消订单cancelOrder请求数据：" + JSON.stringify(data));
+					ajaxRequest(data, function(ret, err) {
+						api.hideProgress();
+						if(ret){
+				       console.log("取消订单cancelOrder成功返回数据：" + JSON.stringify(ret));
+				       alert("取消成功！")
+	                    api.sendEvent({
+				            name:'order',
+				             extra: {
+						        key1: 0,
+						    }
+            });
+						}else{
+				       console.log("取消订单cancelOrder成功返回数据：" + JSON.stringify(err));
+					   toastAtMiddle("取消失败！请稍后重试");
+						}
+				     })
+				 
+				 }
+				});
+			
+			   break;
+			   case 2://确认收货 或者评价
+			
+			   if(orderState==5){
+			   
+					   api.openWin({
+						name : 'score',
+						url : 'score.html',
+						pageParam:{orderNo:bcakHttpInfo[i]}
+					});
+			   }else if(orderState==3){
+			 api.confirm({
+				    title: '提示',
+				    msg: '是否确认收货？',
+				    buttons: ['确定', '取消']
+				}, function(ret, err) {
+				    var index = ret.buttonIndex;
+				 if(index==1){
+				 	var data = {};
+					data.method = "confirmOrder";
+					data.request = {
+						"orderNo" : orderNum,
+					
+					}, api.showProgress();
+					console.log("确认收货confirmOrder请求数据：" + JSON.stringify(data));
+					ajaxRequest(data, function(ret, err) {
+						api.hideProgress();
+						if(ret){
+				       console.log("确认收货confirmOrder成功返回数据：" + JSON.stringify(ret));
+				       alert("已确认收货！")
+                    api.sendEvent({
+			            name:'order',
+			             extra: {
+					        key1: 0,
+					    }
+            });
+				   	}else{
+				       console.log("取消订单cancelOrder成功返回数据：" + JSON.stringify(err));
+					   toastAtMiddle("取消失败！请稍后重试");
+						}
+				     })
+				 
+				 }
+				});
+			   
+			   }else{
+			      //去支付TODO
+			      var ret={"orderNo":bcakHttpInfo[i].orderNo,"paymentAmount":bcakHttpInfo[i].orderAmount,"goodsType":bcakHttpInfo[i].goodsOrderDetails[0].goodsType}
+				api.openWin({
+	                name: 'payment',
+	                url: '../../home/payment.html',
+	                pageParam : {
+	                	ret : ret,
+	                	orderType:ret.goodsType//1教辅,2课程
+	                }
+	                
+                });
+			   
+			   }
+			   
+			   
+			   
+			   break;
+			   
+			
+			
+			}
+		
+		}
+
+		
+
+		function ownPostHttpContentInfo() {
+			var data = {};
+			data.method = "goodsOrderSearch";
+			data.request = {
+				"userId" : userId,
+				"orderStatus" : "",//待支付1、已取消2、待发货3、已发货4、已收货5、订单完成6、已评价7、已删除0
+				"page" : pageindex,
+				"pageSize" : pagesize
+			}, api.showProgress();
+			console.log("我的订单全部goodsOrderSearch请求数据：" + JSON.stringify(data));
+			ajaxRequest(data, function(ret, err) {
+				api.hideProgress();
+				api.refreshHeaderLoadDone();
+				if (ret) {
+					console.log("我的订单全部goodsOrderSearch成功返回数据：" + JSON.stringify(ret));
+					if(ret.responseCode==0){
+					if (ret.responseBody.rows.length>0){
+					console.log("全部订单有数据执行！");
+					api.closeFrame({
+						name:"catchNoOrdertInfo"
+	                    });
+						bcakHttpInfo = ret.responseBody;
+						page = ret.totalPage;
+						loadEnd = ret.responseBody.totalPage == pageindex;
+						if (bcakHttpInfo.rows.length > 0) {
+							bcakHttpInfo = bcakHttpInfo.rows;
+							dates();
+						} else {
+							api.toast({
+								msg : '还没买东西呢！快去发现逛逛吧~'
+							});
+						}
+					}else{
+						console.log("全部订单无数据执行！");
+						$api.css($api.dom("#main"), "display:none");
+						$api.html($api.dom("#wrap"), "<img style='width:2.05rem;height: 2.05rem;margin-left:2.725rem;margin-top: 2.8rem;' src='../../../image/mine/noOrder.png'/><p style='height: 0.66rem;line-height: 0.66rem;text-align: center;font-size: 0.28rem;color: #666;'>暂无订单，先去找课逛逛吧</p>");
+					}
+					
+					
+					
+					}
+				} else {
+					console.log("我的订单全部goodsOrderSearch失败返回数据：" + JSON.stringify(err));
+				}
+			})
+		}
+				function broatCast(){
+					api.addEventListener({
+				        name:'order'
+			        },function(ret,err){
+			        	if(ret.value.key1==0){
+			        	ownPostHttpContentInfo();
+			        	}
+			        });
+		     }
+       
+
+		apiready = function() {
+			userId =api.getPrefs({
+				sync : true,
+				key : 'userid'
+			});
+			api.setRefreshHeaderInfo({
+				visible : true,
+				loadingImg : 'widget://image/refresh.png',
+				bgColor : '#ccc',
+				textColor : '#fff',
+				textDown : '下拉刷新...',
+				textUp : '松开刷新...',
+				showTime : true
+			}, function(ret, err) {
+				//在这里从服务器加载数据，加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
+				pageindex = 1;
+				loadEnd = false;
+				ownPostHttpContentInfo();
+			});
+			api.addEventListener({
+				name : 'scrolltobottom',
+				extra : {
+					threshold : 0 //设置距离底部多少距离时触发，默认值为0，数字类型
+				}
+			}, function(ret, err) {
+				if (loadEnd) {
+					api.toast({
+						msg : '没有更多内容了...',
+						location : 'middle'
+					});
+					return;
+				}
+				pageindex++;
+				api.showProgress();
+				ownPostHttpContentInfo();
+			});
+			ownPostHttpContentInfo();
+			broatCast();
+		};
+	</script>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../../css/api.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+	<style>
+		#wrap {
+			background: #f4f4f4;
+		}
+
+		#header {
+			background: #ff8344;
+			text-align: center;
+			width: 100%;
+			position: relative;
+			height: 0.98rem;
+		}
+
+		#header a:nth-child(1) {
+			display: inline-block;
+			width: 0.98rem;
+			height: 0.98rem;
+			font-size: .28rem;
+			color: #fff;
+			position: absolute;
+			left: 0.28rem;
+			top: .35rem;
+		}
+
+		#header a:nth-child(3) {
+			display: inline-block;
+			height: 0.98rem;
+			font-size: .28rem;
+			color: #fff;
+			position: absolute;
+			right: 0.28rem;
+			top: .35rem;
+		}
+
+		#header h1 {
+			font-size: 0.36rem;
+			height: 0.98rem;
+			line-height: 0.98rem;
+			margin: 0 auto;
+			color: #fff;
+			font-weight: normal;
+		}
+		/*********************************0914修订绑定孩子*********************************/
+
+		#header span {
+			position: absolute;
+			top: .265rem;
+			left: .28rem;
+			height: .5rem;
+			width: .5rem;
+		}
+
+		#header span img {
+			height: .45rem;
+			width: .25rem;
+		}
+
+		#main .student {
+			background: #fff;
+			height: 1.2rem;
+		}
+
+		#main .student span {
+			margin-left: .23rem;
+			height: 100%;
+			float: left;
+		}
+
+		#main .student span p {
+			height: 25%;
+			font-size: .28rem
+		}
+
+		#main .student span img {
+			margin-top: .2rem;
+			height: .9rem;
+			width: .9rem;
+		}
+
+		#main .empty {
+			font-size: .48rem;
+			color: #666;
+			width: 100%;
+			height: 5rem;
+			text-align: center;
+			margin-top: 3rem;
+		}
+
+		section {
+			margin-top: .42rem;
+		}
+
+		section div {
+			height: 1rem;
+			background: #fff;
+			border-bottom: solid 1px #f4f4f4
+		}
+
+		section div em {
+			font-size: .28rem;
+			line-height: 1rem;
+			color: #ff8344;
+			text-align: center;
+			width: 20%;
+		}
+
+		section div span {
+			font-size: .30rem;
+			line-height: 1rem;
+			color: #666;
+			text-align: left;
+		}
+
+		section div span input {
+			font-size: .3rem;
+			line-height: 1rem;
+			color: #666;
+			text-align: left;
+			outline: none;
+			vertical-align: middle;
+		}
+
+		button {
+			/*position: fixed;
+					 bottom: 2.06rem;*/
+			width: 90%;
+			border-radius: .1rem;
+			height: .8rem;
+			background: #ff8344;
+			margin-left: 5%;
+			font-size: .34rem;
+			text-align: center;
+			line-height: .8rem;
+			color: #fff;
+			margin-top: 5rem;
+		}
+
+		.button_tap {
+			background: #eee;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<div id="header">
+			<span onclick="api.closeWin()"><img src="../../image/back.png" alt=""></span>
+			<h1>确认学生信息</h1>
+			<a onclick="cancel()">关闭</a>
+		</div>
+		<div id="main" class="flex-con">
+			<section>
+				<div class="">
+					<em>&nbsp学生姓名：</em>
+					<span><input type="text" name="" value=""  ></span>
+				</div>
+				<div class="">
+					<em>&nbsp性&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp别：</em>
+					<span><input type="text" name="" value="" ></span>
+				</div>
+			</section>
+			<button tapmode="button_tap" type="button" onclick="bindChild()" name="button">关联账号</button>
+		</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/User.js"></script>
+<script type="text/javascript">
+	var studentlist;
+	var canSubmit = false;
+	var phoneType; //phone 手机类型  REGT注册？ BIND绑定？
+	var registerStudent = {
+		studentName: "",
+		studentGender: -1
+	}
+	imready = function() {
+		init();
+	};
+
+	function init() {
+		var body = {
+			method: "studentSearch",
+			request: {
+				"studentAccount": api.pageParam.studentCount,
+				"page": 1,
+				"pageSize": 10,
+			}
+		};
+		console.log("studentSearch请求数据" + JSON.stringify(body));
+		api.showProgress();
+		ajaxRequest(body, function(ret, err) {
+			console.log("studentSearch返回数据" + JSON.stringify(ret));
+			api.hideProgress();
+			if (ret) {
+				if (ret.responseCode == 0) {
+					var html = "";
+					if (ret.responseBody.rows.length > 0) {
+						phoneType = "BIND";
+						canSubmit = true;
+						studentlist = ret.responseBody.rows;
+						var studentIcon;
+						var studentName;
+						var studentGender;
+						var studentBirthday;
+						for (var i = 0; i < ret.responseBody.rows.length; i++) {
+							if (ret.responseBody.rows[i].studentImage) {
+								studentIcon = $api.imageUrl + ret.responseBody.rows[i].studentImage;
+							} else {
+								studentIcon = "../../image/mine/hardicon.png";
+							}
+							console.log(studentIcon);
+							studentName = ret.responseBody.rows[i].studentName;
+							studentGender = ret.responseBody.rows[i].studentGender ? "女" : "男";
+							studentBirthday = ret.responseBody.rows[i].studentBirthday == null ? "" : ret.responseBody.rows[i].studentBirthday.substr(0, 10);
+							// html += "<div class='student'><span><img src='" + studentIcon + "' alt=''></span><span><p style='margin-top:.23rem;font-size:.28rem;color:#333'>" + studentName + "</p><p style='font-size:.26rem;color:#666'>" + studentGender + "</p><p>" + studentBirthday + "</p></span></div>"
+							// $api.html($api.dom("#main"), html);
+						}
+						$api.val($api.domAll("input")[0], studentName);
+						$api.val($api.domAll("input")[1], studentGender);
+						$api.attr($api.domAll("input")[0], 'readonly', 'true');
+						$api.attr($api.domAll("input")[1], 'readonly', 'true');
+
+
+
+
+					} else {
+						phoneType = "REGT"; //注册
+						$api.attr($api.domAll("input")[0], 'autofocus', 'autofocus');
+						$api.attr($api.domAll("input")[1], 'readonly', 'true');
+						$api.attr($api.domAll("input")[0], 'placeholder', '请输入学生姓名');
+						$api.attr($api.domAll("input")[1], 'placeholder', '点击选择孩子性别');
+						canSubmit = false;
+						$api.addEvt($api.domAll("input")[1], 'click', function() {
+							//do something
+							api.actionSheet({
+								cancelTitle: "取消",
+								buttons: ["男", "女"],
+								style: {
+									fontNormalColor: "#666",
+									titleFontColor: "#666"
+								}
+							}, function(ret, err) {
+								var index = ret.buttonIndex;
+								if (index == 1) {
+									registerStudent.studentGender = 0;
+									$api.val($api.domAll("input")[1], "男");
+								} else if (index == 2) {
+									registerStudent.studentGender = 1;
+									$api.val($api.domAll("input")[1], "女");
+								}
+
+							});
+						});
+					}
+
+
+				} else {
+					api.toast({
+						msg: ret.responseMsg,
+						duration: 2000,
+						location: 'bottom'
+					});
+				}
+			} else {
+				api.toast({
+					msg: err.responseMsg,
+					duration: 2000,
+					location: 'bottom'
+				});
+			}
+		})
+	}
+	standbindchild = function(studentId) {
+		var request = {
+			userId: Number(api.getPrefs({
+				sync: true,
+				key: 'userid'
+			}))
+		}
+		goRequest("getStudentCount", request, function(ret) {
+			if (ret.responseBody <= 5) {
+				var request = {
+					"studentId": studentId,
+					"userId": Number(api.getPrefs({
+						sync: true,
+						key: 'userid'
+					}))
+				}
+				goRequest("studentBind", request, function(ret) {
+					if (ret.responseBody) {
+						api.alert({
+							title: '提示',
+							msg: '绑定成功',
+						}, function(ret, err) {
+							if (ret) {
+								api.sendEvent({
+									name: 'updateInfo',
+									extra: {
+										key1: 'value1',
+									}
+								});
+								if (api.pageParam.tag) {//如果第一次登录就要先
+									api.execScript({
+										name: 'login',
+										script: 'goHome();'
+									});
+								}
+									api.closeToWin({
+										name: 'root'
+									});
+
+							} else {
+								alert(JSON.stringify(err));
+							}
+						});
+					} else {
+						// *****************判断孩子是否绑定*****************************************
+						// var studentCount = api.getPrefs({
+						// 	key: 'studentCount',
+						// 	sync: true
+						// });
+						// var hasStudent = false; //是否已经绑定这个孩子
+						// for (var i = 0; i < studentCount.length; i++) {
+						// 	if (studentCount[i] == api.pageParam.studentCount) {
+						// 		hasStudent = true;
+						// 		break;
+						// 	}
+						// }
+						// if (hasStudent) {
+						// 	alert("该孩子已经绑定");
+						// } else {
+						// 	alert("绑定失败");
+						// }
+
+
+					}
+				})
+			} else {
+				api.alert({
+					title: '提示',
+					msg: '最多只能绑定五个孩子',
+				}, function(ret, err) {
+					if (ret) {
+
+					} else {
+						alert(JSON.stringify(err));
+					}
+				});
+
+			}
+		})
+	}
+	var studentId;
+	registerChild = function() {
+		registerStudent.studentName = $api.val($api.domAll("input")[0]);
+		if (isEmpty(registerStudent.studentName)) {
+			api.toast({
+				msg: '请输入学生姓名',
+				duration: 2000,
+				location: 'bottom'
+			});
+			return;
+		}
+		if (!(registerStudent.studentGender >= 0)) {
+			api.toast({
+				msg: '请选择性别',
+				duration: 2000,
+				location: 'bottom'
+			});
+			return;
+		}
+		var registerlist = {
+			studentAccount: api.pageParam.studentCount,
+			"studentPassword": "123456"
+		}
+		checkRequestIp(function(requestIp) {
+			goRequest("studentAccountRegister", registerlist, function(ret) {
+				studentId = ret.responseBody.id;
+				var registerstudentlist = {
+					userId: Number(api.getPrefs({
+						sync: true,
+						key: 'userid'
+					})),
+					studentId: studentId,
+					studentName: registerStudent.studentName,
+					studentGender: registerStudent.studentGender
+				}
+
+				goRequest("insertStudent", registerstudentlist, function(ret) {
+					var sendMessagelist = {
+						"smsTemplate": "BindStudent",
+						phoneNo: Number(api.getPrefs({
+							sync: true,
+							key: 'userPhone'
+						})),
+						"requestIp": requestIp,
+						params: {
+							"accountNo": api.pageParam.studentCount,
+						},
+					}
+					goRequest("sendMessage", sendMessagelist, function(ret) {
+						standbindchild(studentId);
+					})
+				})
+
+			});
+		})
+
+	}
+	bindChild = function() {
+		switch (phoneType) {
+			case "BIND": //注册
+				if (canSubmit) {
+					standbindchild(studentlist[0].id);
+				}
+				break;
+			case "REGT":
+				registerChild();
+
+				break;
+			default:
+		}
+
+
+	}
+	cancel = function() {
+		api.sendEvent({
+			name: 'updateInfo',
+			extra: {
+				key1: 'value1',
+			}
+		});
+		api.closeToWin({
+			name: 'root'
+		});
+	}
+</script>
+
+</html>

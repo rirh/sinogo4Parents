@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../../../css/api.css" />
+	<link rel="stylesheet" type="text/css" href="../../../css/style.css" />
+	<style>
+		.flex-wrap {
+			background: #f6f6f6;
+		}
+
+		header {
+			z-index: 1000;
+			position: fixed;
+			top: 0;
+			height: 0.88rem;
+			background: #FF8344;
+			border-top-color: #EEEEEE;
+			color: #FFFFFF;
+			display: -webkit-flex;
+			/* 新版本语法: Chrome 21+ */
+			display: flex;
+			/* 新版本语法: Opera 12.1, Firefox 22+ */
+			display: -webkit-box;
+			/* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+			display: -moz-box;
+			/* 老版本语法: Firefox (buggy) */
+			display: -ms-flexbox;
+			/* 混合版本语法: IE 10 */
+			width: 100%;
+			border-top: #EEEEEE solid 0.01rem;
+			margin-top: 0;
+		}
+
+		.tit-left {
+			width: 0%;
+			display: block;
+			-webkit-flex: 1;
+			/* Chrome */
+			-ms-flex: 1;
+			/* IE 10 */
+			flex: 1;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 1;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 1;
+			/* OLD - Firefox 19- */
+			text-align: left;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+		}
+
+		.tit-con {
+			text-align: center;
+			font-size: 0.34rem;
+			display: block;
+			-webkit-flex: 5;
+			/* Chrome */
+			-ms-flex: 5;
+			/* IE 10 */
+			flex: 5;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 5;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 5;
+			/* OLD - Firefox 19- */
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			height: 0.88rem;
+			line-height: 0.88rem;
+		}
+
+		.tit-right {
+			width: 0%;
+			display: block;
+			-webkit-flex: 1;
+			/* Chrome */
+			-ms-flex: 1;
+			/* IE 10 */
+			flex: 1;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 1;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 1;
+			/* OLD - Firefox 19- */
+			text-align: right;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			background: #FF8345;
+		}
+
+		.back {
+			display: inline-block;
+			color: #FFFFFF;
+			text-align: center;
+			background: url(../../../image/back.png);
+			background-size: cover;
+			margin-left: 0.23rem;
+			width: 0.24rem;
+			height: 0.45rem;
+			margin-top: 0.215rem;
+		}
+
+		.h-title {
+			position: absolute;
+			z-index: 999;
+			top: 0.88rem;
+			overflow: hidden;
+			width: 100%;
+		}
+
+		.title {
+			height: 2.37rem;
+			background: #FFFFFF;
+			display: -webkit-flex;
+			/* 新版本语法: Chrome 21+ */
+			display: flex;
+			/* 新版本语法: Opera 12.1, Firefox 22+ */
+			display: -webkit-box;
+			/* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+			display: -moz-box;
+			/* 老版本语法: Firefox (buggy) */
+			display: -ms-flexbox;
+			/* 混合版本语法: IE 10 */
+		}
+
+		.marding {
+			height: 0.29rem;
+			width: 100%;
+			background: #f6f6f6;
+			display: inline-block;
+		}
+
+		.tleft {
+			margin-top: 0.3rem;
+			margin-left: 0.23rem;
+			display: inline-block;
+			height: 1.62rem;
+			width: 2.58rem;
+			background: url(../../../image/mine/mylesson.png);
+			background-size: cover;
+		}
+
+		.mtleft {
+			height: 1.62rem;
+			width: 2.58rem;
+		}
+
+		.tright {
+			display: block;
+			-webkit-flex: 1;
+			/* Chrome */
+			-ms-flex: 1;
+			/* IE 10 */
+			flex: 1;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 1;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 1;
+			/* OLD - Firefox 19- */
+			margin-left: 0.38rem;
+			margin-top: 0.3rem;
+			margin-right: 0.23rem;
+		}
+
+		.p1 {
+			text-align: left;
+			line-height: 0.293rem;
+			letter-spacing: -0.01rem;
+			color: #333333;
+			font-size: 0.26rem;
+			text-overflow: -o-ellipsis-lastline !important;
+			overflow: hidden;
+			text-overflow: ellipsis !important;
+			display: -webkit-box;
+			-webkit-line-clamp: 3 !important;
+			-webkit-box-orient: vertical;
+		}
+
+		.p2 {
+			color: #666666;
+			font-size: 0.24rem;
+			margin-top: 0.28rem;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			word-break: keep-all;
+		}
+
+		.p3 {
+			color: #666666;
+			font-size: 0.24rem;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			word-break: keep-all;
+		}
+
+		.edugroup {
+			color: #FF8345
+		}
+
+		.value {
+			background: #FFFFFF;
+		}
+
+		.nine {
+			width: 100%;
+			display: block;
+			height: 2.20rem;
+			background: #FFFFFF;
+		}
+
+		.left {
+			width: 0.36rem;
+			float: left;
+			height: 2.20rem;
+			position: relative;
+		}
+
+		.left:after {
+			border-right: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: 0;
+			top: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleX(0.5);
+		}
+
+		.rel {
+			position: relative;
+		}
+
+		.circle {
+			z-index: 1;
+			border: 0.01remsolid #eeeeee;
+			height: 0.42rem;
+			width: 0.42rem;
+			left: 0.15rem;
+			top: 0.88rem;
+			position: absolute;
+			border-radius: 50%;
+			background-color: #eeeeee;
+		}
+
+		.circle-a {
+			z-index: 1;
+			border: 0.01remsolid #eeeeee;
+			height: 0.42rem;
+			width: 0.42rem;
+			left: 0.15rem;
+			top: 0.88rem;
+			position: absolute;
+			border-radius: 50%;
+			background-color: #FF8345;
+		}
+
+		.circle-sm {
+			height: 0.24rem;
+			width: 0.24rem;
+			left: 0.09rem;
+			top: 0.09rem;
+			position: absolute;
+			border-radius: 50%;
+			background-color: #FF8345;
+		}
+
+		.right {
+			float: right;
+			overflow: hidden;
+			width: 7.06rem;
+			height: 2.20rem;
+			position: relative;
+		}
+
+		.right:after {
+			border-bottom: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+
+		.lesstit {
+			display: -webkit-flex;
+			/* 新版本语法: Chrome 21+ */
+			display: flex;
+			/* 新版本语法: Opera 12.1, Firefox 22+ */
+			display: -webkit-box;
+			/* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+			display: -moz-box;
+			/* 老版本语法: Firefox (buggy) */
+			display: -ms-flexbox;
+			/* 混合版本语法: IE 10 */
+			margin-left: 0.48rem;
+			margin-top: 0.84rem;
+		}
+
+		.lessnum {
+			display: inline-block;
+			font-size: 0.26rem;
+			color: #666666;
+		}
+
+		.lessontime {
+			display: inline-block;
+			font-size: 0.24rem;
+			color: #666666;
+			margin-left: 0.5rem;
+		}
+		.leaveStatus {
+			position: absolute;
+			display: inline-block;
+			font-size: 0.24rem;
+			color: #666666;
+			text-align: right;
+			margin-right: 0.23rem;
+			right: 0.23rem;
+		}
+
+		.con {
+			margin-top: 0.23rem;
+			margin-left: 0.48rem;
+		}
+
+		.teacher {
+			font-size: 0.24rem;
+			color: #999999;
+			float: left;
+		}
+
+		.state {
+			font-size: 0.24rem;
+			float: right;
+			color: #1A9973;
+			margin-right: 0.3rem;
+		}
+
+		.state-un {
+			font-size: 0.24rem;
+			float: right;
+			color: #ff8344;
+			margin-right: 0.3rem;
+		}
+
+		.endtab {
+			z-index: 999;
+			position: fixed;
+			bottom: 0;
+			height: 0.98rem;
+			background: #f6f6f6;
+			border-top-color: #EEEEEE;
+			display: -webkit-flex;
+			/* 新版本语法: Chrome 21+ */
+			display: flex;
+			/* 新版本语法: Opera 12.1, Firefox 22+ */
+			display: -webkit-box;
+			/* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+			display: -moz-box;
+			/* 老版本语法: Firefox (buggy) */
+			display: -ms-flexbox;
+			/* 混合版本语法: IE 10 */
+			width: 100%;
+			border-top: #EEEEEE solid 0.01rem;
+			margin-bottom: 0;
+		}
+
+		.mendtab {
+			height: 1rem;
+		}
+
+		.tranfer {
+			display: -webkit-flex;
+			/* 新版本语法: Chrome 21+ */
+			display: flex;
+			/* 新版本语法: Opera 12.1, Firefox 22+ */
+			display: -webkit-box;
+			/* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+			display: -moz-box;
+			/* 老版本语法: Firefox (buggy) */
+			display: -ms-flexbox;
+			/* 混合版本语法: IE 10 */
+			width: 0%;
+			display: block;
+			-webkit-flex: 1;
+			/* Chrome */
+			-ms-flex: 1;
+			/* IE 10 */
+			flex: 1;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 1;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 1;
+			/* OLD - Firefox 19- */
+			position: relative;
+		}
+
+		.tranfer:after {
+			border-right: 1px solid #eeeeee;
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: 0;
+			top: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleX(0.5);
+		}
+
+		.askteacher {
+			display: inline-block;
+			width: 0%;
+			display: block;
+			-webkit-flex: 1;
+			/* Chrome */
+			-ms-flex: 1;
+			/* IE 10 */
+			flex: 1;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 1;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 1;
+		}
+
+		.imgtran {
+			display: inline-block;
+			width: 0.56rem;
+			height: 0.52rem;
+			margin-top: 0.2rem;
+			margin-left: 0.77rem;
+			background: url(../../../image/mine/transferapplication.png);
+			background-size: cover;
+		}
+
+		.tranask {
+			display: inline-block;
+			margin-left: 0.44rem;
+			font-size: 0.3rem;
+			margin-top: 0.3rem;
+			color: #666666;
+		}
+
+		.maskte {
+			display: inline-block;
+			width: 0.56rem;
+			height: 0.52rem;
+			margin-top: 0.2rem;
+			margin-left: 0.77rem;
+			background: url(../../../image/mine/askteachers.png);
+			background-size: cover;
+		}
+
+		.touch {
+			background: #D9D9D9;
+		}
+
+		.lessonnum {
+			font-size: 0.28rem;
+		}
+
+		.nothingbox {
+			height: 3.54rem;
+			width: 100%;
+		}
+	</style>
+</head>
+
+<body></body>
+<!-- 将类型设置为template，标识为doT.JS -->
+<script type="template" id="dotTmpl">
+	{{for(var i = 0 ; i<it.length;i++){}} <div class="nine">
+		<div class="left">
+			<div {{ if( it[i].ring=='0' ){ }} class="circle" {{ }else{ }} class="circle-a" {{ } }}>
+				<div class="circle-sm"></div>
+			</div>
+		</div>
+		<div class="right">
+			<div class="lesstit">
+				<div class="lessonnum">第{{=it[i].coursePeriod}}课时</div>
+				<div class="lessontime">{{=it[i].time}}</div>
+				<div class="leaveStatus">
+					{{=it[i].leaveStatus}}
+				</div>
+			</div>
+			<div class="con">
+				<div class="teacher">老师：{{=it[i].teacher}}</div>
+				<div {{ if( it[i].ring=='0' ){ }} class="state" {{ }else{ }} class="state-un" {{ } }}>{{=it[i].state}}</div>
+			</div>
+		</div>
+		</div>
+		{{ } }}
+		<div class="mendtab">
+		</div>
+		</div>
+		<div class="endtab">
+			<div class="tranfer moveClassButton" tapmode='touch' onclick="move()">
+				<div class="imgtran"></div>
+				<div class="tranask moveClass">调班申请</div>
+			</div>
+			<div class="tranfer leave" tapmode='touch' onclick="ask()">
+				<div class="maskte"></div>
+				<div class="tranask">请假</div>
+			</div>
+		</div>
+		</div>
+</script>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../script/common.js"></script>
+<script type="text/javascript">
+	var lessonInfo;
+	var classChanging = false;
+
+	function json() {
+		var date = [];
+		var r = [0, 1];
+		var a = ['已完成', '即将开课', '上课中'];
+		for (var i = 0; i < lessonInfo.length; i++) {
+			var romnumber = parseInt(Math.random() * 2);
+			var olist = {};
+			if (lessonInfo[i].isFinish && lessonInfo[i].isStart) {
+				olist.ring = r[0];
+				olist.state = a[0];
+			} else {
+				olist.ring = r[1];
+				olist.state = a[1];
+			}
+			// **************0926新增外面显示状态**********************
+			if (lessonInfo[i].leaveAuditStatus == 0) {
+				olist.tag = -1;
+				olist.leaveStatus = "请假处理中"
+			} else if (lessonInfo[i].leaveAuditStatus == 1) {
+				olist.tag = -1;
+				// olist.leaveStatus ="请假审核中"
+				// ***********************0925修改***************
+				olist.leaveStatus = "请假成功"
+			} else if (lessonInfo[i].leaveAuditStatus == 2) {
+				olist.tag = -1;
+				olist.leaveStatus = "请假成功"
+			} else if (lessonInfo[i].leaveAuditStatus == null) {
+				olist.leaveStatus = " "
+				olist.tag = 0;
+			}
+			var dateNow = new Date().Format("yyyy-MM-dd hh:mm:ss");//获取现在的时间
+			var isAttend = isBegins(dateNow, lessonInfo[i].schoolTime, lessonInfo[i].quittingTime);//比较现在的时间是否在规定的时间里面
+		  if(isAttend){
+	         olist.state = a[2];
+			}
+			olist.coursePeriod = lessonInfo[i].coursePeriod
+			olist.time = lessonInfo[i].schoolTime.substring(0, 16) + "-" + lessonInfo[i].quittingTime.substring(11, 16);
+			olist.teacher = lessonInfo[i].classTeacher;
+			date.push(olist);
+		}
+		var tmpl = doT.template($api.text($api.dom('#dotTmpl')));
+		$api.html($api.dom("body"), tmpl(date));
+		if (api.pageParam.classChanging == 1) {//可以调班
+			classChanging = true;
+			$api.text($api.dom(".moveClass"), "调班申请中");
+			$api.css($api.dom(".moveClassButton"), "background: #D9D9D9;");
+			$api.css($api.dom(".leave"), "background: #D9D9D9;");
+		} else {}
+		if (api.pageParam.tag < 0) {//不可以调班
+			$api.css($api.dom(".endtab"), "display:none");
+		}
+	}
+
+	function cheak() {}
+/* 日期解析，字符串转日期
+* @param dateString 可以为2017-02-16，2017/02/16，2017.02.16
+* @returns {Date} 返回对应的日期对象
+*/
+function dateParse(dateString){
+console.log("处理前的时间："+dateString);
+	 var SEPARATOR_BAR = "-";
+	 var SEPARATOR_SLASH = "/";
+	 var SEPARATOR_DOT = ".";
+	 var dateArray;
+	 if(dateString.indexOf(SEPARATOR_BAR) > -1){
+			 dateArray = dateString.split(SEPARATOR_BAR);
+	 }else if(dateString.indexOf(SEPARATOR_SLASH) > -1){
+			 dateArray = dateString.split(SEPARATOR_SLASH);
+	 }else{
+			 dateArray = dateString.split(SEPARATOR_DOT);
+	 }
+	 console.log("处理后的时间："+dateArray);
+	 return new Date(dateArray[0], dateArray[1]-1, dateArray[2]);
+};
+
+/**
+* 日期比较大小
+* compareDateString大于dateString，返回1；
+* 等于返回0；
+* compareDateString小于dateString，返回-1
+* @param dateString 日期
+* @param compareDateString 比较的日期
+*/
+function dateCompare(dateString, compareDateString){
+
+	 var dateTime = dateParse(dateString).getTime();
+	 var compareDateTime = dateParse(compareDateString).getTime();
+	 console.log(JSON.stringify(compareDateTime));
+	 console.log(JSON.stringify(dateTime));
+	 if(compareDateTime > dateTime){
+			 return 1;
+	 }else if(compareDateTime == dateTime){
+			 return 0;
+	 }else{
+			 return -1;
+	 }
+};
+	/**
+	 * 判断日期是否在区间内，在区间内返回true，否返回false
+	 * @param dateString 日期字符串
+	 * @param startDateString 区间开始日期字符串
+	 * @param endDateString 区间结束日期字符串
+	 * @returns {Number}
+	 */
+	function isDateBetween(dateString, startDateString, endDateString) {
+		console.log("现在时间："+dateString+"---开始时间"+startDateString+"---结束时间"+endDateString)
+		var flag = false;
+		var startFlag = (dateCompare(dateString, startDateString) < 1);
+		var endFlag = (dateCompare(dateString, endDateString) > -1);
+		console.log(startFlag+"---"+endFlag);
+		if (startFlag && endFlag) {
+			flag = true;
+		}
+		return flag;
+	};
+	/**
+	 * 判断日期是否在区间内，在区间内返回true，否返回false
+	 * @param beginTime 日期字符串
+	 * @param endTime 区间开始日期字符串
+	 * @param nowTime 区间结束日期字符串
+	 * @returns {boolean}
+	 * 时间格式示例：2017-08-25 14:45:14
+	 */
+
+ isBegins=function(nowTime,beginTime, endTime ){
+	 var nowdate=nowTime.substring(0,10);
+	 var begindate=beginTime.substring(0,10);
+	 var enddate=endTime.substring(0,10);
+	 var nowtime=nowTime.substring(11,16);
+	 var begintime=beginTime.substring(11,16);
+	 var endtime=endTime.substring(11,16);
+	 var dateBetween;
+	 var timeBetween;
+	 console.log(nowtime+"==================")
+	 dateBetween=isDateBetween(nowdate,begindate,enddate);
+	 timeBetween=isTimeBetween(nowtime,begintime,endtime);
+   if(dateBetween){
+		 if(timeBetween){
+			 return true;
+		 }else{
+			 return false;
+		 }
+	 }else{
+		 return false;
+	 }
+ }
+ /**
+	* 判断日期是否在区间内，在区间内返回true，否返回false
+	* @param beginTime 日期字符串
+	* @param endTime 区间开始时间字符串
+	* @param nowTime 区间结束时间字符串
+	* @returns {boolean}
+	* 时间格式示例： 14:45
+	*/
+ isTimeBetween = function (nowTime,beginTime, endTime ) {
+    var strb = beginTime.split (":");
+    if (strb.length != 2) {
+        return false;
+    }
+
+    var stre = endTime.split (":");
+    if (stre.length != 2) {
+        return false;
+    }
+
+    var strn = nowTime.split (":");
+    if (stre.length != 2) {
+        return false;
+    }
+    var b = new Date ();
+    var e = new Date ();
+    var n = new Date ();
+
+    b.setHours (strb[0]);
+    b.setMinutes (strb[1]);
+    e.setHours (stre[0]);
+    e.setMinutes (stre[1]);
+    n.setHours (strn[0]);
+    n.setMinutes (strn[1]);
+
+    if (n.getTime () - b.getTime () > 0 && n.getTime () - e.getTime () < 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+	//咨询老师
+	function ask() {
+		if (classChanging) {
+			api.toast({
+				msg: '调班中不能请假'
+			});
+			return
+		}
+		//TODO
+		api.openWin({
+			name: 'leaveDatailsContent',
+			url: 'leaveDatailsContent.html',
+			pageParam: {
+				info: api.pageParam.info,
+				studentId: api.pageParam.studentId
+			}
+		});
+	}
+
+	function move() {
+		if (classChanging) {
+			return
+		}
+		api.confirm({
+			title: '提示',
+			msg: '确定发送调班申请？',
+			buttons: ['确定', '取消']
+		}, function(ret, err) {
+			var index = ret.buttonIndex;
+			if (index == 1) {
+				var data = {};
+				data.method = 'studentChangeClass';
+				data.request = {
+					"studentId": api.pageParam.studentId,
+					"classId": api.pageParam.info.classId
+				}, api.showProgress();
+				console.log("调班申请studentChangeClass请求数据：" + JSON.stringify(data));
+				ajaxRequest(data, function(ret, err) {
+					api.hideProgress();
+					if (ret) {
+						console.log("调班申请studentChangeClass成功返回数据：" + JSON.stringify(ret));
+						if (ret.responseBody) {
+							alert("您的调班申请已提交，老师将尽快与您联系");
+							api.closeToWin({
+								name: 'mylesson'
+							});
+						} else {
+
+							alert("申请失败，请稍后重试！");
+
+						}
+					} else {
+						console.log("调班申请studentChangeClass失败返回数据：" + JSON.stringify(err));
+						alert("申请失败，请稍后重试！");
+					}
+				})
+
+
+
+			}
+
+		})
+	}
+
+	function getHotCities(i) {
+		var data = {};
+		data.method = 'courseClassTimetable';
+		data.request = {
+			"courseId": i
+		}, api.showProgress();
+		ajaxRequest(data, function(ret, err) {
+			api.hideProgress();
+			if (ret) {
+				httptodo(ret);
+			} else {
+				//alert(JSON.stringify(err))
+				alert(JSON.stringify(err));
+				console.log(JSON.stringify(err));
+			}
+		})
+	}
+
+
+
+
+
+	imready = function() {
+
+		if (api.pageParam.studentTimetables.length > 0) {
+			lessonInfo = api.pageParam.studentTimetables;
+			console.log("mcourseDatailsContentEnd课程详情pageParam数据" + JSON.stringify(api.pageParam));
+			json();
+		} else {
+			api.toast({
+				msg: '现在暂时无课时，耐心等待~'
+			});
+		}
+		//			getHotCities();
+	};
+</script>
+
+</html>

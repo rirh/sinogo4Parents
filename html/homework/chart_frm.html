@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../../css/api.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/fontstyle.css" />
+	<style>
+		body {
+			background: #f6f6f6;
+		}
+
+		[v-cloak] {
+			display: none;
+		}
+
+		header {
+			height: .9rem;
+			background: #fff;
+			text-align: center;
+			color: #666;
+			font-size: .28rem;
+		}
+
+		header img {
+			width: .35rem;
+			height: .19rem;
+			margin: .355rem 0 0 .28rem;
+		}
+
+		section p img {
+			display: block;
+			margin: 0 auto;
+			width: .24rem;
+			height: .28rem;
+		}
+
+		section p {
+			text-align: center;
+			font-size: .26rem;
+			color: #666;
+		}
+
+		section p:nth-child(2) {
+			margin-top: .28rem;
+		}
+
+		#correct {
+			margin-top: .28rem;
+		}
+
+		#correct span {
+			height: 1.24rem;
+			width: 3.18rem;
+			background: #fff;
+			margin: .2rem 0 .2rem .38rem;
+			text-align: center;
+			border-radius: .06rem;
+			/*border: solid .01rem #eee;*/
+		}
+
+		#correct span div p {
+			text-align: center;
+		}
+
+		#correct span p:nth-child(1) {
+			font-size: .26rem;
+			color: #ff8344;
+			margin-top: .23rem;
+		}
+
+		#correct span p:nth-child(2) {
+			font-size: .28rem;
+			color: #333;
+			font-weight: bold;
+		}
+
+		#correct button {
+			margin-top: .28rem;
+			margin-left: 5%;
+			height: .86rem;
+			width: 90%;
+			background: #ff8344;
+			color: #fff;
+			text-align: center;
+			font-size: .3rem;
+			border-radius: .06rem;
+		}
+
+		footer dl {
+			margin-top: .28rem;
+		}
+
+		footer dl dd {
+			height: .86rem;
+			width: 100%;
+			background: #fff;
+			position: relative;
+		}
+
+		footer dl dd:after {
+			border-bottom: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+
+		footer dl dd span {
+			height: .86rem;
+			line-height: .86rem;
+		}
+
+		footer dl dd span:nth-child(1) {
+			position: absolute;
+			left: .35rem;
+			top: 0;
+			color: #333;
+			font-size: .28rem;
+		}
+
+		footer dl dd span:nth-child(2) {
+			position: absolute;
+			right: .35rem;
+			top: 0;
+			font-size: .26rem;
+			color: #666;
+		}
+		.empty{
+			font-size: .48rem;
+			color: #666;
+			width: 100%;
+			height: 5rem;
+			text-align: center;
+			margin-top: 3rem;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="main" v-cloak>
+		<header @click="chooseClass">
+			<span>{{remoName}}</span><img :src="remoNameIcon" alt="">
+		</header>
+		<div class="empty" v-show="!showUI">
+			学生完成作业才有相关的统计哦
+		</div>
+		<div id="canvasDiv" v-show="showUI">
+		</div>
+		<section v-show="showUI">
+			<p><img :src="bundTipsIcon" alt=""></p>
+			<p>{{bundTips}}</p>
+		</section>
+		<footer id="correct" v-show="showUI && KnowledgeArrayUI">
+			<div>
+				<span>
+					<div class="">
+					<p>{{correct}}</p>
+					<p>总正确率</p>
+				</div>
+			</span>
+				<span>
+				<div class="">
+				<p>{{score}}</p>
+				<p>总做题数</p>
+			</div>
+		</span>
+			</div>
+			<!-- <button type="button" name="button" @click="showKnowledgeUI">查看所有知识点</button> -->
+		</footer>
+		<footer v-show="showUI && !KnowledgeArrayUI">
+			<dl class="">
+				<dd v-for="item in KnowledgeArray"><span>{{item.knowledgeName}}</span><span>{{item.accuracy}}</span></dd>
+			</dl>
+		</footer>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript" src="../../script/chart.js"></script>
+<script type="text/javascript">
+	var assigment; //全局控制器Controller
+	initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+		var date = vueDateManager();
+		var methods = vueMethodsManager();
+		var components = vueComponentsManager();
+		assigment = new Vue({
+			el: '#main', //绑定元素
+			data: date, //本页面的静态动态全部数据
+			methods: methods, //本页面的全部方法
+			components: components,
+		})
+	}
+
+	vueDateManager = function() {
+		//初始化Vue数据date为一个json数组
+		var date = {};
+		date.pageParam = ""; //page传入参数 job 班级列表item数据 和 jobdetails 题目数据
+		date.remoName = ""; //班级名称
+		date.defultIndex = 0; //默认选中第一个班级
+		date.correct = 0; //平均率
+		date.score = 0;
+		date.dialogBox;
+		date.chart;
+		date.showUI = true;
+		date.bundUI = false;
+		date.KnowledgeArrayUI = true; //true为显示按钮false为显示列表
+		date.KnowledgeArray = new Array();
+		date.bundTips = "点击扇形区域查看包含哪些知识点"
+		date.bundTipsIcon = "../../image/icon_bount_up.gif"
+		date.remoNameIcon = "../../image/mine/icon_arrow_down.png";
+		console.log("数据管理者" + JSON.stringify(date));
+		return date;
+	}
+	vueMethodsManager = function() {
+		//时间管理中心 每个Vue事件的处理都可以在这管理
+		var methods = {};
+		methods.init = function() {
+			assigment.pageParam = api.pageParam;
+			console.log("----------------------------" + JSON.stringify(assigment.pageParam))
+			if (assigment.pageParam) {
+				assigment.remoName = assigment.pageParam.remo[assigment.defultIndex].className;
+				assigment.refreshMsg(assigment.pageParam.remo[assigment.defultIndex])
+			}
+
+		};
+		methods.refreshMsg = function(remo) {
+			var countByKnowledgelist = {
+				studentId: remo.studentId,
+				classId: remo.classId
+			};
+			goRequest("countByKnowledge", countByKnowledgelist, function(ret) {
+				if (isEmpty(ret.responseBody)) {
+					assigment.showUI = false;
+				} else {
+					assigment.draw(ret.responseBody);
+					assigment.margewithMsg(ret.responseBody)
+					assigment.showUI = true;
+				}
+			})
+		};
+		methods.margewithMsg = function(msg) {
+			var score = 0; //所有题目
+			var right = 0; //正确题目
+			var error = 0; //错误题目
+			assigment.KnowledgeArray = new Array();
+			for (var i = 0; i < msg.length; i++) {
+				right += msg[i].rightQuestionNum;
+				error += msg[i].errorQuestionNum;
+				var list = {}
+				list.knowledgeName = msg[i].knowledgeName;
+				list.accuracy = (msg[i].accuracy * 100).toFixed(2) + "%";
+				assigment.KnowledgeArray.push(list);
+			}
+			score = right + error;
+			assigment.score = score + "题";
+			assigment.correct = Math.round(right / score * 100) + ".00%";
+		}
+		methods.chooseClass = function() {
+			assigment.remoNameIcon = "../../image/mine/icon_arrow_up.png"
+			var value = []
+			for (var i = 0; i < assigment.pageParam.remo.length; i++) {
+				var list = {};
+				list.text = assigment.pageParam.remo[i].className;
+				value.push(list);
+			}
+			assigment.customAlert("选择班级", value, function(ret) {
+				console.log(JSON.stringify(ret));
+				assigment.remoNameIcon = "../../image/mine/icon_arrow_down.png"
+				assigment.remoName = list.text = assigment.pageParam.remo[ret.index].className;
+				assigment.refreshMsg(list.text = assigment.pageParam.remo[ret.index]);
+				assigment.dialogBox.close({
+					dialogName: 'scene'
+				});
+			})
+		}
+		methods.showKnowledgeUI = function() {
+			assigment.KnowledgeArrayUI = false;
+		};
+		methods.showKnowledgeUIV1 = function(msg) {
+			console.log(JSON.stringify(msg));
+			if (!isEmpty(msg)) {
+				assigment.KnowledgeArray = new Array();
+				for (var i = 0; i < msg.length; i++) {
+					var list = {}
+					list.knowledgeName = msg[i].knowledgeName;
+					list.accuracy = (msg[i].accuracy * 100).toFixed(2) + "%";
+					console.log("============"+msg[i].accuracy * 100)
+					assigment.KnowledgeArray.push(list);
+				}
+				console.log("===========assigment.KnowledgeArray:" + JSON.stringify(assigment.KnowledgeArray));
+			}
+		};
+		methods.draw = function(msg) {
+			excetask = new Array(); //100%
+			goodtask = new Array(); //>=80%
+			secotask = new Array(); //>=60%
+			difftask = new Array(); //<60%
+
+			for (var i = 0; i < msg.length; i++) { //根据正确率进行分类 accuracy
+				if (msg[i].accuracy == 1) {
+					excetask.push(msg[i])
+				} else if ((1 > msg[i].accuracy) && (msg[i].accuracy >= 0.8)) {
+					goodtask.push(msg[i])
+				} else if ((0.8 > msg[i].accuracy) && (msg[i].accuracy >= 0.6)) {
+					secotask.push(msg[i])
+				} else if (msg[i].accuracy < 0.6) {
+					difftask.push(msg[i])
+				}
+			}
+			console.log("================excetask" + JSON.stringify(excetask));
+			console.log("================goodtask" + JSON.stringify(goodtask));
+			console.log("================secotask" + JSON.stringify(secotask));
+			console.log("================difftask" + JSON.stringify(difftask));
+			var data = [{
+				name: '正确率100%',
+				value: excetask.length,
+				color: '#1ebeb6'
+			}, {
+				name: '正确率80%以上',
+				value: goodtask.length,
+				color: '#ff8344'
+			}, {
+				name: '正确率60%-80%',
+				value: secotask.length,
+				color: '#ce6666'
+			}, {
+			name: '正确率60%以下',
+				value: difftask.length,
+				color: '#9f504e'
+			}];
+			//****************************测试数据***************************
+			// var data = [{
+			// 	name: '正确率100%',
+			// 	value: 1,
+			// 	color: '#1ebeb6'
+			// }, {
+			// 	name: '正确率80%以上',
+			// 	value: 2,
+			// 	color: '#ff8344'
+			// }, {
+			// 	name: '正确率60%-80%',
+			// 	value: 3,
+			// 	color: '#ce6666'
+			// }, {
+			// 	name: '正确率60%以下',
+			// 	value: 4,
+			// 	color: '#9f504e'
+			// }];
+			var w = api.frameWidth
+
+			assigment.chart = new iChart.Donut2D({
+				render: 'canvasDiv',
+				data: data,
+				bound_event: "click",
+				animation: true,
+				// animation_timing_function:"easeInOut",
+				gradient: false, //背景渐变效果开关
+				// increment:0,偏离的角度
+				// listeners: {
+				// 	bound: function(sector, name, index) {
+				//
+				//
+				//
+				// 	},
+				// 	touchstart: function(ev) {
+				// 		assigment.bundUI = !assigment.bundUI;
+				// 		assigment.KnowledgeArrayUI = !assigment.bundUI;
+				// 		if (assigment.bundUI) {
+				// 			assigment.bundTipsIcon = "../../image/icon_bount_down.gif";
+				// 		} else {
+				// 			assigment.bundTipsIcon = "../../image/icon_bount_up.gif";
+				// 			assigment.bundTips = "点击扇形区域查看包含哪些知识点";
+				// 		}
+				// 	}
+				// },
+				legend: {
+					align: "left",
+					enable: true,
+					shadow: true,
+					background_color: null,
+					border: false,
+					legend_space: w / 70, //图例间距
+					line_height: w / 70, //设置行高
+					sign_space: 3, //小图标与文本间距
+					sign_size: 10, //小图标大小
+					color: '#333',
+					fontsize: 10, //文本大小
+					offsety: 100
+				},
+				mutex: true,
+				// sub_option: {
+				// 	// label: {
+				// 	// 	sign: false, //设置禁用label的小图标
+				// 	// 	padding: '0 4',
+				// 	// 	fontsize: w/90,
+				// 	// 	fontweight: 200,
+				// 	// 	color: "#ff8344"
+				// 	// },
+				// 	label: false
+				//
+				//
+				// },
+				sub_option: {
+					label: false,
+
+					listeners: {
+						/**
+						 * r:iChart.Rectangle2D对象
+						 * e:eventObject对象
+						 * m:额外参数
+						 */
+						click: function(r, e, m) {
+							console.log(r.get('name') + ' ' + r.get('value'));
+							var name = r.get('name');
+
+							if (assigment.bundTips == name) {
+								assigment.bundUI = false;
+							} else {
+								assigment.KnowledgeArrayUI = true;
+								assigment.bundUI = true;
+								assigment.bundTips = name;
+							}
+							if (assigment.bundUI) {
+								assigment.bundTipsIcon = "../../image/icon_bount_down.gif";
+							} else {
+								assigment.bundTipsIcon = "../../image/icon_bount_up.gif";
+								assigment.bundTips = "点击扇形区域查看包含哪些知识点";
+							}
+							assigment.KnowledgeArrayUI = !assigment.bundUI;
+
+							assigment.KnowledgeArray = new Array();
+							switch (name) {
+								case '正确率100%':
+									assigment.showKnowledgeUIV1(excetask)
+									break;
+								case '正确率80%以上':
+									assigment.showKnowledgeUIV1(goodtask)
+									break;
+								case '正确率60%-80%':
+									assigment.showKnowledgeUIV1(secotask)
+									break;
+								case '正确率60%以下':
+									assigment.showKnowledgeUIV1(difftask)
+									break;
+								default:
+
+							}
+						}
+					}
+				},
+				donutwidth: w / 9,
+				shadow: false,
+				shadow_blur: 9,
+				shadow_color: '#ff8344',
+				shadow_offsetx: 0,
+				shadow_offsety: 0,
+				background_color: '#f6f6f6',
+				offset_angle: -120, //逆时针偏移120度
+				showpercent: true,
+				decimalsnum: 2,
+				width: w,
+				height: w - w / 4,
+				radius: w / 4
+			});
+			assigment.chart.draw();
+
+		}
+		methods.customAlert = function(mtitle, value, callBack) { //自定义弹出框 中间部分的选择教学大纲和选择知识点的公共方法
+			var height; //弹出框的宽高设置最高为四百
+			if (value.length > 5) {
+				height = 400;
+			} else {
+				height = (value.length + 1) * 48;
+			};
+			console.log("作业弹出框的参数：" + JSON.stringify(value) + "作业弹出框的标题：" + mtitle);
+			assigment.dialogBox = api.require('dialogBox');
+			assigment.dialogBox.scene({
+				rect: {
+					w: 280,
+					h: height
+				},
+				tapClose: false,
+				corner: 10,
+				texts: {
+					title: mtitle
+				},
+				styles: {
+					bg: '#fff',
+					title: {
+						bg: '#ff8344',
+						h: 44,
+						size: 14,
+						color: '#fff',
+					},
+				},
+				optionDatas: value
+			}, function(ret, err) {
+				if (ret) {
+					callBack(ret);
+				} else {
+					alert(JSON.stringify(err))
+				}
+			});
+		}
+		return methods;
+	}
+
+	vueComponentsManager = function() { //组件管理器
+		var components = {};
+		return components;
+	}
+
+	imready = function() {
+		initVue();
+		assigment.init();
+	};
+</script>
+
+</html>

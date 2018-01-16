@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+		<style>
+			body {
+			}
+			header {
+				width: 100%;
+				background: #FF8345;
+				height: 0.88rem;
+				line-height: 0.88rem;
+				text-align: center;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older     WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				color: #323237;
+				position: relative;
+				font-size: 0.28rem;
+				color: #ffffff;
+			}
+			.flex-wrap {
+				background: #F6F6F6;
+			}
+			.left {
+				width: 0%;
+				text-align: left;
+				margin-left: 0.23rem;
+				font-size: 0.3rem;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				display: block;
+			}
+			.center {
+				font-size: 0.34rem;
+				display: block;
+				-webkit-flex: 5; /* Chrome */
+				-ms-flex: 5; /* IE 10 */
+				flex: 5; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 5; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 5; /* OLD - Firefox 19- */
+			}
+			.right {
+				width: 0%;
+				margin-left: 0.23rem;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				display: block;
+			}
+			.tips {
+				font-size: 0.28rem;
+				margin-left: 0.23rem;
+				height: 1.07rem;
+				line-height: 1.07rem;
+				text-align: left;
+			}
+			.money {
+				height: 1.13rem;
+				background: #FFFFFF;
+			}
+			.money p {
+				margin-left: 0.23rem;
+				display: inline-block;
+				color: #ff4400;
+				font-size: 0.42rem;
+				line-height: 1.13rem;
+			}
+			.money input {
+			    width:80%;
+				margin-left: 0.31rem;
+				display: inline-block;
+				color: #ff4400;
+				font-size: 0.43rem;
+				outline: none;
+			}
+			.checkbox {
+				height: 1.76rem;
+				background: #FFFFFF;
+			}
+			.m1 {
+				height: 0.88rem;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older     WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				line-height: 0.88rem;
+			}
+			.lm {
+				display: inline-block;
+			}
+			.cm {
+				margin-left: 0.24rem;
+				line-height: 0.88rem;
+				display: block;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				text-align: left;
+			}
+			.rm {
+				display: inline-block;
+				height: 0.42rem;
+				width: 0.42rem;
+				margin-right: 0.23rem;
+				margin-top: 0.23rem;
+			}
+			.alipay {
+				margin-top: 0.19rem;
+				height: 0.49rem;
+				width: 0.48rem;
+				background: url(../../image/mine/recharge/alipay.png);
+				background-size: cover;
+				margin-left: 0.23rem;
+			}
+			.wxpay {
+				margin-top: 0.20rem;
+				height: 0.48rem;
+				width: 0.48rem;
+				background: url(../../image/mine/recharge/wxpay.png);
+				background-size: cover;
+				margin-left: 0.23rem;
+			}
+			.default {
+				background: url(../../image/mine/recharge/czchoosef.png);
+				background-size: cover;
+			}
+			.active {
+				background: url(../../image/mine/recharge/czchoose.png);
+				background-size: cover;
+			}
+			.sure {
+				margin-top: 0.8rem;
+				height: 0.98rem;
+				border-radius: 0.1rem;
+				background: #aaaaaa;
+				text-align: center;
+				color: #FFFFFF;
+				font-size: 0.32rem;
+				line-height: 0.98rem;
+				margin-left: 0.23rem;
+				margin-right: 0.23rem;
+			}
+			.touch {
+				background: #efefef;
+			}
+			#line {
+				width: 100%;
+				position: relative;
+			}
+			#line:after {
+				border-bottom: 1px solid #d9d9d9;
+				content: "";
+				display: block;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				-webkit-transform-origin: 0 0;
+				-webkit-transform: scaleY(0.5);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap" class="flex-wrap flex-vertical">
+			<header>
+				<div class="left" onclick="cancel()">
+					取消
+				</div>
+				<div class="center">
+					充值
+				</div>
+				<div class="right" ></div>
+			</header>
+			<div id="main" class="flex-con">
+				<p class="tips">
+					支付详情
+				</p>
+				<div id="line"></div>
+				<div class="money">
+					<p>
+						￥
+					</p>
+					<input class="name" id="name" maxlength='6'  pattern="\d*" type="number"  oninput="OnInput (event)" onpropertychange="OnPropChanged (event)">
+				</div>
+				<div id="line"></div>
+				<p class="tips">
+					选择支付方式
+				</p>
+				<div id="line"></div>
+				<div class="checkbox">
+					<div class="m1" onclick="checkbox(0)" tapmode='touch'>
+						<div class="lm alipay"></div>
+						<div class="cm">
+							支付宝
+						</div>
+						<div class="rm active"></div>
+					</div>
+					<hr style="height: 0.01rem;width: 7.26rem;margin-left: 0.23rem;background: #d9d9d9" />
+					<div class="m1" onclick="checkbox(1)" tapmode='touch'>
+						<div class="lm wxpay"></div>
+						<div class="cm">
+							微信
+						</div>
+						<div class="rm default"></div>
+					</div>
+				</div>
+				<div id="line"></div>
+				<div class="sure" tapmode='touch' onclick="goPay()">
+					确认支付：￥
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/common.js"></script>
+	<script type="text/javascript">
+		//点击取消事件
+		var payMethod = "alipay";
+		//支付类型 ALIPAY("支付宝", 3),  TENPAY("微信", 4), TENPAYWAP("微信公众号", 5), CREDITCARD("信用卡", 6),
+		var paymentType = 3;
+		//充值金额
+		var rechargeAmount;
+		//支付来源
+		var orderFrom;
+		//支付开关
+		var canPay = false;
+		//支付类型    默认为支付宝支付 0为支付宝 1为微信
+		var i = 0;
+		var response;
+		function cancel() {
+			api.closeWin({
+			});
+		}
+
+		function checkbox(i) {
+			var checkbox = $api.domAll('.rm');
+			if (i == 0) {
+				payMethod = "alipay";
+				paymentType = 3;
+				$api.removeCls(checkbox[0], 'default');
+				$api.addCls(checkbox[0], 'active');
+				$api.removeCls(checkbox[1], 'active');
+				$api.addCls(checkbox[1], 'default');
+			} else if (i == 1) {
+				payMethod = "tenpay";
+				paymentType = 4;
+				$api.removeCls(checkbox[1], 'default');
+				$api.addCls(checkbox[1], 'active');
+				$api.removeCls(checkbox[0], 'active');
+				$api.addCls(checkbox[0], 'default');
+			}
+		}
+
+		function OnInput(event) {
+			$api.val($api.dom('.sure'));
+			if (($api.val($api.dom('.name'))) != '' && (($api.val($api.dom('.name'))).length > 0)) {
+				$api.css($api.dom('.sure'), 'background: #FF4400;');
+				$api.html($api.dom('.sure'), "确认支付：￥" + event.target.value);
+				canPay = true;
+			} else {
+				$api.css($api.dom('.sure'), 'background: #aaaaaa;');
+				$api.html($api.dom('.sure'), "确认支付：￥" + event.target.value);
+				canPay = false;
+			}
+			rechargeAmount = event.target.value;
+		}
+
+	
+
+		function goPay() {
+			if (canPay) {
+				var data = {};
+				data.method = "createRechargeOrder";
+				data.request = {
+					"paymentType" : paymentType,
+					"rechargeAmount" : rechargeAmount,
+					"actualAmount" : rechargeAmount,
+					"rechargeType" : 1, //1代表充值现金,2代表充值中期币
+					"orderFrom" : orderFrom,
+					"userId" : api.getPrefs({
+						sync : true,
+						key : "userid"
+					})
+				}, console.log("充值createRechargeOrder请求数据：" + JSON.stringify(data));
+				api.showProgress();
+				ajaxRequest(data, function(ret, err) {
+					api.hideProgress();
+					if (ret) {
+						console.log("充值createRechargeOrder成功返回数据：" + JSON.stringify(ret));
+						if (ret.responseCode == 0) {
+							response = ret.responseBody;
+							getHotCities();
+						}
+					} else {
+						console.log("充值createRechargeOrder失败返回数据：" + JSON.stringify(err));
+					}
+				})
+			} else {
+				api.toast({
+					msg : '请输入正确的充值金额！'
+				});
+			}
+		}
+
+		function getHotCities() {
+			checkRequestIp(function(requestIp) {
+				var data = {};
+				data.method = payMethod + "TradePay";
+				data.request = {
+					"orderNo" : response.rechargeNo,
+					"userId" : api.getPrefs({
+						sync : true,
+						key : "userid"
+					}),
+					"tradingPassword" : "",
+					"requestIp" : requestIp,
+					"walletBalance" : 0,
+					"tradingAmount" : response.rechargeAmount,
+					"paymentType" : payMethod.toUpperCase(),
+					"tradingBussiness" : "RECHARGE"
+				}, api.showProgress();
+				console.log("充值请求数据：" + JSON.stringify(data));
+				ajaxRequest(data, function(ret, err) {
+					api.hideProgress();
+					if (ret) {
+						console.log("充值成功返回数据：" + JSON.stringify(ret));
+						if (ret.responseCode == 0) {
+							if (ret.responseBody.responseCode == 0) {
+								if (payMethod == 'alipay') {
+									goAliPay(ret.responseBody);
+								} else {
+									goTenPay(ret.responseBody);
+								}
+							} else {
+								alert(ret.responseBody.responseMsg)
+							}
+						} else {
+							alert(ret.responseMsg)
+						}
+					} else {
+						console.log("充值失败返回数据：" + JSON.stringify(err));
+					}
+				})
+			})
+		}
+
+		function goAliPay(response) {
+			var orderInfo = "app_id=" + response.app_id + "&biz_content=" + response.biz_content + "&charset=UTF-8&format=json&method=alipay.trade.app.pay&notify_url=" + response.notify_url + "&sign_type=" + response.sign_type + "&timestamp=" + response.timestamp + "&version=" + response.version + "&sign=" + response.sign
+			console.log(JSON.stringify(orderInfo))
+			var aliPay = api.require('aliPay');
+			aliPay.payOrder({
+				orderInfo : orderInfo
+			}, function(ret, err) {
+				if (ret) {
+					if (ret.code==9000) {
+						api.toast({
+							msg : '恭喜,支付成功!',
+							location : 'middle'
+						});
+						api.openWin({
+							name : 'rechargeSuccess',
+							url : 'rechargeSuccess.html',
+							pageParam : {
+								orderNo : response.orderNo,
+								orderType : window.orderType,
+								orderSum : rechargeAmount
+							}
+						});
+					} else {
+						api.toast({
+							msg : '您已取消支付,请即时支付!',
+							location : 'middle'
+						});
+					}
+				} else {
+					alert(err.msg)
+				}
+			})
+		}
+
+		function goTenPay(response) {
+			var wxPay = api.require('wxPay');
+			var info = {
+				apiKey : response.appid,
+				orderId : response.prepayid,
+				mchId : response.partnerid,
+				nonceStr : response.noncestr,
+				timeStamp : response.timestamp,
+				package : response.package,
+				sign : response.sign
+			}
+			console.log(JSON.stringify(info))
+			wxPay.payOrder(info, function(ret, err) {
+				//TODO 测试:
+				if (ret) {
+					if (ret.status) {
+						api.toast({
+							msg : '恭喜,支付成功!',
+							location : 'middle'
+						});
+						api.openWin({
+							name : 'rechargeSuccess',
+							url : 'rechargeSuccess.html',
+							pageParam : {
+								orderNo : response.orderNo,
+								orderType : window.orderType,
+								orderSum : rechargeAmount
+							}
+						});
+					} else {
+						api.toast({
+							msg : '您已取消支付,请即时支付!',
+							location : 'middle'
+						});
+					}
+				} else {
+					alert(err.msg)
+				}
+			});
+		}
+
+		imready = function() {
+			if (api.systemType == "ios") {
+				orderFrom = 1
+			} else if (api.systemType == "android") {
+				orderFrom = 2
+			}
+		};
+	</script>
+</html>

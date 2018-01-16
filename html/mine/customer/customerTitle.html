@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../../../css/api.css" />
+	<link rel="stylesheet" type="text/css" href="../../../css/style.css" />
+	<style>
+		header {
+			background: #FF8345;
+			height: 0.88rem;
+			width: 100%;
+			display: -webkit-flex;
+			/* 新版本语法: Chrome 21+ */
+			display: flex;
+			/* 新版本语法: Opera 12.1, Firefox 22+ */
+			display: -webkit-box;
+			/* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+			display: -moz-box;
+			/* 老版本语法: Firefox (buggy) */
+			display: -ms-flexbox;
+			/* 混合版本语法: IE 10 */
+			overflow: hidden;
+		}
+
+		.tit-left {
+			width: 0%;
+			display: block;
+			-webkit-flex: 1;
+			/* Chrome */
+			-ms-flex: 1;
+			/* IE 10 */
+			flex: 1;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 1;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 1;
+			/* OLD - Firefox 19- */
+			text-align: left;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+		}
+
+		.tit-con {
+			text-align: center;
+			font-size: 0.34rem;
+			display: block;
+			-webkit-flex: 4;
+			/* Chrome */
+			-ms-flex: 4;
+			/* IE 10 */
+			flex: 4;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 4;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 4;
+			/* OLD - Firefox 19- */
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			font-size: 0.28rem;
+			height: 0.58rem;
+			padding-top: 0.15rem;
+		}
+
+		.tit-right {
+			width: 0%;
+			display: block;
+			-webkit-flex: 1;
+			/* Chrome */
+			-ms-flex: 1;
+			/* IE 10 */
+			flex: 1;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 1;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 1;
+			/* OLD - Firefox 19- */
+			text-align: right;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			background: #FF8345;
+		}
+
+		.tit-con-all {
+			border: #FFFFFF solid 1px;
+			border-radius: 0.03rem;
+			margin: 0 auto;
+			display: -webkit-flex;
+			/* 新版本语法: Chrome 21+ */
+			display: flex;
+			/* 新版本语法: Opera 12.1, Firefox 22+ */
+			display: -webkit-box;
+			/* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+			display: -moz-box;
+			/* 老版本语法: Firefox (buggy) */
+			display: -ms-flexbox;
+			/* 混合版本语法: IE 10 */
+			text-align: center;
+			font-size: 0.28rem;
+			line-height: 0.58rem;
+			height: 0.58rem;
+			width: 4.64rem;
+			position: relative;
+		}
+
+		.tit-con-left {
+			background: #FFFFFF;
+			color: #FF8345;
+			border-radius: 0.03rem;
+			line-height: 0.58rem;
+			text-align: center;
+			width: 0%;
+			display: block;
+			-webkit-flex: 1;
+			/* Chrome */
+			-ms-flex: 1;
+			/* IE 10 */
+			flex: 1;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 1;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 1;
+			/* OLD - Firefox 19- */
+		}
+
+		.tit-con-right {
+			background: #FF8345;
+			color: #FFFFFF;
+			border-radius: 0.03rem;
+			line-height: 0.58rem;
+			text-align: center;
+			width: 0%;
+			display: block;
+			-webkit-flex: 1;
+			/* Chrome */
+			-ms-flex: 1;
+			/* IE 10 */
+			flex: 1;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 1;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			-moz-box-flex: 1;
+			/* OLD - Firefox 19- */
+		}
+
+		.back {
+			display: inline-block;
+			color: #FFFFFF;
+			text-align: center;
+			background: url(../../../image/back.png);
+			background-size: cover;
+			margin-left: 0.23rem;
+			width: 0.24rem;
+			height: 0.45rem;
+			margin-top: 0.215rem;
+		}
+
+		.picbox {
+			display: inline-block;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			text-align: center;
+			display: none;
+			height: 1.05rem;
+			width: 1.1rem;
+		}
+
+		.isnone {
+			font-size: 0.28rem;
+			height: 1.07rem;
+			border: solid #d9d9d9 1px;
+			padding-bottom: 0.1rem;
+		}
+
+		.isnone:after {
+			border-bottom: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+
+		.pic {
+			width: 0.64rem;
+			height: 0.64rem;
+			margin: 0 auto;
+			border-radius: 0.64rem;
+			margin-top: 0.08rem;
+		}
+
+		.text {
+			margin-bottom: 0;
+			height: 0.33rem;
+			line-height: 0.33rem;
+			font-size: 0.22rem;
+			text-align: center
+		}
+
+		.active {
+			background: url(../../../image/mine/iconf.png);
+			background-repeat: no-repeat;
+			background-size: cover;
+			border: solid #FF8344 1px;
+		}
+
+		.default {
+			background: url(../../../image/mine/icon.png);
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+
+		.tactive {
+			color: #ff8433;
+		}
+
+		.tdefault {
+			color: #d2d2d2;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<header>
+			<div class="tit-left" onclick="api.closeWin();">
+				<div class="back"></div>
+			</div>
+			<div class="tit-con">
+				<div class="tit-con-all">
+					<div class="tit-con-left" onclick="swicth(1)">
+						售后申请
+					</div>
+					<div class="tit-con-right" onclick="swicth(2)">
+						进度查询
+					</div>
+				</div>
+			</div>
+			<div class="tit-right"></div>
+		</header>
+	</div>
+</body>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/common.js"></script>
+<script type="text/javascript" src="../../../script/zepto.js"></script>
+<script type="text/javascript">
+	function gofunto() {
+		api.openFrame({
+			name: 'afterApplication',
+			url: 'afterApplication.html',
+			rect: {
+				x: 0,
+				y: $api.dom('header').offsetHeight,
+				w: api.frameWidth,
+				h: api.frameHeight - $api.dom('header').offsetHeight
+			},
+			reload: true,
+			pageParam: {
+				x: 0,
+				y: $api.dom('header').offsetHeight,
+				w: api.frameWidth,
+				h: api.frameHeight - $api.dom('header').offsetHeight
+			},
+			bounces: false,
+			bgColor: 'rgba(0,0,0,0)',
+			vScrollBarEnabled: true,
+			hScrollBarEnabled: true
+		});
+	}
+
+	function listerMan() {
+		api.addEventListener({
+			name: 'openScheduleQuery'
+		}, function(ret, err) {
+			//coding...
+			swicth(2);
+		});
+
+	}
+
+	imready = function() {
+
+		gofunto();
+		listerMan();
+
+	};
+
+	function swicth(tag) {
+		var left = $api.dom('.tit-con-left');
+		var right = $api.dom('.tit-con-right');
+		if (tag == 1) {
+			$api.css(left, 'background:#FFF;color: #FF8345;');
+			$api.css(right, 'background:#FF8345;color: #FFF;');
+			openframe(1)
+		} else if (tag == 2) {
+			$api.css(left, 'background:#FF8345;color: #FFF;');
+			$api.css(right, 'background:#FFF;color: #FF8345;');
+			openframe(2)
+		}
+	}
+
+	function openframe(nume) {
+		if (nume == 1) {
+			api.closeFrame({
+				name: "scheduleQuery"
+			});
+			//关闭frame防止遮 http://192.168.1.78:81/zentao/bug-view-750.html
+
+			api.openFrame({
+				name: 'afterApplication',
+				url: 'afterApplication.html',
+				rect: {
+					x: 0,
+					y: $api.dom('header').offsetHeight,
+					w: api.frameWidth,
+					h: api.frameHeight - $api.dom('header').offsetHeight
+				},
+				reload: true,
+				pageParam: {
+					id: window.sId
+				},
+				bounces: false,
+				bgColor: 'rgba(0,0,0,0)',
+				vScrollBarEnabled: true,
+				hScrollBarEnabled: true
+			});
+		} else if (nume == 2) {
+			api.closeFrame({
+				name: "afterApplication"
+			}); //关闭frame防止遮 http://192.168.1.78:81/zentao/bug-view-750.html
+
+			api.openFrame({
+				name: 'scheduleQuery',
+				url: 'scheduleQuery.html',
+				rect: {
+					x: 0,
+					y: $api.dom('header').offsetHeight,
+					w: api.frameWidth,
+					h: api.frameHeight - $api.dom("header").offsetHeight
+				},
+				reload: true,
+				pageParam: {
+					id: window.sId
+				},
+				bounces: false,
+				bgColor: 'rgba(0,0,0,0)',
+				vScrollBarEnabled: true,
+				hScrollBarEnabled: true
+			});
+		}
+	}
+</script>
+
+</html>

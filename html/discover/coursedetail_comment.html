@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+    	body{
+    		font-size:0.26rem;
+    		width:100%;
+    	}
+    	#comments{
+    		background: #FFF;
+    	}
+    	#comments #comments_title{
+    		height:1.99rem;
+    		line-height:0.87rem;
+    		padding-left:0.25rem;
+    		background: #F6F6F6;
+    		font-size:0.26rem;
+    		position:fixed;
+    		z-index: 1;
+    		width: 100%;
+    	}
+    	#comments #comments_title:before{
+    		border-bottom: 1px solid #CCCCCC;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+    	#comments #comments_title #title_left{
+    		font-size:0.3rem;
+    		color:#333333;
+    		line-height:1;
+    		float: left;
+    	}
+    	#comments #comments_title #title_left .star{
+    		width:0.24rem;
+    		height:0.24rem;
+    		margin-right:0.1rem;
+    	}
+    	#comments #comments_title #title_right{
+    		width:1.6rem;
+    		height:100%;
+    		float:right;
+    		margin-right:0.25rem;
+    	}
+    	#comments #comments_title #title_right img{
+    		width:1.14rem;
+    		height:1.14rem;
+    		margin: 0.42rem 0.23rem;
+    	}
+    	#comments #comments_list{
+    		position: absolute;
+    		top:1.99rem;
+    		width:100%;
+    	}
+    	#comments #comments_list .item{
+    		margin-left:0.23rem;
+    		position: relative;
+    	}
+    	#comments #comments_list .item:before{
+    		border-bottom: 1px solid #eeeeee;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+    	#comments #comments_list .item .wrap_star{
+    		margin-top:0.24rem;
+			float:left;
+			width: 4.2rem;
+			width:82%;
+    	}
+    	#comments #comments_list .item .wrap_star img{
+    		margin-right:0.1rem;
+    		width:0.24rem;
+    		height:0.24rem;
+    	}
+    	#comments #comments_list .item .account{
+    		float:left;
+    		width:17%;
+    		margin-top:0.24rem;
+    	}
+    	#comments #comments_list .item .wrap_star .date{
+    		float:right;
+    		color:#666666;
+    		font-size:0.24rem;
+    		margin-right:0.23rem;
+    	}
+    	#comments #comments_list .item .comment_content{
+    		font-size:0.26rem;
+    		margin-top:0.1rem;
+    		color:#666666;
+    		padding-bottom: 0.12rem;
+    		display:inline-block;
+    	}
+    </style>
+</head>
+<body>
+	<script type="text/x-dot-template" id="title_template">
+		<div id="title_left">
+			<div style="margin-top:0.37rem;">老师:{{=it.teacherName}}</div>
+			<div style="margin-top:0.24rem;">综合评分: 
+			{{ for(var i=0;i<it.average;i++){ }}
+			<img class="star" src="../../image/icon_star.png" />
+			{{ } }}
+			</div>
+			<div style="margin-top:0.24rem;">评价({{=it.commentCount}})</div>
+		</div>
+		<div id="title_right">
+			<img src="../../image/eg_teacher.png" alt="" />
+		</div>
+	</script>
+	<div id="comments">
+	<div id="comments_title">
+	</div>
+	<div id="comments_list"> 
+	</div>
+	</div>
+	<script type="text/x-dot-template" id="comments_template">
+		{{ for(var i=0;i<it.length;i++){ }}
+		<div class="item">
+			<div class="account">{{=it[i].commentUser?(it[i].commentUser.length>3?it[i].commentUser.substring(0,3)+'***':it[i].commentUser):""}}</div>
+			<div class="wrap_star">
+				{{var length=it[i].commentStar; if(length==0){length=5} }}
+				{{ for(var j=0;j<length;j++){ }}
+					<img src="../../image/icon_star.png" />
+				{{ } }}
+				<span class="date">{{=it[i].commentTime}}</span>
+			</div>
+			<div class="comment_content ">{{=it[i].commentContent?it[i].commentContent:"默认好评"}} </div>
+		</div>
+		{{ } }}
+	</script>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript">
+	var teacherName;
+	var average;
+	var pageIndex=1;
+	imready = function(){
+		window.courseId=api.pageParam.courseId
+		window.comments={};
+		api.addEventListener({
+	        name:'commentStar'
+        },function(ret,err){
+			teacherName=ret.value.teacherName;
+			average = ret.value.average;
+			requestComments();
+        });
+	};
+	
+	function requestComments(){
+		var body={};
+		body.method="getBusinessCommentList";
+		body.request={
+			"commentType":2,//课程
+			"commentProduct":window.courseId,//课程或班级,待确认
+			"page":pageIndex,
+			"pageSize":20
+		}
+		ajaxRequest(body,function(ret,err){
+			console.log(JSON.stringify(ret))
+			if(ret){
+				if(ret.responseCode==0){
+					fillTitle(ret.responseBody.total)
+					fillComments(ret.responseBody);
+				}else{
+//					alert(ret.responseMsg)
+				}
+			}else{
+//				alert(err.msg)
+			}
+		})
+	}
+	function fillTitle(total){
+		
+		var json = {};
+		json.teacherName=teacherName;
+		json.average=average;
+		json.commentCount = total;
+		getInnerByDot("comments_title","title_template",json)
+	}
+	function fillComments(result){
+		getInnerByDot("comments_list","comments_template",result.rows)
+	}
+</script>
+</html>

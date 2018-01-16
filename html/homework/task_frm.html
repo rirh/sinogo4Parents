@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <style>
+        section {
+            margin: 0;
+            padding: 0;
+        }
+
+        section .konwChart {
+            height: .86rem;
+            position: relative;
+        }
+
+        span {
+            vertical-align: middle;
+        }
+
+        section .konwChart span:nth-child(1) img {
+            width: .44rem;
+            height: .42rem;
+            margin-left: .28rem;
+        }
+
+        section .konwChart span:nth-child(2) {
+            line-height: .86rem;
+            font-size: .28rem;
+            color: #333;
+        }
+
+        section .konwChart span:nth-child(3) img {
+            width: .16rem;
+            height: .28rem;
+            position: absolute;
+            right: .28rem;
+            top: .29rem;
+        }
+
+        .button_tap {
+            background: #eee;
+        }
+
+        dl {
+            background: #f6f6f6;
+        }
+
+        dl dt {
+            height: .86rem;
+            background: #efefef;
+        }
+
+        dl dt span {
+            line-height: .86rem;
+            color: #ff8344;
+            font-size: .3rem;
+            margin-left: .28rem;
+        }
+
+        dl dd {
+            background: #f4f4f4;
+            width: 100%;
+            height: 100%;
+            vertical-align: middle;
+        }
+
+        dl dd .job_box {
+            background: #fff;
+            margin: .3rem;
+            position: relative;
+        }
+
+        dl dd .job_box span {
+            height: 100%;
+            margin-left: .28rem;
+        }
+
+        dl dd .job_box span:nth-child(1) {
+            margin: .28rem;
+        }
+
+        dl dd .job_box span p {
+            line-height: .48rem;
+            font-size: .28rem;
+            color: #333;
+        }
+
+        dl dd .job_box span p:nth-child(1),
+        dl dd .job_box span p:nth-child(2),
+        dl dd .job_box span p:nth-child(3) {
+            border-bottom: 1px solid #f4f4f4;
+        }
+
+        dl dd .job_chart span {
+            position: absolute;
+            height: 1rem;
+            width: 1rem;
+            border-radius: 50%;
+            right: .2rem;
+            top: .3rem;
+            text-align: center;
+        }
+
+        dl dd .job_box em {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-top: 1rem solid #7f4121;
+            border-left: 1rem solid transparent;
+        }
+
+        .job_chart del {
+            display: block;
+            text-align: center;
+            vertical-align: middle;
+            text-decoration: none;
+            margin-top: .2rem;
+        }
+
+        dl dd .job_box strong {
+            position: absolute;
+            right: .09rem;
+            top: .09rem;
+            font-size: .26rem;
+            text-align: center;
+            color: #fff;
+            transform: rotate(45deg);
+            -o-transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+            -moz-transform: rotate(45deg);
+        }
+
+        .job_pass {
+            background: #1ebeb6;
+            line-height: .6rem;
+            color: #fff;
+            font-size: .32rem;
+        }
+
+        .job_desd {
+            background: #efefef;
+            color: #7f4121;
+            line-height: .6rem;
+            font-size: .26rem;
+        }
+
+        .job_unpass {
+            background: #ff8344;
+            line-height: .37rem;
+            color: #fff;
+            font-size: .26rem;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+
+        .empty {
+            font-size: .48rem;
+            color: #666;
+            width: 100%;
+            height: 5rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        #state {
+            height: .2rem;
+            width: .2rem;
+            background: #f00;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <section id="main" v-cloak>
+        <div class="empty" v-show="!showMsg">
+            老师很懒，什么都没留下
+        </div>
+        <div class="konwChart" tapmode="button_tap" @click="goChart()" v-show="showMsg">
+            <span><img src="../../image/icon_chart.png" alt=""></span>
+            <span>知识图谱</span>
+            <span><img src="../../image/mine/change.png" alt=""></span>
+        </div>
+        <dl class="" v-for="(month,index) in taskvalue" v-show="showMsg">
+            <dt><span>{{month[0].monthStr}}</span></dt>
+            <dd tapmode="button_tap" v-for="(job,mindex) in month" @click="goDetails(job)">
+
+                <div class="job_box">
+                    <em></em>
+                    <strong>{{job.courseCategory}}</strong>
+                    <span class="job_details">
+                        <p>{{job.publishDate | begintime}}<span v-show="showState(job)" id="state"></span></p>
+                    <p>{{job.homeworkTitle}}&nbsp共{{job.questionCount}}题</p>
+                    <p>{{job.className}}</p>
+                    <p>{{job.limitDate | lasttime}}</p>
+                    </span>
+                    <span class="job_chart">
+                        <span :class="[ObjectClass(job)]"><del>{{job.studentWorkStatus | jobstatus(job)}}</del></span>
+                    </span>
+                </div>
+            </dd>
+        </dl>
+    </section>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/vue.min.js"></script>
+<script type="text/javascript" src="../../script/lodash.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript">
+    var task; //全局控制器Controller
+    initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+        var data = vueDateManager();
+        var methods = vueMethodsManager();
+        task = new Vue({
+            el: '#main', //绑定元素
+            data: data, //本页面的静态动态全部数据
+            methods: methods, //本页面的全部方法
+        })
+    }
+    Vue.filter('begintime', function(value) { //开始时间过滤器
+        if (!isEmpty(value)) {
+            var a = new Array("日", "一", "二", "三", "四", "五", "六");
+            var week = new Date(value.substring(0, 10)).getDay();
+            var str = "周" + a[week];
+            value = value.substring(5, 7) + "月" + value.substring(8, 10) + "日 " + str + " " + value.substring(11, 16);
+        }
+        return value;
+    })
+    Vue.filter('lasttime', function(value) { //结束时间过滤器
+        if (!isEmpty(value)) {
+            value = value.substring(5, 7) + "月" + value.substring(8, 10) + "日 " + " " + value.substring(11, 19) + "前完成";
+        }
+        return value;
+    })
+    Vue.filter('jobstatus', function(value, item) { //答题ui过滤器
+        //status:0,//0未答 1已答 2已过期
+        var date = new Date();
+        var limitDate = new Date(item.limitDate.replace(/-/g, "/"));
+        var isAnswer = item.studentWorkStatus;
+        if (isAnswer) { //true 未答
+            if (date.getTime() > limitDate.getTime()) { //过期了
+                value = "已过期";
+            } else { //未过期，可作答
+                value = "未完成预览";
+            }
+        } else { //false 已答
+            //          	if (date.getTime() > limitDate.getTime()) { //过期了,
+            //                  item.status = 2;
+            //              } else{
+            value = item.studentScore + "分";
+            //              }
+        }
+
+        return value;
+    })
+    vueDateManager = function() {
+        //初始化Vue数据date为一个json数组
+        var data = {};
+        data.studetninfo = new Array();
+        data.pageindex = 1;
+        data.pagesize = 20;
+        data.lodeEnd = false;
+        data.taskvalue = new Array();
+        data.showMsg = true;
+        data.ObjectClass = function(item) {
+            //status:0,//0未答 1已答 2已过期
+            var date = new Date();
+            var limitDate = new Date(item.limitDate.replace(/-/g, "/"));
+            var isAnswer = item.studentWorkStatus;
+            if (isAnswer) { //true 未答
+                if (date.getTime() > limitDate.getTime()) { //过期了
+                    return "job_desd";
+                } else { //未过期，可作答
+                    return "job_unpass";
+                }
+            } else { //false 已答
+                //          	if (date.getTime() > limitDate.getTime()) { //过期了,
+                //                  item.status = 2;
+                //              } else{
+                return "job_pass";
+                //              }
+            }
+
+        }
+        data.showState = function(item) {
+            var date = new Date();
+            var limitDate = new Date(item.limitDate.replace(/-/g, "/"));
+            var isAnswer = item.studentWorkStatus;
+            if (isAnswer) { //true 未答
+                if (date.getTime() > limitDate.getTime()) { //过期了
+                    return true;
+                } else { //未过期，可作答
+                    return true;
+                }
+            } else { //false 已答
+                //          	if (date.getTime() > limitDate.getTime()) { //过期了,
+                //                  item.status = 2;
+                //              } else{
+                return false;
+                //              }
+            }
+
+        }
+        console.log("数据管理者" + JSON.stringify(data));
+        return data;
+
+    }
+    vueMethodsManager = function() {
+        var methods = {};
+        methods.init = function() {
+            task.studetninfo = api.pageParam.student;
+            task.refreshMsg(task.studetninfo.id,function(){
+              task.goTop();
+            });
+        }
+        methods.refreshMsg = function(stuedntId,callBack) {
+            var list = {
+                "studentId": stuedntId,
+                // "studentId": 7164,//测试数据
+                "page": task.pageindex,
+                "pageSize": task.pagesize
+            }
+            goRequest("getStudentHomeworkPage", list, function(ret) {
+               if(isEmpty(ret.responseBody.rows)){
+                 task.showMsg = false;
+                 return;
+
+               }
+                task.lodeEnd = ret.responseBody.totalPage === ret.responseBody.page ? true : false;
+                if (task.pageindex === 1) {
+                    task.taskvalue = new Array();
+                    task.taskvalue = ret.responseBody.rows;
+                    var response = task.dealTaskMsg(task.taskvalue);
+                    task.taskvalue = response;
+
+                } else {
+                    var response = task.dealTaskMsg(ret.responseBody.rows);
+                    for (var i = 0; i < response.length; i++) {
+                        task.taskvalue.push(response[i]);
+                    }
+                }
+                task.showMsg = true;
+                callBack()
+
+            })
+        }
+        methods.goTop = function(acceleration, time) {
+            acceleration = acceleration || 0.1;
+            time = time || 16;
+            var x1 = 0;
+            var y1 = 0;
+            var x2 = 0;
+            var y2 = 0;
+            var x3 = 0;
+            var y3 = 0;
+            if (document.documentElement) {
+                x1 = document.documentElement.scrollLeft || 0;
+                y1 = document.documentElement.scrollTop || 0;
+            }
+            if (document.body) {
+                x2 = document.body.scrollLeft || 0;
+                y2 = document.body.scrollTop || 0;
+            }
+            var x3 = window.scrollX || 0;
+            var y3 = window.scrollY || 0;
+            // 滚动条到页面顶部的水平距离
+            var x = Math.max(x1, Math.max(x2, x3));
+            // 滚动条到页面顶部的垂直距离
+            var y = Math.max(y1, Math.max(y2, y3));
+            // 滚动距离 = 目前距离 / 速度, 因为距离原来越小, 速度是大于 1 的数, 所以滚动距离会越来越小
+            var speed = 1 + acceleration;
+            window.scrollTo(Math.floor(x / speed), Math.floor(y / speed));
+            // 如果距离不为零, 继续调用迭代本函数
+            if (x > 0 || y > 0) {
+                var invokeFunction = "task.goTop(" + acceleration + ", " + time + ")";
+                window.setTimeout(invokeFunction, time);
+            }
+        }
+
+        methods.lister = function() {
+            api.addEventListener({
+                name: 'taskEvent'
+            }, function(ret, err) {
+                if (ret) {
+                    task.studetninfo = ret.value.student;
+                    task.pageindex = 1;
+                    task.pagesize = 20;
+                    task.lodeEnd = false;
+                    methods.refreshMsg(task.studetninfo.id,function(){
+                          task.goTop();
+                    });
+                } else {
+                    alert(JSON.stringify(err));
+                }
+            });
+
+
+        }
+        methods.dealTaskMsg = function(msg) {
+            console.log("处理之前的数据==============" + JSON.stringify(msg));
+            var months = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"]
+            var map = new Array();
+            for (var i = 0; i < msg.length; i++) {
+                var item = msg[i];
+                var createDate = new Date(item.publishDate.replace(/-/g, "/"));
+                item.month = createDate.getMonth();
+                item.monthStr = months[item.month];
+                map.push(item);
+            };
+
+            var monthArr = new Array();
+            for (var i = 0; i < map.length; i++) {
+                monthArr.push(map[i].month);
+            }
+            montharr = _.uniq(monthArr);
+            var response = new Array();
+            for (var i = 0; i < montharr.length; i++) {
+                var tamp = new Array();
+                for (var j = 0; j < map.length; j++) {
+                    if (montharr[i] === map[j].month) {
+                        tamp.push(map[j]);
+                    }
+                }
+                response.push(tamp);
+            }
+            console.log("处理之后的数据=========================================" + JSON.stringify(response));
+            return response;
+        }
+        methods.goChart = function() {
+            console.log(JSON.stringify(task.studetninfo));
+            api.openWin({
+                name: 'chart_win',
+                url: 'chart_win.html',
+                pageParam: {
+                    student: task.studetninfo
+                }
+            });
+
+
+        }
+        methods.goDetails = function(item) {
+            if (item.studentWorkStatus) { //未答
+                api.openWin({
+                    name: 'preview_win',
+                    url: 'preview_win.html',
+                    pageParam: {
+                        homework: item
+                    }
+                });
+            } else { //已答
+                api.openWin({
+                    name: 'answerResult_win',
+                    url: 'answerResult_win.html',
+                    pageParam: {
+                        homework: item
+                    }
+                });
+
+            }
+        }
+        return methods;
+
+    }
+    imready = function() {
+        initVue();
+        task.init();
+        task.lister();
+        api.addEventListener({
+            name: 'scrolltobottom',
+            extra: {
+                threshold: 0 //设置距离底部多少距离时触发，默认值为0，数字类型
+            }
+        }, function(ret, err) {
+            if (ret) {
+                if (task.lodeEnd) {
+                    api.toast({
+                        msg: '没有更多的数据了',
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                    return;
+                } else {
+                    task.pageindex++;
+                    task.refreshMsg(task.studetninfo.id,function(){
+
+                    });
+                }
+            }
+        });
+        setRefreshHeaderInfo(
+            function() { //上拉刷新
+                task.pageindex = 1;
+                task.pagesize = 20;
+                task.lodeEnd = false;
+                task.refreshMsg(task.studetninfo.id,function(){
+                  task.goTop();
+                });
+            },
+            function() { //下拉加载
+
+            });
+
+    }
+</script>
+
+</html>

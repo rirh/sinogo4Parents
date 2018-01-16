@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <style>
+    	html,body{
+    		background:#F6F6F6;
+    	}
+    	#main{
+    		height:1rem;
+    	}
+    	#footer{
+			height:0.98rem;
+			background:#FF8344;
+			text-align: center;
+			line-height:0.98rem;
+			font-size:0.32rem;
+			color:#FFF;
+		}
+		.divsum{
+			height:1.23rem;
+			line-height:1.23rem;
+			width:100%;
+			text-align: center;
+			font-size:0.3rem;
+			color:#333333;
+			background: #FFF;
+			position: relative;
+		}
+		.divsum:after{
+			border-bottom:1px solid #E1E1E1;
+    		position: absolute;
+			right: 0;
+			bottom: 0;
+			left: 0;
+    		display: block;
+    		content:'';
+    		pointer-events:none;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform: scaleY(0.5);
+		} 
+		.imp{
+			color:#FF4400;
+		}
+		.paydetail{
+			color:#666666;
+			font-size:0.26rem;
+			height:0.97rem;
+			background:#FFF;
+			position:relative;
+			line-height:0.97rem;
+			padding-left:0.23rem;
+		}
+		.paydetail:after{
+			border-bottom:1px solid #CCCCCC;
+    		position: absolute;
+			right: 0;
+			bottom: 0;
+			left: 0;
+    		display: block;
+    		content:'';
+    		pointer-events:none;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform: scaleY(0.5);
+		}
+		.paydetail div{
+			background:url(../../image/icon_arrow_right.png) no-repeat right center #FFF;
+			background-size:0.16rem 0.28rem;
+			margin-right: 0.23rem;
+		}
+		.paymethod{
+			height:1.07rem;
+			line-height:1.07rem;
+			color:#333333;
+			font-size:0.28rem;
+			padding-left:0.23rem;
+			position: relative;
+		}
+		.paymethod:after{
+			border-bottom:1px solid #CCCCCC;
+			position: absolute;
+			right:0;left:0;bottom:0;
+			content:"";
+			pointer-events:none;
+			-webkit-transform:scaleY(0.5);
+			-webkit-transform-origin: 0 0;
+			display:block;
+		}
+		ul{
+			background:#FFF;
+			position: relative;
+		}
+		ul:after{
+			border-bottom:1px solid #CCCCCC;
+			position: absolute;
+			right:0;left:0;bottom:0;
+			content:"";
+			pointer-events:none;
+			-webkit-transform:scaleY(0.5);
+			-webkit-transform-origin: 0 0;
+			display:block;
+		}
+		ul li{
+			margin-left:0.23rem;
+			height:0.88rem;
+			line-height:0.88rem;
+			color:#666666;
+			font-size:0.26rem;
+		}
+		ul li.alipay{
+			position:relative;
+			background: url(../../image/icon_alipay.png) no-repeat left center;
+			background-size:0.48rem 0.48rem;
+		}
+		ul li.alipay:after{
+			border-bottom:1px solid #d9d9d9;
+			position: absolute;
+			right:0;left:0;bottom:0;
+			content:"";
+			pointer-events:none;
+			-webkit-transform:scaleY(0.5);
+			-webkit-transform-origin: 0 0;
+			display:block;
+		}
+		ul li.tenpay{
+			background: url(../../image/icon_wechat.png) no-repeat left center;
+			background-size:0.48rem 0.48rem;
+		}
+		ul li div > div{
+			margin-left:0.8rem;
+			margin-right:0.23rem;
+		}
+    </style>
+</head>
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<div id="header">
+			<a class="back-icon" tapmode="active" onclick="cancelBill()" ></a>
+			<h1 id="title">在线支付</h1>
+		</div>
+		<div id="main" class="flex-con">
+			<div class="divsum">支付金额 ： <span class="imp">100￥</span></div>
+			<div class="paydetail" onclick="goDetail()">
+				<div>支付详情</div>
+			</div>
+			<div class="paymethod">选择支付方式</div>
+			<ul >
+				<li class="alipay">
+				<div > <div onclick="checkPaymethod('alipay')" style="background: url(../../image/icon_pay_checked.png) no-repeat right center;background-size: 0.42rem 0.42rem;" >支付宝</div> </div>
+				</li>
+				<li class="tenpay">
+				<div> <div onclick="checkPaymethod('tenpay')" style="background: url(../../image/icon_pay_unchecked.png) no-repeat right center;background-size: 0.42rem 0.42rem;" >微信</div></div>
+				</li>
+			</ul>
+			
+		</div>
+		<div id="footer" class="border-t" onclick="confirmPay()">
+			确认支付
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+
+	var payMethod="alipay";
+	var response;
+	var divs ;
+	imready = function(){
+		response = api.pageParam.ret;
+		window.sum = response.paymentAmount;
+		window.orderType = api.pageParam.orderType
+		$api.byId("footer").innerHTML="确认支付 "+sum+" ￥"
+		$api.dom(".imp").innerHTML=sum+" ￥"
+		divs = $api.domAll("li div div");
+		
+		api.addEventListener({
+	        name:'keyback'
+        },function(ret,err){
+        	cancelBill();
+        });
+        api.addEventListener({
+	        name:'swiperight'
+        },function(ret,err){
+        	//coding...
+        });
+        
+        orderPay();
+	};
+	
+	function orderPay(){
+		api.showProgress();
+		var body = {};
+		body.method="orderPay"
+		body.request = {
+			"firstPay":true,
+			"orderNo":response.orderNo,
+			"userId":api.getPrefs({sync:true,key:'userid'}),
+			"tradingBussiness":"ORDER"
+		}
+		ajaxRequest(body,function(ret,err){
+			api.hideProgress();
+			console.log("orderPay-"+JSON.stringify(ret))
+			if(ret){
+				if(ret.responseCode==0){
+					//不执行.
+					window.sum = ret.responseBody.paymentAmount
+					$api.byId("footer").innerHTML="确认支付 "+window.sum+" ￥"
+					$api.dom(".imp").innerHTML=window.sum+" ￥"
+				}else{
+					alert(ret.responseMsg)
+				}
+			}else{
+				alert(err.msg)
+			}
+		})
+	}
+	
+	function checkPaymethod(type){
+		uncheckAll();
+		var thisEle = type=='alipay'?divs[0]:divs[1]
+		thisEle.style.background="url(../../image/icon_pay_checked.png) no-repeat right center"
+		thisEle.style.backgroundSize="0.42rem 0.42rem"
+		payMethod = type
+	}
+	
+	function uncheckAll(){
+		for(var i=0;i<divs.length;i++){
+			divs[i].style.background="url(../../image/icon_pay_unchecked.png) no-repeat right center"
+			divs[i].style.backgroundSize="0.42rem 0.42rem"
+		}
+	}
+	
+	function confirmPay(){
+		checkRequestIp(function(requestIp){
+			goPay(requestIp)
+		})
+	
+	}
+	
+	function goDetail(){
+//		if(window.orderType==1){//教辅
+//			api.openWin({
+//	            name: 'orderPayment',
+//	            url: 'orderPayment.html'
+//          });
+//		}else{//课程
+//			api.openWin({
+//	            name: 'orderPaymentCourse',
+//	            url: 'orderPaymentCourse.html'
+//          });
+//		}
+		api.openWin({
+			name : 'orderDetailsTitle',
+			url : '../mine/myorder/orderDetailsTitle.html',
+			pageParam : {
+				info : {
+					orderNo:response.orderNo
+				},
+				tag:2//2代表代付款订单
+			}
+		});
+	}
+	
+	function goPay(requestIp){
+		//确认支付.使用支付宝或微信等
+		api.showProgress({
+        });
+        var body = {}
+        
+        body.method=payMethod+"TradePay"
+        var request = {
+        	"orderNo":response.orderNo,
+			"userId":api.getPrefs({sync:true,key:"userid"}),
+			"tradingPassword":"",
+			"requestIp":requestIp,
+			"walletBalance":0,
+			"tradingAmount":window.sum,
+			"paymentType":payMethod.toUpperCase(),
+			"tradingBussiness":"ORDER"
+		}
+		body.request = request;
+		console.log("body-==-----"+JSON.stringify(body))
+		ajaxRequest(body,function(ret,err){
+			api.hideProgress();
+			console.log("ret-==-----"+JSON.stringify(ret))
+			if(ret){
+				if(ret.responseCode==0){
+					if(ret.responseBody.responseCode==0){
+						if(payMethod=='alipay'){
+							goAliPay(ret.responseBody);
+						}else{
+							goTenPay(ret.responseBody);
+						}
+					}else{
+						alert(ret.responseBody.responseMsg)
+					}
+				}else{
+					alert(ret.responseMsg)
+				}
+			}else{
+				alert(err.msg)
+			}
+		
+		})
+	}
+	
+	function goAliPay(response){
+		var orderInfo = "app_id="+response.app_id
+			+"&biz_content="+response.biz_content
+			+"&charset=UTF-8&format=json&method=alipay.trade.app.pay&notify_url="+response.notify_url
+			+"&sign_type="+response.sign_type+"&timestamp="+response.timestamp+"&version="+response.version
+			+"&sign="+response.sign
+		console.log(JSON.stringify(orderInfo))
+		var aliPay = api.require('aliPay');
+		aliPay.payOrder({
+			orderInfo:orderInfo
+		},function(ret,err){
+			if(ret){
+				if(ret.code==9000){
+					api.toast({
+			            msg:'恭喜,支付成功!',
+			            location:'middle'
+		            });
+					api.openWin({
+			            name: 'paySuccess',
+			            url: 'paySuccess.html',
+			            pageParam:{
+				            orderNo:response.orderNo,
+							orderType:window.orderType,
+							orderSum:window.sum,
+							organizationId:api.pageParam.organizationId
+			            }
+	            	});
+	            }else{
+	            	api.toast({
+		                msg:'您已取消支付,请即时支付!',
+		                location:'middle'
+	                });
+	            }
+			}else{
+				alert(err.msg)
+			}
+		})
+	}
+	function goTenPay(response){
+		var wxPay = api.require('wxPay');
+		var info = {
+			apiKey:response.appid,
+			orderId:response.prepayid,
+			mchId:response.partnerid,
+			nonceStr:response.noncestr,
+			timeStamp:response.timestamp,
+			package:response.package,
+			sign:response.sign
+		}
+		
+		console.log(JSON.stringify(info))
+		wxPay.payOrder(info , function(ret, err) {
+			//TODO 测试:
+			if(ret){
+				if(ret.status){
+					api.toast({
+			            msg:'恭喜,支付成功!',
+			            location:'middle'
+		            });
+					api.openWin({
+			            name: 'paySuccess',
+			            url: 'paySuccess.html',
+			            pageParam:{
+				            orderNo:response.orderNo,
+							orderType:window.orderType,
+							orderSum:window.sum,
+							organizationId:api.pageParam.organizationId
+			            }
+	            	});
+	            }else{
+	            	api.toast({
+		                msg:'您已取消支付,请即时支付!',
+		                location:'middle'
+	                });
+	            }
+			}else{
+				alert(err.msg)
+			}
+		});
+	}
+	
+	
+	function callbackOk(){
+		api.hideProgress();
+		api.toast({
+	        msg:'支付成功,正在跳转!',//成功会跳转到订单页面.
+	        location:'middle'
+        });
+        api.closeToWin({
+	        name: 'root'
+        });
+        
+	}
+	
+	/*
+	 * 取消订单
+	 */
+	function cancelBill(){
+		api.confirm({
+		    title: '确认退出吗',
+		    msg: "确认离开支付页面吗?超过支付时效后订单将被取消,请尽快完成支付!确认离开吗?",
+		    buttons: ['确定', '取消']
+		}, function(ret, err) {
+		    var index = ret.buttonIndex;
+		    if(index==1){
+       			api.closeWin();
+		    }else{
+		    	
+		    }
+		});
+	}
+</script>
+</html>

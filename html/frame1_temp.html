@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>端API</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+		<style>
+			html,body{
+				font-size:0.26rem;
+				background:#F6F6F6;
+				height:100%;
+			}
+			#main{
+				height:100%;
+			}
+			#discover_content.listview {
+				height: 2.4rem;
+			}
+			.listview a {
+				width: 100%;
+				padding-bottom:0.39rem;
+				position :relative;
+				background:#FFF;
+			}
+			.listview a.active {
+				background:#F9F9F9 !important;
+			}
+			#discover_content .pic {
+				width: 2.12rem;
+				height: 1.6rem;
+				margin-left:0.24rem;
+				margin-top:0.39rem;
+				float:left;
+			}
+			#discover_content #right {
+				display: inline-block;
+				margin-left:0.42rem;
+				margin-top:0.4rem;
+				height:1.62rem;
+				width:4.7rem;
+			}
+			#right h2{
+				font-size:0.26rem;
+				color:#333333;
+				height: 0.32rem;
+			}
+			#right div{
+				font-size:0.22rem;
+				color:#666666;
+			}
+			#right .double{
+				width:1.5rem;
+				height: 0.32rem;
+			}
+			.starcontent{
+				display: inline-block;
+				padding: 0;
+				margin: 0;
+			}
+			.starcontent .star{
+				max-width:0.24rem;
+				max-height:0.24rem;	
+				width:0.24rem;
+				height:0.24rem;
+				float: left;
+				margin-left: 0.06rem;
+				
+			}
+			#right .ellipsis-1{
+				display: -webkit-box;
+				-webkit-line-clamp: 1;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				word-wrap: break-word;
+				white-space: normal !important;
+				height: 0.32rem;
+			}
+			#right .imp{
+				color:#F48844;
+			}
+			.listview{
+				position: relative;
+				/*border-bottom: 0.01rem solid #CCCCCC;*/
+			}
+			.listview:after {
+				border-top: 1px solid #c8c7cc;
+				display: block;
+				content: '';
+				position: absolute;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				-webkit-transform-origin: 0 0;
+				-webkit-transform: scaleY(0.5);
+				pointer-events: none;
+			}
+			ul .current{
+				color:#F76249;
+			}
+			
+			/* */
+	    	#filter{
+				height:0.78rem;
+				background:#F6F6F6;
+				overflow-x: hidden;
+				border-bottom:1px solid #CCCCCC;
+				display:none;
+				position: fixed;
+				top:0;
+				width:100%;
+				z-index: 100;
+			}
+			#filter li{
+				float:left;
+				width:33.33%;
+				height:0.78rem;
+				line-height:0.78rem;
+				text-align: center;		
+				background: url(../image/icon_filter_down.png) no-repeat right 0.75rem center;
+				background-size:0.18rem 0.09rem;	
+			}
+			#filter li.current{
+				background: url(../image/icon_filter_up.png) no-repeat right 0.75rem center ;
+				background-size:0.18rem 0.09rem;	
+				color:#F76249;
+				height:0.75rem;
+				border-bottom: 0.03rem solid #FF8344;
+			}
+			#filter li span{
+				font-size:0.26rem;
+				margin-right:0.4rem;
+				width:99%;
+				height:0.46rem;
+				line-height:0.46rem;
+				background:rgba(0,0,0,0)
+			}
+			.head_span{
+				border-right: 1px solid #d9d9d9;
+			}
+			#empty{
+				width:100%;
+				height:100%;
+				text-align: center;
+			}
+			#empty .errnet{
+				height:30%;
+				background:url(../image/icon_net_err.png) no-repeat center bottom ;
+				background-size:2.5rem 2.5rem;
+			}
+			#empty label{
+				margin-top:0.5rem;
+				color:#666666;
+				font-size:0.34rem;
+			}
+			#empty .try{
+				margin:0.3rem auto;
+				width:1.8rem;
+				height:0.6rem;
+				color: #1A9973;
+				font-size:0.34rem;
+				line-height:0.6rem;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="filter">
+			<ul>
+				<li id="category" onclick="filterResult('category')"><span class="head_span">类别</span></li>
+				<li id="place" onclick="filterResult('place')" ><span>地区</span></li>
+				<li id="school" onclick="filterResult('school')" ><span class="head_span">机构</span></li>
+			</ul>
+		</div>
+		<div id="main">
+			<script type="text/x-dot-template" id="discover_template">
+				{{ for(var i=0;i<it.length;i++){ }}
+					<div class="listview">
+						<a tapmode="active" onclick="goDetail({{=i}},'{{=it[i].classId}}','{{=it[i].courseId}}')"> <img class="pic" src="{{=($api.imageUrl+it[i].courseImg)}}" onerror="onImgError(this)" alt="" />
+							<div id="right">
+								<h2 class="ellipsis-1">{{=it[i].courseName}}</h2>
+								<div>
+									老师: <span class="double">{{=it[i].teacherName}}</span>
+									课时: <span >{{=it[i].coursePeriod}}</span>
+								</div>
+								<div>距离:<span class="double">{{=it[i].distance?it[i].distance:''}}KM</span>班级: <span >{{=it[i].className}}</span></div>
+								<div>价格:<span class="double"><span class="imp">{{=it[i].coursePrice}}</span>元</span>已有: <span class="imp" >{{=it[i].registeredPeopers}}</span>人报名</div>
+								<div class="ellipsis-1">地点:<span class="imp"></span> {{=it[i].address}}</div>
+							</div> 
+						</a>
+					</div>
+				{{ } }}
+			</script>
+			<div id="discover_content">
+			</div>
+		</div>
+		<div id="empty" style="display:none">
+			<div class="errnet"></div>
+			<label class="errmsg">网络连接异常</label>
+			<div class="try" onclick="tryAgain()">再试一次</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/common.js"></script>
+	<script type="text/javascript" src="../script/doT.js"></script>
+	<script type="text/javascript" src="../script/zepto.js"></script>
+	<script type="text/javascript">
+		var content;
+		var filter;
+		
+		imready = function() {
+			content = $api.byId("discover_content");
+			filter = $api.byId("filter");
+			api.setRefreshHeaderInfo({
+			    visible: true,
+			    loadingImg: 'widget://image/refresh.png',
+			    bgColor: '#ccc',
+			    textColor: '#fff',
+			    textDown: '下拉刷新...',
+			    textUp: '松开刷新...',
+			    showTime: true
+			}, function(ret, err) {
+				getCoursesList();
+			});
+			getCoursesList();
+			api.addEventListener({
+	            name:'locationChanged'
+            },function(ret,err){
+            	getCoursesList();
+            });
+		}
+		
+		function getLocation() {
+		var baiduLocation = api.require('baiduLocation');
+		baiduLocation.getLocation(function(ret, err) {
+	       if (ret) {
+		        var lon = ret.longitude;
+		        var lat = ret.latitude;
+		        if(lon==0||lat==0){
+		        	//alert("定位失败!请打开GPS开关或手动选择城市.")
+		        	api.setPrefs({
+	                    key:'gpsLocation',
+	                    value:"未知"
+                    });
+                    toastAtMiddle("定位失败!请打开GPS开关或手动选择城市!")
+		        	return;
+		        }
+		        api.setPrefs({
+                    key:'longitude',
+                    value:lon
+                });
+		        api.setPrefs({
+                    key:'gpslongitude',
+                    value:lon
+                });
+		        api.setPrefs({
+                    key:'latitude',
+                    value:lat
+                });
+		        api.setPrefs({
+                    key:'gpslatitude',
+                    value:lat
+                });
+		        api.ajax({
+		        	url:"http://api.map.baidu.com/geocoder/v2/?ak=EB77c29b7b9800e5804ef458fbf3ac67&location="+lat+","+lon+"&output=json&pois=0&qq-pf-to=pcqq.c2c"
+		        },function(ret,err){
+		        	if (ret) {
+		        		if(ret.status==0){
+		        			var city = ret.result.addressComponent.city;
+		        			var address = ret.result.formatted_address;
+		        			alert(address)
+		        			var i = city.indexOf("市");
+		        			if(i!=-1){
+		        				city = city.split('市')[0]
+		        			}
+		        			var currentLocation = api.getPrefs({
+		        				sync:true,
+		        				key:'currentLocation'
+		        			})
+		        			if(!currentLocation){
+		        				api.setPrefs({
+				                    key:'currentLocation',
+				                    value:city
+			                    });
+		        			}else{
+		        			}
+		        			api.setPrefs({
+			                    key:'gpsLocation',
+			                    value:city
+		                    });
+		                    api.sendEvent({
+	                            name:'locationChanged'
+                            });
+                            api.execScript({
+                            	frameName:'frame0',
+	                            script: 'updateLocation();'
+                            });
+		        			api.setPrefs({
+			                    key:'address',
+			                    value:address
+		                    });
+		        		}
+				    }else{
+				        //alert(JSON.stringify(err));
+				        api.toast({
+	                        msg:'定位失败,请手动选择所在城市!',
+	                        location:'middle'
+                        });
+				    }
+		        });
+		    } else {
+		       	api.toast({
+                    msg:'定位失败,请手动选择所在城市!',
+                    location:'middle'
+                });
+                alert("无法定位您的位置,请您打开定位开关,并赋予中棋学生端以定位权限,或者手动选择您所在的城市!")
+		    }
+		});
+	}
+		
+		function getCoursesList(){
+			var lat = api.getPrefs({sync:true,key:"latitude"});
+			var lon = api.getPrefs({sync:true,key:"longitude"});
+			if(!lat||!lon||lat==0||lon==0){
+				showEmpty("没有获取到您的位置信息,请开启定位或者手动选择所在城市!",0);
+				getLocation();
+				return ;
+			}
+			api.showProgress();
+			var body={};
+			body.method="foundCoursePage"
+			body.request={
+				"userId":api.getPrefs({sync:true,key:"userid"}),
+				"latitude": lat,
+				"longitude": lon,
+				"key": ""
+			}
+			ajaxRequest(body,function(ret,err){
+				api.hideProgress();
+				api.refreshHeaderLoadDone();
+				console.log(JSON.stringify(ret))
+				if(ret){
+					if(ret.responseCode==0){
+						if(!ret.responseBody||ret.responseBody.length==0){
+							showEmpty("附近没有任何课程",0);
+						}else{
+							$api.byId("empty").style.display="none"
+							$api.byId("main").style.display="block"
+							window.courseList=(ret.responseBody)
+							fillData(ret.responseBody);
+						}
+					}else{
+						showEmpty(ret.responseMsg);
+					}
+				}else{
+					showEmpty(err.msg);
+				}
+			})
+		}
+		
+		function fillData(ret){
+			getInnerByDot("discover_content","discover_template",ret)
+		}
+		
+		function showEmpty(msg,type){
+			$api.byId("empty").style.display="block"
+			$api.byId("main").style.display="none"
+			$api.dom(".errmsg").innerHTML=msg;
+			if(type==0){
+				$api.dom(".errnet").style.background="url(../image/icon_empty.png) no-repeat center bottom "
+				$api.dom(".errnet").style.backgroundSize="2.18rem 2.18rem";
+			}else{
+				$api.dom(".errnet").style.background="url(../image/icon_net_err.png) no-repeat center bottom "
+				$api.dom(".errnet").style.backgroundSize="2.5rem 2.5rem";
+			}
+		}
+		
+		function tryAgain(){
+			getCoursesList();
+		}
+		
+		function onImgError(el){
+			$api.attr(el,"src","../image/eg_discover.png")
+		}
+
+		function goDetail(index,classid,courseid){
+			var pageParam = {
+				classId : classid,
+				courseId : courseid,
+				courseInfo : window.courseList[index]
+			}
+			console.log(JSON.stringify(pageParam))
+			openWin("coursedetail","discover",pageParam)
+		}
+		function openFilter(h1,h2){
+			window.h1 = h1;
+			window.h2 = h2;
+			filter.style.display="block"
+		}
+		
+		function closeFilter(name,p,c){
+			api.closeFrame({
+				name:'discover_filter'
+            });
+            $api.byId("filter").style.borderBottom="1px solid #CCCCCC"
+			filter.style.display="none"
+			$api.removeCls($api.dom(".current"), "current");
+			if(name){
+				//alert(name+p+c)
+				
+				//TODO 调用接口筛选.
+			}
+		}
+		
+		function showHeader(type){
+			open();
+			$api.byId("filter").style.borderBottom="1px grey hidden"
+			var type = $api.byId(type);
+			var last = $api.dom(".current");
+			$api.removeCls(last, "current");
+			$api.addCls(type, "current");
+		}
+		
+		function filterResult(type){
+			showHeader(type)
+			var y = $api.offset($api.byId("filter")).h+window.h1
+			var h = api.winHeight- y-window.h2;
+			api.openFrame({
+	            name: 'discover_filter',
+	            url: 'discover/discover_filter.html',
+	            pageParam:{
+	            	type:type
+	            },
+	            vScrollBarEnabled:false,
+	            rect: {
+		            x:0,
+		            y:$api.offset($api.byId("filter")).h+window.h1,
+		            w:api.winWidth,
+		            h:h
+	            }
+            });
+            api.sendEvent({
+	            name:'filterEvent',
+	            extra:{
+	            	type:type
+	            }
+            });
+		}
+		
+	</script>
+</html>

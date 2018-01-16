@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>学生选择</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/home/childSelect.css"/>
+    <style>
+    	html,body{
+    		height:100%;
+    		background:#F6F6F6;
+    	}
+    </style>
+</head>
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<div id="header">
+			<a class="back-icon" tapmode="active" onclick="closeWin()" ></a>
+			<h1 id="title">信息确认</h1>
+		</div>
+		<div id="main">
+			<div id="notice">
+				<span class="notice">提示:</span>
+				请确定您孩子信息是否正确
+			</div>
+			<script type="text/x-dot-template" id="child_template">
+			{{ for(var i=0;i<it.length;i++){ }}
+				<dl class="child {{=i==0?'cor':''}}" onclick="selectChild(this,{{=i}})">
+	                <dt>
+	                    <img src="{{=$api.imageUrl+it[i].studentImage}}" alt="">
+	                </dt>
+	                <dd class="ellipsis-1">{{=it[i].studentName}}</dd>
+	            </dl>
+			{{ } }}
+			</script>
+			<div  class="childList" title="">
+				<div id="child_list">
+		            
+				</div>
+	        	<div class="add"></div>
+	        </div>
+	        <script type="text/x-dot-template" id="childinfo_template">
+	        	<div class="item " onclick="openDialog(this,0)">
+	        		<div class="inner-item">
+	        		地区:
+	        		<input class="input" placeholder="请选择省/市/区" value="{{=it.dist?it.dist:''}}" readonly/>
+	        		</div>
+	        	</div>
+	        	<div class="item " onclick="openDialog(this,1)">
+	        	<div class="inner-item">
+	        		学校:
+	        		<input class="input" placeholder="请选择学校" value="{{=it.schoolname?it.schoolname:''}}" readonly>
+	        	</div>
+	        	</div>
+	        	<div class="item " onclick="openDialog(this,2)">
+	        	<div class="inner-item">
+	        		班级:
+	        		<input class="input" placeholder="请选择班级" value="{{=it.classname?it.classname:''}}" readonly>
+	        	</div>
+	        	</div>
+	        	<div class="item noborder">
+	        	<div class="inner-item">
+	        		姓名:
+	        		<input class="input" type="text" placeholder="请输入姓名" value="{{=it.studentname?it.studentname:''}}"/>
+	        	</div>
+	        	</div>
+	        </script>
+	        <div id="childinfo">
+	        </div>
+			<div id="ensure" onclick="complete();">
+				确认完成
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/dist-controller.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript">
+	var UIActionSelector;
+	imready = function(){
+		//var distpicker = $api.byId("distpicker")
+		getInnerByDot("childinfo","childinfo_template",{})
+		UIActionSelector = api.require('UIActionSelector');
+		$api.dom(".add").onclick=function(){
+			//TODO 添加学生.
+			api.openWin({
+				name : 'addname',
+				url : '../mine/addname.html',
+				pageParam:{
+					from:'classroom'
+				}
+			});
+		}
+		/*
+		 * name: 'updateInfo',
+					    extra: {
+					        key1: '添加宝贝',
+					    }
+		 */
+		api.addEventListener({
+	        name:'updateInfo'
+        },function(ret,err){
+        	requestChildren();
+        });
+		requestChildren();
+	};
+	
+	function requestChildren(){
+		api.showProgress();
+		var body =  {
+        	"method":"getSchoolRoomStudents",
+        	"request":{"userId":api.getPrefs({sync:true,key:"userid"})}
+		}
+		ajaxRequest(body,function(ret,err){
+			api.hideProgress();
+			if(ret){
+				if(ret.responseCode==0){
+					if(!ret.responseBody||ret.responseBody.length==0){
+						toastAtMiddle("您还没有添加宝贝,请先添加宝贝信息!")
+					}else{
+						fillChildren(ret.responseBody)
+					}
+				}else{
+					alert(ret.responseMsg)
+				}
+			}else{
+				alert(err.msg)
+			}
+			
+		})
+	}
+	
+	function fillChildren(response){
+		if(response.length>4){
+			$api.dom(".add").style.display="none"
+		}
+		window.childInfo = response;
+		getInnerByDot("child_list","child_template",response)
+		var imgs=$api.domAll("img");
+		for(var i=0;i<imgs.length;i++){
+			imgs[i].onerror=function(){
+				$api.attr(this,"src","../../image/icon_header_default.png")
+			}
+		}
+		showChildInfo(0)
+	}
+	
+	function selectChild(el,index){
+		var last = $api.dom(".cor")
+		if(el==last){
+			return;
+		}	
+		$api.addCls(el, "cor");
+		$api.removeCls(last, "cor");
+		window.activePos = [0,0,0]
+		window.regionId=-1
+		window.schoolId=-1
+		window.classId=-1
+		window.activeSchool=0
+		window.activeClass=0
+		window.schoolList=[]
+		window.classList=[]
+		showChildInfo(index);
+	}
+	
+	function showChildInfo(index){
+		//requestStudentInfo()
+		var info=window.childInfo[index];
+		window.studentInfo = info;
+		var dist = getDistByid(info.institutionRegion)
+		var studentinfo={
+			dist:dist.distname,
+			schoolname:info.institutionName,
+			classname:info.className,
+			studentname:info.studentName
+		}
+		window.activePos = dist.activePosition
+		window.regionId=info.institutionRegion?info.institutionRegion:-1
+		window.schoolId=info.institutionId?info.institutionId:-1
+		window.classId=info.classId?info.classId:-1
+		window.activeSchool=0
+		window.activeClass=0
+		window.schoolList=[]
+		window.classList=[]
+		fillStudent(studentinfo);
+	}
+	
+	function fillStudent(studentinfo){
+		getInnerByDot("childinfo","childinfo_template",studentinfo);
+	}
+	
+	function openDialog(el,tag){
+		switch(tag){
+			case 0:
+			showPicker(distlist,3,"请选择省/市/区",window.activePos,function(ret,err){
+				if(ret){
+					if(ret.eventType=='ok'){//选择了的话
+						console.log(JSON.stringify(ret))
+						el.children[0].children[0].value=ret.level1+"  "+ret.level2+"  "+(ret.level3=='全部'?'':ret.level3)
+						var lastRegionId=window.regionId
+						window.regionId=ret.selectedInfo[2].v;
+						if(lastRegionId==window.regionId){//同样的地区,则不清除下边的信息
+							
+						}else{//切换了地区,则清空学校班级信息
+							window.schoolId="-1"
+							window.classId="-1"
+							var inputs = $api.domAll(".input")
+							inputs[1].value="";
+							inputs[2].value="";
+							window.schoolList=[];
+							window.classList=[];
+							window.activeSchool=0;
+							window.activeClass=0;
+						}
+						var dist = getDistByid(window.regionId)
+						window.activePos=dist.activePosition;
+						requestSchoolListByDist();
+					}
+				}else{
+					//错误
+				}
+			});
+			break;
+			case 1:
+			if(window.schoolList&&window.schoolList.length>0){
+			if(window.schoolList.length<=window.activeSchool){
+					window.activeSchool=0;
+				}
+			showPicker(window.schoolList,1,"请选择校区",[window.activeSchool],function(ret,err){
+				if(ret){
+					if(ret.eventType=='ok'){//选择了的话
+						el.children[0].children[0].value=ret.level1
+						var lastSchoolId = window.schoolId
+						window.schoolId=ret.selectedInfo[0].id
+						if(lastSchoolId==window.schoolId){//同样的学校,则不清除班级
+							
+						}else{//切换了学校,则清空班级信息
+							window.classId="-1"
+							var inputs = $api.domAll(".input")
+							inputs[2].value="";
+							window.classList=[];
+							window.activeClass=0;
+						}
+						for(var i=0;i<window.schoolList.length;i++){
+							var item = window.schoolList[i]
+							if(window.schoolId!=-1&&window.schoolId==item.id){
+								window.activeSchool = i;
+							}
+						}
+						requestClassmateListBySchool();
+					}
+				}else{
+					//错误
+				}
+			});
+			}else{
+				requestSchoolListByDist(el);
+			}
+			break;
+			case 2:
+			if(window.classList&&window.classList.length>0){
+				if(window.classList.length<=window.activeClass){
+					window.activeClass=0;
+				}
+				showPicker(window.classList,1,"请选择班级",[window.activeClass],function(ret,err){
+					if(ret){
+						if(ret.eventType=='ok'){//选择了的话
+							el.children[0].children[0].value=ret.level1
+							var lastClassId = window.classId
+							window.classId=ret.selectedInfo[0].id
+							for(var i=0;i<window.classList.length;i++){
+								var item = window.classList[i]
+								if(window.schooclassIdlId!=-1&&window.classId==item.id){
+									window.activeClass = i;
+								}
+							}
+						}
+					}else{
+						//错误
+					}
+				});
+			}else{
+				requestClassmateListBySchool(el)
+			}
+			break;
+		}
+	}
+	function requestClassmateListBySchool(el,callback){
+		if(window.schoolId==-1){
+			return toastAtMiddle("请先选择进课堂学校!")
+		}
+		api.showProgress();
+		var body =  {
+        	"method":"institutionClassSearch",
+        	"request":{"institutionId":window.schoolId}
+		}
+		ajaxRequest(body,function(ret,err){
+			console.log(JSON.stringify(ret))
+			api.hideProgress();
+			if(ret){
+				if(ret.responseCode==0){
+					if(!ret.responseBody||ret.responseBody.length==0){
+						toastAtMiddle("该学校暂时没有开通进课堂班级,敬请期待!")
+						window.classList=[];
+					}else{
+						//fillChildren(ret.responseBody)
+						var result = ret.responseBody;
+						for(var i=0;i<result.length;i++){
+							var item = result[i];
+							item.name=item.className;
+							if(window.classId&&window.classId!=-1&&window.classId==item.id){
+								window.activeClass = i;
+							}
+						}
+						for(var i=0;i<result.length;i++){
+							if(result[i].classType==1){
+								window.classList.push(result[i])
+							}
+						}
+						if(el){
+							openDialog(el,2)
+						}else{
+							if(callback){
+								callback(ret)
+							}
+						}
+					}
+				}else{
+					alert(ret.responseMsg)
+				}
+			}else{
+				alert(err.msg)
+			}
+			
+		})
+	}
+	function requestSchoolListByDist(el){
+		if(window.regionId==-1){
+			return toastAtMiddle("请先选择进课堂地区!")
+		}
+		api.showProgress();
+		var body =  {
+        	"method":"institutionRegionSearch",
+        	"request":{"regionId":window.regionId}
+		}
+		ajaxRequest(body,function(ret,err){
+			console.log(JSON.stringify(ret))
+			api.hideProgress();
+			if(ret){
+				if(ret.responseCode==0){
+					if(!ret.responseBody||ret.responseBody.length==0){
+						toastAtMiddle("该区域暂时没有开通进课堂课程,敬请期待!")
+						window.schoolList=[]
+					}else{
+						//fillChildren(ret.responseBody)
+						var result = ret.responseBody;
+						for(var i=0;i<result.length;i++){
+							var item = result[i];
+							item.name=item.institutionName;
+							if(window.schoolId&&window.schoolId!=-1&&window.schoolId==item.id){
+								window.activeSchool = i;
+							}
+						}
+						window.schoolList = result;
+						if(el){
+							openDialog(el,1)
+						}
+					}
+				}else{
+					alert(ret.responseMsg)
+				}
+			}else{
+				alert(err.msg)
+			}
+			
+		})
+	}
+	
+	function complete(){
+		var regionId=window.regionId;
+		var schoolId=window.schoolId;
+		var classId=window.classId;
+		if(window.classId==-1){
+			return toastAtMiddle("请完善进课堂班级!")
+		}
+		var inputs = $api.domAll(".input");
+		var msgs = ["请完善进课堂地区","请完善进课堂学校","请完善进课堂班级","请完善宝贝姓名"]
+		for(var i=0;i<inputs.length;i++){
+			if(!inputs[i].value){
+				return toastAtMiddle(msgs[i])
+			}
+		}
+		api.showProgress();
+		if(window.classList.length==0){
+			console.log("需要请求班级内容")
+			requestClassmateListBySchool(null,function(ret){
+				api.hideProgress();
+				if(ret){
+					requestClassRoom();
+				}
+			});
+		}else{
+			requestClassRoom();
+		}
+	}
+	
+	function requestClassRoom(){
+		api.showProgress();
+		var inputs = $api.domAll(".input");
+		var body={
+			method:"insertStudent",
+			request:{
+				studentId:window.studentInfo.studentId,
+				userId:api.getPrefs({sync:true,key:"userid"}),
+				classId:window.classId,
+				studentName:inputs[3].value,
+				className:inputs[2].value,
+				schoolId:window.schoolId,
+				schoolName:inputs[1].value,
+				studentType:0 //0,进课堂 1,收费
+			}
+		}
+		console.log(JSON.stringify(body))
+		ajaxRequest(body,function(ret,err){
+			api.hideProgress();
+			console.log(JSON.stringify(ret))
+			if(ret){
+				if(ret.responseCode==0){
+					if(ret.responseBody>0){
+						var pageParam={
+							studentId:ret.responseBody,
+							classId:window.classId,
+							organizationId:window.classList[0].organizationId
+						}
+						console.log(JSON.stringify(pageParam))
+						requestEntryClassRoom(pageParam);
+					}else{
+						alert("修改学生失败,请稍后再试!")
+					}
+				}else{
+					alert(ret.responseMsg)
+				}
+			}else{
+				alert(err.msg)
+			}
+		});
+	}
+	
+	function requestEntryClassRoom(pageParam){
+		api.showProgress();
+		var body={
+			method:"entrySchoolRoom",
+			request:{
+				"userId":api.getPrefs({sync:true,key:"userid"}),
+				"studentId":pageParam.studentId,
+				"classId":pageParam.classId,
+				"organizationId":pageParam.organizationId
+			}
+		}
+		console.log(JSON.stringify(body))
+		ajaxRequest(body,function(ret,err){
+			api.hideProgress();
+			console.log(JSON.stringify(ret))
+			if(ret){
+				if(ret.responseCode==0){
+//					if(ret.responseBody){
+						openWin("classroom","",pageParam);
+//					}else{
+//						alert("进课堂失败!")
+//					}
+				}else{
+					alert(ret.responseMsg)
+				}
+			}else{
+				alert(err.msg)
+			}
+		})
+	}
+	
+	function showPicker(res,col,text,actives,callback){
+		UIActionSelector.open({
+		    datas: res,
+		    layout: {
+		        row: 5,
+		        col: col,
+		        height: 30,
+		        size: 12,
+		        sizeActive: 14,
+		        rowSpacing: 5,
+		        colSpacing: 10,
+		        maskBg: 'widget://image/icon_bg_dialog.png',
+		        bg: '#fff',
+		        color: '#666',
+		        colorSelected: '#FF8344'
+		    },
+		    animation: true,
+		    cancel: {
+		        text: '取消',
+		        size: 14,
+		        w: 90,
+		        h: 35,
+		        bg: '#fff',
+		        bgActive: '#ccc',
+		        color: '#333',
+		        colorActive: '#fff'
+		    },
+		    ok: {
+		        text: '确定',
+		        size: 14,
+		        w: 90,
+		        h: 35,
+		        bg: '#fff',
+		        bgActive: '#ccc',
+		        color: '#333',
+		        colorActive: '#fff'
+		    },
+		    title: {
+		        text: text,
+		        size: 12,
+		        h: 44,
+		        bg: '#FFF',
+		        color: '#888'
+		    },
+		    actives:actives,
+		    fixedOn:api.frameName
+		}, callback);
+	}
+//	
+//	function closeDialog(){
+//		UIActionSelector.close();
+//	}
+	
+</script>
+</html>

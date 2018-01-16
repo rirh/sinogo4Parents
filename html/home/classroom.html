@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>进课堂</title>
+	<link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+	<style>
+		body {
+		}
+		#header{
+		    background-color: #FF8345;
+		    text-align: center; color: #fff;
+		    width: 100%; position: relative;
+		    height:0.88rem;
+		}
+		#header .back-icon{
+		    display: inline-block; width: 0.88rem; height: 0.88rem;
+		    background: url(../../image/icon_arrow_left.png) no-repeat center center; 
+		    -webkit-background-size: 0.25rem 0.4rem;
+		    background-size: 0.25rem 0.4rem;
+		    position: absolute; left: 0; bottom: 0;
+		}
+		#header .back-icon.active{
+			 background: url(../../image/icon_arrow_left.png) no-repeat center center rgba(0,0,0,0.2); 
+			 background-size: 0.25rem 0.4rem;
+		}
+		#header h1{
+		    font-size: 0.34rem;
+		    height: 0.88rem; line-height: 0.88rem; margin: 0 auto; color: #fff;
+		    width:5rem;
+		}
+		#header .btn_left{
+			 display: inline-block; width: 1.2rem; height: 0.88rem;
+			line-height: 0.88rem;
+			font-size:0.3rem;
+			position: absolute;
+			top: 25px;
+			right:0.88rem;
+			text-align: center;
+		}
+		.badge {
+			padding:2px 5px;
+			float:right;
+			margin-top:0.1rem;
+			position:absolute;
+			top:0.03rem;
+			right:-0.05rem;
+			font-size:0.22rem;
+			line-height:1;
+			color:#fff;
+			background-color:#dd524d;
+			border-radius:10px;
+			display: none;
+		}
+		#header .btn_left.active{
+			background:rgba(0,0,0,0.3);
+		}
+		#header .btn_right{
+			 display: inline-block; width: 0.95rem; height: 0.88rem;
+			line-height: 0.88rem;
+			font-size:0.3rem;
+			position: absolute;
+			top: 25px;
+			right:0;
+			text-align: center;
+		}
+		#header .btn_right.active{
+			background:rgba(0,0,0,0.3);
+		}
+		#protocol{
+			background: #F6F6F6;
+			
+		}
+		.enterc-notice{
+		    height:0.8rem;
+		    line-height: 0.8rem;
+		    background:#f6f6f6;
+		    color:#f48344;
+		    font-size:0.26rem;
+		    width:100%;
+		    border-bottom:0.01rem solid #eee;
+		}
+		.enterc-notice div{
+		    float:left;
+		}
+		.enterc-notice #off{
+			width:0.8rem;
+		}
+		.enterc-notice img{
+		    width:0.26rem;
+		    height:0.26rem;
+		    margin:0.27rem 0.21rem 0 0.23rem;
+		}
+		#marqueediv{
+			
+		}
+		marquee{
+			float:left;
+			width:6.5rem;
+		    height:0.34rem;
+		    line-height:0.34rem;
+		    margin-top:0.23rem;
+		    position: relative;
+		    background:url('../../image/icon_vertical.png') no-repeat center left ;
+		}
+		marquee a{
+		    color:#f48344;
+		}
+	</style>
+	</head>
+	<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<div id="header">
+			<a class="back-icon" tapmode="active" onclick="closeWin()" ></a>
+			<h1 id="title">进课堂</h1>
+			<a tapmode="active" class="btn_left" onclick="btnLeft()" style="display: none" >购物车<span class="badge">2</span></a>
+			<a tapmode="active" class="btn_right" onclick="btnRight()"  >搜索</a>
+		</div>
+		<div id="protocol" class="enterc-notice">
+		    <div id="off" onclick="closeProtocol()"><img src="../../image/icon_cancel.png"/></div>
+		  	<div id="marqueediv" onclick="openProtocol()">
+			  <marquee behavior="scroll"  direction="left">
+			    <a > 点击查看教育部“三棋进课堂文件及教辅购买协议”</a>
+			  </marquee>
+		  	</div>
+		</div>
+	</div>
+	</body>
+	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/common.js"></script>
+	<script type="text/javascript">
+		var db ;
+		imready = function() {
+			handelVersionBelow4($api.dom(".btn_left").style)
+			handelVersionBelow4($api.dom(".btn_right").style)
+			db = api.require('db');
+			var params = api.pageParam;
+		
+			openBookList()
+            //initCartCount();
+		};
+		
+		
+		function openBookList(){
+			var headerPos = $api.offset($api.byId('header'));
+			var y = headerPos.h;
+			var protocolPos = $api.offset($api.byId("protocol"))
+			var y = y + protocolPos.h
+			api.openFrame({
+	            name:"classroom_list",
+	            url:"classroom_list.html",
+	            pageParam:{
+	            	studentId:api.pageParam.studentId,
+	            	classId:api.pageParam.classId,
+	            	organizationId:api.pageParam.organizationId
+	            },
+	            rect: {
+		            x:0,
+		            y:y,
+		            w:api.winWidth,
+		            h:api.winHeight-y
+	            }
+            });	
+		}
+		
+		function initCartCount(){
+			var result = db.executeSqlSync({
+	            name:'sinogostudent',
+	            sql:"CREATE TABLE IF NOT EXISTS shopping_cart(_id INTEGER PRIMARY KEY AUTOINCREMENT,user_id varchar(255),good_id varchar(255),good_name varchar(255), good_spec varchar(255), good_price varchar(255),good_count varchar(255),ts varchar(255))"
+            });
+			var result1 = db.selectSqlSync({
+	            name:'sinogostudent',
+	            sql:'select count(*) from shopping_cart'
+            });
+			var count = result1.data[0]["count(*)"];
+			if(count>0){
+				$api.dom(".badge").style.display="block"
+				$api.dom(".badge").innerHTML=count
+			}
+		}
+		
+		function btnLeft(){
+			openWin("shoppingcart")
+		}
+		
+		function btnRight(){
+			api.openWin({
+				name : "search",
+				url : 'search.html',
+				opaque : true,
+				vScrollBarEnabled : false,
+				animation:{
+				    type:"fade",                //动画类型（详见动画类型常量）
+				    duration:300                //动画过渡时间，默认300毫秒
+				},
+				pageParam:{
+					from:"classroom",
+					studentId:api.pageParam.studentId,
+					classId:api.pageParam.classId,
+					organizationId:api.pageParam.organizationId
+				}
+			});
+		}
+		
+		function openProtocol(){
+			api.openWin({
+	            name: 'protocol',
+	            url: 'protocol.html'
+            });
+		}
+		
+		function closeProtocol(){
+			$api.byId("off").style.display="none";
+			var headerPos = $api.offset($api.byId('header'));
+			var y = headerPos.h;
+			api.setFrameAttr({
+	            name: 'classroom_list',
+	            rect:{
+	            	x:0,
+		            y:y,
+		            w:api.winWidth,
+		            h:api.winHeight-y
+	            }
+            });
+		}
+		
+	</script>
+</html>

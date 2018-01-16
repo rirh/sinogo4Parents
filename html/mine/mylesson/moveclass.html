@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+		<style>
+		.flex-wrap {
+				background: #F0EFF3;
+			}
+			#main{
+			
+			background: #FFFFFF;
+			}
+			header {
+				background: #FF8345;
+				height: 0.88rem;
+				line-height: 0.88rem;
+				text-align: center;
+				   display: -webkit-flex;  /* 新版本语法: Chrome 21+ */
+			    display: flex;          /* 新版本语法: Opera 12.1, Firefox 22+ */
+			    display: -webkit-box;   /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+			    display: -moz-box;      /* 老版本语法: Firefox (buggy) */
+			    display: -ms-flexbox;   /* 混合版本语法: IE 10 */ 
+				color: #323237;
+				color: #ffffff;
+			}
+			.left {
+				text-align:left;
+				display: inline-block;
+				margin-left: 0.23rem;
+				margin-top: 0.175rem;
+				width:0.24rem;
+				height: 0.45rem;
+				background: url(../../../image/back.png);
+				background-size: cover;
+				
+			}
+			.center {
+				  -webkit-flex: 1;        /* Chrome */  
+			    -ms-flex: 1 ;            /* IE 10 */  
+			    flex: 1;                /* NEW, Spec - Opera 12.1, Firefox 20+ */
+			    -webkit-box-flex: 1 ;    /* OLD - iOS 6-, Safari 3.1-6 */  
+			    -moz-box-flex: 1;       /* OLD - Firefox 19- */  
+			    display:block;
+				font-size: 0.34rem;
+			}
+			.right {
+				margin-left: 0.23rem;
+				margin-top: 0.175rem;
+				width:0.24rem;
+				height: 0.45rem;
+				display: inline-block;
+				color: #ffab7a;
+				font-size: 0.30rem;
+				
+			}
+	       .title{
+			height: 2.37rem;
+			background: #FFFFFF;
+				   display: -webkit-flex;  /* 新版本语法: Chrome 21+ */
+			    display: flex;          /* 新版本语法: Opera 12.1, Firefox 22+ */
+			    display: -webkit-box;   /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+			    display: -moz-box;      /* 老版本语法: Firefox (buggy) */
+			    display: -ms-flexbox;   /* 混合版本语法: IE 10 */ 
+			position: relative;
+			}
+			.title:after{
+	        border-bottom: 1px solid #d9d9d9;
+    		content:"";
+    		display:block;
+    		position:absolute;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+	   
+	   }
+			.tleft{
+			
+			margin-top: 0.3rem;
+			margin-left: 0.23rem;
+			display: inline-block;
+			height: 1.62rem;
+			width: 2.58rem;
+			background: url(../../../image/mine/mylesson.png);
+			background-size: cover;
+			}
+			.tright{
+			 width:0%;
+				display:block;
+			   -webkit-flex: 1;        /* Chrome */  
+			    -ms-flex: 1 ;            /* IE 10 */  
+			    flex: 1;                /* NEW, Spec - Opera 12.1, Firefox 20+ */
+			    -webkit-box-flex: 1 ;    /* OLD - iOS 6-, Safari 3.1-6 */  
+			    -moz-box-flex: 1;       /* OLD - Firefox 19- */  
+			margin-left: 0.38rem;
+			margin-top: 0.3rem;
+			margin-right: 0.23rem;
+			}
+			
+			.p1{
+			
+			height:0.88rem;
+			text-align:left;
+			line-height:0.293rem;
+			letter-spacing:-0.01rem;
+			color: #333333;
+			font-size: 0.26rem;
+			text-overflow: 
+			-o-ellipsis-lastline!important;
+			overflow: hidden;
+			text-overflow: ellipsis!important;
+			display: -webkit-box;
+			-webkit-line-clamp: 3!important;
+			-webkit-box-orient: vertical;
+			}
+			.p2{
+			color: #666666;
+			font-size: 0.24rem;
+			margin-top: 0.28rem;
+			overflow:hidden;
+			text-overflow:ellipsis;
+			white-space:nowrap;
+			word-break:keep-all; 
+			
+			}
+			.p3{
+			color: #666666;
+			font-size: 0.24rem;
+			overflow:hidden;
+			text-overflow:ellipsis;
+			white-space:nowrap;
+			word-break:keep-all; 
+			
+			}
+			  .endtab{
+	        position:fixed;
+	        bottom:0;
+			height: 0.98rem;
+			background: #f6f6f6;
+			border-top-color: #EEEEEE;
+			width:100%;
+			border-top:#EEEEEE solid 0.01rem; 
+			margin-bottom: 0;
+			background: #FF8345;
+			font-size: 0.34rem;
+			text-align: center;
+			line-height: 0.98rem;
+			color: #FFFFFF;
+			}
+	
+      .touch{
+      background: #EEEEEE;
+      }
+      .value{
+			margin-top:0.2rem;
+			background: #FFFFFF;
+			
+			}
+			
+       .edugroup{
+       color:#ff8345;
+       
+       }
+       .value{
+       margin-top: 0.29rem;
+       }
+       .valuebox{
+        display: -webkit-flex;  /* 新版本语法: Chrome 21+ */
+			    display: flex;          /* 新版本语法: Opera 12.1, Firefox 22+ */
+			    display: -webkit-box;   /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+			    display: -moz-box;      /* 老版本语法: Firefox (buggy) */
+			    display: -ms-flexbox;   /* 混合版本语法: IE 10 */ 
+       height: 0.8rem;
+       background: #FFFFFF;
+       
+       }
+       .vleft{
+       display: inline-block;
+       margin-left: 0.23rem;
+       line-height: 0.8rem;
+       text-align: left;
+       font-size: 0.28rem;
+       color: #333333;
+       
+       }
+	   .vright{
+      width:0%;
+				display:block;
+			   -webkit-flex: 1;        /* Chrome */  
+			    -ms-flex: 1 ;            /* IE 10 */  
+			    flex: 1;                /* NEW, Spec - Opera 12.1, Firefox 20+ */
+			    -webkit-box-flex: 1 ;    /* OLD - iOS 6-, Safari 3.1-6 */  
+			    -moz-box-flex: 1;       /* OLD - Firefox 19- */  
+	   line-height: 0.8rem;
+       text-align: left;
+       font-size: 0.28rem;
+       color: #666666;
+	   overflow:hidden;
+		text-overflow:ellipsis;
+		white-space:nowrap;
+	    word-break:keep-all; 
+	   }
+	   .line{
+	   height: 0.01rem; width:100%;  margin-left: 0.23rem; 
+	   position: relative;
+	   
+	   }
+	   .line:after{
+	   border-bottom: 1px solid #d9d9d9;
+    		content:"";
+    		display:block;
+    		position:absolute;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+	   
+	   }
+	   .colorfor{
+	   background: #f6f6f6;
+	   
+	   }
+		</style>
+	</head>
+	<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+			<header>
+				<div class="left" onclick="cancel()">
+				
+				</div>
+				<div class="center">
+					申请调班
+				</div>
+				<div class="right" >
+					
+				</div>
+			</header>
+			<div id="main" class="flex-con">
+			</div>
+			<script type="template" id="dotTmpl">
+			<div class="colorfor">
+				 <div class="title">
+					<div class="tleft"></div>
+					<div class="tright">
+						<p class="p1">{{=it[0].title}}</p>
+						<p class="p2">总课时：<span class="lessnum">{{=it[0].lesson}}</span></p>
+						<p class="p3">教育机构:<span class="edugroup">{{=it[0].school}}</span></p>
+					</div>
+				 </div>
+                 <div class="value" id="value">
+	                <div class="valuebox">
+	                <div class="vleft">学员：</div>
+	                <div class="vright name">{{=it[0].studentname}}</div>
+	                </div>
+	             <hr  class="line"/>
+	               <div class="valuebox">
+	                <div class="vleft ">班级：</div>
+	                <div class="vright sclass">{{=it[0].classrome}}</div>
+	                </div>
+    <hr  class="line"/>	               <div class="valuebox">
+	                <div class="vleft ">授课老师：</div>
+	                <div class="vright steacher">{{=it[0].teacher}}</div>
+	                </div>
+    <hr  class="line"/>	               <div class="valuebox">
+	                <div class="vleft ">剩余课次：</div>
+	                <div class="vright surplusless">{{=it[0].classtime}}</div>
+	                </div>
+    <hr  class="line"/>	               <div class="valuebox">
+	                <div class="vleft ">上课地点：</div>
+	                <div class="vright classroom">{{=it[0].adder}}</div>
+	                </div>
+    <hr  class="line"/>				 <div class="endtab">
+					确认调班
+			     </div>
+		  	   </div>
+			</div>
+			</div>
+	     </script>
+		
+	</body>
+	<script type="text/javascript" src="../../../script/api.js"></script>
+	<script type="text/javascript" src="../../../script/doT.js"></script>
+	<script type="text/javascript" src="../../../script/common.js"></script>
+	
+	<script type="text/javascript">
+	date();
+	function date(){
+	var json =[];
+	var list={};
+	list.title='对小学 一年级到三年级左右的少年开设的围棋课程，版主其初步了解围棋基本规则对小学 一年级到三年级左右的少年开设的围棋课程，版主其初步了解围棋基本规则';
+	list.lesson=parseInt( Math.random()*200);
+	list.school='中国围棋教育';
+	list.studentname='张一山';
+	list.classrome='围棋二班';
+	list.teacher='王重阳';
+	list.classtime='剩余13课次';
+	list.adder='北京市朝阳区大屯路南200米希望小学';
+	json.push(list);
+	var tmpl = doT.template($api.text($api.dom("#dotTmpl")));
+	$api.html($api.dom("#main"), tmpl(json)); 
+	}
+	function cancel(){
+	api.closeWin({
+    });
+	
+	}
+		imready = function() {
+		date();
+			$api.css($api.dom('.flex-word'), '	height: ' + api.frameHeight + 'px');
+				
+		};
+	</script>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+		<style>
+			.flex-wrap {
+				background: #FFFFFF;
+			}
+			#wrap img {
+				width: 2.05rem;
+				height: 2.11rem;
+				margin-left: 2.525rem;
+				margin-top: 1.8rem;
+			}
+			#wrap p {
+				height: 0.66rem;
+				line-height: 0.66rem;
+				text-align: center;
+				font-size: 0.28rem;
+				color: #666;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap" class="flex-wrap flex-vertical">
+			<img src="../../../image/mine/noLesson.png"/>
+			<p>
+				暂无课程信息，请先报名课程
+			</p>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../../script/api.js"></script>
+	<script type="text/javascript" src="../../../script/doT.js"></script>
+	<script type="text/javascript" src="../../../script/common.js"></script>
+	<script type="text/javascript">
+		apiready = function() {
+			//api.frameHeight
+			var tab = api.pageParam.tab;
+			console.log(tab)
+			if(tab==1){
+				$api.html($api.dom("p"), "暂未添加宝贝,请添加孩子后再试!");
+			}
+			$api.css($api.dom("#wrap img"), "margin-top");
+		};
+	</script>
+</html>

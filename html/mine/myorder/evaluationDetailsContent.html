@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+		<style>
+			.flex-wrap {
+				background: #F0EFF3;
+			}
+			.title {
+				height: 2.37rem;
+				background: #FFFFFF;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older         WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+			}
+			.tleft {
+				margin-top: 0.3rem;
+				margin-left: 0.23rem;
+				display: block;
+				height: 1.62rem;
+				width: 2.58rem;
+				background: url(../../../image/mine/mylesson.png);
+				background-size: cover;
+			}
+			.tright {
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				display: block;
+				margin-left: 0.38rem;
+				margin-top: 0.3rem;
+				margin-right: 0.23rem;
+			}
+			.p1 {
+				height: 0.58rem;
+				text-align: left;
+				line-height: 0.293rem;
+				color: #333333;
+				font-size: 0.3rem;
+				text-overflow: -o-ellipsis-lastline !important;
+				overflow: hidden;
+				text-overflow: ellipsis !important;
+				display: -webkit-box;
+				-webkit-line-clamp: 2 !important;
+				-webkit-box-orient: vertical;
+			}
+			.p2 {
+				color: #333333;
+				font-size: 0.26rem;
+				margin-top: 0.28rem;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				word-break: keep-all;
+			}
+			.p3 {
+				color: #666666;
+				font-size: 0.24rem;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				word-break: keep-all;
+			}
+			.edugroup {
+				color: #FF8345;
+			}
+			.value {
+				background: #FFFFFF;
+				margin-top: 0.39rem;
+				border-top: #d9d9d9 solid 0.01rem;
+			}
+			.office {
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older         WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				border-bottom: #d9d9d9 solid 0.01rem;
+			}
+			.offleft {
+				display: inline-block;
+				width: 0.44rem;
+				height: 0.44rem;
+				margin: 0 auto;
+				margin-top: 0.175rem;
+				margin-left: 0.23rem;
+				border-radius: 0.44rem;
+				background-repeat: no-repeat;
+				background-size: 100% !important;
+			}
+			.default {
+				background: url(../../../image/mine/checkboxf.png) no-repeat;
+				background-size: cover;
+			}
+			.active {
+				background: url(../../../image/mine/checkboxt.png) no-repeat;
+				background-size: cover;
+			}
+			.offright {
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				color: #666666;
+				font-size: 0.28rem;
+				display: block;
+				margin-left: 0.23rem;
+				line-height: 0.79rem;
+				text-align: left;
+			}
+			.mtittle {
+				width: 100%;
+				height: 1.9rem;
+				background: #FFFFFF;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older         WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+			}
+			.mtleft {
+				margin-top: 0.38rem;
+				margin-left: 0.23rem;
+				display: inline-block;
+				height: 1.14rem;
+				width: 1.42rem;
+				background: url(../../../image/mine/go.png);
+				background-size: cover;
+			}
+			.mtright {
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				display: inline-block;
+				margin-left: 0.39rem;
+				margin-right: 0.23rem;
+			}
+			.mp1 {
+				text-align: left;
+				line-height: 0.293rem;
+				color: #333333;
+				font-size: 0.3rem;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				word-break: keep-all;
+			}
+			.mp2 {
+				margin-top: 0.18rem;
+				color: #666666;
+				font-size: 0.24rem;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				word-break: keep-all;
+			}
+			.mp3 {
+				margin-top: 0.18rem;
+				color: #666666;
+				font-size: 0.24rem;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				word-break: keep-all;
+			}
+			.otittle {
+				height: 0.79rem;
+				background: #FFFFFF;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older         WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+			}
+			.otleft {
+				display: inline-block;
+				font-size: 0.28rem;
+				line-height: 0.79rem;
+				margin-left: 0.23rem;
+				color: #666666;
+			}
+			.otright {
+				display: inline-block;
+				margin-top: 0.215rem;
+				margin-right: 0.23rem;
+				float: right;
+			}
+			.r2 {
+				height: 0.36rem;
+				width: 1.28rem;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older         WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				margin-right: 0.23rem;
+				float: right;
+			}
+			.op1 {
+				display: block;
+				height: 0.36rem;
+				width: 0.36rem;
+				text-align: center;
+				line-height: 0.36rem;
+				background: #f0f0f0;
+				color: #999999;
+				font-size: 0.3rem;
+			}
+			.op2 {
+				line-height: 0.36rem;
+				display: block;
+				color: #666666;
+				width: 0.56rem;
+				text-align: center;
+				font-size: 0.24rem;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				word-break: keep-all;
+			}
+			.op3 {
+				line-height: 0.36rem;
+				display: block;
+				height: 0.36rem;
+				width: 0.36rem;
+				text-align: center;
+				background: #f0f0f0;
+				color: #999999;
+				font-size: 0.3rem;
+			}
+			.bmbox {
+				border-bottom: #CCCCCC solid 0.01rem;
+				border-top: #CCCCCC solid 0.01rem;
+				margin-top: 0.4rem;
+				background: #FFFFFF;
+			}
+			.mbox {
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older         WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				height: 0.88rem;
+				display: none;
+			}
+			.mmbox{
+			height: 0.88rem;
+			
+			}
+			.bleft {
+				display: inline-block;
+				color: #333333;
+				line-height: 0.88rem;
+				margin-left: 0.23rem;
+				font-size: 0.3rem;
+			}
+			.bcenter {
+				display: block;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				color: #aaaaaa;
+				text-align: right;
+				margin-right: 0.17rem;
+				line-height: 0.88rem;
+				font-size: 0.26rem;
+			}
+			.bright {
+				display: inline-block;
+				width: 0.16rem;
+				height: 0.28rem;
+				margin: 0 auto;
+				margin-top: 0.31rem;
+				margin-right: 0.23rem;
+				background: url(../../../image/mine/change.png);
+				background-size: cover;
+			}
+			#main .datails {
+				height: 0.8rem;
+				background: #fff;
+				line-height: 0.8rem;
+				font-size: 0.28rem;
+				color: #333;
+				position: fixed;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older         WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				top: 0;
+				width: 100%;
+				border-bottom: #EEEEEE solid 1px;
+				z-index: 2;
+			}
+			#main .datails .datailsleft {
+				-webkit-flex: 2; /* Chrome */
+				-ms-flex: 2; /* IE 10 */
+				flex: 2; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 2; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 2; /* OLD - Firefox 19- */
+				height: 0.8rem;
+				color: #333;
+				display: block;
+				margin-left: 0.23rem;
+			}
+			#main .datails .datailsright {
+					-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				height: 0.8rem;
+				background: #fff;
+				display: block;
+				text-align: right;
+				color: #FF8344;
+				margin-right: 0.23rem;
+			}
+			#main .datails .datailsleft p {
+				color: #666;
+				display: inline-block;
+				margin-left: 0.05rem;
+			}
+			#main .endtab {
+				position: fixed;
+				bottom: 0;
+				height: 0.98rem;
+				background: #fff;
+				width: 100%;
+				border-top: #EEEEEE solid 1px;
+				margin-bottom: 0;
+			}
+			#main .endtab .endtableft {
+				float: left;
+				width: 40%;
+				height: 0.98rem;
+			}
+			#main .endtab .endtableft div {
+				font-size: 0.26rem;
+				color: #999;
+				margin-left: 0.23rem;
+			}
+			#main .endtab .endtableft .timeTips {
+				margin-top: 0.16rem;
+			}
+			#main .endtab .endtabright {
+				float: left;
+				width: 60%;
+				height: 0.98rem;
+			}
+			#main .endtab .endtabright p {
+				margin-top: 0.18rem;
+				height: 0.62rem;
+				width: 1.81rem;
+				border-radius: 0.1rem;
+				display: inline-block;
+				margin-right: 0.3rem;
+				line-height: 0.62rem;
+				text-align: center;
+				font-size: 0.30rem;
+			}
+			#cancelOrder {
+				background: #fff;
+				color: #fff;
+			}
+			#buyAgain {
+				background: #FF8344;
+				color: #FFFFFF;
+			}
+			.shopbox {
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older         WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				margin-top: 0.29rem;
+				background: #FFFFFF;
+				height: 0.88rem;
+			}
+			.item1 {
+				display: block;
+				height: 0.6rem;
+				width: 0.6rem;
+				border-radius: 0.6rem;
+				margin-left: 0.23rem;
+				margin-top: 0.14rem;
+				background: #FF8344;
+				display: none;
+			}
+			.item2 {
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				display: block;
+				margin-left: 0.23rem;
+				line-height: 0.88rem;
+			}
+			.oitem {
+				font-size: 0.28rem;
+				height: 0.88rem;
+				line-height: 0.88rem;
+			}
+			.item3 {
+				display: block;
+				line-height: 0.88rem;
+				font-size: 0.28rem;
+				color: #333333;
+				font-size: 0.26rem;
+				margin-right: 0.23rem;
+			}
+			.item4 {
+				width: 0.14rem;
+				height: 0.26rem;
+				margin-top: 0.31rem;
+				margin-right: 0.23rem;
+				display: block;
+				background-size: cover;
+			}
+			.oitem1 {
+				float: left;
+				display: block;
+				font-size: 0.26rem;
+				color: #666666;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				word-break: keep-all;
+			}
+			.oitem3 {
+				float: left;
+				display: block;
+				font-size: 0.26rem;
+				color: #333;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				word-break: keep-all;
+			}
+			.oitem2 {
+				float: right;
+				display: block;
+				font-size: 0.26rem;
+				color: #FF8344;
+				margin-right: 0.3rem;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				word-break: keep-all;
+			}
+			.statistics {
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				height: 0.88rem;
+				line-height: 0.88rem;
+				font-size: 0.24rem;
+				color: #999999;
+				text-align: right;
+				padding-right: 0.23rem;
+				border-bottom: #d9d9d9 solid 0.01rem;
+				border-top: #d9d9d9 solid 0.01rem;
+				background: #FFFFFF;
+			}
+			.control {
+				height: 0.88rem;
+				font-size: 0.26rem;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older         WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				background: #FFFFFF;
+				color: #FFFFFF;
+			}
+			.cleft {
+				display: block;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+			}
+			.ccenter {
+				text-align: center;
+				display: block;
+				height: 0.5rem;
+				width: 1.38rem;
+				line-height: 0.5rem;
+				border-radius: 0.02rem;
+				background: #AAAAAA;
+				margin-top: 0.19rem;
+			}
+			.cright {
+				text-align: center;
+				line-height: 0.5rem;
+				display: block;
+				height: 0.5rem;
+				width: 1.38rem;
+				margin-left: 0.3rem;
+				margin-right: 0.23rem;
+				border-radius: 0.02rem;
+				background: #FF8344;
+				margin-top: 0.19rem;
+			}
+			.order {
+				background: #f6f6f6;
+				border-bottom: #CCCCCC solid 0.01rem;
+			}
+			.shopvalue {
+				background: #FFFFFF;
+			}
+			#line {
+				position: relative;
+			}
+			#line:after {
+				border-bottom: 1px solid #d9d9d9;
+				content: "";
+				display: block;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				-webkit-transform-origin: 0 0;
+				-webkit-transform: scaleY(0.5);
+			}
+			#main #orderStatistics {
+				background: #fff;
+				color: #666;
+			}
+			#main #orderStatistics #orderBox {
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+			}
+			#main #orderStatistics .statileft {
+				text-align: left;
+				margin-left: 0.23rem;
+				width: 0%;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+			}
+			#main #orderStatistics .statiRight {
+				color: #FF8344;
+				text-align: right;
+				margin-right: 0.26rem;
+				width: 0%;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+			}
+			#main #orderStatistics .orderPayment {
+				text-align: right;
+				margin-right: 0.26rem;
+				height: 0.64rem;
+				line-height: 0.64rem;
+				font-size: 0.26rem;
+			}
+			#main #orderStatistics .orderPayment p {
+				display: inline-block;
+				color: #FF8344;
+			}
+			#main #orderStatistics .orderPayment a {
+				display: inline-block;
+				color: #999;
+			}
+			#main #orderStatistics .shopPaice {
+				height: 0.7rem;
+				line-height: 0.7rem;
+				font-size: 0.28rem
+			}
+			#main #orderStatistics .miniShopPaice {
+				height: 0.5rem;
+				line-height: 0.5rem;
+				font-size: 0.26rem
+			}
+			.orderPaymentColor {
+				color: #333;
+			}
+			.shopNumberBox{
+			position: relative;
+			}
+			.shopNumber{
+			position: absolute;
+			right: 0.23rem;
+			bottom: 0.48rem;
+			font-size: 0.23rem;
+			color: #333;
+						}
+		</style>
+	</head>
+	<body>
+		<div id="wrap" class="flex-wrap flex-vertical">
+			<div id="main" class="flex-con">
+				<div class="datails">
+					<div class="datailsleft">
+						订单号：
+						<p id="orderNum">
+						
+						</p>
+					</div>
+					<div class="datailsright" id="orderStust">
+						unfinsh
+					</div>
+				</div>
+				<div class="datailsbox">
+					1
+				</div>
+				<div class="bmbox">
+					<div class="mbox" tapmode= 'touch'  >
+						<div class="bleft">
+							发票信息
+						</div>
+						<div class="bcenter pick">
+							无需
+						</div>
+						<div class="bright"></div>
+					</div>
+					<div class="mbox" tapmode= 'touch' >
+						<div class="bleft">
+							使用中期币
+						</div>
+						<div class="bcenter money">
+							不使用
+						</div>
+						<div class="bright"></div>
+					</div>
+					<div id="line"></div>
+					<div id="orderStatistics">
+						<div id="orderBox"class="shopPaice">
+							<div class="statileft orderPaymentColor" >
+							
+								商品总价
+							</div>
+							<div class="statiRight" id="toale">
+								￥100
+							</div>
+						</div>
+						<div id="orderBox"class="miniShopPaice" style="display: none">
+							<div class="statileft ">
+								+运费
+							</div>
+							<div class="statiRight">
+								￥100
+							</div>
+						</div>
+						<div id="orderBox"class="miniShopPaice" style="display: none">
+							<div class="statileft ">
+								-折扣
+							</div>
+							<div class="statiRight">
+								￥100
+							</div>
+						</div>
+						<div id="line" style="margin-left: 0.23rem"></div>
+						<div class="orderPayment orderPaymentColor" >
+							需付款：
+							<p  id="toales">
+								￥200
+							</p>
+						</div>
+						<div class="orderPayment" style="color: #666">
+							下单时间：<a>2017-1-1 15:12:00</a>
+						</div>
+					</div>
+					<div id="line"></div>
+				</div>
+				<div class="endtab">
+					<div class="endtableft">
+						<div class="timeTips">
+						
+						</div>
+						<div id="remainingTime">
+						</div>
+					</div>
+					<div class="endtabright">
+						<p  id="cancelOrder">
+							取消订单
+						</p>
+						<p id="buyAgain">
+							评价
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</body>
+	<script type="template" id="dotTmpl">
+		<div style="height: 0.8rem;width: 100%"></div>
+		{{for(var i = 0 ; i<it.length;i++){}}
+		<div id="line"></div>
+		<div class="order" >
+		<div id="line"></div>
+		<div class="shopbox" onclick="details('{{=it[i].state}}')">
+		<div class="item1"></div>
+		<div class="item2">
+		<div class="oitem" >
+		<div  class="oitem3 ">{{=it[i].name}}</div>
+		<div  class="oitem1"></div>
+		<div  class="oitem2"></div></div>
+		</div>
+		<div class="item3" ></div>
+		<div class="item4" ></div>
+		</div>
+		<div id="line"></div>
+		<div class="shopvalue">
+		{{for(var j = 0 ; j<it[i].shop.length;j++){}}
+		<div>
+		<div class="title shopNumberBox">
+		<img class="tleft" src="{{=it[i].shop[j].img?it[i].shop[j].img:'../../../image/mine/mylesson.png'}}"/>
+		<div class="tright">
+		<p class="p1">{{=it[i].shop[j].goodsName}}</p>
+		<p class="p3">价格:<span class="edugroup">{{=it[i].shop[j].price}}</span></p>
+			<span class="shopNumber">X{{=it[i].shop[j].goodsNum}}</span>
+		</div>
+		</div>
+		<div id="line" style="margin-left: 0.23rem"></div>
+		{{  } }}
+		</div>
+		</div>
+		<div id="line"></div>
+		{{  } }}
+	</script>
+	<script type="text/javascript" src="../../../script/api.js"></script>
+	<script type="text/javascript" src="../../../script/doT.js"></script>
+	<script type="text/javascript" src="../../../script/common.js"></script>
+	
+	<script type="text/javascript">
+		var userid;
+		//待支付1、已取消2、待发货3、已发货4、已收货5、订单完成6、已评价7、已删除0
+		var orderStatus;
+		var pageindex = 1;
+		var pagesize = 20;
+		var loadEnd = false;
+		//分页数量
+		var page;
+		//数据库返回数据
+		var bcakHttpInfo;
+		var stauts = ["已删除", "待支付", "已取消", "待发货", "已发货", "已收货", "订单完成", "已评价"]
+		function dates() {
+			var json = [];
+			for (var i = 0; i < bcakHttpInfo.orderStudentDetails.length; i++) {
+				var list = {};
+				list.name = bcakHttpInfo.orderStudentDetails[i].studentName;
+				var shop = new Array();
+				for (var j = 0; j < bcakHttpInfo.goodsOrderDetails.length; j++) {
+					var olist = {};
+					olist.goodsName = bcakHttpInfo.goodsOrderDetails[j].goodsName;
+					olist.img = $api.imageUrl + bcakHttpInfo.goodsOrderDetails[j].goodsPreview;
+					olist.price = bcakHttpInfo.goodsOrderDetails[j].goodsPrice;
+					var tempNum = bcakHttpInfo.goodsOrderDetails[j].goodsNum/bcakHttpInfo.orderStudentDetails.length;
+					olist.goodsNum = isInteger(tempNum)?tempNum:(parseInt(tempNum)+1);
+					shop.push(olist);
+				}
+				list['shop'] = shop;
+				list.tips = bcakHttpInfo.goodsOrderDetails.length + '件商品共计' + bcakHttpInfo.orderAmount + '元';
+				json.push(list);
+			}
+			var tmpl = doT.template($api.text($api.dom("#dotTmpl")));
+			$api.dom('.datailsbox').innerHTML = tmpl(json);
+		}
+       var onRemainingTime;
+		function getHotCities() {
+			var data = {};
+			data.method = "goodsDetailSearch";
+			data.request = {
+				"userId" : api.getPrefs({
+	                sync:true,
+	                key:'userId'
+                }),
+				"orderNo" : api.pageParam.info.orderNo
+			}, api.showProgress();
+			console.log("我的订单详情请求数据：" + JSON.stringify(data));
+			ajaxRequest(data, function(ret, err) {
+			api.hideProgress();
+				if (ret) {
+					console.log("我的订单详情成功返回数据：" + JSON.stringify(ret));
+					if (ret.responseCode == 0) {
+						bcakHttpInfo = ret.responseBody;
+						$api.text($api.dom("#orderNum"),bcakHttpInfo.orderNo+"");
+						$api.text($api.dom("#orderStust"), bcakHttpInfo.orderStatusName+"");
+						$api.text($api.dom(" #toale  "), "￥"+bcakHttpInfo.totalAmount);
+						$api.text($api.dom(" #toales  "), "￥"+bcakHttpInfo.totalAmount);
+						$api.text($api.dom("#main #orderStatistics .orderPayment a"), bcakHttpInfo.orderTime);
+					    dates();
+					    $api.addEvt($api.dom("#buyAgain"), "click", function(){
+					     api.openWin({
+	                         name: 'score',
+	                         url: 'score.html',
+	                         pageParam:{orderNo:api.pageParam.info}
+                         });
+					    });
+					}
+				} else {
+					console.log("我的订单详情成功返回数据：" + JSON.stringify(err));
+				}
+			})
+		}
+
+		var interval = 1000;
+		function ShowCountDown(year, month, day, divname) {
+			var now = new Date();
+			var formt = year+"/"+(month - 1)+ "/"+day+ " "+divname;
+			var endDate = new Date(formt);
+			var leftTime = endDate.getTime() - now.getTime();
+			var leftsecond = parseInt(leftTime / 1000);
+			//var day1=parseInt(leftsecond/(24*60*60*6));
+			var day1 = Math.floor(leftsecond / (60 * 60 * 24));
+			var hour = Math.floor((leftsecond - day1 * 24 * 60 * 60) / 3600);
+			var minute = Math.floor((leftsecond - day1 * 24 * 60 * 60 - hour * 3600) / 60);
+			var second = Math.floor(leftsecond - day1 * 24 * 60 * 60 - hour * 3600 - minute * 60);
+			$api.dom("#remainingTime").innerHTML = hour + "小时" + minute + "分" + second + "秒";
+		    if(endDate>now){
+		    clearInterval(onRemainingTime);
+		    $api.css($api.dom(".endtab"),"display:none");
+		    }
+		}
+
+		imready = function() {
+			$api.css($api.dom('.flex-word'), '	height: ' + api.frameHeight + 'px');
+			getHotCities();
+		};
+	</script>
+</html>

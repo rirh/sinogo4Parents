@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+    	html,body{
+    		
+    		background:#F6F6F6;
+    	}
+    	#main{
+    	}
+    	#head{
+    		height:0.82rem;
+    	}
+    	#head h2{
+    		font-size:0.28rem;
+    		padding-left:0.24rem;
+    		padding-top:0.25rem;
+    		color:#333333;
+    		float:left;
+    	}
+    	#head span{
+    		float:right;
+    		font-size:0.24rem;
+    		padding-top:0.25rem;
+    		padding-right:0.23rem;
+    		color:#aaa;
+    	}
+    	 p{
+    		font-size:0.24rem;
+    		color:#666666;
+    		padding-left:0.24rem;
+    		padding-right:0.23rem;
+    		padding-bottom:0.3rem;
+    		display:block;
+    	}
+    	#classinfo.listview {
+			height: 2.15rem;
+			width: 100%;
+		}
+		#classinfo a {
+			width: 100%;
+			height: 2.15rem;
+			background:#FFF;
+			position :relative;
+		}
+		#classinfo a.active{
+			background:#EEEEEE !important;
+		}
+		#classinfo img {
+			width: 2.6rem;
+			height: 1.6rem;
+			margin-left:0.23rem;
+			margin-top:0.28rem;
+			float:left;
+		}
+		#classinfo #right {
+			display: inline-block;
+			margin-left:0.42rem;
+			margin-top:0.28rem;
+			width:4.2rem;
+			height:1.6rem;
+			line-height:0.4rem;
+		}
+		#right h2{
+			font-size:0.25rem;
+			color:#333333;
+		}
+		#right div{
+			font-size:0.24rem;
+			color:#666666;
+		}
+		#right .double{
+		}
+		#right .ellipsis-1{
+			display: -webkit-box;
+			-webkit-line-clamp: 1;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			word-wrap: break-word;
+			white-space: normal !important;
+		}
+		#right .imp{
+			color:#F48844;
+		}
+		.listview{
+			position: relative;
+		}
+		.listview:before{
+			border-top:  1px solid #e8e8e8;
+			display: block;
+			content: '';
+			pointer-events: none;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+		.listview:after{
+			border-bottom:  1px solid #e8e8e8;
+			display: block;
+			content: '';
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			pointer-events: none;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+    </style>
+</head>
+<body>
+	<script type="text/x-dot-tempate" id="main_template">
+		<div id="head">
+			<h2>{{=it.messageTitle}}</h2>
+			<span>{{=it.messageTime}}</span>
+		</div>
+		<p>
+			{{=it.messageContent}}
+		</p>	
+	</script>
+	<!--<div id="classinfo">
+		<div class="listview">
+			<a tapmode="active" onclick="openClassDetail('{{=it.classInfo.id}}')" > <img  src="{{=it.classInfo.url}}" alt="" />
+				<div id="right">
+					<h2 class="ellipsis-1">{{=it.classInfo.title}}</h2>
+					<div>老师: <span class="double">{{=it.classInfo.teacher}}</span></div>
+					<div><span class="ellipsis-1" >机构:{{=it.classInfo.school}}</span></div>
+					<div>状态: <span class="imp">{{=it.classInfo.state}}</span></div>
+				</div> 
+			</a>
+		</div>
+	</div>-->
+	<div id="main">
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	imready = function(){
+		var pageParam = api.pageParam;
+		//pageParam包括id和type,请求网络.
+		//["上课提醒","系统通知","停课通知"];
+		getMessageDetail()
+//		setTimeout("getMessageDetail('"+pageParam.type+"','"+pageParam.id+"');",2000)
+	};
+	
+	function getMessageDetail(){
+		getInnerByDot("main","main_template",api.pageParam.detail)
+//		var classInfo = $api.byId("classinfo")
+//		if(type==0||type==2){
+//			classInfo.style.display="block"
+//		}else{
+//			classInfo.style.display="none"
+//		}
+	}
+	
+	function openClassDetail(id){
+		//goClassDetail
+	}
+	
+</script>
+</html>

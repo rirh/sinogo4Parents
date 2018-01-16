@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+		<style>
+			body {
+			}
+			.flex-wrap {
+				background: #f6f6f6;
+			}
+			header {
+				padding-right: 0.23rem;
+				padding-left: 0.23rem;
+				margin-bottom: 0.4rem;
+				background: #FF8345;
+				height: 0.88rem;
+				line-height: 0.88rem;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox;
+				/* 混合版本语法: IE 10 */
+			}
+			.left {
+				width: 0%;
+				display: block;
+				-webkit-flex: 3; /* Chrome */
+				-ms-flex: 3; /* IE 10 */
+				flex: 3; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 3; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 3; /* OLD - Firefox 19- */
+				text-align: left;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			.center {
+				text-align: center;
+				color: #ffffff;
+				font-size: 0.34rem;
+				display: block;
+				-webkit-flex: 10; /* Chrome */
+				-ms-flex: 10; /* IE 10 */
+				flex: 10; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 10; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 10; /* OLD - Firefox 19- */
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			.right {
+				width: 0%;
+				color: #ffffff;
+				font-size: 0.3rem;
+				display: block;
+				-webkit-flex: 3; /* Chrome */
+				-ms-flex: 3; /* IE 10 */
+				flex: 3; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 3; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 3; /* OLD - Firefox 19- */
+				text-align: right;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			.left img {
+				display: inline-block;
+				width: 0.24rem;
+				height: 0.45rem;
+				margin: 0 auto;
+				margin-top: 0.215rem;
+			}
+			.inputbox {
+				background: #FFFFFF;
+				width: 100%;
+				height: 0.80rem;
+				margin-top: 0rem;
+				position: relative;
+			}
+			.name {
+				margin-left: 0.33rem;
+				width: 6.65rem;
+				float: left;
+				height: 0.80rem;
+				font-size: 0.3rem;
+				color: #666666;
+				outline: none;
+			}
+			.inputbox img {
+				/*position: absolute;
+				 top: 162;
+				 right: 23;*/
+				display: none;
+				width: 0.29rem;
+				height: 0.3rem;
+				float: left;
+				margin-right: 0.23rem;
+				margin-top: 0.25rem;
+			}
+			.tips {
+				color: #999999;
+				font-size: 0.26rem;
+				margin-top: 0.3rem;
+				margin-left: 0.23rem;
+			}
+			.inputbox:after {
+				border-bottom: 1px solid #d9d9d9;
+				content: "";
+				display: block;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				-webkit-transform-origin: 0 0;
+				-webkit-transform: scaleY(0.5);
+			}
+			.inputbox:before {
+				border-top: 1px solid #d9d9d9;
+				content: "";
+				display: block;
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				-webkit-transform-origin: 0 0;
+				-webkit-transform: scaleY(0.5);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap" class="flex-wrap flex-vertical">
+			<header>
+				<div class="left">
+					<img src="../../image/back.png"  onclick="cancel()"/>
+				</div>
+				<div class="center">
+					学校
+				</div>
+				<div class="right" onclick="next()">
+					下一步
+				</div>
+			</header>
+			<div id="main" class="flex-con">
+				<div class="inputbox">
+					<input class="name" autofocus="autofocus" id="name" type="text" />
+					<img class='delete' src="../../image/mine/delete.png"  />
+				</div>
+				<div class="tips">
+					可点击下一步直接跳过
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/User.js"></script>
+	<script type="text/javascript">
+		//点击取消事件
+		function cancel() {
+			api.closeWin({
+			});
+		}
+
+		function next() {
+			api.openWin({
+				name : 'hobby',
+				url : 'hobby.html',
+				pageParam:api.pageParam
+			});
+			//点击下一步事件
+			var name = document.getElementById('name').value;
+			setUser('school', name);
+		}
+
+		imready = function() {
+		};
+	</script>
+</html>

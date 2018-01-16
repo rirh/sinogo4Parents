@@ -1,0 +1,719 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>底部导航</title>
+		<link rel="stylesheet" type="text/css" href="./css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="./css/style.css"/>
+		<style>
+			body {
+				display: none;
+				color:#f6f6f6
+			}
+			header {
+				background: #F48344;
+				height: 0.88rem;
+			}
+			header ul li {
+				line-height: 0.88rem;
+				text-align: center;
+				display: none;
+				color: #FFF;
+				font-size: 0.3rem;
+			}
+			header ul li.active {
+				display: block;
+			}
+			#main{
+				height:1rem;
+			}
+			.discover #loc  {
+				background: url(./image/icon_loc.png) no-repeat left center;
+				background-size: 0.25rem;
+				margin-left:0.23rem;
+				padding-left:0.37rem;
+				color:#FFF;
+				float:left;
+				font-size: 0.26rem;
+			}
+			.discover #loc.active  {
+				background: url(./image/icon_loc.png) no-repeat left center rgba(0,0,0,0.3) ;
+				background-size: 0.25rem;
+			}
+			.discover #filter  {
+				margin-left:0.17rem;
+				color:#FFF;
+				float:left;
+			}
+			.discover #search {
+				display:inline-block;
+				height:0.5rem;
+				width:4.62rem;
+				float:left;
+				margin-left:0.28rem;
+				margin-top:0.19rem;
+				border-radius: 0.05rem;
+				background: url(./image/icon_search.png) no-repeat 0.1rem center #FFF;
+				background-size:0.26rem 0.26rem;
+
+			}
+			#filter_icon{
+				margin-right:0.20rem;
+				width:0;
+				height:0;
+				left:-0.05rem;
+				float:right center;
+			}
+
+			#footer {
+				background-color: #FFFFFF;
+				height:0.98rem;
+			}
+			#footer ul li {
+				padding-top: 0.6rem;
+				padding-bottom: 0.04rem;
+				background: url() no-repeat center top;
+				background-size: 0.7rem 0.6rem;
+				text-align: center;
+				font-size:0.24rem;
+				color:#767979;
+			}
+			#footer ul li.active {
+				color: #FF8344;
+			}
+			#footer ul li:nth-child(1) {
+				background-image: url(./image/tab_home.png);
+			}
+			#footer ul li:nth-child(2) {
+				background-image: url(./image/tab_discover.png);
+			}
+			#footer ul li:nth-child(3) {
+				background-image: url(./image/tab_grouth.png);
+			}
+			#footer ul li:nth-child(4) {
+				background-image: url(./image/tab_mine.png);
+			}
+			#footer ul li:nth-child(1).active {
+				background-image: url(./image/tab2.png);
+			}
+			#footer ul li:nth-child(2).active {
+				background-image: url(./image/tab_discover_select.png);
+			}
+			#footer ul li:nth-child(3).active {
+				background-image: url(./image/tab_grouth_select.png);
+			}
+			#footer ul li:nth-child(4).active {
+				background-image: url(./image/tab_mine_select.png);
+			}
+
+		</style>
+	</head>
+	<body>
+		<div id="wrap" class="flex-wrap flex-vertical">
+			<header id="header">
+				<ul>
+					<li style="opacity: 0;" class="frame0 border-b active"  >
+
+					</li>
+					<li class="frame1 discover border-b"  >
+						<div class="ellipsis-1" onclick="openWin('location','html/home')" tapmode="active" id="loc" >未知</div>
+						<div id="search" onclick="goSearch('discover')"></div>
+						<div onclick="filter();" ><div id="filter"></div>
+						<img id="filter_icon" src="./image/icon_arrow_down.png" alt="" /></div>
+					</li>
+					<li class="frame2 border-b" >
+						成长
+					</li>
+					<li style="opacity: 0;" class="frame3 border-b" >
+						我的
+					</li>
+				</ul>
+			</header>
+			<div id="main" class="flex-con"></div>
+			<div id="footer" class="border-t">
+				<ul class="flex-wrap" >
+					<li tapmode="hover" onclick="openTab( 'frame0');" class="frame0 flex-con active" >
+						 首页
+					</li>
+					<li tapmode="hover" onclick="openTab(  'frame1' );" class="frame1 flex-con" >
+						 找课
+					</li>
+					<li tapmode="hover" style="display: none" onclick="openTab( 'frame2' );" class="frame2 flex-con" >
+						 成长
+					</li>
+					<li tapmode="hover" onclick="openTab(  'frame3' );" class="frame3 flex-con" >
+						 我的
+					</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>
+<script type="text/javascript" src="script/api.js"></script>
+<script type="text/javascript" src="script/common.js"></script>
+<script type="text/javascript" src="script/doT.min.js"></script>
+<script type="text/javascript">
+	var filter_icon;
+	var userId;
+	imready = function() {
+		document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + "px";
+		//首页加载后,隐藏了界面内容.
+		//先判断是否新版本安装,如果是新版本,则显示welcome页
+		//如果是第一次安装(第一次安装,share里为空),welcome之后,显示城市选择页面.
+		//如果非新版本打开,直接显示首页(不再进行登录的判断.)
+		getIpInfo()
+		api.addEventListener({
+	        name:'welcomeback'
+        },function(ret,err){
+        	var tag = ret.value.tag;
+        	console.log("tag=="+tag)
+        	if(tag==0){
+        		showInfo();
+        	}else if(tag==1){
+        		showLocation();
+        	}
+        });
+		var cVersion = api.appVersion;//当前安装版本
+		var lVersion = api.getPrefs({sync:true,key:'version'})//记录版本
+		if(!lVersion){//记录的版本为空,则是第一次安装!
+			api.setPrefs({
+	            key:'version',
+	            value:cVersion
+            });
+			showWelcome(1)//引导页之后,打开定位页面
+		}else{//非第一次安装
+			if(cVersion==lVersion){//同一个版本
+				showInfo();
+			}else{//安装了新版本
+				api.setPrefs({
+		            key:'version',
+		            value:cVersion
+	            });
+				showWelcome(0)//引导页会后不打开定位页面.
+			}
+		}
+	}
+
+	function checkLoginState(){
+		api.getPrefs({
+		    sync:false,
+		    key:'loginState'
+	    },function(ret,err){
+	    	var date = new Date();
+	    	var dT = date.getTime()-parseInt(ret.value);
+	    	console.log((dT-7*24*60*60*1000))
+	    	if((dT-7*24*60*60*1000)>=0){
+	    		toastAtMiddle("登录超时,请重新登录!")
+	    		go();
+	    	}else{
+//			api.execScript({
+//				script : 'showInfo();'
+//			});
+	    	}
+	    });
+	}
+
+	function getLocation() {
+		var baiduLocation = api.require('baiduLocation');
+		baiduLocation.getLocation(function(ret, err) {
+	       if (ret.status) {
+		        lon = ret.longitude;
+		        lat = ret.latitude;
+		        if(!lon||!lat||lon==0||lat==0){
+		        	return;
+		        }
+		        api.ajax({
+		        	url:"http://api.map.baidu.com/geocoder/v2/?ak=jbt3NtLURGUQehlEh59gG62MPDZToG6A&location="+lat+","+lon+"&output=json&pois=0&qq-pf-to=pcqq.c2c"
+		        },function(ret,err){
+		        	if (ret) {
+		        		if(ret.status==0){
+		        			var city = ret.result.addressComponent.city;
+		        			var address = ret.result.formatted_address;
+		        			var i = city.indexOf("市");
+		        			if(i!=-1){
+		        				city = city.split('市')[0]
+		        			}
+		        			var currentLocation = api.getPrefs({
+		        				sync:true,
+		        				key:'currentLocation'
+		        			})
+		        			if(city==currentLocation){//相同
+
+		        			}else{//不同
+		        				api.confirm({
+							    title: '位置确认',
+							    msg: "当前定位城市为"+city+",是否切换?",
+							    buttons: ['立即切换', '取消']
+							}, function(ret, err) {
+							    var index = ret.buttonIndex;
+							    if(index==1){
+								    //确认切换
+								    api.setPrefs({
+					                    key:'currentLocation',
+					                    value:city
+				                    });
+				                    api.setPrefs({
+					                    key:'gpsLocation',
+					                    value:city
+				                    });
+				                    api.sendEvent({
+			                            name:'locationChanged'
+		                            });
+				        			api.setPrefs({
+					                    key:'address',
+					                    value:address
+				                    });
+				                    api.setPrefs({
+					                    key:'longitude',
+					                    value:lon
+					                });
+							        api.setPrefs({
+					                    key:'gpslongitude',
+					                    value:lon
+					                });
+							        api.setPrefs({
+					                    key:'latitude',
+					                    value:lat
+					                });
+							        api.setPrefs({
+					                    key:'gpslatitude',
+					                    value:lat
+					                });
+							    }else{
+							    	//不切换
+							    }
+							});
+		        			}
+		        			api.setPrefs({
+			                    key:'gpsLocation',
+			                    value:city
+		                    });
+		                    api.sendEvent({
+	                            name:'locationChanged'
+                            });
+		        			api.setPrefs({
+			                    key:'address',
+			                    value:address
+		                    });
+		        		}
+				    }else{
+				        //alert(JSON.stringify(err));
+				        api.toast({
+	                        msg:'定位失败,请手动选择所在城市!',
+	                        location:'middle'
+                        });
+				    }
+		        });
+		    } else {
+		       	api.toast({
+                    msg:'定位失败,请手动选择所在城市!',
+                    location:'middle'
+                });
+                //alert("无法定位您的位置,请您打开定位开关,并赋予中棋学生端以定位权限,或者手动选择您所在的城市!")
+		    }
+		});
+	}
+
+	function getIpInfo(){
+		api.ajax({
+	        url:'http://ip.taobao.com/service/getIpInfo.php?ip=myip'
+        },function(ret,err){
+        	var requestIp = "0.0.0.0"
+        	if(ret){
+        		if(ret.code==0){
+          			requestIp=ret.data.ip
+        		}
+        	}else{
+        		//
+        	}
+        	api.setPrefs({
+	            key:'requestIp',
+	            value:requestIp
+            });
+        });
+	}
+
+	function showLocation(){
+		console.log("showLocation")
+		api.addEventListener({
+	        name:'firstLocationListener'
+        },function(ret,err){
+        	console.log(JSON.stringify(ret))
+        	showInfo();
+        });
+		api.openWin({
+	        name: 'location',
+	        url: 'html/home/location.html',
+	        pageParam:{
+	        	tag:'first'
+	        }
+        });
+
+	}
+
+	function go() {
+		api.setPrefs({
+            key:'userid',
+            value:''
+        });
+        api.setPrefs({
+            key:'userPhone',
+            value:''
+        });
+		api.setPrefs({
+            key:'tradePassword',
+            value:''
+        });
+		api.openWin({
+			name : 'login',
+			url : 'html/login.html'
+		});
+	}
+	function showInfo() {
+
+        userId = api.getPrefs({
+        	sync:true,
+        	key:"userid"
+        })
+        if(userId){
+			checkLoginState();
+		}
+		var db = api.require('db');
+		db.openDatabase({
+		    name: 'sinogostudent'
+		}, function(ret, err) {
+		});
+		registJPush();
+		filter_icon = $api.byId("filter_icon");
+		//定位更新
+		api.addEventListener({
+            name:'locationChanged'
+        },function(ret,err){
+        	console.log(JSON.stringify(ret))
+        	var value = api.getPrefs({
+                sync:true,
+                key:'currentLocation'
+            });
+            if(value.length>3){
+            	$api.byId("search").style.width='5.2rem'
+            }else{
+            	$api.byId("search").style.width='5.62rem'
+            }
+            $api.byId("loc").innerHTML=value;
+        });
+		document.getElementsByTagName('body')[0].style.display = 'block';
+		//funIniGroup();
+		for(var i=0;i<frameArr.length;i++){
+    		api.closeFrame({
+    			name:frameArr[i]
+            });
+    	}
+		frameArr=[];
+		openTab('frame0');
+		getLocation();
+	}
+
+	function showWelcome(tag) {
+//		api.openFrame({
+//			name : 'guide',
+//			url : 'html/guide.html',
+//			pageParam:{
+//				tag:tag
+//			},
+//			rect : {
+//				x : 0,
+//				y : 0,
+//				w : api.winWidth,
+//				h : api.winHeight
+//			}
+//		});
+		if(tag==0){
+			showInfo();
+		}else{
+			showLocation();
+		}
+	}
+	function registJPush() {
+		if(api.appName=='AppLoader'){
+			return;
+		}
+		if(!userId){
+			//不注册推送
+			return;
+		}
+		var ajpush = api.require('ajpush');
+		ajpush.setBadge({
+			badge:0
+		})
+		ajpush.init(function(ret) {
+		    if (ret && ret.status){
+		        //success
+		    }
+		});
+		var alias = hex_md5(api.deviceId).substr(8, 16);
+		var param = {alias:alias};
+		ajpush.bindAliasAndTags(param,function(ret) {
+	        var statusCode = ret.statusCode;
+		});
+
+		ajpush.setListener(
+		    function(ret) {
+		    	toastAtMiddle(JSON.stringify(ret))
+		    	var count = api.getPrefs({
+	                sync:true,
+	                key:'iosmessagecount'
+                });
+                if(!count){
+                	count = 1;
+                }else{
+                	count++;
+                }
+                api.setPrefs({
+	                key:'iosmessagecount',
+	                value:count
+                });
+		    	api.notification({
+		    		notify:{
+		    			title:ret.title,
+					    content:ret.content,
+					    extra:ret.extra
+		    		}
+                },function(ret,err){
+                	//toastAtMiddle(ret.id)
+                	if(api.systemType=='ios'){
+                		//$api.dom(".badge").style.display="block"
+                	}
+                });
+		    }
+		);
+		if(api.systemType=='ios'){
+			api.addEventListener({
+			    name: 'noticeclicked'
+			}, function(ret, err) {
+			    if (ret && ret.value) {
+			        var aa = ret.value;
+			        var content = aa.content;
+			        var extra = aa.extra;
+					openMessageList();
+			    }
+			})
+		}else{
+			api.addEventListener({
+			    name: 'appintent'
+			}, function(ret, err) {
+			    if (ret && ret.appParam.ajpush) {
+			        var ajpush = ret.appParam.ajpush;
+			        var id = ajpush.id;
+			        var title = ajpush.title;
+			        var content = ajpush.content;
+			        var extra = ajpush.extra;
+			        //alert("index--"+id+"--"+title+"--"+content+"--"+extra+"--")
+			        openMessageList();
+			    }
+			})
+		}
+	}
+
+	function openMessageList(){
+		var frameInfo={
+			name:'message_list',
+			url:'home/message_list.html',
+		}
+		if(!userId){
+			api.openWin({
+                name: 'login',
+                url: './html/login.html',
+                pageParam:{
+                	name:"title_messageList",
+                	url:"消息",
+                	frameInfo:frameInfo
+                }
+            });
+			return;
+		}
+		api.openWin({
+	        name: "title_messageList",
+	        url: './html/title.html',
+	        pageParam:{
+	        	title:"消息",
+	        	frameInfo:frameInfo
+	        }
+	    });
+	}
+
+	function funIniGroup() {
+		var eHeaderLis = $api.domAll('header li'), frames = [];
+		for (var i = 0, len = eHeaderLis.length; i < len; i++) {
+			frames.push({
+				name : 'frame' + i,
+				url : './html/frame' + i + '.html',
+				bgColor : 'rgba(0,0,0,.2)',
+				bounces : true
+			})
+		}
+		api.openFrameGroup({
+			name : 'group',
+			scrollEnabled : false,
+			rect : {
+				x : 0,
+				y : 0,//$api.dom('header').offsetHeight,
+				w : api.winWidth,
+				h : $api.dom('#main').offsetHeight+$api.dom('header').offsetHeight
+			},
+			index : 0,
+			frames : frames
+		}, function(ret, err) {
+		});
+	}
+
+	function filter(condition){
+		return;
+		if(window.opened){
+			if(condition){
+				api.execScript({
+					frameName:'frame1',
+		            script: "closeFilter('"+condition.name+"','"+condition.p_value+"','"+condition.c_value+"');"
+	            });
+			}else{
+				api.execScript({
+					frameName:'frame1',
+		            script: "closeFilter();"
+	            });
+			}
+			$api.attr(filter_icon, "src", "./image/icon_arrow_down.png");
+		}else{
+			var header = $api.dom('header');
+			var headerPos = $api.offset(header);
+			var nav = $api.byId('footer');
+		    var navPos = $api.offset(nav);
+			api.execScript({
+				frameName:'frame1',
+	            script: "openFilter("+headerPos.h+","+navPos.h+");"
+            });
+			$api.attr(filter_icon, "src", "./image/icon_arrow_up.png");
+		}
+		window.opened=!window.opened;
+	}
+
+	function filterOk(name,pid,cid){
+		var json = {name:name,p_value:pid,c_value:cid};
+		filter(json);
+	}
+
+	function goSearch(tab){
+		api.openWin({
+	        name: 'search',
+	        url: 'html/home/search.html',
+	        pageParam:{
+	        	tab:tab
+	        }
+        });
+	}
+	//previous page id, current page id
+	var prevPid = '', curPid = '';
+	//save opened frame name
+	var frameArr = [];
+
+	//frame whether open
+	function isOpened(frmName){
+	    var i = 0, len = frameArr.length;
+	    var mark = false;
+	    for(i; i<len; i++){
+	        if(frameArr[i] === frmName){
+	            mark = true;
+	            return mark;
+	        }
+	    }
+	    return mark;
+	}
+	//toggle header
+	function showHeader(type){
+	    if(!type){return;}
+	    if(type=='frame0'||type=='frame3'){
+	    	$api.byId("header").style.background="#FFFFFF"
+	    }else{
+    		$api.byId("header").style.background="#FF8344"
+	    }
+	    var header = $api.dom('header .active');
+	    $api.removeCls(header,'active');
+	    var thisHeader = $api.dom('header .'+type);
+	    $api.addCls(thisHeader,'active');
+	}
+
+	//open tab
+	function openTab(type){
+		userId = api.getPrefs({sync:true,key:"userid"})
+	    if(type === 'frame3'||type==='frame2'){
+			if(!userId){
+				api.openWin({
+			        name: 'login',
+			        url: './html/login.html',
+			        pageParam:{
+			        	name:'root',
+			        	frameInfo:type
+			        }
+			    });
+			    return;
+			}
+	    }
+	    showHeader(type);
+	    var width = api.winWidth;
+	    var nav = $api.byId('footer');
+	    var navPos = $api.offset(nav);
+	    var header = $api.dom('header');
+	    var headerPos = $api.offset(header);
+	    var height = api.winHeight - navPos.h - headerPos.h;
+	    type = type || 'frame0';
+	    var actTab = $api.dom('#footer .active');
+	    $api.removeCls(actTab,'active');
+	    var thisTab = $api.dom('#footer .'+ type);
+	    //thisTab = thisTab.parentNode;
+	    $api.addCls(thisTab,'active');
+	    //record page id
+	    prevPid = curPid;
+	    curPid = type;
+	    if(prevPid !== curPid){
+	        if(isOpened(type)){
+	            api.setFrameAttr({
+	                name: type,
+	                hidden: false
+	            });
+	        }else{
+	        	var rect = {
+	        		x: 0,
+		            y: headerPos.h,
+		            w: width,
+		            h: height
+	        	}
+	        	if(type=="frame0"||type=="frame3"){
+	        		rect.y=0
+	        		rect.h=headerPos.h+height;
+	        	}else{
+	        		rect.y=headerPos.h;
+	        		rect.h=height;
+	        	}
+	            api.openFrame({
+	                name: type,
+	                url: 'html/'+ type +'.html',
+	                bounces: false,//页面是否能拖动
+	                opaque: true,
+	                vScrollBarEnabled: false,
+	                pageParam:{ headerHeight: headerPos.h},
+	                rect: rect
+	            });
+	        }
+	        if(prevPid){
+	            api.setFrameAttr({
+	                name: prevPid,
+	                hidden: true
+	            });
+	        }
+	        if(!isOpened(type)){
+	            frameArr.push(type);
+	        }
+	    }else{
+	    }
+	}
+</script>

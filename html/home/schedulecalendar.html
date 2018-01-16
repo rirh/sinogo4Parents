@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+    	html,body{
+    		background:#F6F6F6;
+    	}
+    	#calendar-title{
+    		height:0.94rem;
+    		line-height:0.94rem;
+    		width:100%;
+    		position: fixed;
+    		background: #F6F6F6;
+    		z-index: 1;
+    		top:0;
+    		text-align: center;
+    	}
+    	.pre-month{
+    		background: url(../../image/icon_arrow_pre.png) no-repeat center center;
+    		background-size:0.22rem 0.37rem;
+    		height:0.7rem;
+    		width:0.7rem;
+    		margin-top:0.12rem;
+    		margin-left: 0.12rem;
+    		float: left;
+    	}
+    	.pre-month.active{
+    		background: url(../../image/icon_arrow_pre.png) no-repeat center center rgba(0,0,0,0.2);
+    		background-size:0.22rem 0.37rem;
+    	}
+    	.next-month{
+    		background: url(../../image/icon_arrow_next.png) no-repeat center center;
+    		background-size:0.22rem 0.37rem;
+    		height:0.7rem;
+    		width:0.7rem;
+    		margin-top:0.12rem;
+    		margin-right: 0.12rem;
+    		float: right;
+    	}
+    	.next-month.active{
+    		background: url(../../image/icon_arrow_next.png) no-repeat center center rgba(0,0,0,0.2);
+    		background-size:0.22rem 0.37rem;
+    	}
+    	.curmonth{
+    		display: inline-block;
+    		height:100%;
+    	}
+    	.curmonth .month{
+    		font-size:0.3rem;
+    		color:#FF8344;
+    		float: left;
+    		margin-left: 0.12rem;
+    	}
+    	.curmonth div{
+    		width:0.5rem;
+    		height:0.5rem;
+    		position: relative;
+    		float:left;
+    		margin-top:0.2rem;
+    		margin-left:0.1rem;
+    	}
+    	.curmonth div img{
+    		position:absolute;
+    		top:0.08rem;left:0.08rem;
+    		width:0.34rem;
+    		height:0.34rem;
+    	}
+    </style>
+</head>
+<body>
+	<div id="main">
+		<div id="calendar-title">
+			<div tapmode="active" class="pre-month" onclick="goOtherMonth('pre')"></div>
+			<div class="curmonth">
+				<span class="month">十一月</span>
+				<div ><img src="../../image/icon_calendar_on.png" alt="" /></div>
+			</div>
+			<div tapmode="active" class="next-month" onclick="goOtherMonth('next')"></div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	var UICalendar;
+	var month ;
+	var months=["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月",]
+	var current;
+	imready = function(){
+		var offset = $api.offset($api.byId('calendar-title'))
+		month = $api.dom(".month")
+		var date = new Date();
+		current = date.getMonth();
+		month.innerHTML=months[current]
+		var x = 0.25*offset.h/0.94;
+		UICalendar = api.require('UICalendar');
+		UICalendar.open({
+		    rect: {
+		        x: x,
+		        y: offset.h,
+		        w: api.frameWidth - 2*x,
+		        h: 340
+		    },
+		    styles: {
+		        bg: '#FFF',
+		        week: {
+		            weekdayColor: '#FF8344',
+		            weekendColor: '#FF8344',
+		            size: 12
+		        },
+		        date: {
+		            color: '#EF7A83',
+		            selectedColor: '#fff',
+		            selectedBg: '#FF8344',
+		            size: 12
+		        },
+		        today: {
+		            color: 'rgb(230,46,37)',
+		            bg: ''
+		        },
+		        specialDate: {
+		            color: '#FFF',
+		            bg: 'widget://image/a.png'
+		        }
+		    },
+//		    specialDate: [{
+//		        date: '2016-12-12'
+//		    }],
+		    switchMode: 'vertical',
+		    fixedOn: api.frameName,
+		    fixed: false
+		}, function(ret, err) {
+		    if (ret) {
+		    	if(ret.eventType=='normal'){
+                   	api.closeWin({
+                   		name:'title_calendar'
+                    });
+                   	api.closeFrame();
+                   	api.sendEvent({
+	                       name:'calendarDateChanged',
+	                       extra:{
+	                       	year:ret.year,
+	                       	month:ret.month,
+	                       	day:ret.day,
+	                       }
+                       });
+		    	}else if(ret.eventType=='switch'){
+		    		current = (ret.month-1);
+		    		month.innerHTML=months[current]
+		    	}
+		    } else {
+		        alert(err.msg);
+		    }
+		});
+		var date = new Date();
+		UICalendar.setSpecialDates({
+	        specialDates:[{date:date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()}]
+        });
+	};
+	function goOtherMonth(tag){
+		if(tag=='pre'){
+			current -- ;
+			if(current==-1)
+				current=11;
+			month.innerHTML=months[current]
+			UICalendar.prevMonth(
+	            function(ret,err) {
+            	//coding...
+            });
+		}else{
+			current ++ ;
+			if(current==12)
+				current=0;
+			month.innerHTML=months[current]
+			UICalendar.nextMonth(
+	            function(ret,err) {
+            	//coding...
+            });
+		}
+	}
+</script>
+</html>

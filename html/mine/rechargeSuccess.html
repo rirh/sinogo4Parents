@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+    	html,body{
+    		background:#F6F6F6;
+    		width:100%;
+    	}
+    	#header .btn_right{
+			width: 0.95rem; height: 0.88rem;
+			line-height: 0.88rem;
+			font-size:0.3rem;
+			position: absolute;
+			top: 25px;
+			right:0;
+			text-align: center;
+		}
+		#header .btn_right.active{
+			background: rgba(0,0,0,0.3)
+		}
+		#content{
+			height:4.8rem;
+			background:#FFF;
+			position: relative;
+		}
+		#content:before{
+			position: absolute;
+			border-bottom: 1px #d9d9d9 solid;
+			bottom: 0;left:0;right:0;
+			content:"";display:block;
+			-webkit-transform: scaleY(0.5);
+			-webkit-transform-origin: 0 0;
+		}
+		#content .top{
+			width:80%;
+			margin-left:10%;
+			height:1.25rem;
+			padding-top:1.07rem;
+		}
+		#content .top img{
+			width:1.25rem;
+			height:1.25rem;
+			margin-left:0.48rem;
+			margin-right:0.48rem;
+			float: left;
+		}
+		#content .top .top_right{
+			float: left;
+			height:1.25rem;
+		}
+		.method{
+			font-size:0.32rem;
+			color:#333;
+			height:0.63rem;
+			line-height:0.63rem;
+		}
+		.amount{
+			font-size:0.32rem;
+			color:#333;
+			height:0.62rem;
+			line-height:0.62rem;
+		}
+		.imp_sum{
+			font-size:0.45rem;
+			color:#1EBEB6;
+		}
+		#content .bottom{
+			width:80%;
+			margin-left:10%;
+			height:0.85rem;
+			margin-top: 0.9rem;
+		}
+		.bottom .btn{
+			float:left;
+			width:2.42rem;
+			height:0.85rem;
+			line-height:0.85rem;
+			font-size:0.3rem;
+			color:#333;
+			text-align: center;
+			border-radius:0.1rem;
+		}
+		.bottom .bleft{
+			float:left;
+		}
+		.bottom .bright{
+			float:right;
+		}
+		@media (-webkit-min-device-pixel-ratio:2) {
+		    .raborder{
+		   		box-shadow:0 0 0px 0.01rem rgb(153,153,153)
+		    }
+		}
+		@media (-webkit-max-device-pixel-ratio:2) {
+			.raborder{
+	   			box-shadow:0 0 0px 1px rgb(153,153,153) 
+		    }
+		}
+    </style>
+</head>
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<div id="header">
+			<a class="back-icon" tapmode="active" onclick="btnRight()" ></a>
+			<h1 id="title">支付成功</h1>
+			<a tapmode="active" class="btn_right" onclick="btnRight()" >完成</a>
+		</div>
+		<div id="main" class="flex-con">
+			<div id="content">
+				<div class="top">
+					<img src="../../image/icon_pay_success.png" alt="" />
+					
+					<div class="top_right">
+						<div class="method">支付方式:在线支付</div>
+						<div class="amount">订单金额: <span class="imp_sum">￥108</span></div>
+					</div>
+				</div>
+				
+				<div class="bottom" >
+					<div class="btn bleft raborder" onclick="buyAgin()">再次充值 </div>
+					<div class="btn bright raborder" onclick="btnRight()">返回首页</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	var orderNo;
+	var orderType;
+	var orderSum;
+	imready = function(){
+		handelVersionBelow4($api.dom(".btn_right").style)
+		orderNo = api.pageParam.orderNo;
+		orderType = api.pageParam.orderType;
+		orderSum = api.pageParam.orderSum;
+		$api.dom(".imp_sum").innerHTML="￥"+orderSum?orderSum:""
+		api.addEventListener({
+	        name:'keyback'
+        },function(ret,err){
+        	api.closeToWin({
+		        name: 'root'
+	        });
+        });
+	};
+	
+  function buyAgin(){
+	 api.openWin({
+				name : 'Recharge',
+				url : 'Recharge.html'
+			});
+  }
+	
+	function btnRight(){
+		//返回首页
+		api.closeToWin({
+	        name: 'root'
+        });
+        api.sendEvent({
+	        name:'updateInfo'
+        });
+	}
+	
+</script>
+</html>

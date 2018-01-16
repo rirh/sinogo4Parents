@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+    	html,body{
+    		width:100%;
+    		height:100%;
+    		text-align: center;
+    		background:url(../../image/icon_bg_dialog.png);
+    		overflow: hidden;
+    	}
+		#content{
+			height:7.22rem;
+			background:#FFF;
+		}
+		#content #left{
+			width:100%;
+			float: left;
+			height:7.22rem;
+			overflow: auto;
+		}
+		#content #left div{
+			height:0.8rem;
+			line-height:0.8rem;
+			text-align:left;
+			font-size:0.28rem;
+			color:#333333;
+			padding-left: 0.23rem;
+			position: relative;
+		}
+		#content #left div:before{
+    		border-bottom: 1px solid #d9d9d9;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+		#content #left div.current{
+			color:#FF8344; 
+			background:#fff;
+		}
+		#content #center{
+			width:64%;
+			float: left;
+			display:none;
+			height:7.22rem;
+			overflow: auto;
+		}
+		#content #center div{
+			height:0.75rem;
+			line-height:0.75rem;
+			text-align:left;
+			font-size:0.24rem;
+			color:#666;
+			padding-left: 0.36rem;
+			position:relative;
+		}
+		#content #center div:before{
+    		border-bottom: 1px solid #d9d9d9;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+		#content #center div.current{
+			color:#FF8344; 
+			background:#fff;
+		}
+		#content #right{
+			width:64%;
+			float: left;
+			display:none;
+			height:7.22rem;
+			overflow: auto;
+		}
+		#content #right div{
+			height:0.7rem;
+			line-height:0.7rem;
+			text-align:left;
+			font-size:0.24rem;
+			color:#666;
+			padding-left: 0.36rem;
+			position:relative;
+		}
+		#content #right div:before{
+    		border-bottom: 1px solid #d9d9d9;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+		#content #right div.active{
+			color:#FF8344; 
+			background:#fff;
+		}
+		#content #right div.current{
+			color:#FF8344; 
+			background:#fff;
+		}
+		#empty{
+			height:10rem;
+		}
+    </style>
+</head>
+<body>
+	<div id="main">
+		<script type="text/x-dot-template" id="left-template">
+			{{ for(var i=0;i<it.length;i++){ }}
+				<div class="{{=it[i].cls}}" onclick="getChildren(this,{{=i}},'{{=it[i].groupId}}',0)" >{{=it[i].groupName}}</div>
+			{{ } }}
+		</script>
+		<script type="text/x-dot-template" id="center-template">
+			{{ for(var i=0;i<it.length;i++){ }}
+				<div class="{{=it[i].cls}}" tapmode='active' onclick="getChildren(this,{{=i}},'{{=it[i].groupId}}',1)">{{=it[i].groupName}}</div>
+			{{ } }}
+		</script>
+		<script type="text/x-dot-template" id="right-template">
+			{{ for(var i=0;i<it.length;i++){ }}
+				<div class="{{=it[i].cls}}" tapmode='active' onclick="goFilter({{=i}},'{{=it[i].categoryId}}','{{=it[i].id}}')">{{=it[i].levelName}}</div>
+			{{ } }}
+		</script>
+		<div id="content">
+			<div id="left">
+				
+			</div>
+			<div id="center">
+				
+			</div>
+			<div id="right">
+				
+			</div>
+		</div>
+		<div id="empty">
+			
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript">
+	var left ;
+	var right ;
+	var center ;
+	window.current;
+	window.pid;
+	window.cid;
+	window.list=[];
+	
+	var groupAll;
+	
+	imready = function(){
+		var pageParam = api.pageParam;
+		left = $api.byId("left");
+		right = $api.byId("right");
+		center = $api.byId("center");
+		window.categoryGroup=api.pageParam.categoryGroup;
+		window.sortGroup=api.pageParam.sortGroup
+		window.indexes = api.pageParam.indexes;
+		console.log("indexes == "+window.indexes);
+		window.currentLevelIndex=indexes[0];
+		window.currentCategoryIndex = indexes[1];
+		window.currentSecondCategoryIndex = indexes[2];
+
+		window.sort=api.pageParam.sort
+		
+		//init之后,先加载分类相关
+		filter(pageParam.type)
+        $api.byId("empty").onclick=function(){//点击空白,关闭frame
+        	api.sendEvent({
+	            name:'filterListener',
+	            extra:{
+	            	isOpend:false
+	            }
+            });
+        	api.closeFrame()
+        }
+        api.addEventListener({//frame右滑禁止
+	        name:'swiperight'
+        },function(ret,err){
+        });
+        api.addEventListener({//筛选条件改变的监听器,及时更新筛选条件
+	        name:'filterChanged'
+        },function(ret,err){
+        	//window.current = ret.value.type
+        	filter(ret.value.type)
+        });
+	};
+	
+	function filter(type){
+		window.current=type
+		if(type=='sort'){//如果是排序
+			window.sortGroup[window.sort].cls='current'
+		}else{
+			window.categoryGroup[window.indexes[0]].cls="current";
+			if(window.indexes[0]==0){//全部分类
+				getInnerByDot("left","left-template",window.categoryGroup)
+			}else{
+				if(window.indexes[1]==-1){//无二级分类
+//					if(window.indexes[2]==0){//一级分类下的全部级别
+						var groupItem = window.categoryGroup[window.indexes[0]]
+						groupItem.level[window.indexes[2]].cls="current"
+						getInnerByDot("left","left-template",window.categoryGroup)
+						getChildren($api.dom("#left .current"),window.indexes[0],groupItem.groupId,0)
+//					}else{//一级分类下的某个级别
+//						
+//					}
+				}else if(window.indexes[1]==0){//二级分类选择全部
+					var groupItem = window.categoryGroup[window.indexes[0]]
+					groupItem.secondGroup[window.indexes[1]].cls="current"
+					getInnerByDot("left","left-template",window.categoryGroup)
+					getChildren($api.dom("#left .current"),window.indexes[0],groupItem.groupId,0)
+				}else{//选择了二级分类
+					var groupItem = window.categoryGroup[window.indexes[0]]
+					var secondGroup = groupItem.secondGroup[window.indexes[1]]
+					secondGroup.cls="current";
+					secondGroup.level[window.indexes[2]].cls="current"
+					getInnerByDot("left","left-template",window.categoryGroup)
+					getChildren($api.dom("#left .current"),window.indexes[0],groupItem.groupId,0)
+					getChildren($api.dom("#center .current"),window.indexes[1],secondGroup.groupId,1)
+				}
+			}
+		}
+		if(type=='category'){
+//			getInnerByDot("left","left-template",window.categoryGroup)
+////			if(window.cc!=0){
+////				getChildren($api.dom("#left .current"),window.cc)
+////			}
+		}else{
+			$api.removeCls($api.dom("#left .current"), "current");
+//			$api.addCls(el, "current");
+			
+			left.style.width="100%"
+			left.style.background="#FFF"
+			right.style.display="none"
+			
+			getInnerByDot("left","left-template",window.sortGroup)
+		}
+	}
+	
+	function getDefault(el){
+		$api.removeCls($api.dom("#left .current"), "current");
+		$api.addCls(el, "current");
+		
+		left.style.width="100%"
+		left.style.background="#FFF"
+		right.style.display="none"
+		
+		//返回筛选,带入参数即可.
+		var val=[0,0]
+		backFilter(val);
+	}
+	
+	function backFilter(val){
+		api.sendEvent({
+	        name:'filterEvent',
+	        extra:{
+	        	type:window.current,
+	        	val:val,
+	        	indexes:[window.currentCategoryIndex,window.currentSecondCategoryIndex,window.currentLevelIndex]
+	        }
+        });
+        api.sendEvent({
+            name:'filterListener',
+            extra:{
+            	isOpend:false
+            }
+        });
+        api.closeFrame({
+        });
+	}
+	
+	function getChildren(el,index,groupId,type){
+		if(window.current=='category'&&groupId!=0){//如果是分类
+			if(el.innerHTML=="全部"){
+				console.log("groupId == "+groupId)
+				window.currentSecondCategoryIndex = index;
+				window.currentLevelIndex = -1;
+				backFilter([groupId])
+				return;
+			}
+			if(type==0){
+				left.style.width="30.1%"
+				left.style.background="#eeeeee"
+				$api.removeCls($api.dom("#left .current"), "current");
+				$api.addCls(el, "current");
+				window.currentCategoryIndex = index;
+				window.currentSecondCategoryIndex = -1;
+				window.currentLevelIndex = -1;
+				var group = window.categoryGroup[index];
+				var childList=[];
+				if(group.groupId==groupId){
+					if(group.level.length>1){
+						childList=group.level
+						center.style.display="none"
+						right.style.display="block"
+						right.style.width="64%";
+						right.style.background="#FFFFFF"
+						getInnerByDot("right","right-template",childList)
+					}else{
+						childList=group.secondGroup
+						right.style.display="none"
+						center.style.display="block"
+						center.style.width="64%";
+						center.style.background="#FFFFFF"
+						getInnerByDot("center","center-template",childList)
+					}
+				}else{
+					
+				}
+			}else{//点击二级分类，展开该分类下级别。
+				center.style.width="32.1%"
+				center.style.background="#fafafa"
+				right.style.display="block"
+				right.style.width="33%"
+				$api.removeCls($api.dom("#center .current"), "current");
+				$api.addCls(el, "current");
+				//window.cc=groupId;
+				var childList=[];
+				window.currentSecondCategoryIndex = index;
+				window.currentLevelIndex = -1;
+				var group=window.categoryGroup[window.currentCategoryIndex].secondGroup[index];
+				if(group.groupId==groupId){
+					childList=group.level
+					getInnerByDot("right","right-template",childList)
+				}
+			}
+		}else{//排序则直接返回.
+			console.log("groupId = "+groupId)
+			window.currentCategoryIndex = index;
+				window.currentSecondCategoryIndex = -1;
+				window.currentLevelIndex = -1;
+			backFilter([groupId])
+		}
+		
+	}
+	
+	function goFilter(index,groupId,childId){
+		window.currentLevelIndex=index;	
+		console.log("groupId = "+groupId +"-----levelId = "+childId)
+		backFilter([groupId,childId])
+	}
+	
+	
+	function getAll(type){
+		
+	}
+	
+	function ok(){
+		api.execScript({
+			name:'root',
+	        script:"filterOk("+1+");"
+        });
+		api.closeFrame({
+        });
+	}
+	
+	function showHeader(type){
+		open();
+		var type = $api.byId(type);
+		var last = $api.dom(".current");
+		$api.removeCls(last, "current");
+		$api.addCls(type, "current");
+	}
+	
+	function open(){
+		$api.byId("filter").style.borderBottom="gray 0px hidden"
+		api.setFrameAttr({
+	        name: 'discover_filter',
+	        rect: {
+		        w:api.winWidth,
+		        h:window.h
+	        }
+        });
+	}
+</script>
+</html>

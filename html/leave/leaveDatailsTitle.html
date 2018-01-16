@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+		<style>
+			.flex-wrap {
+				background: #FFFFFF;
+			}
+			header {
+				height: 0.88rem;
+				background: #FF8344;
+				color: #FFFFFF;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				width: 100%;
+			}
+			.tit-left {
+				width: 0%;
+				display: block;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				text-align: left;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			.tit-con {
+				text-align: center;
+				font-size: 0.34rem;
+				display: block;
+				-webkit-flex: 5; /* Chrome */
+				-ms-flex: 5; /* IE 10 */
+				flex: 5; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 5; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 5; /* OLD - Firefox 19- */
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				height: 0.88rem;
+				line-height: 0.88rem;
+			}
+			.tit-right {
+				width: 0%;
+				display: block;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				text-align: right;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				background: #FF8345;
+			}
+			.back {
+				display: inline-block;
+				color: #FFFFFF;
+				text-align: center;
+				background: url(../../image/back.png);
+				background-size: cover;
+				margin-left: 0.23rem;
+				width: 0.24rem;
+				height: 0.45rem;
+				margin-top: 0.215rem;
+			}
+			.title {
+				height: 2.37rem;
+				background: #FFFFFF;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+			}
+			.marding {
+				height: 0.29rem;
+				width: 100%;
+				background: #f6f6f6;
+				display: inline-block;
+			}
+			.tleft {
+				margin-top: 0.3rem;
+				margin-left: 0.23rem;
+				display: inline-block;
+				height: 1.62rem;
+				width: 2.58rem;
+				background-size: cover;
+			}
+			.mtleft {
+				height: 1.62rem;
+				width: 2.58rem;
+				background: url(../../image/mine/mylesson.png) no-repeat;
+				background-size: cover;
+			}
+			.tright {
+				display: block;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				margin-left: 0.38rem;
+				margin-top: 0.3rem;
+				margin-right: 0.23rem;
+			}
+			.p1 {
+				text-align: left;
+				line-height: 0.293rem;
+				letter-spacing: -0.01rem;
+				color: #333333;
+				font-size: 0.26rem;
+				text-overflow: -o-ellipsis-lastline !important;
+				overflow: hidden;
+				text-overflow: ellipsis !important;
+				display: -webkit-box;
+				-webkit-line-clamp: 3 !important;
+				-webkit-box-orient: vertical;
+			}
+			.p2 {
+				color: #666666;
+				font-size: 0.24rem;
+				margin-top: 0.28rem;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				word-break: keep-all;
+			}
+			.p3 {
+				margin-top: 0.1rem;
+				color: #666666;
+				font-size: 0.24rem;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				word-break: keep-all;
+			}
+			.edugroup {
+				color: #FF8345
+			}
+		</style>
+	</head>
+	<body></body>
+	<script type="template" id="dotTmpl">
+		<div id="wrap" class="flex-wrap flex-vertical">
+		<header id="header">
+		<div class="tit-left" onclick="api.closeWin()">
+		<div class="back"></div>
+		</div>
+		<div class="tit-con">
+		{{=it[0].title}}
+		</div>
+		<div class="tit-right"></div>
+		</header>
+		<div id="main" class="flex-con">
+		<div class="h-title">
+		<div class="title">
+		<div class="tleft">
+		<div class="mtleft" id="pic"></div>
+		</div>
+		<div class="tright">
+		<p class="p1">
+		{{=it[0].about}}
+		</p>
+		<p class="p2">
+		总课时：<span class="lessnum">{{=it[0].lesson}}</span>
+		</p>
+		<p class="p3">
+		教育机构:<span class="edugroup">{{=it[0].classname}}</span>
+		</p>
+		</div>
+		</div>
+		<div class="marding"></div>
+		</div>
+		</div>
+		</div>
+	</script>
+	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/doT.js"></script>
+	<script type="text/javascript" src="../../script/common.js"></script>
+	<script type="text/javascript">
+		var responseBody;
+		function json() {
+			var date = [];
+			var list = {};
+			list.title = responseBody.courseName;
+			list.about = responseBody.courseIntro;
+			list.lesson = responseBody.coursePeriod;
+			list.classname = responseBody.institutionName;
+			list.img = $api.imageUrl + responseBody.courseImage;
+			date.push(list);
+			var tmpl = doT.template($api.text($api.dom('#dotTmpl')));
+			$api.html($api.dom("body"), tmpl(date));
+			if (list.img) {
+				$api.css($api.dom("#pic"), "background: url(" + list.img + ") no-repeat;background-size: 100%;");
+			} else {
+				$api.css($api.dom("#pic"), "background: url(../../image/mine/mylesson.png) no-repeat;background-size: 100%;");
+			}
+			api.openFrame({
+				name : 'leaveDatailsContent',
+				url : 'leaveDatailsContent.html',
+				pageParam : {
+					info : responseBody,
+					studentTimetables : responseBody.studentTimetables,
+					studentId : api.pageParam.id,
+					tag:api.pageParam.tag
+				},
+				rect : {
+					x : 0,
+					y : $api.dom('header').offsetHeight + $api.dom('.h-title').offsetHeight,
+					w : api.frameWidth,
+					h : api.frameHeight - ($api.dom('header').offsetHeight + $api.dom('.h-title').offsetHeight)
+				}
+			});
+		}
+
+		function getHotCities() {
+			var data = {};
+			data.method = 'getCourseDetail';
+			data.request = {
+				"courseId" : api.pageParam.courseId,
+				"classId" : api.pageParam.classId,
+				"studentId" : api.pageParam.id,
+				"institutionId" : api.pageParam.institutionId
+			}
+			api.showProgress();
+			console.log("我的课程详情getCourseDetail请求数据：" + JSON.stringify(data));
+			ajaxRequest(data, function(ret, err) {
+				api.hideProgress();
+				if (ret) {
+					console.log("我的课程详情getCourseDetail成功返回数据：" + JSON.stringify(ret))
+					responseBody = ret.responseBody;
+					if (ret.responseCode == 0) {
+						json();
+					}
+				} else {
+					console.log("我的课程详情getCourseDetail失败返回数据：" + JSON.stringify(err))
+				}
+			})
+		}
+
+		imready = function() {
+			getHotCities();
+		}
+
+	</script>
+</html>

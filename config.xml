@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<widget id="A6924278626972" version="0.0.1"> 
+  <name>名校云家长端</name>  
+  <description>名校云家长端</description>  
+  <author email="137054968@qq.com" href="http://www.apicloud.com">中棋在线</author>  
+  <content src="index.html"/>  
+  <preference name="appBackground" value="rgba(0,0,0,0)"/>  
+  <preference name="windowBackground" value="rgba(0,0,0,0)"/>  
+  <preference name="frameBackgroundColor" value="rgba(0,0,0,0)"/>  
+  <preference name="autoLaunch" value="true"/>  
+  <preference name="autoUpdate" value="true"/>  
+  <preference name="smartUpdate" value="false"/>  
+  <preference name="debug" value="true"/>  
+  <preference name="statusBarAppearance" value="false"/>  
+  <preference name="fullScreen" value="false"/>  
+  <meta-data name="com.baidu.lbsapi.API_KEY" value="91BWHmuL4wdsMBSLdE8Cx1wAaHEjpMWr"/>  
+  <permission name="location"/>  
+  <permission name="internet"/>  
+  <access origin="*"/>  
+  <feature name="ajpush"> 
+    <param name="app_key" value="cb447575fb75993288b6b613"/>  
+    <param name="channel" value="0"/> 
+  </feature>  
+  <feature name="baiduLocation"> 
+    <param name="apiKey" value="wtgeGONxG7n1eyelb5l7OXaasGqiLd98"/> 
+  </feature>  
+  <feature name="aliPay"> 
+    <param name="urlScheme" value="AliPayA6924278626972"/> 
+  </feature>  
+  <feature name="wxPay"> 
+    <param name="urlScheme" value="wx67798671de424325"/>  
+    <param name="apiKey" value="wx67798671de424325"/>  
+    <param name="apiSecret" value="710f61efe4a1b6ab8f034d3a4aef310b"/> 
+  </feature>  
+  <feature name="QQPlus"> 
+    <param name="urlScheme" value="tencent1105841635"/>  
+    <param name="apiKey" value="1105841635"/> 
+  </feature>  
+  <feature name="weibo"> 
+    <param name="urlScheme" value="wb1294086730"/>  
+    <param name="apiKey" value="1294086730"/>  
+    <param name="registUrl" value=""/> 
+  </feature>  
+  <feature name="wx"> 
+    <param name="urlScheme" value="wx67798671de424325"/>  
+    <param name="apiKey" value="wx67798671de424325"/>  
+    <param name="apiSecret" value="710f61efe4a1b6ab8f034d3a4aef310b"/> 
+  </feature> 
+</widget>

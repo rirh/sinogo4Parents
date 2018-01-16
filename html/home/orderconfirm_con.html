@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1,minimum-scale=1,user-scalable=0,width=device-width,initial-scale=1"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+    	html,body{
+    		font-size: 0.26rem;
+    		height:100%;
+    		background: #F6F6F6;
+    	}
+    	
+    	.item{
+    		height:2.21rem;
+    		background:#FFF;
+    		position: relative;
+    	}
+    	.item:after{
+    		border-bottom:1px solid #CCCCCC;
+    		-webkit-transform: scaleY(0.5);
+    		-webkit-transform-origin: 0 0 ;
+    		content:"";
+    		position:absolute;bottom:0;left:0;right:0;
+    		display: block;
+    		pointer-events:none;
+    	}
+    	.item img{
+    		width:2.58rem;
+    		height:1.58rem;
+    		margin-left:0.23rem;
+    		margin-top:0.3rem;
+    		float:left;
+    	}
+    	.item .item-content{
+    		margin-top:0.4rem;
+    		width:4rem;
+    		float:left;
+    		margin-left:0.51rem;
+    	}
+    	.item .item-content h2{
+    		color:#333333;
+    		font-size:0.28rem;
+    	}
+    	.item .item-content div{
+    		color:#666666;
+    		font-size:0.24rem;
+    	}
+    	.item .item-content .spec{
+    		margin-top:0.3rem;
+    	}
+    	.item .item-content .price{
+    		margin-top:0.1rem;
+    	}
+    	.item .item-content .imp{
+    		color:#FF8344;
+    	}
+    	.item .item-content .count{
+    		float:right
+    	}
+    	
+    	#orderinfo{
+    		margin-top:0.27rem;
+    		position:relative;
+    		background:#FFF;
+    	}
+    	#orderinfo:before{
+    		border-top:1px solid #CCCCCC;
+    		position: absolute;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    		content:"";
+    		display:block;
+    		top:0;left:0;right:0;
+    	}
+    	#orderinfo:after{
+    		border-bottom:1px solid #CCCCCC;
+    		position: absolute;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    	}
+    	
+    	#orderinfo > div{
+    		height:0.88rem;
+    		height:0.88rem;
+    		margin-left:0.23rem;
+    		position: relative;
+    	}
+    	#orderinfo > div:before{
+    		border-bottom:0.01rem solid #CCCCCC;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+    	#orderinfo .integration{
+    		border-bottom:none;
+    	}
+    	.options{
+    		position: relative;
+    	}
+    	.options:after{
+    		position: absolute;
+    		border-bottom: 1px solid #aaaaaa;
+    		bottom: 0;left:0;right:0;
+    		content:"";display:block;
+    		-webkit-transform: scaleY(0.5);
+    		-webkit-transform-origin: 0 0;
+    	}
+    	.itemcount .counttool{
+    		background:#F6F6F6;
+    		margin-top:0.23rem;
+    		margin-right:0.23rem;
+    		float:right;
+    		position: relative;
+    		border:1px solid #AAAAAA;
+    	}
+    	.itemcount .count{
+    		width:0.56rem;
+    		background:#F6F6F6;
+    		height:0.4rem;
+    		margin:0;
+    		padding:0;
+    		border: none;
+    		border-radius: 0;
+    		border-left: 1px solid #AAAAAA;
+    		border-right: 1px solid #AAAAAA;
+    		text-align: center;
+    		color:#FF8344;
+    		font-size:0.28rem;
+    	}
+    	.itemcount .minus,.itemcount .plus{
+    		width:0.36rem;
+    		height:0.36rem;
+    		margin:0;
+    		padding:0;
+    		text-align: center;
+    	}
+    	#orderinfo .itemleft{
+    		height:0.88rem;
+    		line-height: 0.88rem;
+    		color:#333333;
+    		font-size:0.28rem;
+    	}
+    	#orderinfo .itemright{
+    		color:#aaaaaa;
+    		font-size:0.26rem;
+    		float:right;
+    		height:0.88rem;
+    		line-height: 0.88rem;
+    		margin-right:0.23rem;
+    	}
+    	#orderinfo .arrow{
+    		background:url(../../image/icon_arrow_right.png) no-repeat right center;
+    		background-size: 0.16rem 0.28rem;
+    		padding-right: 0.26rem;
+    	}
+    	.forcheck{
+    		width:0.4rem;
+    		height:0.88rem;
+    		line-height: 0.88rem;
+    		background:url(../../image/icon_unchecked.png) no-repeat left center;
+    		background-size:0.36rem 0.36rem;
+    		margin-left: 0.23rem;
+    	}
+    	.check-right{
+    		padding-left: 0.2rem;
+    		color:#333;
+    		font-size:0.26rem;
+    	}
+    </style>
+</head>
+<body>
+	<div id="main">
+		<div id="content">
+		</div>
+		<script type="text/x-dot-template" id="content-template">
+		{{ for(var i=0;i<it.length;i++){ }}
+		<div class="item">
+			<img src="{{=$api.imageUrl+it[i].goodsModelPreview}}" alt="" />
+			<div class="item-content">
+				<h2 class="ellipsis-1">{{=it[i].materialsGoodsName}}</h2>
+				<div class="spec ellipsis-1">型号:{{=((it[i].spec1&&it[i].spec1!='undefined')?it[i].spec1:'')}} {{=((it[i].spec2&&it[i].spec2!='undefined')?it[i].spec2:'')}}</div>
+				<div class="price">价格: <span class="imp">{{=it[i].goodsSalesPrice}}</span>￥ <span class="count">{{=it[i].buyCount}} {{=it[i].materialsGoodsUnit}}</span></div>
+			</div>
+		</div>
+		{{ } }}
+		</script>
+		<div id="orderinfo">
+			<div class="itemcount options">
+				<span class="itemleft">购买数量</span>
+				<div class="counttool">
+					<span class="minus" onclick="minus()" href="">－</span>
+					<input readonly="readonly" class="count" type="text" value="1" />
+					<span class="plus" onclick="plus()" href="">＋</span>
+				</div>
+			</div>
+			<div class="mode options" onclick="selectDelivery()">
+				<span class="itemleft">配送方式</span>
+				<span class="itemright">老师代送</span>
+			</div>
+			<div class="invoice options" style="display: none" onclick="selectInvoice()">
+				<span class="itemleft">发票信息</span>
+				<span class="itemright arrow">无需</span>
+			</div>
+			
+			<div class="integration" style="display: none" onclick="selectBalance()" >
+				<span class="forcheck" checked="false">&nbsp;</span>
+				<span class="check-right">现金余额：<span class="imp">￥1</span>，可用<span class="imp">￥0.5</span></span>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript">
+	var checkbox ;
+	var checked =false;
+	imready = function(){
+		var pageParam = api.pageParam;
+		console.log(JSON.stringify(pageParam))
+		var list = pageParam.list
+		window.list = list;
+		if(pageParam.type=="fromBuyNow"){
+			window.info = list[0]
+			$api.dom(".itemcount").style.display="block"
+			$api.dom(".itemcount input").value=info.buyCount;
+		}else{
+			$api.dom(".itemcount").style.display="none"
+		}
+		getInnerByDot("content","content-template",list)
+		//选择对话框的广播监听器
+		api.addEventListener({
+	        name:'selectDialog'
+        },function(ret,err){
+        	alert(JSON.stringify(ret))
+        	switch(ret.type){
+        		case "invoice"://发票
+        		break;
+        		case "delivery"://快递
+        		break;
+        		case "balance"://余额和中期币
+        		break;
+        		default:
+        		break;
+        	}
+        });
+//	     api.addEventListener({
+//          name:'sureToUseBalance'
+//      },function(ret,err){
+//      	window.balance=ret.value.balance;
+//      	$api.dom(".integration .arrow").innerHTML="￥ : "+window.balance;
+//      });
+        checkbox = $api.dom(".forcheck")
+        requestWallet();
+	};
+	
+	function requestWallet(){
+		window.balance=0;
+		api.showProgress();
+		var body={
+			method:'userWallet',
+			request:{
+				"userId" : api.getPrefs({sync:true,key:"userid"})
+			}
+		}
+		ajaxRequest(body,function(ret,err){
+			api.hideProgress();
+			////balanceType 2是中期币     1为rmb
+			if(ret){
+				console.log(JSON.stringify(ret))
+				if(ret.responseCode==0){
+					for(var i=0;i<ret.responseBody.length;i++){
+						var item = ret.responseBody[i]
+						if(item.balanceType==1){
+							window.balance=item.balance
+						}
+					}
+				}else{
+					
+				}
+			}else{
+				
+			}
+			checkBalance()
+		})
+	}
+
+	function checkBalance(){
+		console.log("checkBalance")
+		if(window.balance==0){
+			$api.dom(".integration").style.display="none"
+		}else{
+			$api.dom(".integration").style.display="block"
+			var imps = $api.domAll(".check-right .imp");
+			for(var i=0;i<imps.length;i++){
+				imps[i].innerHTML="￥"+window.balance
+			}
+		}
+	}
+	
+	/*
+	 * 减少count.减少后重组list,都涉及到是否实时上传数据
+	 */
+	function minus(){
+		var count = window.info.buyCount;
+        if(count==1)
+        	api.toast({
+		        msg:'不能再减少了呢',
+		        location:'middle'
+       		})
+       	else
+       		count--
+        //计算总价
+        changeCount(count)
+	}
+	
+	function changeCount(count){
+		window.info.buyCount=count;
+		getInnerByDot("content","content-template",window.list)
+		$api.val($api.dom("input"), count);
+		var sum = (count*window.info.goodsSalesPrice).toFixed(2);
+		api.execScript({
+			name:"orderconfirm",
+	        script: "calcSum(" +count+ ","+sum+");"
+        });
+	}
+	
+	/*
+	 * 增加count,增加后重组list,都涉及到是否实时上传数据
+	 */
+	function plus(){
+		var count = window.info.buyCount;
+		if(count==(window.info.goodsSalesQuantity)){
+			return toastAtMiddle("库存不足!")
+		}
+		count++;
+		//计算总价
+        changeCount(count)
+	}
+	
+	function selectDelivery(){
+		//1期默认使用老师代送方式
+	}
+	
+	function selectInvoice(){
+		//openSelect("invoice")
+	}
+	
+	function selectBalance(){
+		//openSelect("balance")
+		if(checked){
+			checkbox.style.background="url(../../image/icon_unchecked.png) no-repeat left center"
+			checkbox.style.backgroundSize="0.36rem 0.36rem"
+		}else{
+			checkbox.style.background="url(../../image/icon_checked.png) no-repeat left center"
+			checkbox.style.backgroundSize="0.36rem 0.36rem"
+		}
+		checked=!checked
+		api.sendEvent({
+	        name:'sureToUseBalance',
+	        extra:{
+	        	"useOrNot":checked,
+	        	"balance":window.balance
+	        }
+        });
+		
+	}
+	
+	function openSelect(type){
+		api.openFrame({
+	        name: 'selectDialog_invoice',
+	        url: '../selectDialog.html',
+	        pageParam:{type:type},
+	        animation:{
+			    type:"push",                //动画类型（详见动画类型常量）
+			    subType:"from_bottom",       //动画子类型（详见动画子类型常量）
+			    duration:300                //动画过渡时间，默认300毫秒
+			},
+	        rect: {
+		        x:0,
+		        y:0,
+		        w:api.winWidth,
+		        h:api.winHeight
+	        }
+        });
+	}
+	
+</script>
+</html>

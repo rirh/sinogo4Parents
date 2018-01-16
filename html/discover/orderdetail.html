@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <style>
+    	html,body{
+    		background:#F6F6F6;
+    	}
+    	#footer{
+			height:0.98rem;
+			background:#FF8344;
+			text-align: center;
+			line-height:0.98rem;
+			font-size:0.32rem;
+			color:#FFF;
+		}
+		.item{
+    		height:2.21rem;
+    		background:#FFF;
+    		position:relative;
+    	}
+    	.item:before{
+    		border-bottom: 1px solid #CCCCCC;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+    	.item img{
+    		width:2.58rem;
+    		height:1.58rem;
+    		margin-left:0.23rem;
+    		margin-top:0.3rem;
+    		float:left;
+    	}
+    	.item .item-content{
+    		margin-top:0.4rem;
+    		width:4rem;
+    		float:left;
+    		margin-left:0.35rem;
+    	}
+    	.item .item-content h2{
+    		color:#333333;
+    		font-size:0.28rem;
+    	}
+    	.item .item-content div{
+    		color:#666666;
+    		font-size:0.24rem;
+    	}
+    	.item .item-content .spec{
+    		margin-top:0.2rem;
+    	}
+    	.item .item-content .price{
+    		margin-top:0.1rem;
+    	}
+    	.item .item-content .imp{
+    		color:#FF8344;
+    	}
+    	.item .item-content .count{
+    		float:right
+    	}
+    	.teachbooks{
+    		margin-top:0.39rem;
+    		background:#FFFFFF;
+    		position: relative;
+    	}
+    	.teachbooks:before{
+    		border-top: 1px solid #CCCCCC;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		top:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+    	.teachbooks:after{
+    		border-bottom: 1px solid #CCCCCC;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+    	.teachbooks .book-title{
+    		height:0.79rem;
+    		line-height:0.79rem;
+    		color:#333333;
+    		font-size:0.26rem;
+    		position:relative;
+    	}
+    	.teachbooks .book-title:before{
+    		border-bottom: 1px solid #d9d9d9;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+    	.teachbooks .book-title .checkbox{
+    		margin-top:0.16rem;
+    		margin-left:0.23rem;
+    	}
+		.checkbox:checked:before{
+			top:-0.2rem;
+		}
+		.checkbox:checked:after{
+			top:-0.2rem;
+		}
+    	.teachbooks .book-title span{
+    		margin-left:0.13rem;
+    	}
+    	.teachbooks .book-content{
+    		height:2.69rem;
+    	}
+    	.teachbooks .book-content .book-detail{
+    		height:1.91rem;
+    		margin-left: 0.23rem;
+    		position: relative;
+    	}
+    	.teachbooks .book-content .book-detail:before{
+    		border-bottom: 1px solid #d9d9d9;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+    	.teachbooks .book-content .book-detail .book-pic{
+    		width:1.42rem;
+    		height:1.14rem;
+    		float:left;
+    		margin-top: 0.38rem;
+    		text-align: center;
+    		background:#eeeeee;
+    	}
+    	.teachbooks .book-content .book-detail img{
+    		width:1.27rem;
+    		height:0.71rem;
+    		margin-top:0.22rem;
+    	}
+    	.teachbooks .book-content .book-detail .book-info{
+    		float:left;
+    		margin-left:0.39rem;
+    		line-height:1;
+    		color:#666;
+    		font-size:0.26rem;
+    	}
+    	.teachbooks .book-content .book-detail .bookname{
+    		margin-top:0.38rem;
+    	}
+    	.teachbooks .book-content .book-detail .bookinfo{
+    		margin-top:0.18rem;
+    		font-size:0.24rem;
+    	}
+    	.teachbooks .book-count{
+    		color:#666;
+    		height:0.79rem;
+    		padding-left:0.23rem;
+    		font-size:0.28rem;
+    		position: relative;
+    	}
+    	.teachbooks .book-count .ssss{
+    		height:0.79rem;
+    		line-height:0.79rem;
+    		float: left;
+    	}
+    	.teachbooks .book-count .counttool{
+    		float:right;
+    		margin-right:0.23rem;
+    		margin-top:0.2rem;
+    		color:#999999;
+    	}
+    	.teachbooks .book-count .count{
+    		width:0.4rem;
+    		height:0.38rem;
+    		background:#FFF;
+    		margin:0;
+    		padding:0;
+    		border: none;
+    		border-radius: 0;
+    		text-align: center;
+    		color:#FF8344;
+    		font-size:0.28rem;
+    	}
+    	.teachbooks .book-count .minus,.teachbooks .book-count .plus{
+    		border:1px solid #aaaaaa;
+    		height:0.36rem;
+    		line-height:0.36rem;
+    		width:0.36rem;
+    		text-align: center;
+    	}
+    	.option{
+    		margin-top:0.4rem;
+    		background:#FFF;
+    		position: relative;
+    	}
+    	.option:after{
+    		border-bottom: 1px solid #CCCCCC;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+    	.option:before{
+    		border-top: 1px solid #CCCCCC;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		top:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+    	.option > div{
+    		height:0.88rem;
+    		line-height:0.88rem;
+    		margin-left:0.23rem;
+    		position:relative;
+    	}
+    	.option > div:after{
+    		border-bottom: 1px solid #CCCCCC;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+    	.option .integration{
+    		border-bottom:none;
+    	}
+    	.option .itemleft{
+    		height:0.88rem;
+    		line-height: 0.88rem;
+    		color:#333333;
+    		font-size:0.28rem;
+    	}
+    	.option .itemright{
+    		color:#aaaaaa;
+    		font-size:0.26rem;
+    		float:right;
+    		height:0.88rem;
+    		line-height: 0.88rem;
+    		margin-right:0.23rem;
+    	}
+    	.option .arrow{
+    		background:url(../../image/icon_arrow_right.png) no-repeat right center;
+    		background-size: 0.16rem 0.28rem;
+    		padding-right: 0.26rem;
+    	}
+    </style>
+</head>
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<div id="header">
+			<a class="back-icon" tapmode="active" onclick="api.closeWin()" ></a>
+			<h1 id="title">支付详情</h1>
+		</div>
+		<div id="main" class="flex-con">
+			<div class="item">
+				<img src="../../image/eg_order.png" alt="" />
+				<div class="item-content">
+					<h2 class="ellipsis-2">围棋入门围棋入门</h2>
+					<div class="spec ellipsis-1">红色，上册</div>
+					<div class="price">价格: <span class="imp">100</span>￥</div>
+				</div>
+			</div>
+			<div class="teachbooks">
+				<div class="book-title">
+					<input type="checkbox" class="checkbox" checked disabled="disabled" />
+					<span>配套教材</span>
+				</div>
+				<div class="book-content">
+					<div class="book-detail">
+						<div class="book-pic">
+							<img src="../../image/eg_qipan.png" alt="" />
+						</div>
+						<div class="book-info">
+							<div class="bookname" >围棋配套教材使用棋盘</div>
+							<div class="bookinfo" >黑白棋子,棋盘</div>
+							<div class="bookinfo" >价格:￥100</div>
+						</div>
+					</div>
+					<div class='book-count'>
+						<div class="ssss">购买数量</div>
+						<div class="counttool">
+							<span class="minus" >－</span>
+							<input readonly="readonly" class="count" type="text" value="1" />
+							<span class="plus" >＋</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="option">
+				<div class="invoice">
+					<span class="itemleft">发票信息</span>
+					<span class="itemright arrow">无需</span>
+				</div>
+				<div class="integration">
+					<span class="itemleft">使用中期币</span>
+					<span class="itemright arrow">不使用</span>
+				</div>
+			</div>
+		</div>
+		<div id="footer" class="border-t" onclick="api.closeWin()">
+			继续支付
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	imready = function(){
+		
+	};
+</script>
+</html>

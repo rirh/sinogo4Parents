@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../../css/api.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+	<style>
+		#main {
+			background: #f6f6f6;
+		}
+
+		body {
+			background: #FFFFFF;
+		}
+
+		.lessbox {
+			display: -webkit-flex;
+			/* 新版本语法: Chrome 21+ */
+			display: flex;
+			/* 新版本语法: Opera 12.1, Firefox 22+ */
+			display: -webkit-box;
+			/* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+			display: -moz-box;
+			/* 老版本语法: Firefox (buggy) */
+			display: -ms-flexbox;
+			/* 混合版本语法: IE 10 */
+			background: #FFFFFF;
+			position: relative;
+		}
+
+		.lessbox:after {
+			border-bottom: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+
+		.lleft {
+			width: 2.58rem;
+			height: 1.58rem;
+			display: block;
+			margin-left: 0.23rem;
+			margin-top: 0.28rem;
+			margin-right: 0.26rem;
+			background: url(../../image/mine/mylesson.png);
+			background-size: cover;
+		}
+
+		.lleft img {
+			width: 2.58rem;
+			height: 1.58rem;
+		}
+
+		.lright {
+			display: block;
+			margin-top: 0.23rem;
+			margin-bottom: 0.23rem;
+		}
+
+		p,
+		i {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			word-break: keep-all;
+		}
+
+		i {
+			font-style: normal;
+		}
+
+		.p1 {
+			font-size: 0.28rem;
+			color: #333333;
+		}
+
+		.p2 {
+			font-size: 0.24rem;
+			color: #666666;
+		}
+
+		.p3 {
+			font-size: 0.24rem;
+			color: #666666;
+		}
+
+		.p4 {
+			font-size: 0.24rem;
+			color: #666666;
+		}
+
+		.p4 i {
+			color: #FF8344;
+		}
+
+		.tips {
+			height: 0.8rem;
+			line-height: 0.8rem;
+			color: #fd7776;
+			font-size: 0.26rem;
+			margin-left: 0.23rem;
+			border-bottom: #CCCCCC solid 0.01rem;
+		}
+
+		.tips2 {
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			height: 0.8rem;
+			line-height: 0.8rem;
+			color: #76ce54;
+			font-size: 0.26rem;
+			padding-left: 0.23rem;
+			background: #f6f6f6;
+		}
+
+		.loadingbox {
+			position: relative;
+		}
+
+		.loadingbox:after {
+			border-top: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+
+		.finishbox {
+			position: relative;
+		}
+
+		.finishbox:after {
+			border-top: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+
+		.touch {
+			background: #f6f6f6;
+		}
+
+		.start-ing {
+			color: #FD7776;
+		}
+
+		.start-st {
+			color: #FF8344;
+		}
+
+		.start-ed {
+			color: #76ce54;
+		}
+
+		#black {
+			color: #666666;
+		}
+
+		#empty {
+			font-size: .48rem;
+			color: #666;
+			width: 100%;
+			height: 5rem;
+			text-align: center;
+			margin-top: 3rem;
+			display: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<div id='main'>
+			<div class="doingbox"></div>
+			<div class="tips">
+				等待开课中
+			</div>
+			<div class="loadingbox"></div>
+			<div class="tips2">
+				已完成
+			</div>
+			<div class="finishbox"></div>
+		</div>
+		<div id="empty">
+			没有可以请假的课程
+		</div>
+
+	</div>
+</body>
+<script type="template" id="dotTmpl">
+	{{for(var i = 0 ; i
+	<it.length;i++){}} <div class="lessbox" onclick="item('{{=i}}','{{=it[i].courseName}}','{{=it[i].classId}}','{{=it[i].courseId}}','{{=it[i].institutionId}}','{{=it[i].tag}}')" tapmode="touch">
+		<img class="lleft" src="{{=it[i].img?it[i].img:'../../image/mine/mylesson.png'}}" />
+		<div class="lright">
+			<h3 class="p1">{{=it[i].courseName}}</h3>
+			<p class="p2">老师：<i>{{=it[i].classTeacher}}</i></p>
+			<p class="p3">地点：<i>{{=it[i].institutionAddress}}</i></p>
+			<p class="p3">状态：<i>{{=it[i].status}}</i></p>
+			<p class="p3">班级：<i>{{=it[i].className}}</i></p>
+		</div>
+		</div>
+		{{ } }}
+</script>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	var studentid;
+
+	function item(i, courseName, classId, courseId, institutionId, tag) {
+
+		if (studentid != null) {
+			//传递给课程详情的参数 id学生id,classId,courseId,institutionId
+			api.openWin({
+				name: 'leaveDatailsTitle',
+				url: 'leaveDatailsTitle.html',
+				pageParam: {
+					id: studentid,
+					courseName: courseName,
+					classId: classId,
+					courseId: courseId,
+					institutionId: institutionId,
+					tag: tag
+				}
+			});
+		}
+	}
+
+	function listen() {
+		api.addEventListener({
+			name: 'leaveBody'
+		}, function(ret, err) {
+			console.log('lesson' + JSON.stringify(ret.value.key1))
+			studentid = ret.value.key1;
+			getHotCities(ret.value.key1);
+		});
+	}
+
+	apiready = function() {
+		studentid = api.pageParam.id;
+		getHotCities(api.pageParam.id);
+		listen()
+	};
+
+	function httptodo(responseBody) {
+		var ajson = [];
+		var bjson = [];
+		var cjson = [];
+		for (var a = 0; a < responseBody.length; a++) {
+			var list = {}
+			list.img = $api.imageUrl + responseBody[a].courseImage;
+			list.startDate = JSON.stringify(responseBody[a].startDate).substring(1, 11);
+			list.courseName = responseBody[a].courseName;
+			list.classTeacher = responseBody[a].classTeacher;
+			list.institutionName = responseBody[a].institutionName;
+			list.institutionAddress = responseBody[a].institutionAddress;
+			list.classId = responseBody[a].classId;
+			list.courseId = responseBody[a].courseId;
+			list.institutionId = responseBody[a].institutionId;
+			list.className = responseBody[a].className;
+			list.isStart = responseBody[a].isStart;
+			list.isEnd = responseBody[a].isEnd;
+			list.classType = responseBody[a].classType;
+			if (responseBody[a].isStart && responseBody[a].isEnd) {
+				list.tag = -1;
+				list.status = "已完成"
+				cjson.push(list);
+			} else if ((responseBody[a].isStart) && !(responseBody[a].isEnd)) {
+				list.tag = 0;
+				list.status = "已开始"
+				if (responseBody[a].classType == 1) {
+					list.tag = -1;
+					cjson.push(list);
+				} else {
+					ajson.push(list);
+				}
+			} else if (!(responseBody[a].isStart) && !(responseBody[a].isEnd)) {
+				list.tag = 0;
+				list.status = "等待开课中"
+				if (responseBody[a].classType == 1) {
+					list.tag = -1;
+					cjson.push(list);
+				} else {
+					bjson.push(list);
+				}
+			}
+		}
+		//当孩子的数量和请假的课程都为1的时候直接打开请假页面
+		if ((ajson.length + bjson.length) == 1 && api.pageParam.childrenname.length == 1) {
+			ajson.length == 1 ? spaiceOpenLeave(ajson) : spaiceOpenLeave(bjson);
+		}
+
+		//如果没有数据的时候打开catch页面
+		if (ajson.length == 0 && bjson.length == 0) {
+			api.openFrame({
+				name: 'catchNoInfo',
+				url: 'catchNoInfo.html',
+				bounce: false,
+				rect: {
+					x: 0,
+					y: api.pageParam.y,
+					w: api.frameWidth,
+					h: api.pageParam.h
+				}
+			});
+		}else{
+			api.closeFrame({
+				name: "catchNoInfo"
+			});
+		}
+		var tmpl = doT.template($api.text($api.dom('#dotTmpl')));
+		$api.html($api.dom(".doingbox"), tmpl(ajson));
+		$api.html($api.dom(".loadingbox"), tmpl(bjson));
+		$api.css($api.dom(".tips2"), "display:none");
+		//				$api.html($api.dom(".finishbox"), tmpl(cjson));
+		if (bjson.length == 0) {
+			$api.css($api.dom(".tips"), "display:none");
+		}
+		if (cjson.length == 0) {
+			$api.css($api.dom(".tips2"), "display:none");
+		}
+
+
+	}
+
+	function spaiceOpenLeave(responseBody) {
+		api.toast({
+			msg: '直接打开请假页面'
+		});
+		var tag;
+		if (responseBody[0].isStart && responseBody[0].isEnd) {
+			tag = -1;
+		} else if ((responseBody[0].isStart) && !(responseBody[0].isEnd)) {
+			tag = 0;
+		} else if (!(responseBody[0].isStart) && !(responseBody[0].isEnd)) {
+			tag = 0;
+		}
+		api.openWin({
+			name: 'leaveDatailsTitle',
+			url: 'leaveDatailsTitle.html',
+			pageParam: {
+				id: api.pageParam.id,
+				courseName: responseBody[0].courseName,
+				classId: responseBody[0].classId,
+				courseId: responseBody[0].courseId,
+				institutionId: responseBody[0].institutionId,
+				tag: tag
+			}
+		});
+
+
+
+	}
+
+	function getHotCities(i) {
+		var data = {};
+		data.method = 'studentCourse';
+		data.request = {
+			"studentId": i
+		}, api.showProgress();
+		console.log("请假studentCourse请求数据" + JSON.stringify(data));
+		ajaxRequest(data, function(ret, err) {
+			api.hideProgress();
+			if (ret) {
+				console.log("请假studentCourse成功返回数据" + JSON.stringify(ret));
+				if (ret.responseCode == 0) {
+					// if (ret.responseBody.length > 0) {
+						// alert(111111111111111);
+						httptodo(ret.responseBody);
+						// api.closeFrame({
+						// 	name: "catchNoInfo"
+						// });
+					// } else {
+						// alert(2222222222222);
+
+						// api.openFrame({
+						// 	name: 'catchNoInfo',
+						// 	url: 'catchNoInfo.html',
+						// 	bounce: false,
+						// 	rect: {
+						// 		x: 0,
+						// 		y: api.pageParam.y,
+						// 		w: api.frameWidth,
+						// 		h: api.pageParam.h
+						// 	}
+						// });
+					// }
+				}
+			} else {
+				console.log("我的课程studentCourse失败返回数据" + JSON.stringify(err));
+			}
+		})
+	}
+</script>
+
+</html>

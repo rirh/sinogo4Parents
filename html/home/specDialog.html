@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+    	html,body{
+    		height:100%;
+    		width:100%;
+    		text-align: center;
+    		background: url(../../image/icon_bg_dialog.png);
+    		overflow: hidden;
+    	}
+    	#main{
+    		height:1rem;
+    	}
+    	.content{
+    		background:#FFF;
+    	}
+    	.content #top{
+    		height:2.16rem;
+    		width:100%;
+    		position: relative;
+    	}
+    	.content #top .pic{
+    		position: absolute;
+    		top:-0.4rem;
+    		width:2.5rem;
+    		height:2.5rem;
+    		border:1px solid #d9d9d9;
+    		border-radius:0.08rem;
+    		left:0.4rem;
+    	}
+    	.content #top img{
+    		width:2.5rem;
+    		height:2.5rem;
+    	}
+    	.content #top .select-content{
+    		position:absolute;
+    		top:0.4rem;
+    		left:3.3rem;
+    		height:1.46rem;
+    		text-align: left;
+    	}
+    	.content #top .select-content > div{
+    		height:0.48rem;
+    		line-height:0.48rem;
+    	}
+    	#model{
+    		text-align: left;
+    		position: relative;
+    		padding-bottom: 0.2rem;
+    	}
+    	#model:after{
+    		border-bottom:1px solid #d9d9d9;
+    		position:absolute;
+    		bottom:0;left:0;right:0;
+    		content:"";display:block;
+    		-webkit-transform: scaleY(0.5);
+    		-webkit-transform-origin: 0 0;
+    		pointer-events:none;
+    	}
+    	#standard{
+    		text-align: left;
+    	}
+    	.model-title{
+    		font-size:0.3rem;
+    		color:#333333;
+    		margin-left:0.35rem;
+    		margin-top:0.5rem;
+    	}
+    	.model-items{
+    		padding:0.14rem 0.20rem;
+    		font-size:0.28rem;
+    		color:#333;
+    	}
+    	.model-items span{
+    		text-align:center;
+    		margin:0 0.1rem;
+    		min-width:1.04rem;
+    		border-radius:0.08rem;
+    		height:0.62rem;
+    		line-height:0.62rem;
+    		margin-top:0.19rem;
+    		background: #F6F6F6;
+    		padding: 0 0.06rem;
+    		color:#333;
+    	}
+    	.model-items span.current{
+    		background: #FF8344;
+    		color:#FFF;
+    	}
+    	.itemcount{
+    		width: 100%;
+    		position: relative;
+    		height:0.88rem;
+    		margin-top:0.23rem;
+    	}
+    	.itemcount:before{
+    		border-top:1px solid #F6F6F6;
+    		position:absolute;
+    		top:0;left:0;right:0;
+    		content:"";display:block;
+    		-webkit-transform: scaleY(0.5);
+    		-webkit-transform-origin: 0 0;
+    	}
+    	.itemcount:after{
+    		border-bottom:1px solid #F6F6F6;
+    		position:absolute;
+    		bottom:0;left:0;right:0;
+    		content:"";display:block;
+    		-webkit-transform: scaleY(0.5);
+    		-webkit-transform-origin: 0 0;
+    		pointer-events:none;
+    	}
+    	.itemcount .counttool{
+    		background:#F6F6F6;
+    		margin-top:0.23rem;
+    		margin-right:0.23rem;
+    		float:right;
+    		position: relative;
+    		border:1px solid #AAAAAA;
+    	}
+    	.itemcount .count{
+    		width:0.56rem;
+    		background:#F6F6F6;
+    		height:0.4rem;
+    		margin:0;
+    		padding:0;
+    		border: none;
+    		border-radius: 0;
+    		border-left: 1px solid #AAAAAA;
+    		border-right: 1px solid #AAAAAA;
+    		text-align: center;
+    		color:#FF8344;
+    		font-size:0.28rem;
+    	}
+    	.itemcount .minus,.itemcount .plus{
+    		width:0.36rem;
+    		height:0.36rem;
+    		margin:0;
+    		padding:0;
+    		text-align: center;
+    	}
+    	.itemleft{
+    		height:0.88rem;
+    		line-height: 0.88rem;
+    		color:#333333;
+    		font-size:0.28rem;
+    		text-align: left;
+    		float: left;
+    		margin-left:0.35rem;
+    	}
+    	.itemright{
+    		color:#aaaaaa;
+    		font-size:0.26rem;
+    		float:right;
+    		height:0.88rem;
+    		line-height: 0.88rem;
+    		margin-right:0.23rem;
+    	}
+    	#service{
+			float:left;
+			width:50%;
+			height:0.98rem;
+			line-height:0.98rem;
+			background:#FF8344;
+			text-align: center;
+			color:#FFF;
+			font-size:0.3rem;
+		}
+		#gobuy{
+			float:left;
+			width:100%;
+			height:0.98rem;
+			background:#FF4400;
+			text-align: center;
+			line-height:0.98rem;
+			color:#FFF;
+			font-size:0.3rem;
+		}
+		#gobuy.active{
+			background:#FF8344;
+		}
+    </style>
+</head>
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<div id="main" class="flex-con" onclick="closeSelf();" ></div>
+		<div tapmode="active" class="content">
+			<script type="text/x-dot-template" id="top-template">
+			<div class="pic">
+				<img src="{{=$api.imageUrl+it.goodsModelPreview}}" alt="" />
+				</div>
+				<div class="select-content">
+					<div><span class="imp">￥{{=it.goodsSalesPrice}}</span></div>
+					<div>库存{{=it.goodsSalesQuantity}}件</div>
+					<div>已选:{{=it.spec1?it.spec1:''}}   {{=it.spec2?it.spec2:''}}</div>
+				</div>
+			</script>
+			<div id="top">
+			</div>
+			<script type="text/x-dot-template" id="model-template" >
+				<div class="model-title">{{=it.materialsModelName}}</div>
+				<div class="model-items">
+					{{ for(var i=0;i<it.teachingMaterialsModels.length;i++){ }}
+					<span onclick="select(this,'model','{{=it.teachingMaterialsModels[i].id}}')"  class="{{=it.teachingMaterialsModels[i].id==window.modelId?'current':''}}" >{{=it.teachingMaterialsModels[i].goodsModelName}}</span>
+					{{ } }}
+				</div>
+			</script>
+			<div id="model">
+			</div>
+			<script type="text/x-dot-template" id="standard-template"  >
+				<div class="model-title">{{=it.materialsStandardName}}</div>
+				<div class="model-items">
+					{{ for(var i=0;i<it.teachingMaterialsStandards.length;i++){ }}
+					<span onclick="select(this,'standard','{{=it.teachingMaterialsStandards[i].id}}')" class="{{=it.teachingMaterialsStandards[i].id==window.standardId?'current':''}}" >{{=it.teachingMaterialsStandards[i].goodsStandardName}}</span>
+					{{ } }}
+				</div>
+			</script>
+			<div id="standard">
+			</div>
+			<div class="itemcount">
+				<span class="itemleft">购买数量</span>
+				<div class="counttool">
+					<span class="minus" onclick="minus()" href="">－</span>
+					<input readonly="readonly" class="count" type="text" value="1" />
+					<span class="plus" onclick="plus()" href="">＋</span>
+				</div>
+			</div>
+			<div class="bottom" style="margin-top:0.5rem;">
+				<div id="service" style="display: none" onclick="putIntoShoppingcart()">
+					加入购物车
+				</div>
+				<div tapmode='active' id="gobuy" onclick="buyNow()">
+					立即购买
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript">
+	var countInput ;
+	imready = function(){
+		window.result = api.pageParam.good_detail;
+		console.log("init--"+JSON.stringify(window.result))
+		var models = result.materialsGoodsModelDetail;
+		var standards = result.materialsGoodsStandardDetail;
+		window.modelId = window.result.currentItem.goodsSalesModelId
+		window.standardId = window.result.currentItem.goodsSalesStandardId
+		
+		if(models){
+			getInnerByDot("model","model-template",models);
+		}
+		if(standards){
+			getInnerByDot("standard","standard-template",standards);
+		}
+		getInnerByDot("top","top-template",window.result.currentItem);
+		if(window.result.currentItem.goodsSalesQuantity<1){
+	        $api.byId("gobuy").style.background="#ccc"
+		}else{
+	        $api.byId("gobuy").style.background="#FF4400"
+		}
+		countInput = $api.dom("input")
+	};
+	function select(el,type,id){
+		if(type=='model'){
+			window.modelId =id;
+			var last = $api.dom("#model .current");
+			$api.removeCls(last, "current");
+			$api.addCls(el, "current");
+			window.modelId =id;
+			resetCurrent();
+		}else{
+			var last = $api.dom("#standard .current");
+			$api.removeCls(last, "current");
+			$api.addCls(el, "current");
+			window.standardId =id;
+			resetCurrent();
+		}
+		api.sendEvent({
+	        name:'specChanged',
+	        extra:{good_detail:window.result}
+        });
+	}
+	
+	function resetCurrent(){
+		for(var i=0;i<window.result.materialsGoodsSalesDetails.length;i++){
+			var item = window.result.materialsGoodsSalesDetails[i]
+			if(item.goodsSalesModelId==window.modelId&&item.goodsSalesStandardId==window.standardId){
+				item.isChecked=true;
+				window.result.currentItem = item;
+			}else{
+				item.isChecked=false;
+			}
+		}
+		countInput.value='1'
+		window.result.currentItem.buyCount=1;
+		getInnerByDot("top","top-template",window.result.currentItem);
+		if(window.result.currentItem.goodsSalesQuantity<1){
+	        $api.byId("gobuy").style.background="#ccc"
+		}else{
+	        $api.byId("gobuy").style.background="#FF4400"
+		}
+	}
+	
+	function minus(){
+		var count = window.result.currentItem.buyCount;
+        if(count==1)
+        	api.toast({
+		        msg:'不能再减少了呢',
+		        location:'middle'
+       		})
+       	else
+       		window.result.currentItem.buyCount=count-1
+       	changeCount();
+	}
+	
+	function changeCount(count){
+		$api.val(countInput, window.result.currentItem.buyCount);
+        api.sendEvent({
+	        name:'specChanged',
+	        extra:{good_detail:window.result}
+        });
+	}
+	
+	/*
+	 * 增加count,增加后重组list,都涉及到是否实时上传数据
+	 */
+	function plus(){
+		var count = window.result.currentItem.buyCount;
+		if(count==(window.result.currentItem.goodsSalesQuantity)){
+			api.toast({
+		        msg:'教辅库存不足!',
+		        location:'middle'
+       		})
+			return;
+		}
+		window.result.currentItem.buyCount=count+1;
+       	changeCount();
+	}
+	function closeSelf(){
+		window.result.currentItem.buyCount=1;
+		api.sendEvent({
+	        name:'specChanged',
+	        extra:{good_detail:window.result}
+        });
+		api.closeFrame({
+			name:'specDialog'
+        });
+	}
+	function buyNow(){
+		if(window.result.currentItem.goodsSalesQuantity<1){
+			return toastAtMiddle("库存不足,请等待,或选择其他规格!");
+		}
+		setTimeout("closeSelf();",1000)
+		api.sendEvent({
+	        name:'specListener',
+	        extra:{
+	        	isOpend:false
+	        }
+        });
+		api.execScript({
+			name:'goodsIndex',
+	        script: 'buyNow();'
+        });
+	}
+</script>
+</html>

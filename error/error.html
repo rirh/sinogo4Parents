@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	body{
+    		
+    	}
+    	div{
+    		position:absolute;
+    		top:1rem;left:2rem;
+    		width:0.4rem;
+    		text-align:center;
+    		line-height:0.4rem;
+    		height:0.3rem;
+    		background:url(../image/icon_msg_unread.png) no-repeat center center rgba(0,0,0,0);
+    		background-size: 0.5rem 0.5rem;
+    	}
+    </style>
+</head>
+<body>
+	<div>1</div>
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+	apiready=function(){
+		var list = [1,2,33,5]
+		console.log(list)
+		var listStr = JSON.stringify(list)
+		console.log(listStr)
+		var listT = $api.strToJson(listStr);
+		console.log(listT)
+		for(var i=0;i<listT.length;i++){
+			console.log(listT[i])
+		}
+		
+	}
+</script>
+</html>

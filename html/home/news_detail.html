@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+    	html,body{
+    		height:100%;
+    		background:#F6F6F6;
+    	}
+    	#main{
+    		padding-top:0.29rem;
+    		margin-left:0.23rem;
+    		margin-right:0.23rem;
+    	}
+    	.title{
+    		font-size:0.28rem;
+    		color:#333333;
+    	}
+    	div span{
+    		font-size:0.26rem;
+    		color:#aaaaaa;
+    	}
+    	#date{
+    		margin-left:0.8rem;
+    	}
+    	#detail > img{
+    		width:7.06rem;
+    		height:2.95rem;
+    		margin-top:0.33rem;
+    	}
+    	#content{
+    		font-size:0.26rem;
+    		color:#666;
+    		margin-top:0.31rem;
+    	}
+    	#content img{
+    		max-width: 100%;
+    	}
+    </style>
+</head>
+<body>
+	<div id="main">
+		<script id="detail-template" type="text/x-dot-template">
+			<div  class="title ellipsis-1">{{=it.newsTitle}}</div>
+			<div><span id="from">{{=it.newsSource}}</span><span id="date">{{=it.createTime}}</span></div> 
+			<img src="{{=$api.imageUrl+it.newsBanner}}" alt="" />
+			<div id="content">{{=it.newsContent}}</div>
+		</script>
+		<div id="detail">
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript">
+	imready = function(){
+		var body = {};
+		api.showProgress({
+        });
+		body.method="getBannerNews";
+		body.request = {
+			newsId:api.pageParam.id
+		}
+		ajaxRequest(body,function(ret,err){
+			api.hideProgress();
+			if(ret){
+			if(ret.responseCode==0){
+				var response = ret.responseBody;
+				//TODO 测试内容富文本
+				getInnerByDot("detail","detail-template",response)
+			}else{
+				alert(ret.responseMsg)
+			}
+			}else{
+				alert(err.msg)
+			}
+		})
+	};
+</script>
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+    	html,body{
+    		height: 100%;
+    		background: #f6f6f6;
+    	}
+    	#header{
+		    background-color: #FF8345;
+		    text-align: center; color: #fff;
+		    width: 100%; position: relative;
+		    height:0.88rem;
+		}
+		#header .back-icon{
+		    display: inline-block; width: 0.88rem; height: 0.88rem;
+		    background: url(../../image/icon_arrow_left.png) no-repeat center center; 
+		    -webkit-background-size: 0.25rem 0.4rem;
+		    background-size: 0.25rem 0.4rem;
+		    position: absolute; left: 0; bottom: 0;
+		}
+		#header .back-icon.active{
+			 background: url(../../image/icon_arrow_left.png) no-repeat center center rgba(0,0,0,0.2); 
+			 background-size: 0.25rem 0.4rem;
+		}
+		#header h1{
+		    font-size: 0.34rem;
+		    height: 0.88rem; line-height: 0.88rem; margin: 0 auto; color: #fff;
+		    width:5rem;
+		}
+		#header .btn_left{
+			width: 1.2rem; height: 0.88rem;
+			line-height: 0.88rem;
+			font-size:0.3rem;
+			position: absolute;
+			top: 0;
+			right:0.88rem;
+			text-align: center;
+			display: none;
+		}
+		#header .btn_left.active{
+			background:rgba(0,0,0,0.3);
+		}
+		#header .btn_right{
+			width: 0.95rem; height: 0.88rem;
+			line-height: 0.88rem;
+			font-size:0.3rem;
+			position: absolute;
+			top: 0;
+			right:0;
+			text-align: center;
+			display: none;
+		}
+		#header .btn_right.active{
+			background:rgba(0,0,0,0.3);
+		}
+    	#main{
+    		text-align: center;
+    	}
+    	@media (-webkit-min-device-pixel-ratio:2) {
+		    .login{
+		   		box-shadow:0 0 0px 0.01rem rgb(204,204, 204);  
+		    }
+		}
+		@media (-webkit-max-device-pixel-ratio:2) {
+			.login{
+	   			box-shadow:0 0 0px 1px rgb(204,204, 204);  
+		    }
+		}
+    	#input{
+			width: 90%;
+			height:4rem;
+			margin-left:5%;
+			border-radius: 0.05rem;
+			margin-top:1.31rem;
+			background: #FFF;
+		}
+		.input_wrap {
+			position: relative;
+			width: 100%;
+			height:1rem;
+			line-height:1rem;
+		}
+		.inputborder{
+			position: relative;
+		}
+		.inputborder:after{
+			border-bottom: 1px solid #ccc;
+			position: absolute;
+			bottom: 0;left:0;right:0;
+			content:"";display: block;
+			-webkit-transform: scaleY(0.5);
+			-webkit-transform-origin: 0 0;
+		}
+		.imgborder{
+			width: 0.53rem;
+			height: 0.6rem;
+			position: relative;
+			float: left;
+			margin-top: 0.2rem;
+			margin-left: 0.23rem;
+		}
+		.imgborder:after{
+			border-right:1px solid rgba(255,131,68,0.5);
+			position: absolute;
+			right: 0;top:0;bottom:0;
+			content:"";display:block;
+			-webkit-transform: scaleX(0.5);
+			-webkit-transform-origin: 0 0;
+		}
+		.imgborder img {
+			width: 0.3rem;
+			height: 0.3rem;
+			position: absolute;
+			top: 0.15rem;
+			left:0;
+		}
+		.input_wrap .input {
+			height: 0.6rem;
+			outline: none;
+			font-size:0.26rem;
+			padding-left: 0.23rem;
+			float: left;
+			width:80%;
+			margin-top: 0.2rem;
+			position: relative;
+		}
+		.telcode{
+			width:30%;
+		}
+		.btn-code{
+			position:absolute;
+			top:0.15rem;
+			right:0.23rem;
+			width:2rem;
+			height:0.66rem;
+			line-height:0.66rem;
+			text-align:center;
+			background:#ffdac5;
+			font-size:0.28rem;
+			color:#666;
+			border-radius: 0.05rem;
+		}
+		.btn {
+			width: 90%;
+			height: 0.88rem;
+			background-color: #FF8344;
+			margin: 0.1rem auto;
+			text-align: center;
+			line-height: 0.88rem;
+			color: #FFF;
+			position: relative;
+			font-size: 0.3rem;
+			border-radius: 0.05rem;
+		}
+		.multiinput{
+			height: 1rem;
+			outline: none;
+			font-size:0.26rem;
+			padding-left: 0.23rem;
+			float: left;
+			width:80%;
+			position: relative;
+		}
+		.multiinput .numberinput{
+			position: absolute;
+			top:0.2rem;
+			left:0;
+			padding-left: 0.23rem;
+			height:0.6rem;font-size:0.26rem;
+			width:100%;
+			opacity: 0;
+		}
+		.multiinput .passinput{
+			position: absolute;
+			top:0.2rem;
+			left:0;
+			height:0.6rem;font-size:0.26rem;
+			padding-left: 0.23rem;
+			width:100%;
+		}
+    </style>
+</head>
+<body>
+	<div id="header">
+		<a class="back-icon" tapmode="active" onclick="closeSelf()" ></a>
+		<h1 id="title">设置支付密码</h1>
+	</div>
+	<div id="main">
+		<div id="input" class="login">
+			<div class="input_wrap inputborder">
+				<div class="imgborder">
+				<img src="../../image/icon_user_phone.png" />
+				</div>
+				<input class="input" id="userphone" type="tel" placeholder="" readonly />
+			</div>
+			<div class="input_wrap inputborder">
+				<div class="imgborder">
+				<img src="../../image/icon_user_code.png" />
+				</div>
+				<input class="input telcode" id="usercode" type="number" placeholder="请输入验证码" />
+				<div tapmode="active" onclick="getCode()" class="btn-code" >
+				获取验证码
+				</div>
+			</div>
+			<div class="input_wrap inputborder">
+				<div class="imgborder">
+				<img src="../../image/login02.png" />
+				</div>
+				<div class="multiinput" >
+				<input class="passinput pass"  type="password" placeholder="请输入六位数字作为余额支付密码"  readonly />
+				<input class="numberinput realpass" type="tel"  placeholder="背过侠" />
+				</div>
+				<span></span>
+			</div>
+			<div class="input_wrap">
+				<div class="imgborder">
+				<img src="../../image/login02.png" />
+				</div>
+				<div class="multiinput" >
+				<input class="passinput repass"  type="password" placeholder="请确认余额支付密码" readonly />
+				<input class="numberinput realrepass" type="tel"  placeholder="背过侠" />
+				</div>
+			</div>
+		</div>
+		<a class="btn login" style="margin-top:0.6rem;" tapmode="active" onclick="ensure()">确   认</a>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	var inputs;
+	var btnCode;
+	var phoneOk=false;
+	imready = function(){
+		var from = api.pageParam.from;
+		toastAtMiddle(from=='reset'?"请您重置支付密码!":"您尚未设置支付密码,使用账户余额前请先设置支付密码!")
+		inputs = $api.domAll(".input")
+		inputs[0].value=api.getPrefs({sync:true,key:'userPhone'})
+       	btnCode=$api.dom(".btn-code")
+       	$api.dom(".realrepass").oninput=function(){
+       		var value=this.value;
+       		if(value.length>0){
+       			var endWord = value.substr(value.length-1,1)
+       			if((/[^\d]/g.test(endWord))){ 
+       				toastAtMiddle("支付密码为6位数字组成!")
+     				this.value = value.substr(0,value.length-1)
+			    } else{
+   				}
+       		}
+       		if(value.length==7){
+       			toastAtMiddle("支付密码为6位数字组成!")
+       			this.value = value.substr(0,value.length-1)
+       		}
+       		$api.dom(".repass").value=this.value;
+       	}
+       	$api.dom(".realpass").oninput=function(){
+       		var value=this.value;
+       		if(value.length>0){
+       			var endWord = value.substr(value.length-1,1)
+       			if((/[^\d]/g.test(endWord))){ 
+       				toastAtMiddle("支付密码为6位数字组成!")
+     				this.value = value.substr(0,value.length-1)
+			    } else{
+   				}
+       		}
+       		if(value.length==7){
+       			toastAtMiddle("支付密码为6位数字组成!")
+       			this.value = value.substr(0,value.length-1)
+       		}
+       		$api.dom(".pass").value=this.value;
+       	}
+       	api.addEventListener({
+           name:'swiperight'
+       },function(ret,err){
+       });
+	};
+	
+	function ensure(){
+		var phone = $api.trimAll(inputs[0].value);
+		var code =  $api.trimAll(inputs[1].value);
+		
+		var password = $api.dom(".pass").value;
+		var repassword = $api.dom(".repass").value;
+		
+		var msgs= ['手机号','验证码','密码','确认密码']
+		if(!code){
+			return toastAtMiddle("请输入验证码!")
+		}
+		if(!password){
+			return toastAtMiddle("请输入支付密码!")
+		}
+		if(!repassword){
+			return toastAtMiddle("请确认支付密码!")
+		}
+		if(password!=repassword){
+			return toastAtMiddle("两次输入密码不一致");
+		}
+		
+		if(password.length<6){
+			return toastAtMiddle("支付密码为6位数字组成");
+		}
+		
+		if(code!=window.currentCode){
+			return toastAtMiddle("验证码输入有误");
+		}
+		//TODO 设置交易密码接口
+		var body={
+			method:'setTradePassword',
+			request:{
+				userPhone:phone,
+				password:password
+			}
+		}
+		api.showProgress();
+		ajaxRequest(body,function(ret,err){
+			api.hideProgress();
+			if(ret){
+				if(ret.responseCode==0){
+					api.setPrefs({
+	                    key:'tradePassword',
+	                    value:hex_md5(password)
+                    });
+					api.sendEvent({
+	                    name:'passwordSeted',
+	                    extra:{
+	                    }
+                    });
+                    toastAtMiddle("支付密码设置成功!")
+                    closeSelf()
+				}else{
+					alert("密码重置失败!"+ret.responseMsg)
+				}
+			}else{
+				alert("密码重置失败!"+err.responseMsg)
+			}
+		})
+	}
+	
+	function closeSelf(){
+		api.sendEvent({
+	        name:'passSettingState',
+	        extra:{
+	        	isOpend:false
+	        }
+        });
+		api.closeFrame({
+			name:"balancePayPassSetting"
+        });
+	}
+	
+	function getCode(){
+		if(window.timerid){
+			return;
+		}
+		var phoneNum = inputs[0].value
+		api.showProgress({
+        });
+		checkRequestIp(function(requestIp){
+			requestCode(phoneNum,requestIp);
+		})
+	}
+	
+	function requestCode(phoneNum,requestIp){
+		api.showProgress({
+        });
+		var body = {};
+		body.method="sendMessage"
+		body.request={
+		   	"smsTemplate":"UserChangeTradePwd",
+			"phoneNo":phoneNum,
+			"requestIp":requestIp
+		}
+		ajaxRequest(body,function(ret,err){
+			api.hideProgress();
+			if(ret){
+		        btnCode.innerHTML="重新获取("+(60)+")"
+		        window.timerid = setInterval("showCountdown();",1000)
+		        window.currentCode = ret.responseBody.verificationCode;
+			}
+			else{
+				alert(err.msg)
+			}
+		})
+	}
+	
+	var total=0;
+	function showCountdown(){
+		total+=1000;
+		if(total==60000){
+			clearInterval(window.timerid)
+			btnCode.innerHTML="获取验证码";
+			window.timerid=undefined 
+			total=0;
+			return;
+		}
+		btnCode.innerHTML="重新获取("+(60-total/1000)+")"
+	}
+		
+	
+</script>
+</html>

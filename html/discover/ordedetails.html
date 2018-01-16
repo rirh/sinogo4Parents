@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+		<style>
+			.flex-wrap {
+				background: #F0EFF3;
+			}
+			header {
+				background: #FF8345;
+				height: 0.88rem;
+				line-height: 0.88rem;
+				text-align: center;
+				display: flex;
+				color: #323237;
+				color: #ffffff;
+			}
+			.left {
+				text-align:left;
+				display: inline-block;
+				margin-left: 0.23rem;
+				margin-top: 0.175rem;
+				width:0.24rem;
+				height: 0.45rem;
+				
+				background: url(../../image/back.png);
+				background-size: cover;
+				
+			}
+			.center {
+				display: inline-block;
+				flex: 10;
+				font-size: 0.34rem;
+			}
+			.right {
+				
+				display: inline-block;
+				color: #ffab7a;
+				font-size: 0.30rem;
+				
+			}
+				.title{
+			height: 2.37rem;
+			background: #FFFFFF;
+			display: flex;
+			}
+			.tleft{
+			
+			margin-top: 0.3rem;
+			margin-left: 0.23rem;
+			display: inline-block;
+			height: 1.62rem;
+			width: 2.58rem;
+			background: url(../../image/mine/mylesson.png);
+			background-size: cover;
+			}
+			.tright{
+			flex:1;
+			display: inline-block;
+			margin-left: 0.38rem;
+			margin-top: 0.3rem;
+			margin-right: 0.23rem;
+			}
+			
+			.p1{
+			
+			height:0.58rem;
+			text-align:left;
+			line-height:0.293rem;
+			
+			color: #333333;
+			font-size: 0.3rem;
+			text-overflow: 
+			-o-ellipsis-lastline!important;
+			overflow: hidden;
+			text-overflow: ellipsis!important;
+			display: -webkit-box;
+			-webkit-line-clamp: 2!important;
+			-webkit-box-orient: vertical;
+			}
+			.p2{
+			color: #333333;
+			font-size: 0.26rem;
+			margin-top: 0.28rem;
+			overflow:hidden;
+			text-overflow:ellipsis;
+			white-space:nowrap;
+			word-break:keep-all; 
+			
+			}
+			.p3{
+			color: #666666;
+			font-size: 0.24rem;
+			overflow:hidden;
+			text-overflow:ellipsis;
+			white-space:nowrap;
+			word-break:keep-all; 
+			
+			}
+			.edugroup{ 
+			color: #FF8345;
+			}
+			.value{
+			background: #FFFFFF;
+			margin-top: 0.39rem;
+			border-top: #d9d9d9 solid 0.01rem;
+			}
+			
+		   .endtab{
+	        position:fixed;
+	        bottom:0;
+			height: 0.98rem;
+			background: #FF8345;
+			border-top-color: #EEEEEE;
+		    text-align:center;
+		    line-height:0.98rem;
+			width:100%;
+			border-top:#EEEEEE solid 0.01rem; 
+			margin-bottom: 0;
+			color: #FFFFFF;
+			font-size: 0.32rem;
+			}
+			.office{
+			display: flex;
+			border-bottom: #d9d9d9 solid 0.01rem;
+			
+			}
+			.offleft{
+				display: inline-block;
+				width: 0.44rem;
+				height: 0.44rem;
+				margin: 0 auto;
+				margin-top:0.175rem;
+				margin-left: 0.23rem;
+				border-radius: 0.44rem;
+				background-repeat: no-repeat;
+				background-size: 100%!important;
+			}
+			.default{
+				background: url(../../image/mine/checkboxf.png) no-repeat ;
+				background-size:cover;
+			
+			}
+			.active{
+			    background: url(../../image/mine/checkboxt.png) no-repeat ;
+				background-size:cover;
+			}
+			.offright{
+			flex:1;
+			color:#666666;
+			font-size:0.28rem;
+			display: inline-block;
+			margin-left: 0.23rem;
+			line-height: 0.79rem;
+			text-align: left;
+			}
+			.mtittle{
+			
+			height:1.9rem;
+			background: #FFFFFF;
+			display: flex;
+			
+			}
+			.mtleft{
+			margin-top: 0.38rem;
+			margin-left: 0.23rem;
+			display: inline-block;
+			height: 1.14rem;
+			width: 1.42rem;
+			background: url(../../image/mine/go.png);
+			background-size: cover;
+			}
+			.mtright{
+				flex:1;
+				display: inline-block;
+				margin-left: 0.39rem;
+				
+				margin-right: 0.23rem;
+			}
+			
+			.mp1{
+			
+			
+			text-align:left;
+			line-height:0.293rem;
+			color: #333333;
+			font-size: 0.3rem;
+			overflow:hidden;
+			text-overflow:ellipsis;
+			white-space:nowrap;
+			word-break:keep-all; 
+			}
+			.mp2{
+			margin-top:0.18rem;
+			color: #666666;
+			font-size: 0.24rem;
+			overflow:hidden;
+			text-overflow:ellipsis;
+			white-space:nowrap;
+			word-break:keep-all; 
+			
+			}
+			.mp3{
+			margin-top:0.18rem;
+			color: #666666;
+			font-size: 0.24rem;
+			overflow:hidden;
+			text-overflow:ellipsis;
+			white-space:nowrap;
+			word-break:keep-all; 
+			
+			}
+			.otittle{
+			
+			height:0.79rem;
+			background: #FFFFFF;
+			display: flex;
+			
+			}
+			.otleft{
+			display: inline-block;
+			font-size:0.28rem;
+			line-height:0.79rem;
+			margin-left: 0.23rem;
+			color:#666666;
+		
+		
+			}
+			.otright{
+				margin-top:0.215rem;
+				display: inline-block;
+				margin-right: 0.23rem;
+				float: right;
+				
+			}
+			.r2{
+			height:0.36rem;
+			width:1.28rem;
+			display: flex;
+			margin-right: 0.23rem;
+			float: right;
+			}
+			
+			.op1{
+			display:inline-block;
+			height:0.36rem;
+			width:0.36rem;
+			text-align:center;
+			line-height:0.36rem;
+			background:#f0f0f0;
+			color: #999999;
+			font-size: 0.3rem;
+			
+			}
+			.op2{
+			line-height:0.36rem;
+			display:inline-block;
+			color: #666666;
+			width:0.56rem;
+			text-align:center;
+			font-size: 0.24rem;
+			overflow:hidden;
+			text-overflow:ellipsis;
+			white-space:nowrap;
+			word-break:keep-all; 
+			
+			}
+			.op3{
+			line-height:0.36rem;
+			display:inline-block;
+			height:0.36rem;
+			width:0.36rem;
+			text-align:center;
+			background:#f0f0f0;
+			color: #999999;
+			font-size: 0.3rem;
+			
+			}
+			.bmbox{
+			border-bottom: #CCCCCC solid 0.01rem;
+			border-top: #CCCCCC solid 0.01rem;
+			margin-top: 0.4rem;
+			background: #FFFFFF;
+			}
+			.mbox{
+			display: flex;
+			height: 0.88rem;
+			}
+			.bleft{
+			display: inline-block;
+			color: #333333;
+			line-height: 0.88rem;
+			margin-left: 0.23rem;
+			font-size: 0.3rem;
+						}
+			.bcenter{
+			display: inline-block;
+			flex:1;
+			color: #aaaaaa;
+			text-align: right;
+			margin-right: 0.17rem;
+			line-height: 0.88rem;
+			}
+			.bright{
+				display: inline-block;
+				width: 0.16rem;
+				height:0.28rem;
+				margin: 0 auto;
+				margin-top: 0.31rem;
+				margin-right: 0.23rem;
+				background: url(../../image/mine/change.png);
+				background-size: cover;
+				}
+			
+		</style>
+	</head>
+	<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+			<header>
+				<div class="left" onclick="cancel()">
+				
+				</div>
+				<div class="center">
+			            支付详情
+				</div>
+				<div class="right" >
+					
+				</div>
+			</header>
+			<div id="main" class="flex-con">
+				 <div class="title">
+					<div class="tleft"></div>
+					<div class="tright">
+							<p class="p1">高级围棋大讲堂，张亚凯老师全程授课</p>
+							<p class="p2">老师：<span class="lessnum">张亚凯</span></p>
+							<p class="p3">价格:<span class="edugroup">100</span>￥</p>
+						
+					</div>
+				 </div>
+				 <div class="value">
+					  <div class="office" >
+					    <div class="offleft default" onclick="toggle()"></div>
+					    <div class="offright"> 配套教程</div>
+					  </div>
+						 <div class="mtitle">
+							<div class="mtleft"></div>
+							<div class="mtright">
+								<p class="mp1">围棋棋盘配套使用</p>
+								<p class="mp2">黑棋棋子,棋盘</p>
+								<p class="mp3">价格:￥<span >100</span></p>
+							</div>
+						 </div>
+					     <hr style="height: 0.01rem; margin-left: 0.23rem;background: #d9d9d9;" />
+				       <div class="otitle">
+							<div class="otleft">购买数量</div>
+							<div class="otright">
+							    <div class="r2">
+									<p class="op1" onclick="num(0)">-</p>
+									<p class="op2">1</p>
+									<p class="op3" onclick="num(1)">+</p>
+								</div> 
+							</div>
+						 </div>
+						 
+				 </div>
+				 <div class="bmbox">
+						 <div class="mbox" tapmode= 'touch'  onclick="change(0)">
+								<div class="bleft">发票信息</div>
+								<div class="bcenter pick">无需</div>
+								<div class="bright">
+								</div>
+						</div>
+						  <hr style="height: 0.01rem; margin-left: 0.23rem;background: #d9d9d9;" />
+						<div class="mbox" tapmode= 'touch'  onclick="change(1)">
+								<div class="bleft">使用中期币</div>
+								<div class="bcenter money">不使用</div>
+								<div class="bright">
+								</div>
+						</div>
+						</div>
+				<div class="endtab">继续支付</div>
+		  	</div>
+			</div>
+	
+		</div>
+	</body>
+	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/common.js"></script>
+	<script type="text/javascript">
+	//action切换事件
+	function change(spr){
+	if(spr==0){
+	         api.actionSheet({
+	                  cancelTitle: '取消',
+					    buttons: ['无需', '需要']
+					}, function(ret, err) {
+					
+					    var index = ret.buttonIndex;
+					    if(index==1){
+					    $api.html($api.dom('.pick'), '无需');
+					    }
+					    else if(index==2){
+					   $api.html($api.dom('.pick'), '需要');
+					    }
+					});
+	
+	}else if(spr==1){
+	
+	api.actionSheet({
+		     cancelTitle: '取消',
+		  buttons: ['使用', '不使用']
+		}, function(ret, err) {
+		    var index = ret.buttonIndex;
+		     if(index==1){
+					    $api.html($api.dom('.money'), '无需');
+					    }
+					    else if(index==2){
+					   $api.html($api.dom('.money'), '需要');
+					    }
+		});
+	
+	
+	
+	}
+	}
+	
+	//自定义changebox
+	function toggle(){
+		var a =$api.dom('.offleft');
+		if($api.hasCls(a,'default')){
+		$api.removeCls(a, 'default');
+		$api.addCls(a,'active');
+		}else{
+		$api.removeCls(a, 'active');
+		$api.addCls(a,'default');
+		}
+	}
+	//自定义加减按钮	
+	function num(tag){
+    var a=parseInt($api.text($api.dom('.op2')));
+	if(tag==0&&a>0){
+	  a=a-1;  
+	  $api.html($api.dom('.op2'), a);
+	}else if(tag==1){
+	 a=a+1;
+	 $api.html($api.dom('.op2'), a);
+	}
+
+	}
+	
+	
+		imready = function() {
+		};
+	</script>
+</html>

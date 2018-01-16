@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <style>
+    	html,body{
+    		background:#F6F6F6;
+    	}
+    	#footer{
+			height:0.98rem;
+			background:#FF8344;
+			text-align: center;
+			line-height:0.98rem;
+			font-size:0.32rem;
+			color:#FFF;
+		}
+		.divsum{
+			height:1.23rem;
+			line-height:1.23rem;
+			width:100%;
+			text-align: center;
+			font-size:0.3rem;
+			color:#333333;
+			background: #FFF;
+			position: relative;
+		}
+		.divsum:before{
+    		border-bottom: 1px solid #CCCCCC;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+		.imp{
+			color:#FF4400;
+		}
+		.paydetail{
+			color:#666666;
+			font-size:0.26rem;
+			height:0.97rem;
+			background:#FFF;
+			line-height:0.97rem;
+			background:url(../../image/icon_arrow_right.png) no-repeat right 0.23rem center #FFF;
+			background-size:0.16rem 0.28rem;
+			padding-left:0.23rem;
+			position:relative;
+		}
+		.paydetail:before{
+    		border-bottom: 1px solid #CCCCCC;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+		.paymethod{
+			height:1.07rem;
+			line-height:1.07rem;
+			color:#333333;
+			font-size:0.28rem;
+			padding-left:0.23rem;
+			position:relative;
+		}
+		.paymethod:before{
+    		border-bottom: 1px solid #CCCCCC;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+		ul{
+			background:#FFF;
+			position:relative;
+		}
+		ul:before{
+    		border-bottom: 1px solid #CCCCCC;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+		ul li{
+			margin-left:0.23rem;
+			height:0.88rem;
+			line-height:0.88rem;
+			color:#666666;
+			font-size:0.26rem;
+		}
+		ul li.alipay{
+			position:relative;
+			background: url(../../image/icon_alipay.png) no-repeat left center;
+			background-size:0.48rem 0.48rem;
+		}
+		ul li.alipay:before{
+    		border-bottom: 1px solid #CCCCCC;
+    		position:absolute;
+    		content:"";
+    		display:block;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+		ul li.wechat{
+			background: url(../../image/icon_wechat.png) no-repeat left center;
+			background-size:0.48rem 0.48rem;
+		}
+		ul li span{
+			margin-left:0.8rem;
+		}
+    </style>
+</head>
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<div id="header">
+			<a class="back-icon" tapmode="active" onclick="cancelBill()" ></a>
+			<h1 id="title">在线支付</h1>
+		</div>
+		<div id="main" class="flex-con">
+			<div class="divsum">支付金额 ： <span class="imp">100￥</span></div>
+			<div class="paydetail" onclick="payDetail()">支付详情</div>
+			<div class="paymethod">选择支付方式</div>
+			<ul >
+				<li class="alipay">
+				<div > <span>支付宝</span> <input class="radio" type="radio" name="payment" checked  > </div>
+				</li>
+				<li class="wechat">
+				<div> <span>微信</span> <input class="radio" type="radio" name="payment"  ></div>
+				</li>
+			</ul>
+		</div>
+		<div id="footer" class="border-t" onclick="confirmPay()">
+			确认支付
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	var sumSpan ;
+	imready = function(){
+		var id = api.pageParam.id;
+		//TODO 调接口获取所有信息
+		var sum = api.pageParam.sum;
+		sumSpan = $api.dom(".divsum span")
+		sumSpan.innerHTML=sum+"￥"
+		
+	};
+	
+	function payDetail(){
+		api.openWin({
+	        name: 'orderdetail',
+	        url: 'orderdetail.html',
+	        pageParam:{
+	        	id:api.pageParam.id
+	        }
+        });
+	}
+	
+	function confirmPay(){
+		
+	}
+</script>
+</html>

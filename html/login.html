@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<link rel="stylesheet" type="text/css" href="../css/common.css" />
+	<style>
+		html,
+		body {
+			background-color: #F6F6F6;
+			height: 100%;
+		}
+
+		#header .btn_right {
+			width: 0.95rem;
+			height: 0.88rem;
+			line-height: 0.88rem;
+			font-size: 0.3rem;
+			position: absolute;
+			top: 25px;
+			right: 0;
+			text-align: center;
+		}
+
+		#header .btn_right.active {
+			background: rgba(0, 0, 0, 0.3)
+		}
+
+		#main {
+			text-align: center;
+		}
+
+		.input_wrap input::-webkit-input-placeholder {
+			color: #ccc;
+		}
+		/*.input_wrap span {
+			 float: right;
+			 margin-right: 20px;
+			 color: #CCCCCC
+			 }*/
+
+		.btn {
+			width: 90%;
+			height: 0.98rem;
+			margin: 0.1rem auto;
+			text-align: center;
+			line-height: 0.98rem;
+			color: #FFF;
+			background: #FF8344;
+			position: relative;
+			font-size: 0.3rem;
+			border-radius: 0.05rem;
+		}
+
+		.btn-reg {
+			width: 90%;
+			height: 0.98rem;
+			margin: 0.1rem auto;
+			text-align: center;
+			line-height: 0.98rem;
+			color: #333;
+			background: #FFFFFF;
+			position: relative;
+			font-size: 0.3rem;
+			border-radius: 0.05rem;
+		}
+
+		@media (-webkit-min-device-pixel-ratio:2) {
+			.login {
+				box-shadow: 0 0 0px 0.01rem rgb(204, 204, 204);
+			}
+		}
+
+		@media (-webkit-max-device-pixel-ratio:2) {
+			.login {
+				box-shadow: 0 0 0px 1px rgb(204, 204, 204);
+			}
+		}
+
+		.logo img {
+			width: 4.83rem;
+			height: 1.27rem;
+			padding-top: 1.19rem;
+			padding-bottom: 1.12rem;
+		}
+
+		#input {
+			width: 90%;
+			height: 2rem;
+			margin-left: 5%;
+			border-radius: 0.05rem;
+			background: #FFF;
+		}
+
+		.input_wrap {
+			position: relative;
+			width: 100%;
+			height: 1rem;
+			line-height: 1rem;
+		}
+
+		.inputborder {
+			position: relative;
+		}
+
+		.inputborder:after {
+			border-bottom: 1px solid #ccc;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			content: "";
+			display: block;
+			-webkit-transform: scaleY(0.5);
+			-webkit-transform-origin: 0 0;
+		}
+
+		.imgborder {
+			width: 0.53rem;
+			height: 0.6rem;
+			position: relative;
+			float: left;
+			margin-top: 0.2rem;
+			margin-left: 0.23rem;
+		}
+
+		.imgborder:after {
+			border-right: 1px solid rgba(255, 131, 68, 0.5);
+			position: absolute;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			content: "";
+			display: block;
+			-webkit-transform: scaleX(0.5);
+			-webkit-transform-origin: 0 0;
+		}
+
+		.imgborder img {
+			width: 0.3rem;
+			height: 0.3rem;
+			position: absolute;
+			top: 0.15rem;
+			left: 0;
+		}
+
+		.input_wrap .input {
+			height: 0.6rem;
+			outline: none;
+			font-size: 0.3rem;
+			padding-left: 0.23rem;
+			float: left;
+			width: 80%;
+			margin-top: 0.2rem;
+			position: relative;
+		}
+
+		#loginTip a {
+			color: #1EBEB6;
+			font-size: 0.24rem;
+		}
+
+		.register {
+			float: left;
+			margin-left: 0.3rem;
+			margin-top: 0.23rem;
+		}
+
+		.forget {
+			float: right;
+			margin-right: 0.35rem;
+			margin-top: 0.23rem;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="header">
+		<a class="back-icon" style="display:none;" tapmode="" onclick="api.closeWin()"></a>
+		<h1 style="font-size:0.34rem;">登录</h1>
+		<!-- <a tapmode="active" class="btn_right" onclick="goHome()">跳过</a> -->
+		<a tapmode="active" class="btn_right" ></a>
+	</div>
+	<div id="main">
+		<div class="logo">
+			<img src="../image/icon_login_logo.png" alt="" />
+		</div>
+		<div id="input" class="login">
+			<div class="input_wrap inputborder">
+				<div class="imgborder">
+					<img src="../image/login01.png" />
+				</div>
+				<input class="input" id="username" type="tel" maxlength="11" placeholder="用户名" />
+				<span></span>
+			</div>
+			<div class="input_wrap">
+				<div class="imgborder">
+					<img src="../image/login02.png" />
+				</div>
+				<input class="input" id="password" type="password" placeholder="密码" />
+				<span></span>
+			</div>
+		</div>
+		<div id="loginTip" style="display: block">
+
+			<a class="forget" tapmode="" onclick="passforget();">忘记密码?</a>
+		</div>
+		<a class="btn login" style="margin-top:0.6rem;" tapmode="active" onclick="ensure()">登   录</a>
+		<a class="btn-reg login" style="margin-top:0.24rem;" tapmode="active" onclick="register();">立即注册</a>
+	</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/common.js"></script>
+<script type="text/javascript">
+var studentCount;//孩子账号
+
+	imready = function() {
+		//点击返回键?
+		handelVersionBelow4($api.dom(".btn_right").style)
+		window.name = api.pageParam.name
+		if (window.name && window.name != 'undefined') {
+			$api.dom(".btn_right").style.display = "none"
+			$api.dom(".back-icon").style.display = "block"
+		}
+		api.addEventListener({
+			name: 'keyback'
+		}, function(ret, err) {
+			if (window.name && window.name != 'undefined') {
+				api.closeWin();
+			} else {
+				goHome();
+			}
+		});
+		api.addEventListener({
+			name: 'swiperight'
+		}, function(ret, err) {
+			if (window.name && window.name != 'undefined') {
+				api.closeWin();
+			} else {
+				console.log("向右滑动")
+			}
+		});
+
+
+
+	};
+
+	function ensure() {
+		var name = $api.byId('username').value;
+		var pwd = $api.byId('password').value;
+		if (!name || !pwd) {
+			api.toast({
+				msg: '用户名或密码不能为空!',
+				location: 'middle'
+			});
+			return;
+		}
+		var deviceToken = hex_md5(api.deviceId).substr(8, 16);
+		var request = {
+			userPhone: name,
+			password: pwd,
+			userToken: deviceToken
+		}
+		var bodyParam = {};
+		bodyParam.request = request;
+		bodyParam.method = "userLogin";
+		api.showProgress({
+			title: '正在登录...',
+			modal: false
+		});
+		ajaxRequest(bodyParam, function(ret, err) {
+			api.hideProgress();
+			console.log(JSON.stringify(ret))
+			if (ret) {
+				if (ret.responseCode == 0) {
+					if (ret.responseBody) {
+						api.setPrefs({
+							key: 'userid',
+							value: ret.responseBody.id
+						});
+						var date = new Date();
+						api.setPrefs({
+							key: 'loginState',
+							value: date.getTime()
+						});
+						api.setPrefs({
+							key: 'userPhone',
+							value: name
+						});
+						api.setPrefs({
+							key: 'tradePassword',
+							value: ret.responseBody.tradePassword
+						});
+						console.log("登录返回数据：" + JSON.stringify(ret.responseBody));
+						// goHome();
+
+						//***************注册成功后跳到关联孩子的页面*0925******************************************************
+
+						goRequest("getStudentsByUserId",{"userId": ret.responseBody.id},function(ret){
+						    	studentCount= new Array();
+									for (var i = 0; i < ret.responseBody.length; i++) {
+										studentCount.push(ret.responseBody);
+                  }
+									api.setPrefs({
+										key: 'studentCount',
+										value: studentCount
+									});
+									if(studentCount.length<1){
+										api.openWin({
+												name: 'bindChild',
+												url: './mine/bindChild.html',
+												pageParam:{
+													tag:"fristLogin"
+												}
+										});
+									}else{
+										goHome();
+									}
+						})
+
+
+					} else {
+						alert(ret.responseMsg)
+					}
+				} else {
+					alert(ret.responseMsg)
+				}
+			} else {
+				alert("登录失败:" + err.msg)
+			}
+		})
+	}
+
+	function goHome() {
+		console.log(window.name)
+		if (window.name && window.name != 'undefined') {
+			setTimeout("closeSelf();", 1000)
+			console.log(JSON.stringify(api.pageParam.frameInfo))
+			var userid = api.getPrefs({
+				sync: true,
+				key: 'userid'
+			})
+			console.log(userid)
+			if (api.pageParam.frameInfo) {
+				if (api.pageParam.name == 'root') {
+					api.execScript({
+						name: 'root',
+						script: "openTab('" + api.pageParam.frameInfo + "');"
+					});
+					api.closeToWin({
+						name: 'root'
+					});
+				} else {
+					openWinWithTitle(api.pageParam.name, api.pageParam.url, api.pageParam.frameInfo);
+				}
+			} else {
+				if (api.pageParam.pageParam) {
+					openWin(api.pageParam.name, api.pageParam.url, api.pageParam.pageParam)
+				} else {
+					openWin(api.pageParam.name, api.pageParam.url)
+				}
+			}
+
+			return;
+		} else {
+			console.log("root")
+			api.execScript({
+				name: 'root',
+				script: 'showInfo();'
+			});
+			api.closeToWin({
+				name: 'root'
+			});
+		}
+	}
+
+	function closeSelf() {
+		api.closeWin({
+			name: "login"
+		});
+	}
+
+	function register() {
+		openWin("register", '', api.pageParam)
+	}
+
+	function passforget() {
+		openWin("passforget")
+	}
+</script>
+
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+		<style>
+			body {
+			}
+				.flex-wrap {
+				background: #f6f6f6;
+			}
+			header {
+				padding-right:0.23rem;
+				padding-left:0.23rem;
+			    margin-bottom:0.4rem;
+				background: #FF8345;
+				height: 0.88rem;
+				line-height: 0.88rem;
+				display: -webkit-flex;  /* 新版本语法: Chrome 21+ */
+			    display: flex;          /* 新版本语法: Opera 12.1, Firefox 22+ */
+			    display: -webkit-box;   /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+			    display: -moz-box;      /* 老版本语法: Firefox (buggy) */
+			    display: -ms-flexbox; 
+			      /* 混合版本语法: IE 10 */   
+			}
+			.left {
+			    width:0%;
+				display:block;
+			   -webkit-flex: 3;        /* Chrome */  
+			    -ms-flex: 3 ;            /* IE 10 */  
+			    flex: 3;                /* NEW, Spec - Opera 12.1, Firefox 20+ */
+			    -webkit-box-flex: 3 ;    /* OLD - iOS 6-, Safari 3.1-6 */  
+			    -moz-box-flex: 3;       /* OLD - Firefox 19- */  
+			    text-align: left;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			.center {
+		       text-align:center;
+			   color:#ffffff;
+		    	font-size:0.34rem;  
+				display:block;
+				-webkit-flex: 10;        /* Chrome */  
+			    -ms-flex: 10 ;            /* IE 10 */  
+			    flex: 10;                /* NEW, Spec - Opera 12.1, Firefox 20+ */
+			    -webkit-box-flex: 10 ;    /* OLD - iOS 6-, Safari 3.1-6 */  
+			    -moz-box-flex: 10;       /* OLD - Firefox 19- */  
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			.right {
+		        width:0%;
+				color: #ffab7a;
+				font-size:0.3rem; 
+				display:block;
+				 -webkit-flex: 3;        /* Chrome */  
+			    -ms-flex: 3 ;            /* IE 10 */  
+			    flex: 3;                /* NEW, Spec - Opera 12.1, Firefox 20+ */
+			    -webkit-box-flex: 3 ;    /* OLD - iOS 6-, Safari 3.1-6 */  
+			    -moz-box-flex: 3;       /* OLD - Firefox 19- */  
+			   text-align: right;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			.left img {
+				display:inline-block;
+				width:0.24rem;
+				height: 0.45rem;
+				margin: 0 auto;
+				margin-top:0.215rem;
+				
+			}
+			.man {
+			    border:#d9d9d9 solid 1px;
+				background: #FFFFFF;
+				width: 5.59rem;
+				margin: 0 auto;
+				margin-top: 1.49rem;
+				height: 2rem;
+				 display: -webkit-flex;  /* 新版本语法: Chrome 21+ */
+			    display: flex;          /* 新版本语法: Opera 12.1, Firefox 22+ */
+			    display: -webkit-box;   /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+			    display: -moz-box;      /* 老版本语法: Firefox (buggy) */
+			    display: -ms-flexbox;   /* 混合版本语法: IE 10 */   
+			
+				
+			}
+			.woman {
+			 border:#d9d9d9 solid 1px;
+				background: #FFFFFF;
+				width: 5.59rem;
+				margin: 0 auto;
+				margin-top: 0.59rem;
+				height: 2rem;
+			}
+			.mleft{
+				display:inline-block;
+			    height:1.47rem;
+			    width:1.47rem;
+			    margin-top:0.26rem;
+			    margin-left:0.4rem;
+			}
+			
+			
+			.mline{
+				display:inline-block;
+			    height:1.31rem;
+			    width:0.01rem;
+			    margin-left:0.4rem;
+			    margin-top:0.345rem;
+			}
+			.mright{
+				display:inline-block;
+				margin-left:1.16rem!important;
+			    height:0.89rem;
+			    width:1rem;
+			    margin:0 auto;
+			    margin-top:0.57rem;
+			}
+			
+			.ldefault{
+			 background:url(../../image/mine/man.png) no-repeat;
+			 background-size:cover;
+			}
+			.wldefault{
+			 background:url(../../image/mine/woman.png) no-repeat;
+			 background-size:cover;
+			}
+			.cdefault{
+			 background:url(../../image/mine/unchoose.png) no-repeat;
+			 background-size:cover;
+			}
+			.rdefault{
+			 background:url(../../image/mine/right.png) no-repeat;
+			 background-size:cover;
+			}
+/*切换以后的背景*/	
+
+
+
+		
+			.lactive{
+			 background:url(../../image/mine/mant.png) no-repeat;
+			 background-size:cover;
+			}
+			.wlactive{
+			 background:url(../../image/mine/womant.png) no-repeat;
+			 background-size:cover;
+			}
+			.cactive{
+			 background:url(../../image/mine/choose.png) no-repeat;
+			 background-size:cover;
+			}
+			.ractive{
+			 background:url(../../image/mine/rightt.png) no-repeat;
+			 background-size:cover;
+			}
+			
+		</style>
+	</head>
+	<body >
+		<div id="wrap" class="flex-wrap flex-vertical">
+			<header>
+				<div class="left">
+					<img src="../../image/back.png"  onclick="cancel()"/>
+				</div>
+				<div class="center">
+					性别
+				</div>
+				<div class="right" >
+					下一步
+				</div>
+			</header>
+			<div id="main" class="flex-con">
+				<div class="man" onclick="sex(1)">
+					<div class="mleft ldefault ml"></div>
+					<div class="mline cdefault mc"></div>
+					<div class="mright rdefault mr"></div>
+				</div>
+				<div class="woman" onclick="sex(2)">
+				   <div class="mleft wldefault wl"></div>
+				   <div class="mline cdefault wc"></div>
+				   <div class="mright rdefault wr"></div>
+					
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/common.js"></script>
+	<script type="text/javascript" src="../../script/User.js"></script>
+	<script type="text/javascript">
+		function next() {
+			api.openWin({
+				name : 'birthday',
+				url : 'birthday.html',
+				pageParam:api.pageParam
+			});
+		}
+
+		//点击取消事件
+		function cancel() {
+			api.closeWin({
+				name : 'sex'
+			});
+		}
+//发送性别
+function sex(num){
+
+   $api.css($api.dom('.right'),'color: #FFFFFF;');
+      if(num==1){
+      $api.css($api.dom('.man'),'background: #fea777;');  
+      $api.css($api.dom('.woman'),'background: #FFFFFF;');  
+     	$api.removeCls($api.dom('.ml'), 'ldefault');
+		$api.addCls($api.dom('.ml'), 'lactive');
+		$api.removeCls($api.dom('.mc'), 'cdefault');
+		$api.addCls($api.dom('.mc'), 'cactive');
+		$api.removeCls($api.dom('.mr'), 'rdefault');
+		$api.addCls($api.dom('.mr'), 'ractive');
+		
+		$api.removeCls($api.dom('.wl'), 'wactive');
+		$api.addCls($api.dom('.wl'), 'ldefault');
+		$api.removeCls($api.dom('.wc'), 'cactive');
+		$api.addCls($api.dom('.wc'), 'cdefault');
+		$api.removeCls($api.dom('.wr'), 'ractive');
+		$api.addCls($api.dom('.wr'), 'rdefault'); 
+		
+		
+       setUser('sex','男');
+      
+		}else if(num==2){
+      $api.css($api.dom('.man'),'background: #FFFFFF;');  
+      $api.css($api.dom('.woman'),'background: #fea777;'); 
+     	$api.removeCls($api.dom('.wl'), 'ldefault');
+		$api.addCls($api.dom('.wl'), 'wactive');
+		$api.removeCls($api.dom('.wc'), 'cdefault');
+		$api.addCls($api.dom('.wc'), 'cactive');
+		$api.removeCls($api.dom('.wr'), 'rdefault');
+		$api.addCls($api.dom('.wr'), 'ractive'); 
+		
+		$api.removeCls($api.dom('.ml'), 'lactive');
+		$api.addCls($api.dom('.ml'), 'ldefault');
+		$api.removeCls($api.dom('.mc'), 'cactive');
+		$api.addCls($api.dom('.mc'), 'cdefault');
+		$api.removeCls($api.dom('.mr'), 'ractive');
+		$api.addCls($api.dom('.mr'), 'rdefault');
+		
+		
+        setUser('sex','女');
+
+}
+		$api.addEvt($api.dom('.right'), 'click', function(){
+				api.openWin({
+					name : 'birthday',
+					url : 'birthday.html',
+				pageParam:api.pageParam
+							});
+	
+		});
+	
+	
+	}
+		imready = function() {
+			$api.css($api.dom('.flex-word'), '	height: ' + api.frameHeight + 'px');
+			
+			
+				
+			
+		
+		};
+	</script>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+		<style>
+			body {
+			}
+			header {
+				background: #FF8345;
+				height: 0.88rem;
+				line-height: 0.88rem;
+				text-align: center;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older         WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				color: #323237;
+				position: relative;
+				color: #ffffff;
+			}
+			.flex-wrap {
+				background: #f6f6f6;
+			}
+			.left {
+				width: 0%;
+				-webkit-flex: 3; /* Chrome */
+				-ms-flex: 3; /* IE 10 */
+				flex: 3; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 3; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 3; /* OLD - Firefox 19- */
+				text-align: left;
+				margin-left: 0.23rem;
+				margin-top: 0.175rem;
+			}
+			.center {
+				-webkit-flex: 10; /* Chrome */
+				-ms-flex: 10; /* IE 10 */
+				flex: 10; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 10; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 10; /* OLD - Firefox 19- */
+				font-size: 0.34rem;
+			}
+			.right {
+				width: 0%;
+				-webkit-flex: 3; /* Chrome */
+				-ms-flex: 3; /* IE 10 */
+				flex: 3; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 3; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 3; /* OLD - Firefox 19- */
+				color: #ffab7a;
+				font-size: 0.30rem;
+			}
+			.left img {
+				margin-left: 0.23rem;
+				width: 0.24rem;
+				height: 0.45rem;
+				margin: 0 auto;
+			}
+			.a {
+				position: relative;
+				height: 0.78rem;
+				width: 100%;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older         WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				background: #FFFFFF;
+			}
+			.tab {
+				width: 0%;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				display: block;
+				line-height: 0.78rem;
+				text-align: center;
+				color: #333333;
+				font-size: 0.28rem;
+			}
+			.mactive {
+				color: #FF8345;
+			}
+			.line-li {
+				position: absolute;
+				bottom: 0;
+				left: 50%;
+				width: 100%;
+				background-color: #FF8345;
+				-webkit-transform: translateX(-50%);
+				transform: translateX(-50%);
+				z-index: 1;
+			}
+			.line-li:after {
+				border-bottom: 1px solid #FF8345;
+				content: "";
+				display: block;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				-webkit-transform-origin: 0 0;
+				-webkit-transform: scaleY(0.5);
+			}
+			.line {
+				position: absolute;
+				bottom: 0;
+				left: 0%;
+				width: 33.33333%;
+				-webkit-transform: translateX(0%);
+				transform: translateX(0%);
+				-webkit-transition: all .25s ease;
+				transition: all .25s ease;
+			}
+			.line:after {
+				border-bottom: 1px solid #FF8345;
+				content: "";
+				display: block;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				-webkit-transform-origin: 0 0;
+				-webkit-transform: scaleY(0.5);
+			}
+		</style>
+	</head>
+	<body >
+		<div id="wrap" class="flex-wrap flex-vertical">
+			<header>
+				<div class="left">
+					<img src="../../../image/back.png"  onclick="cancel()"/>
+				</div>
+				<div class="center">
+					我的订单
+				</div>
+				<div class="right" ></div>
+			</header>
+			<div id="main" class="flex-con">
+				<div class="a">
+					<span class="tab mactive" onclick="clo(this,0)">全部</span>
+					<span class="tab" onclick="clo(this,1)">待付款</span>
+					<span class="tab" onclick="clo(this,2)">待评价</span>
+					<span class="line" id="ab"><div class="line-li"></div></span>
+				</div>
+			</div>
+		</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../../script/api.js"></script>
+	<script type="text/javascript" src="../../../script/common.js"></script>
+	<script type="text/javascript" src="../../../script/User.js"></script>
+	<script type="text/javascript">
+		function cancel() {
+			api.closeWin({
+			});
+		}
+
+		//点击取消事件
+		function clo(tag, index) {
+			api.setFrameGroupIndex({
+				name : 'group1',
+				index : index,
+				scroll : true
+			});
+			api.sendEvent({
+	            name:'order',
+	             extra: {
+			        key1: index,
+			       
+			    }
+            });
+			var b = $api.byId('ab');
+			b.style.webkitTransform = 'translateX(' + index * 100 + '%)';
+			var tab = $api.domAll('.tab');
+			//改变文字颜色
+			if (tag == $api.dom('.mactive'))
+				return;
+			var eFootLis = $api.domAll('.tab'), index = 0;
+			for (var i = 0, len = eFootLis.length; i < len; i++) {
+				if (tag == eFootLis[i]) {
+					index = i;
+				} else {
+					$api.removeCls(eFootLis[i], 'mactive');
+				}
+			}
+			$api.addCls(eFootLis[index], 'mactive');
+		}
+
+		function openframegroup() {
+			$api.offset($api.dom('.a')).h
+			api.openFrameGroup({
+				name : 'group1',
+				background : '#fff',
+				scrollEnabled : true,
+				rect : {
+					x : 0,
+					y : $api.offset($api.dom('.a')).h + $api.offset($api.dom('header')).h,
+					w : api.frameWidth,
+					h : $api.offset($api.dom('#main')).h- $api.offset($api.dom('.a')).h
+				},
+				index : 0,
+				frames : [ 
+				{
+					name : 'own',//全部
+					url : 'own.html',
+					bgColor : '#fff',
+				    pageParam: { 
+			    
+			                 id: api.pageParam.id ,
+			                 y: $api.offset($api.dom('header')).h+$api.offset($api.dom('.a')).h,
+			                 h: $api.offset($api.dom('#main')).h- $api.offset($api.dom('.a')).h
+			    }
+				},{
+					name : 'payment',//待付款
+					url : 'payment.html',
+					bgColor : '#fff',
+					  pageParam: { 
+			    
+			                 id: api.pageParam.id ,
+			                 y: $api.offset($api.dom('header')).h+$api.offset($api.dom('.a')).h,
+			                 h: $api.offset($api.dom('#main')).h- $api.offset($api.dom('.a')).h
+			    }
+				}, {
+					name : 'evluation',//待评价
+					url : 'evaluation.html',
+					bgColor : '#fff',
+					  pageParam: { 
+			    
+			                 id: api.pageParam.id ,
+			                 y: $api.offset($api.dom('header')).h+$api.offset($api.dom('.a')).h,
+			                 h: $api.offset($api.dom('#main')).h- $api.offset($api.dom('.a')).h
+			    }
+				},]
+			}, function(ret, err) {
+				var index = ret.index;
+				var a = document.getElementById('ab');
+				var b = $api.byId('ab');
+				a.style.webkitTransform = 'translateX(' + JSON.stringify(ret.index) * 100 + '%)';
+				var eFootLis = $api.domAll('.tab'), index = 0;
+				for (var i = 0, len = eFootLis.length; i < len; i++) {
+					$api.removeCls(eFootLis[i], 'mactive');
+				}
+				$api.addCls(eFootLis[JSON.stringify(ret.index)], 'mactive');
+			});
+		}
+
+		imready = function() {
+			$api.css($api.dom('.flex-word'), '	height: ' + api.frameHeight + 'px');
+			openframegroup();
+		};
+	</script>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+	<style>
+		body {
+		}
+		#header{
+		    background-color: #FF8345;
+		    text-align: center; color: #fff;
+		    width: 100%; position: relative;
+		    height:0.88rem;
+		}
+		#header .back-icon{
+		    display: inline-block; width: 0.88rem; height: 0.88rem;
+		    background: url(../../image/icon_arrow_left.png) no-repeat center center; 
+		    -webkit-background-size: 0.25rem 0.4rem;
+		    background-size: 0.25rem 0.4rem;
+		    position: absolute; left: 0; bottom: 0;
+		}
+		#header .back-icon.active{
+			 background: url(../../image/icon_arrow_left.png) no-repeat center center rgba(0,0,0,0.2); 
+			 background-size: 0.25rem 0.4rem;
+		}
+		#header h1{
+		    font-size: 0.34rem;
+		    height: 0.88rem; line-height: 0.88rem; margin: 0 auto; color: #fff;
+		    width:5rem;
+		}
+		#header .btn_right{
+			width: 0.95rem; height: 0.88rem;
+			line-height: 0.88rem;
+			font-size:0.3rem;
+			position: absolute;
+			top: 25px;
+			right:0;
+			text-align: center;
+		}
+		#header .btn_right.active{
+			background:rgba(0,0,0,0.3);
+		}
+		
+		#footer{
+			height:0.98rem;
+			background:#FFFFFF;
+		}
+		#service{
+			float:left;
+			width:2.14rem;
+			height:0.98rem;
+			background:#FFFFFF;
+			text-align: center;
+		}
+		#service.active{
+			background:rgba(0,0,0,0.3);
+		}
+		/*#service img{
+			width:0.48rem;
+			height:0.44rem;
+		}*/
+		.checkbox{
+			margin-left:0.26rem;
+			float: left;
+			margin-top:0.28rem;
+		}
+		.checkbox:checked:before{
+			top:0.02rem;
+		}
+		.checkbox:checked:after{
+			top:0.02rem;
+		}
+		#service span{
+			color:#333333;
+			font-size:0.3rem;
+			float: left;
+			margin-top:0.28rem;
+			margin-left: 0.3rem;
+		}
+		#shopcart{
+			float:left;
+			width:2.68rem;
+			height:0.98rem;
+			background:#FF8344;
+			text-align: center;
+			line-height:0.98rem;
+			display: none;
+		}
+		#sum{
+			float:left;
+			width:2.68rem;
+			height:0.98rem;
+			background:#FFFFFF;
+			text-align: center;
+			line-height:0.98rem;
+			color:#333333;
+		}
+		#sum span{
+			color:#FF8344;
+		}
+		.badge {
+			padding:2px 5px;
+			float:right;
+			position:absolute;
+			margin-top:0.1rem;
+			top:0.03rem;
+			right:-0.05rem;
+			font-size:0.22rem;
+			line-height:1;
+			color:#fff;
+			background-color:#dd524d;
+			border-radius:10px;
+		}
+		#shopcart.active{
+			background:#EE8344;
+		}
+		#shopcart span{
+			color:#FFF;
+			font-size:0.3rem;
+		}
+		#gobuy{
+			float:left;
+			width:2.68rem;
+			height:0.98rem;
+			background:#FF4400;
+			text-align: center;
+			line-height:0.98rem;
+		}
+		#gobuy.active{
+			background:#FF8344;
+		}
+		#gobuy span{
+			color:#FFF;
+			font-size:0.3rem;
+		}
+	</style>
+	</head>
+	<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<div id="header">
+			<a class="back-icon" tapmode="active" onclick="closeWin()" ></a>
+			<h1 id="title">购物车(1)</h1>
+			<a tapmode="active" class="btn_right" onclick="btnRight()" >编辑</a>
+		</div>
+		<div id="main" class="flex-con"></div>
+		<div id="footer" class="border-t">
+			<div id="service" onclick="exchangeCheckbox()">
+				<!--<img src="../../image/icon_service.png" alt="" />-->
+				<input type="checkbox" class="checkbox" />
+				<span>全选</span>
+			</div>
+			<div tapmode='active'id="shopcart" onclick="handleBl()">
+				<span>分享</span>
+			</div>
+			<div id="sum">
+				合计:
+				<span>0￥</span>
+			</div>
+			<div tapmode='active'id="gobuy" onclick="handleBr()">
+				<span>结算</span>
+			</div>
+		</div>
+	</div>
+	</body>
+	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/common.js"></script>
+	<script type="text/javascript">
+		var sumSpan ;
+		var goBuy ;
+		var goBuySpan;
+		var shopCart;
+		var sumDiv;
+		
+		var isInShare=false;
+		
+		imready = function() {
+			handelVersionBelow4($api.dom(".btn_right").style)
+			var params = api.pageParam;
+			var headerPos = $api.offset($api.byId('header'));
+			var footerPos = $api.offset($api.byId('footer'));
+			var y = headerPos.h;
+			var h = api.winHeight-y;
+			h = h-footerPos.h;
+			
+			sumSpan = $api.dom("#sum span");
+			goBuy = $api.byId("gobuy")
+			goBuySpan = $api.dom("#gobuy span")
+			shopCart = $api.byId("shopcart")
+			sumDiv = $api.byId("sum")
+			window.checkbox = $api.dom("input");
+			window.state=true;
+			window.sum=0;
+			checkbox.onclick=function(e){
+				e.stopPropagation();
+				selectAll(this.checked)
+			}
+			api.openFrame({
+	            name: "shoppingcart_con",
+	            url: "shoppingcart_con.html",
+	            rect: {
+		            x:0,
+		            y:y,
+		            w:api.winWidth,
+		            h:h
+	            }
+            });	
+            initCartCount();
+            api.addEventListener({
+	            name:'keyback'
+            },function(ret,err){
+            	if(isInShare){
+            		api.closeFrame({
+        			name:'shopping_share'
+                });
+                	isInShare=false
+	            }else{
+	            	api.closeWin();
+	            }
+            });
+		};
+		
+		function initCartCount(){
+			var db = api.require('db');
+			var result = db.selectSqlSync({
+	            name:'sinogostudent',
+	            sql:'select count(*) from shopping_cart'
+            });
+			var count = result.data[0]["count(*)"];
+			$api.byId("title").innerHTML="购物车("+count+")";
+		}
+		
+		function exchangeCheckbox(){
+			window.checkbox.click();
+		}
+		
+		function changeChecked(c,sum){
+			window.sum=sum=parseInt(sum);
+			window.checkbox.checked=c;
+			if(sum>0){
+				goBuy.style.background="#FF4400"
+			}else{
+				goBuy.style.background="#FF8344"
+			}
+			sumSpan.innerHTML=Math.floor(sum * 100) / 100  +"￥"
+		}
+		
+		function selectAll(checked){
+			api.execScript({
+				frameName:"shoppingcart_con",
+	            script: "selectAll("+checked+");"
+            });
+		}
+		
+		function btnRight(){
+			//编辑,或完成.
+			window.state=!window.state;
+			window.state?toNormal():toEdit();
+		}
+		
+		function toEdit(){
+			//不改变选中状态,合计去掉,改为分享,结算改为删除
+			//当有删除,重新刷新list和checklist.
+			//不改变选择状态
+			$api.dom(".btn_right").innerHTML="完成"
+			goBuySpan.innerHTML = "删除"
+			//goBuy.style.background="#FF4400"
+			sumDiv.style.display="none"
+			shopCart.style.display="block"
+		}
+		
+		function toNormal(){
+			$api.dom(".btn_right").innerHTML="编辑"
+			goBuySpan.innerHTML = "结算"
+			goBuy.style.background=window.sum==0?"#FF8344":"#FF4400"
+			sumDiv.style.display="block"
+			shopCart.style.display="none"
+			
+		}
+		
+		function handleBr(){//结算或删除
+			window.state?order():del()
+		}
+		
+		function order(){
+			//结算
+			//跳转到订单结算页面,并且关闭当前界面?.
+			if(window.sum<=0){
+				return;
+			}
+			api.execScript({
+				frameName:'shoppingcart_con',
+	            script: 'goOrder();'
+            });
+		}
+		
+		function del(){
+			if(window.sum<=0){
+				return;
+			}
+			api.execScript({
+				frameName:"shoppingcart_con",
+	            script: "deleteCart();"
+            });
+		}
+		
+		function handleBl(){//分享
+			api.openFrame({
+		        name: 'shopping_share',
+		        url: 'share.html',
+				animation:{
+				    type:"push",                //动画类型（详见动画类型常量）
+				    subType:"from_bottom",       //动画子类型（详见动画子类型常量）
+				    duration:300                //动画过渡时间，默认300毫秒
+				},
+				pageParam:{
+		        	from:"shopping"
+		        },
+		        rect: {
+			        x:0,
+			        y:0,
+			        w:api.winWidth,
+			        h:api.winHeight
+		        }
+	        });
+	        isInShare=true;
+		}
+		
+		function updateHeader(){
+			initCartCount()
+		}
+		
+	</script>
+</html>

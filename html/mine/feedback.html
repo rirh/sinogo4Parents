@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+		<style>
+			body {
+			}
+			.flex-wrap {
+				background: #F6F6F6;
+			}
+			header {
+				background: #FF8345;
+				height: 0.88rem;
+				line-height: 0.88rem;
+				text-align: center;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				color: #323237;
+				position: relative;
+				font-size: 0.28rem;
+				color: #ffffff;
+			}
+			.left {
+				display: inline-block;
+				text-align: left;
+				display: inline-block;
+				margin-left: 0.23rem;
+				margin-top: 0.175rem;
+				width: 0.24rem;
+				height: 0.45rem;
+				background: url(../../image/back.png);
+				background-size: cover;
+			}
+			.center {
+				display: block;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				font-size: 0.34rem;
+				line-height: 0.88rem;
+			}
+			.right {
+				display: inline-block;
+				text-align: left;
+				display: inline-block;
+				margin-left: 0.23rem;
+				margin-top: 0.175rem;
+				width: 0.24rem;
+				height: 0.45rem;
+				background-size: cover;
+			}
+			.text {
+				height: 3.68rem;
+				background: #FFFFFF;
+				border-bottom: #d9d9d9 solid 0.01rem;
+				width: 100%;
+				padding-top: 0.3rem;
+				color: #666666;
+				font-size: 0.26rem;
+				padding-left: 0.1rem;
+				padding-right: 0.1rem;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				outline: none;
+			}
+			.button {
+				width: 7.05rem;
+				height: 0.98rem;
+				margin: 0 auto;
+				border-radius: 0.1rem;
+				background: #FF8345;
+				color: #FFFFFF;
+				font-size: 0.32rem;
+				line-height: 0.89rem;
+				text-align: center;
+				margin-top: 1.01rem;
+			}
+			.touch {
+				background: #e2743c;
+			}
+			#main #tips {
+				margin-top: 0.23rem;
+				height: 0.66rem;
+				line-height: 0.66rem;
+				padding-left: 0.23rem;
+				background: #fff;
+				font-size: 0.23rem;
+				color: #666;
+			}
+			#main #chooseTapy {
+				display: box; /* OLD - Android 4.4- */
+				display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+				display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+				display: -ms-flexbox; /* TWEENER - IE 10 */
+				display: -webkit-flex; /* NEW - Chrome */
+				display: flex;
+				height: 0.88rem;
+				line-height: 0.88rem;
+				background: #fff;
+			}
+			#main #chooseTapy .box {
+				width: 0%;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				moz-box-flex: 1; /* OLD - Firefox 19- */
+				display: block;
+			}
+			#main #chooseTapy .box #chosoeBox {
+				display: box; /* OLD - Android 4.4- */
+				display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+				display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+				display: -ms-flexbox; /* TWEENER - IE 10 */
+				display: -webkit-flex; /* NEW - Chrome */
+				display: flex;
+			}
+			#main #chooseTapy .box #chosoeBox .chooseLeft {
+				height:0.42rem;
+				width:0.42rem;
+				margin: 0 auto;
+				margin-top: 0.23rem;
+				margin-left: 0.23rem;
+				border-radius: 0.44rem;
+				display: inline-block;
+				background-repeat: no-repeat;
+				background-size: 100% !important;
+			}
+			#main #chooseTapy .box #chosoeBox .chooseRight {
+				margin-left: 0.23rem;
+				-webkit-flex: 3; /* Chrome */
+				-ms-flex: 3; /* IE 10 */
+				flex: 3; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 3; /* OLD - iOS 6-, Safari 3.1-6 */
+				moz-box-flex: 3; /* OLD - Firefox 19- */
+				width:0%;
+				display:block;
+				font-size: 0.26rem;
+				color: #333;
+			}
+			.active {
+				background: url(../../image/mine/checkboxf.png) no-repeat;
+				background-size: 100%;
+			}
+			.default {
+				background: url(../../image/mine/checkboxt.png) no-repeat;
+				background-size: 100%;
+			}
+			#main #userPhone {
+				background: #ffffff;
+				height: 0.88rem;
+				margin-top: 0.23rem;
+				border:solid #eee 1px; 
+			}
+			#main #userPhone .name {
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				width: 100%;
+				margin-top: 0.26rem;
+				font-size: 0.26rem;
+				color: #999999;
+				text-align: left;
+				padding-left: 0.39rem;
+				outline: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap" class="flex-wrap flex-vertical">
+			<header>
+				<div class="left" onclick="cancel()"></div>
+				<div class="center">
+					意见反馈
+				</div>
+				<div class="right" ></div>
+			</header>
+			<div id="main" class="flex-con">
+				<textarea class="text" placeholder="请输入您在使用过程中所遇到的问题或建议..."></textarea>
+				<div id="tips">
+					选择反馈类型:
+				</div>
+				<div style="margin-left:0.23rem;height: 1px;width: 96%; background: #eee"></div>
+				<div id="chooseTapy">
+					<div class="box">
+						<div id="chosoeBox" onclick="check(0)">
+							<div class="chooseLeft active"></div>
+							<div class="chooseRight">
+								程序bug
+							</div>
+						</div>
+					</div>
+					<div class="box">
+						<div id="chosoeBox" onclick="check(1)">
+							<div class="chooseLeft active"></div>
+							<div class="chooseRight">
+								功能建议
+							</div>
+						</div>
+					</div>
+					<div class="box">
+						<div id="chosoeBox" onclick="check(2)">
+							<div class="chooseLeft active"></div>
+							<div class="chooseRight">
+								内容意见
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="chooseTapy">
+					<div id="line"></div>
+					<div class="box">
+						<div id="chosoeBox" onclick="check(3)">
+							<div class="chooseLeft active"></div>
+							<div class="chooseRight">
+								广告问题
+							</div>
+						</div>
+					</div>
+					<div class="box">
+						<div id="chosoeBox" onclick="check(4)">
+							<div class="chooseLeft active"></div>
+							<div class="chooseRight">
+								网络问题
+							</div>
+						</div>
+					</div>
+					<div class="box">
+						<div id="chosoeBox" onclick="check(5)">
+							<div class="chooseLeft active"></div>
+							<div class="chooseRight">
+								其他
+							</div>
+						</div>
+					</div>
+				</div>
+				<div style="height: 1px;width: 100%; background: #eee"></div>
+				<div id="userPhone">
+					<input class="name" id="password" type="text" placeholder="请输入电话号码" />
+				</div>
+				
+				<div class="button" tapmode='touch' onclick="handin()">
+					提交
+				</div>
+			</div>
+		</div>
+		
+	</body>
+	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/common.js"></script>
+	<script type="text/javascript">
+		var feedbackContent;
+		//反馈内容
+		var feedbackType;
+		//反馈类型
+		var feedbackPhone;
+		//反馈联系方式
+		function handin() {
+			feedbackContent = $api.val($api.dom("#main .text"));
+			feedbackPhone = $api.val($api.dom("#password"));
+			if (feedbackContent.length > 0) {
+				postHttpHobby();
+			} else {
+				api.toast({
+					msg : '请填写反馈内容'
+				});
+			}
+		}
+
+		function postHttpHobby() {
+			var data = {};
+			data.method = 'feedbackEdit';
+			var userId = api.getPrefs({
+				sync : true,
+				key : 'userid'
+			})
+			if (userId == null) {
+				userId = 0;
+			}
+			data.request = {
+				"userId" : userId, //未登录情况下写0
+				"feedbackPhone" : feedbackPhone,
+				"feedbackType" : feedbackType, //这个类型暂时未定
+				"feedbackContent" : feedbackContent
+			}, api.showProgress();
+			console.log("意见反馈feedbackEdit请求数据：" + JSON.stringify(data));
+			ajaxRequest(data, function(ret, err) {
+				api.hideProgress();
+				if (ret) {
+					console.log("意见反馈feedbackEdit成功返回数据：" + JSON.stringify(ret));
+					if(ret.responseBody){
+					alert("提交成功，感谢你的反馈")
+					api.closeWin({
+                    });
+					
+					}else{
+					alert("提交失败，请稍后再试")
+					
+					}
+				} else {
+					console.log("意见反馈feedbackEdit失败返回数据：" + JSON.stringify(err));
+					alert("提交失败，请稍后再试")
+				}
+			})
+		}
+
+		function check(i) {
+			var a = $api.domAll('.chooseLeft');
+			for (var j = 0; j < a.length; j++) {
+				$api.removeCls(a[j], 'default');
+				$api.addCls(a[j], 'active');
+			}
+			$api.removeCls(a[i], 'active');
+			$api.addCls(a[i], 'default');
+			feedbackType = i + 1;
+		}
+
+		function cancel() {
+			api.closeWin({
+			});
+		}
+
+		imready = function() {
+		};
+	</script>
+</html>

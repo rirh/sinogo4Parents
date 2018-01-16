@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/discover/coursedetail.css"/>
+    <style>
+    	html,body{
+    		background:#f6f6f6;
+    		height:100%;
+    	}
+    </style>
+</head>
+<body>
+	<script type="text/x-dot-template" id="main-template">
+		<div id="pic">
+			<img src="{{=$api.imageUrl+it.courseImg}}" onerror="onImgError(this);" alt="" />
+		</div>
+		<div id="detail">
+			<h2>{{=it.courseName}} {{=it.className}}</h2>
+			<div style="margin-top:0.3rem;margin-left: 0.24rem;"  class="imp">￥{{=it.coursePrice}}</div>
+			<div class="tpr" >
+				<div class="tpr-inner">
+					<span class="tpr-item rb">老师： <span class="imp">{{=it.teacherName.length>6?(it.teacherName.substr(0,5)+'...'):it.teacherName}}</span> </span>
+					<span class="tpr-item rb atc ">课时：<span class="imp">{{=it.coursePeriod}}</span> </span>
+					<span class="tpr-item atc">已有<span class="imp">{{=it.registeredPeopers}}</span>人报名</span>
+				</div>
+			</div>
+			<div style="margin-top:0.23rem;margin-left:0.24rem;">上课地址：{{=it.address}}</div>
+			<div style="margin-top:0.23rem;margin-left:0.24rem;">上课日期：{{=it.startDate}}  -  {{=it.endDate}}</div>
+			<div style="margin-top:0.23rem;margin-left:0.24rem;">上课时间：{{=it.ctsTime}}</div>
+		</div>
+		<div id="desc">
+			<div class="desc-title"><span>课程简介</span></div>
+			<div class="desc-con" >简介：{{=it.courseDescription}}</div>
+		</div>
+	</script>
+	<div id="main">
+	</div>
+	<script type="text/x-dot-template" id="comment_template">
+		<div class="comment-title">
+			<span class="title-left">学生评价:{{=it.total}}</span>
+			<a class="title-right">好评:<span class="imp">{{=it.praiseRate?it.praiseRate:"暂无"}}</span></a>
+		</div>
+		{{ if(it.total==0){ }}
+		{{ }else{ }}
+		{{ for(var i=0 ,comments=it.rows;i<comments.length;i++){ }}
+		<div class="item">
+			<div class="wrap_star">
+				{{ for(var j=0;j<comments[i].commentStar;j++){ }}
+				<img src="../../image/icon_star.png" />
+				{{ } }}
+			</div>
+			<span class="account">{{=comments[i].commentUser?(comments[i].commentUser.length>3?comments[i].commentUser.substring(0,3)+'***':comments[i].commentUser):""}}</span>
+			<div class="comment_content ellipsis-1">{{=comments[i].commentContent}}</div>
+		</div>
+		{{ } }}
+		{{ } }}
+	</script>
+	<div id="comment">
+	</div>
+	<div id="contact">
+		<div class="contact-qq">
+			<a tapmode='active' style="color:#FF8344" class="contact-inner" >
+				<img src="../../image/icon_contact_online.png" alt="" />
+				<span>在线客服</span>
+			</a>
+		</div>
+		<div tapmode="active" class="contact-phone">
+			<img src="../../image/icon_contact_phone.png" alt="" />
+			<span>客服电话:暂无</span>
+		</div>
+	</div>
+	<div id="intro">
+		<div class="intro-title"><span>课程详情</span></div>
+		<div id="courseIntro">
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript">
+	imready = function(){
+		//alert(JSON.stringify(api.pageParam))
+		window.courseId = api.pageParam.courseId;
+		window.classId = api.pageParam.classId;
+		requestCourseDetail(courseId,classId)
+		
+		api.addEventListener({
+	        name:'commentStar'
+        },function(ret,err){
+			window.positive = ret.value.positive;
+			if(window.comments){
+				window.comments.praiseRate=window.positive
+				console.log("已经获取到评论列表,再次填充")
+				getInnerByDot("comment","comment_template",window.comments);
+			}else{
+				console.log("暂未获取到评论列表,等待填充")
+			}
+        });
+	};
+	
+	function onImgError(el){
+		$api.attr(el, "src", "../../image/eg_course_detail.png");
+	}
+	
+	function requestCourseDetail(courseId,classId){
+		api.showProgress();
+		var body={};
+		body.method="getCourseInfo";
+		body.request={
+			"courseId":courseId,
+			"classId":classId
+		}
+		ajaxRequest(body,function(ret,err){
+			api.hideProgress();
+			if(ret){
+				if(ret.responseCode==0){
+					window.course_detail=ret.responseBody;
+					console.log(JSON.stringify(ret))
+					var startdate = new Date(ret.responseBody.startingDate.replace(/-/g,"/"));
+					var enddate = new Date(ret.responseBody.endingDate.replace(/-/g,"/"));
+					window.course_detail.startDate=startdate.Format("yyyy.MM.dd")
+					window.course_detail.endDate=enddate.Format("yyyy.MM.dd")
+					fillData(window.course_detail);
+				}else{
+					alert(ret.responseMsg)
+				}
+			}else{
+				alert(err.msg)
+			}
+		
+		});
+	}
+	
+	function fillData(ret){
+		ret.className=api.pageParam.courseInfo.className
+		getInnerByDot("main","main-template",ret)
+		$api.byId("courseIntro").innerHTML=ret.courseIntro
+		if(ret.serviceNo){//客服qq存在
+			$api.attr($api.dom(".contact-qq a"), 'href', "mqqwpa://im/chat?chat_type=wpa&uin="+ret.serviceNo+"&version=1&src_type=web&web_src=sinogo.org");
+			api.execScript({
+				name:"coursedetail",
+	            script: 'exchangeQq("'+ret.serviceNo+'");'
+            });
+		}else{
+			$api.attr($api.dom(".contact-qq a"), 'href', "mqqwpa://im/chat?chat_type=wpa&uin=137054968&version=1&src_type=web&web_src=sinogo.org");
+		}
+		var phoneSpan =$api.dom(".contact-phone span")
+		if(ret.servicePhone){//存在客服电话
+			phoneSpan.innerHTML="客服电话:"+ret.servicePhone
+		}else{
+			phoneSpan.innerHTML="客服电话:暂无"
+		}
+		$api.addEvt($api.dom('.contact-phone'), 'click', function() {
+			if (ret.servicePhone) {
+				api.call({
+					type : 'tel_prompt',
+					number : ret.servicePhone
+				});
+			} else {
+				toastAtMiddle("暂无客服电话")
+			}
+		});
+			
+		requestCourseComment();
+	}
+	
+	function requestCourseComment(){
+		var body={};
+		body.method="getBusinessCommentList";
+		body.request={
+			"commentType":2,//课程
+			"commentProduct":window.courseId,//课程或班级,待确认
+			"page":1,
+			"pageSize":3
+		}
+		ajaxRequest(body,function(ret,err){
+			if(ret){
+				if(ret.responseCode==0){
+					window.comments=ret.responseBody;
+					if(window.positive){
+						console.log("已经获取到好评率,填充")
+						window.comments.praiseRate=window.positive
+					}else{
+						console.log("暂未获取到好评率,先行填充")
+					}
+				 	getInnerByDot("comment","comment_template",window.comments)
+				}else{
+//					alert(ret.responseMsg)
+				}
+			}else{
+//				alert(err.msg)
+			}
+		})
+	}
+	
+</script>
+</html>

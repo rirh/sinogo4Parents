@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/common.css"/>
+    <style>
+    	html,body{
+    		height:100%;
+    		width:100%;
+    		text-align: center;
+    		background: url(../image/icon_bg_dialog.png);
+    		overflow: hidden;
+    	}
+    	#empty{
+			width:100%;
+			height:60%;
+    	}
+    	#bottom{
+    		width:100%;
+    		height:40%;
+    		background:#FFF;
+    		position:absolute;
+    	}
+    	#bottom .label{
+    		margin-top:0.38rem;
+    		margin-left:0.42rem;
+    		font-size:0.34rem;
+    		float:left;
+    		color:#666;
+    	}
+    	#bottom ul{
+    		margin-top: 0.3rem;
+    		display:block;
+    		width: 100%;
+    		height: auto;
+    		padding: 0 2%;
+    	}
+    	#bottom ul li{
+    		float:left;
+    		width:18%;
+    		margin:0 3%;
+    		text-align: center;
+    		color:#333333;
+    		font-size:0.24rem;
+    	}
+    	#bottom ul li.active{
+    		background:rgba(0,0,0,0.2)
+    	}
+    	li img{
+    		width:0.89rem;
+    		height:0.89rem;
+    	}
+    	.item{
+    		height:0.88rem;
+    		line-height:0.88rem;
+    		position: relative;
+    	}
+    	.item-noborder{
+    		height:0.88rem;
+    		line-height:0.88rem;
+    		position: relative;
+    	}
+    	.item:after{
+    		border-bottom: 1px solid #d9d9d9;
+    		position: absolute;
+    		bottom:0;left:0;right:0;
+    		content:"";display: block;
+    		pointer-events:none;
+    		-webkit-transform: scaleY(0.5);
+    		-webkit-transform-origin: 0 0;
+    	}
+    	.item-inner{
+    		color:#333333;
+    		font-size:0.26rem;
+    		height:0.42rem;
+    		line-height:0.42rem;
+    		padding: 0.23rem 0.23rem;
+    	}
+    	.item-inner span{
+    		float:left;
+    		height:0.42rem;
+    		line-height:0.42rem;
+    	}
+    	.item-inner input{
+    		float:right;
+    	}
+    	.title{
+    		font-size:0.32rem;
+    		color:#333333;
+    		text-align: left;
+    		padding: 0.23rem 0.23rem;
+    	}
+    	.close{
+    		color:#FF8344;
+    		font-size:0.28rem;
+    		height:0.88rem;
+    		line-height:0.88rem;
+    		position:relative;
+    	}
+    	.close:before{
+    		border-top:1px solid #d9d9d9;
+    		position:absolute;
+    		top:0;left:0;right:0;
+    		content:"";display:block;
+    		-webkit-transform:scaleY(0.5);
+    		-webkit-transform-origin: 0 0;
+    	}
+    	.close.active{
+    		background:rgba(0,0,0,0.2)
+    	}
+    </style>
+</head>
+<body>
+	<div id="empty" onclick="api.closeFrame();"></div>
+	<div id="bottom" class="flex-wrap flex-vertical">
+		<script type="text/x-dot-template" id="select-template">
+			<div class="title">{{=it.title}}</div>
+			{{ for(var i=0;i<it.list.length;i++){ }}
+			<div class="{{=((i+1)==it.list.length)?'item-noborder':'item'}}">
+				<div class="item-inner" >
+					<span>{{=it.list[i].desc}}</span>
+					<input type="radio" name="select" class="checkbox" data="{{=it.list[i].checked}}" disabled="disabled" />
+				</div>
+			</div>
+			{{ } }}
+		</script>
+		<div id="main" class="flex-con" >
+		</div>
+		<div tapmode="active" class="close" onclick="api.closeFrame();">关闭</div>
+	</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/common.js"></script>
+<script type="text/javascript" src="../script/doT.js"></script>
+<script type="text/javascript">
+	imready = function(){
+		var from = api.pageParam.type;
+		var json={};
+		//if(from=="invoice"){
+			json.title="发票信息"
+			var list = [];
+			var j = {desc:"无需发票",checked:true};
+			list.push(j);
+			var j2 = {desc:"填写发票信息",checked:false};
+			list.push(j2);
+			json.list=list;
+//		}
+		getInnerByDot("main","select-template",json)
+		var rbs = $api.domAll(".checkbox");
+		for(var i=0;i<rbs.length;i++){
+			if($api.attr(rbs[i], "data")=="true"){
+				$api.attr(rbs[i], "checked","checked")
+			}else{
+				$api.removeAttr(rbs[i], "checked")
+			}
+		}
+		var items = $api.domAll(".item-inner");
+		for(var i=0;i<items.length;i++){
+			items[i].index=i;
+			items[i].onclick=function(){
+				removeAllChecked();
+				$api.attr(rbs[this.index], "checked","checked")
+				//关闭窗口,像上一个接口传递选择的值
+				api.sendEvent({
+	                name:'selectDialog',
+	                extra:{
+	                	type:from,
+	                	data:json.list[this.index]
+	                }
+                });
+				api.closeFrame();
+			}
+		}
+		
+	};
+	function removeAllChecked(){
+		var rbs = $api.domAll(".checkbox");
+		for(var i=0;i<rbs.length;i++){
+			$api.removeAttr(rbs[i], "checked")
+		}
+	}
+</script>
+</html>

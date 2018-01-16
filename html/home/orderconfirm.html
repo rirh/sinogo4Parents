@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+	<style>
+		body {
+		}
+		#header{
+		    background-color: #FF8345;
+		    text-align: center; color: #fff;
+		    width: 100%; position: relative;
+		    height:0.88rem;
+		}
+		#header .back-icon{
+		    display: inline-block; width: 0.88rem; height: 0.88rem;
+		    background: url(../../image/icon_arrow_left.png) no-repeat center center; 
+		    -webkit-background-size: 0.25rem 0.4rem;
+		    background-size: 0.25rem 0.4rem;
+		    position: absolute; left: 0; bottom: 0;
+		}
+		#header .back-icon.active{
+			 background: url(../../image/icon_arrow_left.png) no-repeat center center rgba(0,0,0,0.2); 
+			 background-size: 0.25rem 0.4rem;
+		}
+		#header h1{
+		    font-size: 0.34rem;
+		    height: 0.88rem; line-height: 0.88rem; margin: 0 auto; color: #fff;
+		    width:5rem;
+		}
+		#header .btn_left{
+			width: 1.2rem; height: 0.88rem;
+			line-height: 0.88rem;
+			font-size:0.3rem;
+			position: absolute;
+			top: 0;
+			right:0.88rem;
+			text-align: center;
+			display: none;
+		}
+		#header .btn_left.active{
+			background:rgba(0,0,0,0.3);
+		}
+		#header .btn_right{
+			width: 0.95rem; height: 0.88rem;
+			line-height: 0.88rem;
+			font-size:0.3rem;
+			position: absolute;
+			top: 0;
+			right:0;
+			text-align: center;
+			display: none;
+		}
+		#header .btn_right.active{
+			background:rgba(0,0,0,0.3);
+		}
+		#main{
+			height:1rem;
+		}
+		#footer{
+			height:0.98rem;
+			background:#FFFFFF;
+			width: 100%;
+		}
+		#sum{
+			float:left;
+			width:65%;
+			height:0.98rem;
+			background:#FFFFFF;
+			text-align: right;
+			line-height:0.98rem;
+			color:#333333;
+		}
+		#sum span{
+			margin-right:0.23rem;
+			color:#FF8344;
+		}
+		#gobuy{
+			float:left;
+			width:35%;
+			height:0.98rem;
+			background:#FF4400;
+			text-align: center;
+			line-height:0.98rem;
+		}
+		#gobuy.active{
+			background:#FF8344;
+		}
+		#gobuy span{
+			color:#FFF;
+			font-size:0.3rem;
+		}
+	</style>
+	</head>
+	<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<div id="header">
+			<a class="back-icon" tapmode="active" onclick="closeWin()" ></a>
+			<h1 id="title">确认订单</h1>
+		</div>
+		<div id="main" class="flex-con"></div>
+		<div id="footer" class="border-t">
+			<div id="sum">
+				合计:
+				<span>0￥</span>
+			</div>
+			<div tapmode='active' id="gobuy" onclick="handleBr()">
+				<span>提交订单</span>
+			</div>
+		</div>
+	</div>
+	</body>
+	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/common.js"></script>
+	<script type="text/javascript">
+		
+		var sumSpan ;
+		var goBuy ;
+		var goBuySpan;
+		var sumDiv;
+		imready = function() {
+			var params = api.pageParam;
+			
+			var headerPos = $api.offset($api.byId('header'));
+			var footerPos = $api.offset($api.byId('footer'));
+			var y = headerPos.h;
+			var h = api.winHeight-y;
+			h = h-footerPos.h;
+			sumSpan = $api.dom("#sum span");
+			window.balance=0;
+			window.usebalance=0;
+			window.useit = false;
+			var selectList=[]
+			var sum = 0
+			if(params.type=="fromBuyNow"){
+				var goodInfo = params.goodinfo.currentItem;
+				if(!goodInfo.buyCount){
+					goodInfo.buyCount = 1;
+				}
+				if(!goodInfo.goodsModelPreview){
+					goodInfo.goodsModelPreview=params.goodinfo.materialsGoodsImages;
+				}
+				selectList.push(goodInfo);
+			}else{
+				selectList = params.list;//from购物车.
+			}
+			window.OrderList = selectList;
+			for(var i=0;i<selectList.length;i++){
+				sum+=(selectList[i].buyCount*selectList[i].goodsSalesPrice)
+			}
+			sum = sum.toFixed(2)
+			sumSpan.innerHTML=sum+"￥"
+			window.OrderSum= sum ;
+			api.openFrame({
+	            name: "orderconfirm_con",
+	            url: "orderconfirm_con.html",
+	            pageParam:{
+	            	list :window.OrderList,
+	            	type:params.type,
+	            	orderSum:sum
+	            },
+	            bounces:false,
+	            rect: {
+		            x:0,
+		            y:y,
+		            w:api.winWidth,
+		            h:h
+	            }
+            });
+            api.addEventListener({
+	            name:'passwordSeted'//第一次设置余额支付密码成功.
+            },function(ret,err){
+            	console.log("接收到广播"+JSON.stringify(ret))
+            	checkRequestIp(function(requestIp){
+					createOrder(requestIp);
+				})
+            });
+            api.addEventListener({
+	            name:'sureToUseBalance'
+            },function(ret,err){
+            	window.useit = ret.value.useOrNot;
+            	window.balance=ret.value.balance;
+            	resetSum();
+            });
+            api.addEventListener({
+	            name:'passSettingState'
+            },function(ret,err){
+        		window.frameSettingOpen = ret.value.isOpend;
+            });
+            api.addEventListener({
+	            name:'balanceState'
+            },function(ret,err){
+        		window.frameOpen = ret.value.isOpend;
+            });
+            api.addEventListener({
+	            name:'keyback'
+            },function(ret,err){
+            	if(window.frameOpen){
+		            api.sendEvent({
+			            name:'balanceState',
+			            extra:{
+			            	isOpend:false
+			            }
+		            });
+            		api.closeFrame({
+            			name:'balancePayConfirm'
+                    });
+            	}else if(window.frameSettingOpen){
+            		api.sendEvent({
+			            name:'passSettingState',
+			            extra:{
+			            	isOpend:false
+			            }
+		            });
+            		api.closeFrame({
+            			name:'balancePayPassSetting'
+                    });
+            	}else{
+            		api.closeWin();
+            	}
+            });
+		};
+		
+		/**
+		 * 确认使用余额时,调用的方法,重新计算需要支付的订单总金额 
+		 */
+		function resetSum(){
+			var sum = window.OrderSum;
+			if(window.useit){//确认使用余额
+				console.log(sum)
+				console.log(window.balance)
+				window.usebalance = sum<window.balance?sum:window.balance;
+				sum = sum<window.balance?'0.00':(sum-window.balance).toFixed(2)
+//				exChangeSum(sum,window.balance)
+			}else{//不使用余额
+				window.usebalance = 0;
+			}
+			sumSpan.innerHTML=sum+"￥"
+		}
+		
+		function openBalancePay(){
+			api.openFrame({
+                name: 'balancePayConfirm',
+                url: 'balancePayConfirm.html',
+                bounces:false,
+                pageParam:{
+                	balance:window.usebalance
+                },
+                rect: {
+	                x:0,
+	                y:0,
+	                w:api.winWidth,
+	                h:api.winHeight
+                }
+            });
+            api.sendEvent({
+	            name:'balanceState',
+	            extra:{
+	            	isOpend:true
+	            }
+            });
+		}
+		
+		function handleBr(){
+			if(window.usebalance==0){//未使用余额支付
+				console.log("未使用余额")
+				checkRequestIp(function(requestIp){
+					createOrder(requestIp);
+				})
+			}else{
+				console.log("使用了余额")
+				api.showProgress();
+				api.getPrefs({
+			        sync:false,
+			        key:'tradePassword'
+		      },function(ret,err){
+				api.hideProgress();
+					console.log(ret.value)
+		      	if(!ret.value){//没有设置支付密码.
+					api.openFrame({
+	                    name: 'balancePayPassSetting',
+	                    url: 'balancePayPassSetting.html',
+	                    rect: {
+		                    x:0,
+		                    y:0,
+		                    w:api.winWidth,
+		                    h:api.winHeight
+	                    }
+                    });
+		            api.sendEvent({
+			            name:'passSettingState',
+			            extra:{
+			            	isOpend:true
+			            }
+		            });
+		      	}else{//已经设置了支付密码,跳转到确认支付页面.
+					  openBalancePay();
+		      	}
+		      });
+			}
+		}
+		
+		function createOrder(requestIp){
+			//调用接口,生成订单.跳转到订单支付页面.
+			//如果使用了中棋币或余额,则需先输入支付密码
+//			if(false){
+//				api.openWin({
+//	                name: 'balance_password',
+//	                url: 'balance_password.html'
+//              });
+//			}
+			//TODO 组装数据.调用生单接口,传递数据,跳转到支付页面.
+			var body={};
+			body.method="createGoodsOrder"
+			
+			var goodsDetails=[];
+			for(var i=0;i<window.OrderList.length;i++){
+				var goodDetail = window.OrderList[i]
+				var detail = {};
+				detail.goodsOrganization=goodDetail.materialsGoodsOrganization;
+				detail.goodsNo=goodDetail.goodsSalesCode;
+				detail.goodsPreview=goodDetail.goodsModelPreview;
+				detail.goodsName=goodDetail.materialsGoodsName;
+				detail.goodsType=1;//教辅
+				detail.goodsPrice=goodDetail.goodsSalesPrice;
+				detail.goodsNum=goodDetail.buyCount;
+				detail.freightAmount=0;
+				detail.couponsAmount=0;
+				detail.cashBack=0;
+				detail.sinogoCoin=0;
+				detail.orderRemark="";
+				detail.distributionMode=goodDetail.materialsGoodsLogistics;
+				goodsDetails.push(detail)
+			}
+			body.request={
+			    "userId": api.getPrefs({sync:true,key:'userid'}),//用户
+			    "totalAmount": window.OrderSum,
+			    "sinogoCoin": 0,//中棋币抵扣
+			    "discountCoupon": "",//优惠券名称
+			    "couponAmount": 0,//优惠券金额
+			    "postFee": 0,//快递费
+			    "tradePassword":api.getPrefs({sync:true,key:"tradePassword"}),
+			    "clientFrom":"Student",
+			    "requestIp":requestIp,
+			    "walletBalance":window.usebalance,//
+			    "orderFrom": api.systemType=='ios'?1:2,//订单来源:IPHONE(1, "iPhone"), ANDROID(2, "Android"),WEIXIN(3, "微信"),WEIXINWAP(4, "微信公众号");
+			    "invoiceType": 0,//发票类型:1、普通发票2、电子发票3、增值税发票
+			    "invoiceTitle": "",//发票抬头
+			    "invoiceContent": 0,//发票内容:1、明细2、办公用品3、电脑配件4、耗材
+			    "students":[{studentId:api.pageParam.studentId,classId:api.pageParam.classId}],//前一个页面来
+			    "deliveryDetail": {},
+			    "teacherId":0,//老师id
+			    "goodsType":1,//商品类型1教辅,2课程
+			    "goodsDetails": goodsDetails
+			}
+			console.log(JSON.stringify(body))
+			ajaxRequest(body,function(ret,err){
+				api.hideProgress();
+				if(ret){
+					if(ret.responseCode==0){
+						if(ret.responseBody&&ret.responseBody.responseCode&&ret.responseBody.responseCode!=0){
+							return alert(ret.responseBody.responseMsg)
+						}
+						console.log(JSON.stringify(ret))
+			          	goPayment(ret.responseBody)
+					}else{
+						alert(ret.responseMsg)
+					}
+				}else{
+					alert(err.responseMsg)
+				}
+			
+			})
+		}
+		
+		function closeSelf(){
+			api.closeWin({
+				name:"orderconfirm"
+            });
+		}
+		function goPayment(ret){
+			console.log(JSON.stringify(ret))
+			if(ret.paymentAmount==0){//已用余额或中棋币抵扣,无需第三方支付,直接进入支付成功页面
+				toastAtMiddle("恭喜,支付成功!")
+				console.log("支付成功")
+				api.openWin({
+		            name: 'paySuccess',
+		            url: 'paySuccess.html',
+		            pageParam:{
+			            orderNo:ret.orderNo,
+						orderType:1,
+						orderSum:window.OrderSum
+		            }
+            	});
+				setTimeout("closeSelf()",2000)	
+				return;
+			}
+			api.openWin({
+                name: 'payment',
+                url: 'payment.html',
+                pageParam : {
+                	ret : ret,
+                	orderType:1//1教辅,2课程
+                }
+            });
+            setTimeout("closeSelf()",2000)	
+		}
+		
+		function calcSum(count,sum){
+			var info = window.OrderList[0]
+			info.buyCount=count;
+			window.OrderSum=sum;
+			resetSum()
+			//sumSpan.innerHTML=(sum*10-window.balance*10)/10+"￥"
+		}
+		
+	</script>
+</html>

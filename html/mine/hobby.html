@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+		<style>
+			body {
+			}
+			.flex-wrap {
+				background: #F0EFF3;
+			}
+			.title {
+				padding-right: 0.23rem;
+				padding-left: 0.23rem;
+				background: #FF8345;
+				height: 0.88rem;
+				line-height: 0.88rem;
+				text-align: center;
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				color: #323237;
+				position: relative;
+				font-size: 0.28rem;
+				color: #ffffff;
+			}
+			.left {
+				-webkit-flex: 3; /* Chrome */
+				-ms-flex: 3; /* IE 10 */
+				flex: 3; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 3; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 3; /* OLD - Firefox 19- */
+				width: 0%;
+				text-align: left;
+				font-size: 0.32rem;
+			}
+			.center {
+				-webkit-flex: 10; /* Chrome */
+				-ms-flex: 10; /* IE 10 */
+				flex: 10; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 10; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 10; /* OLD - Firefox 19- */
+				font-size: 0.34rem;
+			}
+			.right {
+				-webkit-flex: 3; /* Chrome */
+				-ms-flex: 3; /* IE 10 */
+				flex: 3; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 3; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 3; /* OLD - Firefox 19- */
+				width: 0%;
+				color: #ffab7a;
+				text-align: right;
+				font-size: 0.32rem;
+			}
+			.checkbox {
+				display: -webkit-flex; /* 新版本语法: Chrome 21+ */
+				display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+				display: -webkit-box; /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+				display: -moz-box; /* 老版本语法: Firefox (buggy) */
+				display: -ms-flexbox; /* 混合版本语法: IE 10 */
+				height: 0.88rem;
+				background: #FFFFFF;
+			}
+			.img {
+				width: 0.44rem;
+				height: 0.44rem;
+				margin: 0 auto;
+				margin-top: 0.23rem;
+				margin-left: 0.23rem;
+				border-radius: 0.44rem;
+				display: inline-block;
+				background-repeat: no-repeat;
+				background-size: 100% !important;
+			}
+			.text {
+				display: block;
+				text-align: left;
+				-webkit-flex: 1; /* Chrome */
+				-ms-flex: 1; /* IE 10 */
+				flex: 1; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+				-webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+				-moz-box-flex: 1; /* OLD - Firefox 19- */
+				margin-left: 0.31rem;
+				font-size: 0.28rem;
+				line-height: 0.88rem;
+				color: #ffab7a;
+				background-size: cover;
+			}
+			.active {
+				background: url(../../image/mine/checkboxf.png) no-repeat;
+				background-size: cover;
+			}
+			.default {
+				background: url(../../image/mine/checkboxt.png) no-repeat;
+				background-size: cover;
+			}
+			.checkbox {
+				position: relative;
+			}
+			.checkbox:after {
+				border-bottom: 1px solid #d9d9d9;
+				content: "";
+				display: block;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				-webkit-transform-origin: 0 0;
+				-webkit-transform: scaleY(0.5);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap" class="flex-wrap flex-vertical">
+			<header class="title">
+				<div class="left" onclick="cancel()">
+					取消
+				</div>
+				<div class="center">
+					兴趣爱好
+				</div>
+				<div class="right" onclick="next()">
+					下一步
+				</div>
+			</header>
+			<div id="main" class="flex-con">
+
+			</div>
+			<script id="list_template" type="text/x-dot-tempate">
+				{{ for(var i=0;i<it.length;i++){ }}
+				<div class="checkbox" onclick="check({{=i}})">
+				<div class="img active">
+				</div>
+				<div class="text" id="tpl3">
+				{{=it[i].hobby}}
+				</div>
+				</div>
+				{{ } }}
+			</script>
+	</body>
+	<script type="text/javascript" src="../../script/User.js"></script>
+	<script type="text/javascript" src="../../script/doT.js"></script>
+	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/common.js"></script>
+	<script type="text/javascript">
+	    var date=new Array();
+	    var dateid =new Array();
+		var mdate;
+		var hobby = "";
+		var hobbyid="";
+		var mdate
+		var hobby = "";
+		var isOne = true;
+
+		//点击取消事件
+		function cancel() {
+			api.closeWin({
+				name : 'hobby'
+			});
+		}
+		//点击下一步事件
+		function next() {
+			if (hobby != "") {
+				setUser('hobby', hobby);
+				setUser('hobbyid', hobbyid);//这里保存的是对应的下标
+				api.openWin({
+					name : 'selecthead',
+					url : 'selecthead.html',
+				pageParam:api.pageParam
+				});
+				//储存数据
+			} else {
+				return;
+			}
+		}
+		function check(i) {
+			var mdate = [];
+			api.parseTapmode();
+			var a = $api.domAll('.img');
+			if ($api.hasCls(a[i], 'active')) {
+				$api.removeCls(a[i], 'active');
+				$api.addCls(a[i], 'default');
+			} else {
+				$api.removeCls(a[i], 'default');
+				$api.addCls(a[i], 'active');
+			}
+			for (var i = 0; i < a.length; i++) {
+				mdate.push(false);
+			}
+			for (var j = 0; j < a.length; j++) {
+				if ($api.hasCls(a[j], 'active')) {
+					mdate[j] = false;
+				} else {
+					mdate[j] = true;
+				}
+			}
+			hobby = ""
+			hobbyid =""
+			for (var i = 0; i < mdate.length; i++) {
+				if (mdate[i]) {
+					if (hobby != "") {
+				       	hobbyid = hobbyid + "," + dateid[i];
+						hobby = hobby + "," + date[i];
+					} else {
+					  	hobbyid = hobbyid + dateid[i];
+						hobby = hobby + date[i];
+					}
+				}
+			}
+
+			if(hobby.length>0){
+			 $api.css($api.dom('.right'),'color: #FFFFFF;');
+			}else{
+			 $api.css($api.dom('.right'),'color: #ffab7a;');
+			}
+		}
+		function postHttpHobby() {
+			var data = {};
+			data.method = 'getHobbys';
+			data.request = {
+			}, api.showProgress();
+			console.log("爱好getHobbys请求数据：" + JSON.stringify(data));
+			ajaxRequest(data, function(ret, err) {
+				api.hideProgress();
+				if (ret) {
+					console.log("爱好getHobbys成功返回数据：" + JSON.stringify(ret));
+					if (ret.responseCode == 0) {
+							for (var i = 0; i < ret.responseBody.length; i++) {
+							    date.push(ret.responseBody[i].hobby);
+							    dateid.push(ret.responseBody[i].id);
+							}
+						var tpl3 = doT.template($api.byId("list_template").text);
+						$api.byId("main").innerHTML = tpl3(ret.responseBody);
+					}
+				} else {
+					console.log("爱好getHobbys失败返回数据：" + JSON.stringify(err));
+				}
+			})
+		}
+		imready = function() {
+			postHttpHobby();
+		};
+	</script>
+</html>

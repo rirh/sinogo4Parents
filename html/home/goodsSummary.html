@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/swiper.min.css"/>
+    <style>
+    	html,body{
+    		height:100%;
+    		background:#F6F6F6;
+    		font-size:0.26rem;
+    		overflow-x: hidden;
+    	}
+    	#wrap,#main,.content{
+    		overflow-x: hidden;
+    	}
+		#main{
+			width: 100%;
+		}
+    	#pic-content{
+			width: 100%;
+    		height:4.18rem;
+    	}
+    	.pic{
+    		position: relative;
+    		text-align: center;
+    	}
+    	.pic img{
+    		width:5.5rem;
+    		height:4rem;
+    		margin-top:0.09rem;
+    	}
+    	#pagesize{
+    		position:absolute;
+    		right:0.5rem;
+    		top:3.25rem;
+    		width:0.68rem;
+    		display:inline-block;
+    		height:0.68rem;
+    		border-radius: 0.34rem;
+    		background: #FFF;
+    		line-height:1;
+    	}
+    	#pagesize .currentindex{
+    		font-size:0.3rem;
+    		height:0.68rem;
+    		line-height:0.68rem;
+    		color:#F48344;
+    		letter-spacing: 0;
+    	}
+    	#pagesize .size{
+    		font-size:0.26rem;
+    		height:0.68rem;
+    		line-height:0.68rem;
+    		color:#FFab88;
+    		letter-spacing: 0;
+    	}
+    	#summary{
+    		height:1.2rem;
+    		background:#FFFFFF;
+    		padding-left:0.25rem;
+    	}
+    	#summary #good_title{
+    		font-size:0.28rem;
+    		color:#333333;
+    		padding-top:0.2rem;
+    	}
+    	#summary #good_content {
+    		margin-top:0.15rem;
+    	}
+    	#summary #good_content span{
+    		color:#ff8344;
+    		font-size:0.26rem;
+    	}
+    	#summary #good_content .count{
+    		margin-left:0.38rem;
+    	}
+    	#summary #good_content .stock{
+    		float: right;
+    		margin-right:0.23rem;
+    	}
+    	#comments{
+    		background: #FFF;
+    		margin-top:0.29rem;
+    	}
+    	#comments #comments_title{
+    		height:0.87rem;
+    		line-height:0.87rem;
+    		padding-left:0.25rem;
+    		font-size:0.26rem;
+    	}
+    	#comments #comments_title .commentcount{
+    		color:#666666;
+		}
+    	#comments #comments_title .praise{
+    		float:right;
+    		margin-right:0.23rem;
+    		color:#333333;
+    	}
+    	#comments #comments_title .praise .imp{
+    		color:#FF8344;
+    	}
+    	#comments #comments_list .item{
+    		height:1.1rem;
+    		margin-left:0.25rem;
+    		position:relative;
+    	}
+		#comments #comments_list .item:after{
+			position:absolute;
+    		border-top: 1px solid #eeeeee;
+    		top:0;
+    		left:0;
+    		right:0;
+    		display:block;
+    		content:"";
+    		pointer-events:none;
+    		-webkit-transform-origin:0 0;
+    		-webkit-transform: scaleY(0.5);
+		}
+    	#comments #comments_list .item .wrap_star{
+    		margin-top:0.2rem;
+    		display:inline-block;
+    	}
+    	#comments #comments_list .item img{
+    		margin-right:0.12rem;
+    		width:0.24rem;
+    		height:0.24rem;
+    	}
+    	#comments #comments_list .item .account{
+    		float:right;
+    		margin-top:0.28rem;
+    		margin-right:0.23rem;
+    	}
+    	#comments #comments_list .item .comment_content{
+    		font-size:0.28rem;
+    		color:#666666;
+    	}
+    	#comments #comments_list .item .comment_content .openContent{
+    		float:right;
+    	}
+    	#spec{
+    		height:0.88rem;
+    		line-height:0.88rem;
+    		margin-top:0.23rem;
+    		width:100%;
+    		padding: 0 0.23rem;
+    		background: #FFF
+    	}
+    	#spec .specarrow{
+    		margin-right:0.39rem;
+    		background:url(../../image/icon_arrow_right.png) no-repeat right center;
+    		background-size:0.16rem 0.28rem;
+    	}
+    	marquee{
+    		position:fixed;
+    		top:0;
+		    left:0;
+		    width:100%;
+		    font-size:0.24rem;
+		    color:red;
+		    text-indent:0.48rem;
+		    background:rgba(0,0,0,0.5);
+		    height:0.6rem;
+		    line-height:0.6rem;
+		    z-index: 2;
+    	}
+    	.swiper-pagination{
+    		height:0.68rem;
+    	}
+    	.siwper-pagination-right{
+    		position:absolute;
+    		right:0.5rem;
+    		width:0.68rem;
+    		height:0.68rem;
+    		text-align:center;
+    		line-height:0.68rem;
+    		background: #FFF;
+    		border-radius: 0.34rem;
+    	}
+    	.current-index{
+    		font-size:0.3rem;
+    		color:#FF8344;
+    	}
+    	.page-size{
+    		font-size:0.26rem;
+    		color:#FFab80;
+    	}
+    </style>
+</head>
+<body>
+	<div id="wrap" >
+		<div id="main" class="flex-con">
+            <marquee scrollamount=3> 我方作为第三方平台，为开展教育部“三棋进课堂”活动的公办学校提供相应的教辅购买服务，所有的购买行为都是自愿，我方不强迫任何家长及学生在本平台进行任何交易</marquee>
+			<div class="content" class="flex-con">
+				<script type="text/x-dot-template" id="pic_template">
+				{{ for(var i=0;i<it.length;i++){ }}
+					<div class="swiper-slide pic">
+						<img src="{{=$api.imageUrl+it[i]}}" alt="" />
+					</div>
+				{{ } }}
+				</script>
+				<div id="pic-content" class="swiper-container" >
+					<div id="pic-inner" class="swiper-wrapper">
+					</div>
+				    <!-- 如果需要分页器 -->
+				    <div class="swiper-pagination"></div>
+				</div>
+				<script id="summary_template" type="text/x-dot-template">
+				<div id="good_title"><strong>{{=it.materialsGoodsName}}</strong></div>
+				<div id="good_content">
+					<span class="price">价格: {{=it.goodsSalesPrice}} 元</span>
+					<span class="count">已有 {{=it.goodsSalesCount}} 人购买</span>
+					<span class="stock">库存 {{=it.goodsSalesQuantity}} 件</span>
+				</div>
+				</script>
+				<div id="summary">
+					
+				</div>
+				<div id="spec" onclick="selectSpec();">
+					<div class="specarrow">
+					
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/x-dot-template" id="comments_template">
+		<div id="comments_title">
+			<span class="commentcount">评价 : {{=it.total}}</span>
+			<span class="praise">好评: <span class="imp">{{=it.praise?it.praise:"暂无"}}</span> </span>
+		</div>
+		<div id="comments_list">
+			{{ for(var i=0,vl = it.rows;i<vl.length;i++){ }}
+			<div class="item">
+				<div class="wrap_star">
+					{{ var length=vl[i].commentStar;if(length==0){length=5} }}
+					{{ for(var j=0;j<length;j++){ }}
+						<img src="../../image/icon_star.png" />
+					{{ } }}
+				</div>
+				<span class="account">{{=vl[i].commentUser.substring(0,3)+'***'}}</span>
+				<div class="comment_content">{{=vl[i].commentContent?vl[i].commentContent:'默认好评'}}</div>
+			</div>
+			{{ } }}
+		</div>
+		</script>
+		<div id="comments">
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/swiper.min.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript">
+	var spec ;
+	var specInner ;
+	imready = function(){
+		//getBanner();
+		window.good_code = api.pageParam.code;
+		spec = $api.dom("#spec")
+		specInner =  $api.dom("#spec .specarrow")
+		window.good_detail=api.pageParam.ret;
+		window.haveSpec=api.pageParam.haveSpec;
+		fillData()
+		getGoodComments(window.good_code);
+		api.addEventListener({
+	        name:'specChanged'
+        },function(ret,err){
+        	window.good_detail = ret.value.good_detail;
+        	var current = window.good_detail.currentItem;
+        	fillSummary(current.goodsSalesModelId,current.goodsSalesStandardId);
+        	fillImages();
+        });
+	};
+	
+	function getGoodComments(good_code){
+		var body={};
+		body.method="getBusinessCommentList";
+		body.request={
+			"commentType":1,//教辅
+			"commentProduct":good_code,
+			"page":1,
+			"pageSize":3
+		}
+		ajaxRequest(body,function(ret,err){
+			if(ret){
+				if(ret.responseCode==0){
+				getInnerByDot("comments","comments_template",ret.responseBody)
+				}else{
+					alert(ret.responseMsg)
+				}
+			}else{
+				alert(err.msg)
+			}
+		})
+	}
+	
+	function fillData(){
+		fillSummary();
+		fillImages()
+	}
+	
+	function fillImages(){
+		var images = window.good_detail.materialsGoodsImages;
+//		images[0]=window.good_detail.currentItem.goodsModelPreview
+		window.sliderLength=images.length;
+		getInnerByDot("pic-inner","pic_template",images);
+		initSlider();
+	}
+	
+	function initSlider() {
+		var mySwiper = new Swiper ('.swiper-container', {
+		    direction: 'horizontal',
+		    loop: true,
+		    autoplay:3000,
+		    onlyExternal : true,
+		    autoplayDisableOnInteraction:false,
+		    // 如果需要分页器
+		    pagination: '.swiper-pagination',
+	      	paginationType : 'fraction',
+		    paginationFractionRender: function (swiper, currentClassName, totalClassName) {
+		      return '<div class="siwper-pagination-right">'+'<span class="' + currentClassName + ' current-index"> / </span>' +
+		             '<span class="page-size">'+'&nbsp;/&nbsp;'+'</span>' +
+		             '<span class="' + totalClassName + ' page-size"></span>'+"</div>";
+		  	}
+		  })  
+//		 $api.dom(".swiper-container").ontouchstart=function(){
+//		 	api.setFrameGroupAttr({
+//              name: "goodsgroup",
+//              scrollEnabled:false
+//          });
+//		 }      
+//		 $api.dom(".swiper-container").ontouchend=function(){
+//		 	api.setFrameGroupAttr({
+//              name: "goodsgroup",
+//              scrollEnabled:true
+//          });
+//		 }      
+	}
+	
+	function fillSummary(){
+		api.sendEvent({
+	        name:'goodloadedok',
+	        extra:{quantity:window.good_detail.currentItem.goodsSalesQuantity}
+        });
+		getInnerByDot("summary","summary_template",window.good_detail.currentItem)
+		if(!window.haveSpec){//无规格,无参数,默认.隐藏.
+			spec.style.display="none"
+		}else{
+			spec.style.display='block'
+			if(window.good_detail.currentItem.spec1){
+				if(window.good_detail.currentItem.spec2){
+					specInner.innerHTML="已选择:"+window.good_detail.currentItem.spec1+"/"+window.good_detail.currentItem.spec2
+				}else{
+					specInner.innerHTML="已选择:"+window.good_detail.currentItem.spec1
+				}
+			}else{
+				if(window.good_detail.currentItem.spec2){
+					specInner.innerHTML="已选择:"+window.good_detail.currentItem.spec2
+				}else{
+				}
+			}
+		}
+	}
+	
+	function selectSpec(){
+		if(window.good_detail.currentItem.modelId==0&&window.good_detail.currentItem.standardId==0){
+			return;
+		}
+		api.sendEvent({
+	        name:'specListener',
+	        extra:{
+	        	isOpend:true
+	        }
+        });
+		api.openFrame({
+	        name: 'specDialog',
+	        url: 'specDialog.html',
+	        reload:true,
+	        pageParam:{
+	        	good_detail:window.good_detail,
+	        },
+         	animation:{
+			    type:"push",                //动画类型（详见动画类型常量）
+			    subType:"from_bottom",      //动画子类型（详见动画子类型常量）
+			    duration:300                //动画过渡时间，默认300毫秒
+			},
+	        rect: {
+		        x:0,
+		        y:0,
+		        w:api.winWidth,
+		        h:api.winHeight
+	        }
+        });
+	}
+	
+</script>
+</html>

@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>我的</title>
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<link rel="stylesheet" type="text/css" href="../css/style.css" />
+	<link rel="stylesheet" type="text/css" href="../css/style.css" />
+	<style>
+		body {
+			background: #F6F6F6;
+		}
+
+		.flex-word {
+			display: -webkit-box;
+			display: -webkit-flex;
+			background: #F6F6F6;
+			-webkit-box-orient: vertical;
+			-webkit-flex-flow: column;
+			flex-flow: column;
+		}
+
+		.h-header {
+			height: 2.52rem;
+			background: #FFFFFF;
+			position: relative;
+		}
+
+		.h-header:after {
+			border-bottom: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+
+		.h-content {
+			margin-top: 0.3rem;
+			background: #FFFFFF;
+			position: relative;
+			font-size: 0.28rem;
+		}
+
+		.h-content:after {
+			border-bottom: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+
+		.h-end {
+			margin-top: 0.3rem;
+			flex: 34;
+		}
+
+		.h-end {
+			position: relative;
+		}
+
+		.h-end:before {
+			border-top: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+
+		header {
+			-webkit-box-orient: vertical;
+			-webkit-flex-flow: column;
+			flex-flow: column;
+		}
+
+		.title {
+			height: 0.87rem;
+			font-size: 0.34rem;
+			font-weight: 400;
+			text-align: left;
+		}
+
+		.title span {
+			margin-left: 0.23rem;
+			margin-top: 0.23rem;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			word-break: keep-all;
+		}
+
+		.kidbox {
+			text-align: right;
+			float: left;
+			height: 1.65rem;
+			width: 1.17rem;
+			display: none;
+		}
+
+		.kidbox span {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			word-break: keep-all;
+			font-size: 0.24rem;
+			text-align: center;
+			width: 0.9rem;
+		}
+
+		.info {
+			text-align: left;
+			margin-left: 0.3rem;
+			float: left;
+			height: 1.65rem;
+			width: 2.50rem;
+			font-size: 0.22rem;
+			color: #666666;
+			margin-top: 0.18rem;
+			display: none;
+		}
+
+		.show {
+			display: block;
+		}
+
+		.icon {
+			width: 0.94rem;
+			height: 0.94rem;
+			margin: 0 auto;
+			margin-top: 0.12rem;
+			margin-left: 0.23rem;
+			border-radius: 0.94rem;
+			background-repeat: no-repeat;
+			background-size: 100%;
+			background: url(../image/mine/hardicon.png);
+		}
+
+		.add img {
+			width: 0.48rem;
+			float: right;
+			height: 0.47rem;
+			margin-top: 0.59rem;
+			margin-right: 0.23rem;
+		}
+
+		.mtr {
+			width: 100%;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			height: 1.13rem;
+			display: box;
+			/* OLD - Android 4.4- */
+			display: -webkit-box;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			display: -moz-box;
+			/* OLD - Firefox 19- (buggy but mostly works) */
+			display: -ms-flexbox;
+			/* TWEENER - IE 10 */
+			display: -webkit-flex;
+			/* NEW - Chrome */
+			display: flex;
+		}
+
+		.mtd {
+			height: 1.13rem;
+			display: box;
+			/* OLD - Android 4.4- */
+			display: -webkit-box;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			display: -moz-box;
+			/* OLD - Firefox 19- (buggy but mostly works) */
+			display: -ms-flexbox;
+			/* TWEENER - IE 10 */
+			display: -webkit-flex;
+			/* NEW - Chrome */
+			display: flex;
+			width: 50%;
+		}
+
+		.m1 {
+			position: relative;
+		}
+
+		.m1:after {
+			border-right: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			top: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleX(0.5);
+		}
+
+		.m2 {
+			position: relative;
+		}
+
+		.m2:before {
+			border-top: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+
+		.m2:after {
+			border-bottom: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+
+		.m3 {
+			position: relative;
+		}
+
+		.m3:after {
+			border-right: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			top: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleX(0.5);
+		}
+
+		.mpic {
+			width: 0%;
+			-webkit-flex: 1;
+			/* Chrome */
+			-ms-flex: 1;
+			/* IE 10 */
+			flex: 1;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 1;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			moz-box-flex: 1;
+			/* OLD - Firefox 19- */
+		}
+
+		.mbox {
+			margin-left: 0.23rem;
+			width: 0%;
+			-webkit-flex: 5;
+			/* Chrome */
+			-ms-flex: 5;
+			/* IE 10 */
+			flex: 5;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 5;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			moz-box-flex: 5;
+			/* OLD - Firefox 19- */
+			height: 1rem;
+		}
+
+		.mtext {
+			margin-top: 0.31rem !important;
+			text-align: left;
+			font-size: 0.28rem;
+			display: inline-block;
+		}
+
+		.omtext {
+			height: 1rem !important;
+			line-height: 1rem !important;
+			text-align: left !important;
+		}
+
+		.mnum {
+			font-size: 0.28rem;
+			color: #fe8545;
+			height: 0.5rem;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			word-break: keep-all;
+		}
+
+		.setting {
+			width: 100%;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			display: box;
+			/* OLD - Android 4.4- */
+			display: -webkit-box;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			display: -moz-box;
+			/* OLD - Firefox 19- (buggy but mostly works) */
+			display: -ms-flexbox;
+			/* TWEENER - IE 10 */
+			display: -webkit-flex;
+			/* NEW - Chrome */
+			display: flex;
+			height: 0.86rem;
+			background: #FFFFFF;
+		}
+
+		.setpic {
+			margin-left: 0.23rem;
+			width: 0%;
+			-webkit-flex: 1;
+			/* Chrome */
+			-ms-flex: 1;
+			/* IE 10 */
+			flex: 1;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 1;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			moz-box-flex: 1;
+			/* OLD - Firefox 19- */
+		}
+
+		.setpic img {
+			width: 0.33rem;
+			height: 0.33rem;
+			margin-top: 0.28rem;
+		}
+
+		.setcon {
+			width: 0%;
+			height: 0.86rem;
+			line-height: 0.86rem;
+			text-align: left;
+			-webkit-flex: 8;
+			/* Chrome */
+			-ms-flex: 8;
+			/* IE 10 */
+			flex: 8;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 8;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			moz-box-flex: 8;
+			/* OLD - Firefox 19- */
+			font-size: 0.28rem;
+		}
+
+		.settodo {
+			width: 0%;
+			-webkit-flex: 1;
+			/* Chrome */
+			-ms-flex: 1;
+			/* IE 10 */
+			flex: 1;
+			/* NEW, Spec - Opera 12.1, Firefox 20+ */
+			-webkit-box-flex: 1;
+			/* OLD - iOS 6-, Safari 3.1-6 */
+			moz-box-flex: 1;
+			/* OLD - Firefox 19- */
+			text-align: right;
+		}
+
+		.settodo img {
+			height: 0.26rem;
+			width: 0.14rem;
+			margin-right: 0.23rem;
+			margin-top: 0.3rem;
+		}
+
+		.s2 {
+			position: relative;
+		}
+
+		.s2:after {
+			border-bottom: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+
+		.s3 {
+			margin-top: 0.3rem;
+			position: relative;
+		}
+
+		.s3:before {
+			border-top: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+
+		.s3:after {
+			border-bottom: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+
+		.s4 {
+			margin-top: 0.3rem;
+			position: relative;
+		}
+
+		.s4:after {
+			border-bottom: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+
+		.s6 {
+			position: relative;
+		}
+
+		.s6:after {
+			border-bottom: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+
+		.s5 {
+			position: relative;
+		}
+
+		.s5:before {
+			border-bottom: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+
+		.s5 .setpic img {
+			width: 0.32rem;
+			height: 0.36rem;
+		}
+
+		.touch {
+			background: #F0F0F0;
+		}
+
+		.hr2 {
+			background: #F6f6f6;
+			margin-left: 0.23rem;
+			position: relative;
+		}
+
+		.hr2:after {
+			border-bottom: 1px solid #d9d9d9;
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			-webkit-transform-origin: 0 0;
+			-webkit-transform: scaleY(0.5);
+		}
+
+		.zqb img {
+			width: 0.32rem;
+			height: 0.33rem;
+			margin-top: 0.335rem;
+			margin-left: 0.23rem;
+		}
+
+		.xj img {
+			width: 0.35rem;
+			height: 0.35rem;
+			margin-top: 0.325rem;
+			margin-left: 0.23rem;
+		}
+
+		.cz img {
+			width: 0.32rem;
+			height: 0.33rem;
+			margin-top: 0.335rem;
+			margin-left: 0.23rem;
+		}
+
+		.tk img {
+			width: 0.32rem;
+			height: 0.30rem;
+			margin-top: 0.35rem;
+			margin-left: 0.23rem;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="flex-word">
+		<div class="h-header">
+			<header id="header">
+				<div class="title">
+					<!-- <span>我的宝贝</span> -->
+					<!-- 20170914需求修订 -->
+					<span>我家学生</span>
+				</div>
+				<hr class='hr2'>
+				<div class="kid">
+					<div class="kidbox ">
+						<div class="icon" onclick="openinfo(this)"></div><span>name</span>
+					</div>
+					<div class="info">
+						<div>
+							七岁|男
+						</div>
+						<div>
+							幸福路希望小学
+						</div>
+						<div>
+							爱好篮球,围棋,羽毛球
+						</div>
+					</div>
+					<div class="kidbox">
+						<div class="icon" onclick="openinfo(this)"></div><span>name</span>
+					</div>
+					<div class="kidbox">
+						<div class="icon" onclick="openinfo(this)"></div><span>name</span>
+					</div>
+					<div class="kidbox">
+						<div class="icon" onclick="openinfo(this)"></div><span>name</span>
+					</div>
+					<div class="kidbox">
+						<div class="icon" onclick="openinfo(this)"></div><span>name</span>
+					</div>
+					<div class="add" onclick="addkid()">
+						<img src="../image/mine/add.png">
+					</div>
+				</div>
+			</header>
+		</div>
+		<div class="h-content">
+			<div class="mtr m2">
+				<div class="mtd m1">
+					<div class="mpic zqb"><img src="../image/mine/m2.png" />
+					</div>
+					<div class="mbox">
+						<div class="mtext">
+							现金余额
+						</div>
+						<div class="mnum rmb" id="zqb"></div>
+					</div>
+				</div>
+				<div class="mtd">
+					<div class="mpic xj "><img src="../image/mine/m1.png" />
+					</div>
+					<div class="mbox">
+						<div class="mtext">
+							中棋币
+						</div>
+						<div class="mnum zqb" id="rmb"></div>
+					</div>
+				</div>
+			</div>
+			<div class="mtr  ">
+				<div class="mtd m3" onclick="Recharge()" tapmode='touch'>
+					<div class="mpic cz"><img src="../image/mine/m3.png" />
+					</div>
+					<div class="mbox">
+						<div class=" omtext">
+							充值
+						</div>
+					</div>
+				</div>
+				<div class="mtd" onclick="refund()" tapmode='touch'>
+					<div class="mpic tk"><img src="../image/mine/m4.png" />
+					</div>
+					<div class="mbox">
+						<div class=" omtext">
+							退款
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="h-end">
+			<div class="setting s1" tapmode='touch' onclick="mylesson()">
+				<div class="setpic"><img src="../image/mine/lesson.png">
+				</div>
+				<!-- <div class="setcon">
+					我的课程
+				</div> -->
+				<!-- 20170914修订 -->
+				<div class="setcon">
+					学生课程
+				</div>
+				<div class="settodo"><img src="../image/mine/todo.png">
+				</div>
+			</div>
+			<hr class='hr2'>
+			<div class="setting s2" tapmode='touch' onclick="message()">
+				<div class="setpic"><img src="../image/mine/message.png">
+				</div>
+				<div class="setcon">
+					消息通知
+				</div>
+				<div class="settodo"><img src="../image/mine/todo.png">
+				</div>
+			</div>
+			<div class="setting s3" tapmode='touch' onclick="order()">
+				<div class="setpic"><img src="../image/mine/order.png">
+				</div>
+				<div class="setcon">
+					我的订单
+				</div>
+				<div class="settodo"><img src="../image/mine/todo.png">
+				</div>
+			</div>
+			<hr class='hr2'>
+			<div class="setting s5" tapmode='touch' onclick="customerService()">
+				<div class="setpic"><img src="../image/mine/afterApplicte.png">
+				</div>
+				<div class="setcon">
+					售后服务
+				</div>
+				<div class="settodo"><img src="../image/mine/todo.png">
+				</div>
+			</div>
+			<div style="display: none" class="setting s4" tapmode='touch' onclick="myfavorites()">
+				<div class="setpic"><img src="../image/icon_favorites.png">
+				</div>
+				<div class="setcon">
+					我的关注
+				</div>
+				<div class="settodo"><img src="../image/mine/todo.png">
+				</div>
+			</div>
+			<div class="setting s4" tapmode='touch' onclick="setting()">
+				<div class="setpic"><img src="../image/mine/setting.png">
+				</div>
+				<div class="setcon">
+					系统设置
+				</div>
+				<div class="settodo"><img src="../image/mine/todo.png">
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/hammer.min.js"></script>
+<script type="text/javascript" src="../script/User.js"></script>
+<script type="text/javascript" src="../script/common.js"></script>
+
+<script type="text/javascript">
+	//用户名字数组 默认为两个人
+	var childrenname = ['张三'];
+	var pic = ['../image/mine/hardicon.png', '../image/mine/hardicon.png', '../image/mine/hardicon.png', '../image/mine/hardicon.png', '../image/mine/hardicon.png'];
+	var sex = ['男', '女'];
+	var age;
+	var userId;
+	//服务器返回数据
+	var responseBody;
+
+	function UsergetHotCities() {
+		var data = {};
+		data.method = 'getStudentsByUserId';
+		data.request = {
+			"userId": userId
+		}, console.log("个人中心getStudentsByUserId请求数据：" + JSON.stringify(data));
+		ajaxRequest(data, function(ret, err) {
+			if (ret) {
+				console.log("个人中心getStudentsByUserId成功返回数据：" + JSON.stringify(ret));
+				if (ret.responseCode == 0) {
+
+					responseBody = ret.responseBody;
+					var box = $api.domAll('.kidbox');
+					var icon = $api.domAll('.icon');
+					childrenname = [];
+					studentAccountBox = new Array();
+					for (x = 0; x < responseBody.length; x++) {
+
+						$api.css(box[x], 'display:inline-block;font-size: 0.24rem;');
+						$api.text(($api.domAll('.kidbox span'))[x], responseBody[x].studentName);
+						childrenname.push(responseBody[x].studentName);
+						if (responseBody[x].studentImage.length > 0) {
+							console.log($api.imageUrl + responseBody[x].studentImage);
+							$api.css(icon[x], 'background: url(' + $api.imageUrl + responseBody[x].studentImage + ');background-size: 100%;background-repeat: no-repeat;')
+						} else {
+							$api.css(icon[x], 'background: url(../image/mine/hardicon.png );background-size: 100%;')
+						}
+					}
+					for (var i = 0; i < box.length; i++) {
+						if (responseBody[i]) {} else {
+							$api.css(box[i], 'display:none');
+						}
+					}
+				}
+			} else {
+				//alert(JSON.stringify(err))
+				console.log("个人中心getStudentsByUserId失败返回数据：" + JSON.stringify(err));
+			}
+		})
+		getHotCities();
+	}
+
+	function getHotCities() {
+		var data = {};
+		data.method = 'userWallet';
+		data.request = {
+				"userId": userId
+			},
+			console.log("个人中心userWall请求数据：" + JSON.stringify(data));
+		ajaxRequest(data, function(ret, err) {
+			if (ret) {
+				console.log("个人中心userWall成功返回数据：" + JSON.stringify(ret));
+				if (ret.responseCode == 0) {
+					//balanceType 2是中期币     1为rmb
+					if (ret.responseBody[0].balanceType == "1") {
+						api.setPrefs({
+							key: 'RMB_COIN',
+							value: ret.responseBody[0].balance
+						});
+						api.setPrefs({
+							key: 'SINOGO_COIN',
+							value: ret.responseBody[1].balance
+						});
+						$api.text($api.dom("#zqb"), ret.responseBody[0].balance);
+						$api.text($api.dom("#rmb"), ret.responseBody[1].balance);
+					} else if (ret.responseBody[0].balanceType == "2") {
+						api.setPrefs({
+							key: 'RMB_COIN',
+							value: ret.responseBody[0].balance
+						});
+						api.setPrefs({
+							key: 'SINOGO_COIN',
+							value: ret.responseBody[1].balance
+						});
+						$api.text($api.dom("#zqb"), ret.responseBody[1].balance);
+						$api.text($api.dom("#rmb"), ret.responseBody[0].balance);
+					}
+				}
+			} else {
+				console.log("个人中心userWall失败返回数据：" + JSON.stringify(err));
+			}
+		})
+	}
+
+	//充值
+	function Recharge() {
+		api.openWin({
+			name: 'Recharge',
+			url: './mine/Recharge.html'
+		});
+	}
+
+	//退款
+	function refund() {
+		api.openWin({
+			name: 'refund',
+			url: './mine/refund.html'
+		});
+	}
+
+	function openinfo(tag) {
+		var item = $api.domAll(".icon");
+
+		var index = -1;
+		for (var i = 0; i < item.length; i++) {
+			console.log(tag == item[i]);
+			if (tag == item[i]) {
+				index = i;
+				break;
+			}
+		}
+		if (index < 0) {
+			return;
+		}
+		console.log("传入的pageParam数据"+JSON.stringify(responseBody[index])+"下标"+index);
+		api.openWin({
+			name: 'updateuserinfo',
+			url: './mine/updateuserinfo.html',
+			reload: 'true',
+			pageParam: {
+				id: responseBody[index]
+			}
+		});
+	}
+
+	//添加按钮点击事件
+	function addkid() {
+		//TODO
+		if (childrenname.length >= 5) {
+			api.toast({
+				msg: '最多只能绑定五个孩子'
+			});
+			return;
+		}
+		alertCustom(function(ret, err) {
+			var index = ret.buttonIndex;
+			console.log(index);
+			switch (index) {
+				case 1: //绑定孩子
+					api.openWin({
+						name: 'bindChild',
+						url: './mine/bindChild.html',
+					});
+					break;
+				case 2: //添加孩子
+					api.openWin({
+						name: 'addname',
+						url: './mine/addname.html'
+					});
+					break;
+				default:
+			}
+		})
+
+	}
+	//************************0710新增绑定孩子
+	alertCustom = function(callBack) {
+		api.actionSheet({
+			cancelTitle: '取消',
+			buttons: ['绑定孩子', '添加孩子'],
+			style: {
+				itemNormalColor: '#f4f4f4', //选项按钮正常状态背景颜色，支持#000、#000000、rgb、rgba，默认值：#F1F1F1
+				itemPressColor: '#eee', //选项按钮按下时背景颜色，支持#000、#000000、rgb、rgba，默认值：#E6E6E6
+				fontNormalColor: '#666', //选项按钮正常状态文字颜色，支持#000、#000000、rgb、rgba，默认值：#007AFF
+			}
+		}, function(ret, err) {
+			callBack(ret, err);
+		});
+	}
+
+
+	//打开我的课程
+	function mylesson() {
+		api.openWin({
+			name: 'mylesson',
+			url: './mine/mylesson/mylesson.html',
+			pageParam: {
+				id: userId
+			}
+		});
+	}
+
+	//打开我的消息
+	function message() {
+		//TODO
+		var frameInfo = {
+			name: 'message_list',
+			url: 'home/message_list.html',
+		}
+		openWinWithTitle("title_messageList", "消息", frameInfo);
+	}
+
+	//打开 我的订单
+	function order() {
+		//TODO
+		api.openWin({
+			name: 'order',
+			url: './mine/myorder/allorder.html',
+			pageParam: {
+				id: userId
+			}
+		});
+	}
+	//售后
+	function customerService() {
+		api.openWin({
+			name: 'customer',
+			url: './mine/customer/customerTitle.html',
+			pageParam: {
+				id: userId
+			}
+		});
+
+
+	}
+	//打开我的关注
+	function myfavorites() {
+		//TODO
+		api.openWin({
+			name: 'favorites',
+			url: 'mine/favorites.html'
+		});
+	}
+	//打开系统设置
+	function setting() {
+		//TODO
+		api.openWin({
+			name: 'setting',
+			url: '../html/mine/setting.html'
+		});
+	}
+
+	function listenBortcateRecivie() {
+		api.addEventListener({
+			name: 'updateInfo'
+		}, function(ret, err) {
+			UsergetHotCities();
+		});
+
+	}
+
+	imready = function() {
+		//获取userID
+		userId = api.getPrefs({
+			sync: true,
+			key: 'userid'
+		});
+		UsergetHotCities();
+		listenBortcateRecivie();
+		api.addEventListener({
+			name: 'viewappear'
+		}, function(ret, err) {
+			UsergetHotCities();
+		});
+
+	}
+</script>

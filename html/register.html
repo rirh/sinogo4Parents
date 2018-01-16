@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<link rel="stylesheet" type="text/css" href="../css/common.css" />
+	<style>
+		html,
+		body {
+			background-color: #F6F6F6;
+			height: 100%;
+		}
+
+		#header .btn_right {
+			width: 0.95rem;
+			height: 0.88rem;
+			line-height: 0.88rem;
+			font-size: 0.3rem;
+			position: absolute;
+			top: 25px;
+			right: 0;
+			text-align: center;
+		}
+
+		#header .btn_right.active {
+			background: rgba(0, 0, 0, 0.3)
+		}
+
+		#main {
+			margin-top: 1rem;
+			text-align: center;
+		}
+
+		.input_wrap input::-webkit-input-placeholder {
+			color: #ccc;
+		}
+		/*.input_wrap span {
+			 float: right;
+			 margin-right: 20px;
+			 color: #CCCCCC
+			 }*/
+
+		.btn {
+			width: 90%;
+			height: 0.98rem;
+			margin: 0.1rem auto;
+			text-align: center;
+			line-height: 0.98rem;
+			color: #FFF;
+			background: #FF8344;
+			position: relative;
+			font-size: 0.3rem;
+			border-radius: 0.05rem;
+		}
+
+		.btn-reg {
+			width: 90%;
+			height: 0.98rem;
+			margin: 0.1rem auto;
+			text-align: center;
+			line-height: 0.98rem;
+			color: #333;
+			background: #FFFFFF;
+			position: relative;
+			font-size: 0.3rem;
+			border-radius: 0.05rem;
+		}
+
+		@media (-webkit-min-device-pixel-ratio:2) {
+			.login {
+				box-shadow: 0 0 0px 0.01rem rgb(204, 204, 204);
+			}
+		}
+
+		@media (-webkit-max-device-pixel-ratio:2) {
+			.login {
+				box-shadow: 0 0 0px 1px rgb(204, 204, 204);
+			}
+		}
+
+		.logo img {
+			width: 4.83rem;
+			height: 1.27rem;
+			padding-top: 1.19rem;
+			padding-bottom: 1.12rem;
+		}
+
+		#input {
+			width: 90%;
+			height: 2rem;
+			margin-left: 5%;
+			border-radius: 0.05rem;
+			background: #FFF;
+		}
+
+		.input_wrap {
+			position: relative;
+			width: 100%;
+			height: 1rem;
+			line-height: 1rem;
+		}
+
+		.inputborder {
+			position: relative;
+		}
+
+		.inputborder:after {
+			border-bottom: 1px solid #ccc;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			content: "";
+			display: block;
+			-webkit-transform: scaleY(0.5);
+			-webkit-transform-origin: 0 0;
+		}
+
+		.imgborder {
+			width: 0.53rem;
+			height: 0.6rem;
+			position: relative;
+			float: left;
+			margin-top: 0.2rem;
+			margin-left: 0.23rem;
+		}
+
+		.imgborder:after {
+			border-right: 1px solid rgba(255, 131, 68, 0.5);
+			position: absolute;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			content: "";
+			display: block;
+			-webkit-transform: scaleX(0.5);
+			-webkit-transform-origin: 0 0;
+		}
+
+		.imgborder img {
+			width: 0.32rem;
+			height: 0.32rem;
+			position: absolute;
+			top: 0.15rem;
+			left: 0;
+		}
+
+		.input_wrap .input {
+			height: 0.6rem;
+			outline: none;
+			font-size: 0.3rem;
+			padding-left: 0.23rem;
+			float: left;
+			width: 80%;
+			margin-top: 0.2rem;
+			position: relative;
+		}
+
+		.btn-code {
+			position: absolute;
+			top: 0.15rem;
+			right: 0.23rem;
+			width: 2rem;
+			height: 0.66rem;
+			line-height: 0.66rem;
+			text-align: center;
+			background: #ffdac5;
+			font-size: 0.28rem;
+			color: #666;
+			border-radius: 0.05rem;
+		}
+
+		.register-agree {
+			margin-top: 0.4rem;
+			height: 0.6rem;
+			line-height: 0.6rem;
+		}
+
+		.register-agree .checkbox-span {
+			width: 0.4rem;
+			height: 0.4rem;
+			margin-top: 0.1rem;
+			margin-left: 0.4rem;
+			background: url(../image/icon_checked.png) no-repeat right center;
+			background-size: 0.35rem 0.35rem;
+			float: left;
+		}
+
+		.register-agree .confirmpo {
+			float: left;
+			font-size: 0.24rem;
+			color: #999999;
+			margin-left: 0.15rem;
+		}
+
+		.register-agree .protocol {
+			color: #FF8344;
+			text-decoration: underline;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="header">
+		<a class="back-icon" tapmode="" onclick="closeWin()"></a>
+		<h1>注册</h1>
+	</div>
+	<div id="main">
+		<div id="input" class="login">
+			<div class="input_wrap inputborder">
+				<div class="imgborder">
+					<img src="../image/icon_user_phone.png" />
+				</div>
+				<input class="input" id="username" maxlength="11" type="tel" placeholder="请输入家长手机号" />
+				<span></span>
+			</div>
+			<div class="input_wrap">
+				<div class="imgborder">
+					<img src="../image/icon_user_code.png" />
+				</div>
+				<input class="input" id="password" type="number" placeholder="请输入验证码" />
+				<div tapmode="active" onclick="getCode()" class="btn-code">
+					获取验证码
+				</div>
+				<span></span>
+			</div>
+		</div>
+		<div class="register-agree">
+			<span class="checkbox-span" checked='true' onclick="exchangeCheckbox()"></span>
+			<span class="confirmpo">家长已阅读用户协议并接受<a class="protocol">《中棋教育用户注册协议》</a></span>
+		</div>
+		<a class="btn login" style="margin-top:0.6rem;" tapmode="active" onclick="ensure()">确   定</a>
+	</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/common.js"></script>
+<script type="text/javascript">
+	var inputs;
+	var btnCode;
+	var phoneOk = false;
+	window.flag = true;
+	imready = function() {
+		api.addEventListener({
+			name: 'keyback'
+		}, function(ret, err) {
+			//alert('按了返回键');
+			api.closeWin({
+				name: 'registerOrnot'
+			});
+			api.closeWin();
+		});
+
+		inputs = $api.domAll(".input")
+		inputs[0].onblur = function() {
+			if (!isMobile($api.trimAll(this.value))) {
+				phoneOk = false
+			} else {
+				phoneOk = true
+			}
+		}
+		btnCode = $api.dom(".btn-code")
+		$api.dom(".protocol").onclick = function() {
+			api.openWin({
+				name: 'userProtocol',
+				url: './mine/userProtocol.html'
+			});
+		}
+	};
+
+	function exchangeCheckbox() {
+		var bg = 'url(../image/icon_unchecked.png) no-repeat right center'
+		if (window.flag) {
+			bg = 'url(../image/icon_unchecked.png) no-repeat right center'
+		} else {
+			bg = 'url(../image/icon_checked.png) no-repeat right center'
+		}
+		window.flag = !window.flag
+		$api.dom(".checkbox-span").style.background = bg
+		$api.dom(".checkbox-span").style.backgroundSize = '0.35rem 0.35rem'
+	}
+
+	function getCode() {
+		if (window.timerid) {
+			return;
+		}
+		inputs[0].blur();
+		if (!phoneOk) {
+			alert("手机号码有误,请重新输入!")
+			return;
+		}
+		var phoneNum = inputs[0].value
+		api.showProgress({});
+		var body = {
+			method: "verifyUserPhone",
+			request: {
+				userPhone: phoneNum
+			}
+		}
+		ajaxRequest(body, function(ret, err) {
+			api.hideProgress();
+							// alert(JSON.stringify(ret))
+			//返回值:responseBody为true,说明尚未注册,responseBody为false,表示已经注册
+			//已经注册则提示.
+			if (ret) {
+				if (ret.responseCode == 0) {
+					if (ret.responseBody) {
+						checkRequestIp(function(requestIp) {
+							requestCode(phoneNum, requestIp);
+						})
+					} else {
+						alert("该手机号已经注册,请您直接登录或找回密码!")
+					}
+				} else {
+					alert(ret.responseMsg)
+				}
+			} else {
+				alert(err.msg)
+			}
+		})
+	}
+
+	function ensure() {
+		//userRegister
+		inputs[0].blur();
+		if (!phoneOk) {
+			alert("手机号码有误,请重新输入!")
+			return;
+		}
+		var msgs = ["手机号", "验证码"]
+		for (var i = 0; i < 2; i++) {
+			if (!inputs[i].value) {
+				alert("请输入" + msgs[i] + "!")
+				return;
+			}
+		}
+		if (!window.flag) {
+			alert("请先确定家长已经阅读并接受注册协议!")
+			return;
+		}
+		if (inputs[1].value != window.currentCode) {
+			return alert("验证码有误,请重新确认验证码!")
+		}
+		var userPhone = inputs[0].value
+		api.showProgress();
+		var body = {};
+		var deviceToken = hex_md5(api.deviceId).substr(8, 16);
+		body.method = "userRegister";
+		body.request = {
+			"userPhone": userPhone,
+			userToken: deviceToken,
+			userFrom: api.systemType == 'ios' ? 1 : 2
+		}
+		console.log(JSON.stringify(body))
+		ajaxRequest(body, function(ret, err) {
+			api.hideProgress();
+			if (ret) {
+				if (ret.responseCode == 0) {
+					if (ret.responseBody) {
+						api.alert({
+							msg: '恭喜,注册成功!',
+						}, function(ret, err) {
+							if (ret) {
+
+								// api.setPrefs({
+								// 	key: 'userid',
+								// 	value: ret.responseBody.id
+								// });
+								// var date = new Date();
+								// api.setPrefs({
+								// 	key: 'loginState',
+								// 	value: date.getTime()
+								// });
+								// api.setPrefs({
+								// 	key: 'userPhone',
+								// 	value: ret.responseBody.userPhone
+								// });
+								// api.setPrefs({
+								// 	key: 'tradePassword',
+								// 	value: ret.responseBody.tradePassword
+								// });
+								// if (api.pageParam.name) {
+								// 	api.execScript({
+								// 		name: 'login',
+								// 		script: 'goHome();'
+								// 	});
+								// } else {
+								// 	api.execScript({
+								// 		frameName: 'login',
+								// 		script: 'goHome();'
+								// 	});
+								// }
+								api.closeWin({
+									name: "register"
+								});
+							} else {
+								alert(JSON.stringify(err));
+							}
+						});
+
+					} else {
+						alert("登录失败!")
+					}
+				} else {
+					alert(ret.responseMsg)
+				}
+			} else {
+				alert(err.msg)
+			}
+		})
+
+	}
+
+	function requestCode(phoneNum, requestIp) {
+		api.showProgress({});
+		var body = {};
+		body.method = "sendMessage"
+		body.request = {
+			"smsTemplate": "UserRegister",
+			"phoneNo": phoneNum,
+			"requestIp": requestIp
+		}
+		ajaxRequest(body, function(ret, err) {
+			api.hideProgress();
+			if (ret) {
+				// alert(JSON.stringify(ret))显示验证码
+				//已发送后,显示倒计时
+				btnCode.innerHTML = "重新获取(" + (60) + ")"
+				window.timerid = setInterval("showCountdown();", 1000)
+				window.currentCode = ret.responseBody.verificationCode;
+			} else {
+				alert(err.msg)
+			}
+		})
+	}
+
+	var total = 0;
+
+	function showCountdown() {
+		total += 1000;
+		if (total == 60000) {
+			clearInterval(window.timerid)
+			btnCode.innerHTML = "获取验证码";
+			window.timerid = undefined
+			total = 0;
+			return;
+		}
+		btnCode.innerHTML = "重新获取(" + (60 - total / 1000) + ")"
+	}
+</script>
+
+</html>
